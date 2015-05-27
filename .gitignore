@@ -1,0 +1,15 @@
+# https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore
+*.log
+*.pid
+*.seed
+.grunt
+.lock-wscript
+build/Release
+coverage
+lib-cov
+logs
+node_modules
+pids
+
+# Project-specific
+build
