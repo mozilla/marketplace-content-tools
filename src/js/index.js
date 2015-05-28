@@ -1,3 +1,5 @@
+'use strict';
+
 var $ = require('sizzle');
 var Content = require('./router');
 var Footer = require('./footer');
