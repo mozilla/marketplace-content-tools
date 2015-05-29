@@ -2,27 +2,33 @@
   "name": "marketplace-submission",
   "version": "0.0.0",
   "description": "Tools for submitting content to the Firefox Marketplace.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Chuck Harmston <chuck@chuckharmston.com>",
+  "author": "Mozilla",
   "license": "MPL 2.0",
   "repository": "https://github.com/chuckharmston/marketplace-submission",
   "devDependencies": {
-    "del": "^1.2.0",
+    "classnames": "^2.0.0",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
     "gulp-browserify": "^0.5.1",
-    "gulp-concat": "^2.5.2",
-    "gulp-connect": "^2.2.0",
+    "gulp-webserver": "^0.9.0",
     "gulp-stylus": "^2.0.2",
-    "gulp-watch": "^4.2.4",
-    "jquery": "^2.1.4",
+    "lodash": "^3.9.1",
+    "moment": "^2.10.3",
     "react": "^0.13.3",
-    "react-async": "^2.1.0",
-    "react-router-component": "^0.24.4",
+    "react-router": "^0.13.2",
     "reactify": "^1.1.1",
-    "sizzle": "^2.2.0"
+    "stylus": "^0.50.0",
+    "superagent": "^1.2.0",
+    "url-join": "0.0.1",
+    "watchify": "3.1.2"
+  },
+  "dependencies": {
+    "browserify": "^10.2.3",
+    "gulp-autoprefixer": "^2.3.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-minify-css": "^1.1.1",
+    "gulp-uglify": "^1.2.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
