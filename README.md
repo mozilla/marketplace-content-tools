@@ -1,4 +1,4 @@
-# `marketplace-submission`
+# marketplace-submission
 
 Tools for submitting content to the Firefox Marketplace.
 
