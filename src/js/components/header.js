@@ -1,13 +1,15 @@
-var React = require('react');
+import React from 'react';
 
 
 var Header = React.createClass({
   render: function() {
-    return <h1>
-      Firefox Marketplace
-    </h1>
+    return (
+      <header>
+        <h1>Firefox Marketplace</h1>
+      </header>
+    );
   }
 });
 
 
-module.exports = Header;
+export default Header;
