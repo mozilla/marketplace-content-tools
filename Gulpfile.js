@@ -1,6 +1,7 @@
 var path = require('path');
 
 var autoprefixer = require('gulp-autoprefixer');
+var babelify = require('babelify');
 var browserify = require('browserify');
 var concat = require('gulp-concat');
 var gulp = require('gulp');
@@ -19,6 +20,7 @@ var JS = path.resolve(ROOT, 'js');
 var CSS = path.resolve(ROOT, 'css');
 
 var bundler = browserify(path.resolve(JS, 'app.js'), watchify.args)
+    .transform(babelify)
     .transform(reactify);
 
 
@@ -35,12 +37,11 @@ gulp.task('css', function() {
 function jsBundle(bundler) {
     var bundle = bundler
         .bundle()
-        .pipe(vinylSource('bundle.js'));
+        .pipe(vinylSource('bundle.js'))
+        .pipe(vinylBuffer());
 
     if (process.env.NODE_ENV == 'production') {
-        bundle = bundle
-            .pipe(vinylBuffer())
-            .pipe(uglify());
+        bundle = bundle.pipe(uglify());
     }
 
     return bundle.pipe(gulp.dest('build'));
