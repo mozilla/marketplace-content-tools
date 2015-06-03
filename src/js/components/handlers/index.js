@@ -3,11 +3,11 @@ import React from 'react';
 
 var SubmissionRedirect = React.createClass({
   statics: {
-    willTransitionTo: function(transition) {
+    willTransitionTo: (transition) => {
       transition.redirect('submission');
     }
   },
-  render: function() {
+  render() {
     return <div/>;
   }
 });

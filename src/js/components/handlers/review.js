@@ -2,7 +2,7 @@ import React from 'react';
 
 
 var Review = React.createClass({
-  render: function() {
+  render() {
     return <h1>Reviewer Tools</h1>;
   }
 });

@@ -11,6 +11,4 @@ var Landing = React.createClass({
     </p>
   }
 });
-
-
-module.exports = Landing;
+export {Landing as Landing}
