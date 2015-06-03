@@ -1,4 +1,5 @@
-import { Flummox } from 'flummox';
+import {Flummox} from 'flummox';
+
 
 export default class Flux extends Flummox {
   constructor() {

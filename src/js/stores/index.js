@@ -12,5 +12,5 @@
 // }
 
 module.exports = {
-    // foo: FooStore
+  // foo: FooStore
 };

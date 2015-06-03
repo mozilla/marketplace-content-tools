@@ -7,15 +7,13 @@ import Header from './header';
 
 var App = React.createClass({
   render: function () {
-    return (
-      <body>
-        <Header/>
-        <main>
-          <Router.RouteHandler/>
-        </main>
-        <Footer/>
-      </body>
-    );
+    return <body>
+      <Header/>
+      <main>
+        <Router.RouteHandler/>
+      </main>
+      <Footer/>
+    </body>
   }
 });
 
