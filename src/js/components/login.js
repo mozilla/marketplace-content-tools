@@ -1,3 +1,4 @@
+import FluxComponent from 'flummox/component';
 import React from 'react';
 
 import {FxaLoginButton} from './fxa';
@@ -5,9 +6,9 @@ import {FxaLoginButton} from './fxa';
 
 let MktLoginButton = React.createClass({
   render() {
-    return <FxaLoginButton clientId='abc' authUrl='def' authState='ghi'
-                           signup={false}>
-    </FxaLoginButton>
+    return <FluxComponent connectToStores={['siteConfig']}>
+      <FxaLoginButton clientId='abc' signup={this.props.signup}/>
+    </FluxComponent>
   }
 });
 export {MktLoginButton as MktLoginButton};

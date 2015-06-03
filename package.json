@@ -27,7 +27,7 @@
     "reactify": "^1.1.1",
     "sherlocked": "^0.14.0",
     "stylus": "^0.50.0",
-    "superagent": "^1.2.0",
+    "superagent-bluebird-promise": "^2.0.2",
     "url-join": "0.0.1",
     "urlgray": "^0.1.2",
     "vinyl-buffer": "^1.0.0",

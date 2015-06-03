@@ -4,6 +4,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var babelify = require('babelify');
 var browserify = require('browserify');
 var concat = require('gulp-concat');
+var envify = require('envify/custom');
 var gulp = require('gulp');
 var minifyCss = require('gulp-minify-css');
 var reactify = require('reactify');
@@ -21,6 +22,12 @@ var CSS = path.resolve(ROOT, 'css');
 
 var bundler = browserify(path.resolve(JS, 'app.js'), watchify.args)
     .transform(babelify)
+    .transform(envify({
+        MKT_API_ROOT: process.env.MKT_API_ROOT ||
+                      'https://marketplace-dev.allizom.org/',
+        MKT_MEDIA_ROOT: process.env.MKT_MEDIA_ROOT ||
+                        'https://marketplace.cdn.mozilla.net/media/',
+    }))
     .transform(reactify);
 
 
