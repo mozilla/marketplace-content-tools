@@ -20,8 +20,12 @@ var ROOT = './src/';
 var JS = path.resolve(ROOT, 'js');
 var CSS = path.resolve(ROOT, 'css');
 
-var bundler = browserify(path.resolve(JS, 'app.js'), watchify.args)
-    .transform(babelify)
+var browserifyArgs = watchify.args;
+browserifyArgs.debug = process.NODE_ENV !== 'production';
+var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
+    .transform(babelify.configure({
+        optional: ['es7.asyncFunctions', 'runtime']
+    }))
     .transform(envify({
         MKT_API_ROOT: process.env.MKT_API_ROOT ||
                       'https://marketplace-dev.allizom.org/',
@@ -64,7 +68,7 @@ gulp.task('serve', function() {
     return gulp.src(['./'])
         .pipe(webserver({
             fallback: 'index.html',
-            port: process.env.SUBMISSION_CLIENT_PORT || '8680'
+            port: process.env.MKT_CLIENT_PORT || '8680'
         }));
 });
 

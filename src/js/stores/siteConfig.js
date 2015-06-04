@@ -8,7 +8,9 @@ export default class SiteConfigStore extends Store {
   constructor(flux) {
     super();
     var root = this;
-    root.state = {};
+    root.state = {
+        localDevClientId: root.getLocalDevClientId(),
+    };
 
     const url = Url(urlJoin(process.env.MKT_API_ROOT,
                             '/api/v2/services/config/site/'))
@@ -17,11 +19,29 @@ export default class SiteConfigStore extends Store {
     req.get(url)
        .then(function(res) {
           root.setState({
-            authUrl: res.body.fxa.fxa_auth_url,
+            authUrl: root.addLocalDevClientId(res.body.fxa.fxa_auth_url),
             authState: res.body.fxa.fxa_auth_state,
             switches: res.body.switches
           });
         });
+  }
+  addLocalDevClientId(authUrl) {
+    var localDevClientId = this.getLocalDevClientId();
+    if (localDevClientId) {
+        return Url(authUrl).q({client_id: localDevClientId});
+    }
+    return authUrl;
+  }
+  getLocalDevClientId(origin) {
+    var clientIds = {
+      'http://localhost:8675': '124ae9dff020ba79',
+      'http://localhost:8676': '31b549f7dfb4de69',
+      'http://localhost:8677': 'cc389d4ccd6cd34d',
+      'http://localhost:8678': '47354b86fb361c7e',
+      'http://localhost:8679': '049d4b105daa1cb9',
+      'http://localhost:8680': 'a3ade82f6c47e9e0',
+    };
+    return clientIds[origin || window.location.origin];
   }
 }
 

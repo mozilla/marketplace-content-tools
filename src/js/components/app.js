@@ -1,3 +1,4 @@
+import FluxComponent from 'flummox/component';
 import React from 'react';
 import Router from 'react-router';
 
@@ -10,7 +11,9 @@ var App = React.createClass({
     return <div>
       <Header/>
       <main>
-        <Router.RouteHandler/>
+        <FluxComponent>
+          <Router.RouteHandler/>
+        </FluxComponent>
       </main>
       <Footer/>
     </div>

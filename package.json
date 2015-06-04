@@ -6,6 +6,7 @@
   "license": "MPL 2.0",
   "repository": "https://github.com/chuckharmston/marketplace-submission",
   "devDependencies": {
+    "babel-runtime": "^5.4.7",
     "babelify": "^6.1.2",
     "browserify": "^10.2.3",
     "classnames": "^2.0.0",
