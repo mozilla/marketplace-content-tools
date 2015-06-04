@@ -25,6 +25,17 @@ export default class SiteConfigStore extends Store {
           });
         });
   }
+  getAuthInfo(isSignup) {
+    var authUrl = Url(this.state.authUrl || '');
+    if (isSignup) {
+      authUrl = authUrl.q({action: 'signup'});
+    }
+    return {
+      authUrl: authUrl,
+      authState: this.state.authState,
+      localDevClientId: this.state.localDevClientId
+    }
+  }
   addLocalDevClientId(authUrl) {
     var localDevClientId = this.getLocalDevClientId();
     if (localDevClientId) {
@@ -39,7 +50,7 @@ export default class SiteConfigStore extends Store {
       'http://localhost:8677': 'cc389d4ccd6cd34d',
       'http://localhost:8678': '47354b86fb361c7e',
       'http://localhost:8679': '049d4b105daa1cb9',
-      'http://localhost:8680': 'a3ade82f6c47e9e0',
+      'http://localhost:8680': '8822419fecd26a6c',
     };
     return clientIds[origin || window.location.origin];
   }

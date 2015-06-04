@@ -1,29 +1,34 @@
+/*
+    FxA Login component.
+
+    Involved in the process is the Login action, the Login store, and User
+    store.
+*/
 import FluxComponent from 'flummox/component';
 import fluxMixin from 'flummox/mixin';
 import React from 'react';
 import Url from 'urlgray';
 
 
-let LoginButton = React.createClass({
-  render() {
-    return <FluxComponent connectToStores={['siteConfig']}>
-      <FxaLoginButton signup={this.props.signup}/>
-    </FluxComponent>
-  }
-});
-export {LoginButton as LoginButton};
-
-
 let LoginHandler = React.createClass({
+  /* After login, FxA OAuth redirects to this handler which is within a popup.
+     Retrieves the auth info from the URL and postmessage back to opener.
+     Note this handler is currently not used in production, but rather
+     Fireplace's /fxa-authorize handler, but it'll work since every app will
+     be proxied onto the same domain.
+  */
   contextTypes: {
     router: React.PropTypes.func
   },
   mixins: [fluxMixin(['siteConfig'])],
   componentDidMount() {
     const {router} = this.context;
-    this.props.flux.getActions('login').login(window.location.href,
-                                              router.getCurrentQuery().state,
-                                              this.state.localDevClientId);
+
+    if (this.isPopup()) {
+      // `auth_code` to match the legacy Commonplace key.
+      window.opener.postMessage({auth_code: window.location.href},
+                                window.location.origin);
+    }
   },
   isPopup() {
     try {
@@ -42,7 +47,26 @@ let LoginHandler = React.createClass({
 export {LoginHandler as LoginHandler};
 
 
+let LoginButton = React.createClass({
+  // Wrapper around FxA login button to connect to Marketplace's API.
+  getAuthUrl() {
+    var url = Url(this.state.authUrl);
+    if (this.props.signup) {
+      return url.q({action: 'signup'});
+    }
+  },
+  render() {
+    return <FluxComponent
+              connectToStores={{siteConfig: store => store.getAuthInfo()}}>
+      <FxaLoginButton signup={this.props.signup}/>
+    </FluxComponent>
+  }
+});
+export {LoginButton as LoginButton};
+
+
 let FxaLoginButton = React.createClass({
+  // Opens up an FxA login popup window.
   // Props: [clientId, authUrl, authState].
   getInitialState() {
     return {
@@ -50,10 +74,18 @@ let FxaLoginButton = React.createClass({
     };
   },
   componentDidMount() {
-    if (this.props.signup) {
-      this.setProps({
-        authUrl: Url(this.props.authUrl).q({action: 'signup'})
-      });
+    window.addEventListener('message', this.handlePostMessage);
+  },
+  componentWillUnmount() {
+    window.removeEventListener('message', this.handlePostMessage);
+  },
+  handlePostMessage(msg) {
+    var origins = [process.env.API_ROOT, window.location.origin];
+    if (msg.data && msg.data.auth_code && origins.indexOf(msg.origin) !== -1) {
+        // Trigger Login action.
+        this.props.flux.getActions('login').login(
+            msg.data.auth_code, this.props.authState,
+            this.props.localDevClientId);
     }
   },
   openPopup() {

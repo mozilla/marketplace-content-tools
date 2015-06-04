@@ -4,14 +4,26 @@
   "description": "Tools for submitting content to the Firefox Marketplace.",
   "author": "Mozilla",
   "license": "MPL 2.0",
-  "repository": "https://github.com/chuckharmston/marketplace-submission",
+  "repository": "https://github.com/mozilla/marketplace-submission",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "classnames": "^2.0.0",
+    "flummox": "^3.5.2",
+    "lodash": "^3.9.1",
+    "moment": "^2.10.3",
+    "react": "^0.13.3",
+    "superagent-bluebird-promise": "^2.0.2",
+    "url-join": "0.0.1",
+    "urlgray": "^0.2.0"
+  },
   "devDependencies": {
+    "babel-jest": "^5.2.0",
     "babel-runtime": "^5.4.7",
     "babelify": "^6.1.2",
     "browserify": "^10.2.3",
-    "classnames": "^2.0.0",
     "envify": "^3.4.0",
-    "flummox": "^3.5.2",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.3.0",
     "gulp-babel": "^5.1.0",
@@ -21,18 +33,20 @@
     "gulp-stylus": "^2.0.2",
     "gulp-uglify": "^1.2.0",
     "gulp-webserver": "^0.9.0",
-    "lodash": "^3.9.1",
-    "moment": "^2.10.3",
-    "react": "^0.13.3",
+    "jest-cli": "^0.4.5",
     "react-router": "^0.13.2",
+    "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "sherlocked": "^0.14.0",
     "stylus": "^0.50.0",
-    "superagent-bluebird-promise": "^2.0.2",
-    "url-join": "0.0.1",
-    "urlgray": "^0.1.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "3.1.2"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/jest.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ]
   }
 }

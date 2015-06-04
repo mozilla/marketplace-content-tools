@@ -22,6 +22,15 @@ export default class LoginActions extends Actions {
     // Post login data to server.
     const url = urlJoin(process.env.MKT_API_ROOT,
                         '/api/v2/account/fxa-login/');
-    return req.post(url).send(data).promise();
+
+    return new Promise(resolve => {
+        req
+          .post(url)
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+          .send(data)
+          .then(res => {
+            resolve(res.body)
+          });
+    });
   }
 }

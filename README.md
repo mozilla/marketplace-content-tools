@@ -2,7 +2,11 @@
 
 Tools for submitting content to the Firefox Marketplace.
 
-## Getting started
+## Installation
 
     npm install
     gulp
+
+## Unit Testing
+
+    npm test
