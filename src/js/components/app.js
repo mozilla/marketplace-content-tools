@@ -8,7 +8,7 @@ import Header from './header';
 
 var App = React.createClass({
   render: function () {
-    return <div>
+    return <div className="app">
       <Header/>
       <main>
         <FluxComponent>

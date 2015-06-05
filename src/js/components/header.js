@@ -6,8 +6,12 @@ import {LoginButton} from './login';
 var Header = React.createClass({
   render() {
     return <header>
-      <h1>Firefox Marketplace</h1>
-      <LoginButton/>
+      <p className="header--icon"/>
+      <h1>Submission Tools</h1>
+      <div className="header--login">
+        <LoginButton/>
+        <LoginButton signup={true}/>
+      </div>
     </header>
   }
 });

@@ -4,6 +4,7 @@
     Involved in the process is the Login action, the Login store, and User
     store.
 */
+import classnames from 'classnames';
 import FluxComponent from 'flummox/component';
 import fluxMixin from 'flummox/mixin';
 import React from 'react';
@@ -20,7 +21,6 @@ let LoginHandler = React.createClass({
   contextTypes: {
     router: React.PropTypes.func
   },
-  mixins: [fluxMixin(['siteConfig'])],
   componentDidMount() {
     const {router} = this.context;
 
@@ -49,15 +49,11 @@ export {LoginHandler as LoginHandler};
 
 let LoginButton = React.createClass({
   // Wrapper around FxA login button to connect to Marketplace's API.
-  getAuthUrl() {
-    var url = Url(this.state.authUrl);
-    if (this.props.signup) {
-      return url.q({action: 'signup'});
-    }
-  },
   render() {
     return <FluxComponent
-              connectToStores={{siteConfig: store => store.getAuthInfo()}}>
+              connectToStores={
+                {siteConfig: store => store.getAuthInfo(this.props.signup)}
+              }>
       <FxaLoginButton signup={this.props.signup}/>
     </FluxComponent>
   }
@@ -125,8 +121,12 @@ let FxaLoginButton = React.createClass({
     });
   },
   render() {
-    return <button onClick={this.startLogin}>
-      {this.props.content || 'Login'}
+    var btnClasses = classnames({
+      login: true,
+      ['login--register']: this.props.signup,
+    });
+    return <button className={btnClasses} onClick={this.startLogin}>
+      {this.props.content || this.props.signup ? 'Register' : 'Login'}
     </button>;
   }
 });

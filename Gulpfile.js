@@ -3,17 +3,20 @@ var path = require('path');
 var autoprefixer = require('gulp-autoprefixer');
 var babelify = require('babelify');
 var browserify = require('browserify');
+var browserSync = require('browser-sync');
 var concat = require('gulp-concat');
+var connectFallback = require('connect-history-api-fallback');
 var envify = require('envify/custom');
 var gulp = require('gulp');
+var liveReactLoad = require('livereactload');
 var minifyCss = require('gulp-minify-css');
+var nib = require('nib');
 var reactify = require('reactify');
 var stylus = require('gulp-stylus');
 var uglify = require('gulp-uglify');
 var vinylBuffer = require('vinyl-buffer');
 var vinylSource = require('vinyl-source-stream');
 var watchify = require('watchify');
-var webserver = require('gulp-webserver');
 
 
 var ROOT = './src/';
@@ -32,16 +35,18 @@ var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
         MKT_MEDIA_ROOT: process.env.MKT_MEDIA_ROOT ||
                         'https://marketplace.cdn.mozilla.net/media/',
     }))
-    .transform(reactify);
+    .transform(reactify)
+    .transform(liveReactLoad);
 
 
 gulp.task('css', function() {
     gulp.src([path.resolve(CSS, '*.styl'), path.resolve(CSS, 'lib/*.css')])
-        .pipe(stylus({compress: true}))
+        .pipe(stylus({compress: true, use: [nib()]}))
         .pipe(autoprefixer())
         .pipe(concat('bundle.css'))
         .pipe(minifyCss())
-        .pipe(gulp.dest('build'));
+        .pipe(gulp.dest('build'))
+        .pipe(browserSync.stream());
 });
 
 
@@ -65,12 +70,16 @@ gulp.task('js', function() {
 
 
 gulp.task('serve', function() {
-    return gulp.src(['./'])
-        .pipe(webserver({
-            fallback: 'index.html',
-            port: process.env.MKT_CLIENT_PORT || '8680'
-        }));
+    browserSync.init({
+        index: 'index.html',
+        middleware: [connectFallback()],
+        notify: false,
+        open: false,
+        server: './',
+        port: process.env.MKT_CLIENT_PORT || 8680
+    });
 });
+
 
 gulp.task('watch', function() {
     bundler = watchify(bundler);
