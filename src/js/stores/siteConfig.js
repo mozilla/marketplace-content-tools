@@ -1,16 +1,20 @@
-import {Store} from 'flummox';
+import LocalStore from 'flummox-localstore';
 import req from 'superagent-bluebird-promise';
-import urlJoin from 'url-join';
 import Url from 'urlgray';
+import urlJoin from 'url-join';
 
 
-export default class SiteConfigStore extends Store {
+export default class SiteConfigStore extends LocalStore {
   constructor(flux) {
-    super();
-    var root = this;
-    root.state = {
-        localDevClientId: root.getLocalDevClientId(),
-    };
+    super(flux, {
+      serializer: state => {
+        return {
+          switches: state.switches
+        };
+      }
+    });
+
+    this.state.localDevClientId = this.getLocalDevClientId();
 
     const siteConfigActionIds = flux.getActionIds('siteConfig');
     this.register(siteConfigActionIds.getSiteConfig, this.handleGetSiteConfig);

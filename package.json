@@ -11,7 +11,7 @@
   "dependencies": {
     "classnames": "^2.0.0",
     "flummox": "^3.5.2",
-    "flummox-localstore": "^1.0.1",
+    "flummox-localstore": "^2.0.1",
     "lodash": "^3.9.1",
     "moment": "^2.10.3",
     "react": "^0.13.3",
