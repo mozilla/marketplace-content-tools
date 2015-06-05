@@ -52,11 +52,12 @@ let LoginButton = React.createClass({
   propTypes: {
     signup: React.PropTypes.bool
   },
+  siteConfigStateGetter(siteConfig) {
+    return siteConfig.getAuthInfo(this.props.signup);
+  },
   render() {
     return <FluxComponent
-              connectToStores={
-                {siteConfig: store => store.getAuthInfo(this.props.signup)}
-              }>
+              connectToStores={{siteConfig: this.siteConfigStateGetter}}>
       <FxaLoginButton signup={this.props.signup}/>
     </FluxComponent>
   }
@@ -140,3 +141,17 @@ let FxaLoginButton = React.createClass({
   }
 });
 export {FxaLoginButton as FxaLoginButton};
+
+
+let LogoutButton = React.createClass({
+  logout() {
+    // Trigger Logout action.
+    this.props.flux.getActions('login').logout();
+  },
+  render() {
+    return <button className="logout" onClick={this.logout}>
+      {this.props.content || 'Logout'}
+    </button>
+  }
+});
+export {LogoutButton as LogoutButton};

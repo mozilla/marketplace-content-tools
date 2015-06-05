@@ -9,19 +9,24 @@ export default class ApiArgs extends Store {
     const loginActionIds = flux.getActionIds('login');
     this.register(loginActionIds.login, this.handleUser);
     this.register(loginActionIds.loggedIn, this.handleUser);
+    this.register(loginActionIds.logout, this.handleLogout);
 
-    var qs = {};
-    this.state = {
+    this.state = this.getInitialState();
+  }
+  getInitialState() {
+    var qs = Url._parseQuery(window.location.href);
+
+    let state = {
       lang: qs.lang ||
             (navigator.l10n && navigator.l10n.language) ||
             navigator.language ||
             navigator.userLanguage,
       region: qs.region || 'restofworld'
     };
-
     if (qs.carrier) {
-        this.state.carrier = qs.carrier;
+      state.carrier = qs.carrier;
     }
+    return state;
   }
   handleUser(user) {
     // User data available. Set args based on user information.
@@ -46,5 +51,8 @@ export default class ApiArgs extends Store {
     }
 
     this.setState(newState);
+  }
+  handleLogout() {
+    this.replaceState(this.getInitialState());
   }
 }

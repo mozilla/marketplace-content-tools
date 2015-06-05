@@ -22,6 +22,16 @@ export default class LoginActions extends Actions {
 
     return await this.serverLogin(data);
   }
+  logout() {
+    // Post logout data to server.
+    const url = urlJoin(process.env.MKT_API_ROOT, '/api/v2/account/logout/')
+
+    req
+      .del(url)
+      .then();
+
+    return {};
+  }
   serverLogin(data) {
     // Post login data to server.
     const url = urlJoin(process.env.MKT_API_ROOT,
