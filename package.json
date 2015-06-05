@@ -17,7 +17,7 @@
     "react": "^0.13.3",
     "superagent-bluebird-promise": "^2.0.2",
     "url-join": "0.0.1",
-    "urlgray": "^0.2.0"
+    "urlgray": "^0.2.1"
   },
   "devDependencies": {
     "babel-jest": "^5.2.0",

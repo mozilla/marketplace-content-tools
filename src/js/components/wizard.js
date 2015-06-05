@@ -25,12 +25,12 @@ Wizard.ProgressBar = React.createClass({
   },
   goToStep(num) {
     return () =>
-      { this.props.wizard.props.flux.getActions('wizard').goToStep(num) }  
+      { this.props.wizard.props.flux.getActions('wizard').goToStep(num) }
   },
   render() {
     return <menu className="wizard--progress-bar">
       {this.props.wizard.props.children.map(
-        (step, index) => 
+        (step, index) =>
           <Wizard.ProgressItem handleClick={this.goToStep(index)}
                                key={index} step={step}/>
       )}
@@ -67,12 +67,13 @@ Wizard.Step = React.createClass({
   }
 });
 
+
 Wizard.Menu = React.createClass({
   propTypes: {
     wizard: React.PropTypes.instanceOf(Wizard).isRequired
   },
   actions() {
-    return this.props.wizard.props.flux.getActions('wizard');  
+    return this.props.wizard.props.flux.getActions('wizard');
   },
   goToPrevStep() {
     this.actions().goToPrevStep(this.props.wizard)

@@ -49,6 +49,9 @@ export {LoginHandler as LoginHandler};
 
 let LoginButton = React.createClass({
   // Wrapper around FxA login button to connect to Marketplace's API.
+  propTypes: {
+    signup: React.PropTypes.bool
+  },
   render() {
     return <FluxComponent
               connectToStores={
@@ -63,7 +66,13 @@ export {LoginButton as LoginButton};
 
 let FxaLoginButton = React.createClass({
   // Opens up an FxA login popup window.
-  // Props: [clientId, authUrl, authState].
+ propTypes: {
+    authUrl: React.PropTypes.string,
+    authState: React.PropTypes.string,
+    content: React.PropTypes.any,
+    localDevClientId: React.PropTypes.string,
+    signup: React.PropTypes.bool
+  },
   getInitialState() {
     return {
       loggingIn: false
