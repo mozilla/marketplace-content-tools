@@ -1,6 +1,7 @@
 import {Flummox} from 'flummox';
 
 import LoginActions from './actions/login';
+import SiteConfigActions from './actions/siteConfig';
 import WizardActions from './actions/wizard';
 
 import ApiArgsStore from './stores/apiArgs';
@@ -15,6 +16,7 @@ export default class Flux extends Flummox {
     super();
 
     this.createActions('login', LoginActions);
+    this.createActions('siteConfig', SiteConfigActions);
     this.createActions('wizard', WizardActions);
 
     this.createStore('apiArgs', ApiArgsStore, this);

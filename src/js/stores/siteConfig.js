@@ -12,18 +12,16 @@ export default class SiteConfigStore extends Store {
         localDevClientId: root.getLocalDevClientId(),
     };
 
-    const url = Url(urlJoin(process.env.MKT_API_ROOT,
-                            '/api/v2/services/config/site/'))
-                    .q({serializer: 'commonplace'});
-
-    req.get(url)
-       .then(function(res) {
-          root.setState({
-            authUrl: root.addLocalDevClientId(res.body.fxa.fxa_auth_url),
-            authState: res.body.fxa.fxa_auth_state,
-            switches: res.body.switches
-          });
-        });
+    const siteConfigActionIds = flux.getActionIds('siteConfig');
+    this.register(siteConfigActionIds.getSiteConfig, this.handleGetSiteConfig);
+    flux.getActions('siteConfig').getSiteConfig();
+  }
+  handleGetSiteConfig(siteConfig) {
+    this.setState({
+      authUrl: this.addLocalDevClientId(siteConfig.fxa.fxa_auth_url),
+      authState: siteConfig.fxa.fxa_auth_state,
+      switches: siteConfig.switches
+    });
   }
   getAuthInfo(isSignup) {
     var authUrl = Url(this.state.authUrl || '');
