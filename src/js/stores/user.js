@@ -1,17 +1,14 @@
-import {Store} from 'flummox';
+import LocalStore from 'flummox-localstore';
 
 
-export default class UserStore extends Store {
+export default class UserStore extends LocalStore {
   constructor(flux) {
-    super();
+    super(flux);
 
     const loginActionIds = flux.getActionIds('login');
     this.register(loginActionIds.login, this.handleLogin);
-
-    this.state = JSON.parse(localStorage.getItem('userStore')) || {};
   }
   handleLogin(userData) {
     this.setState(userData);
-    localStorage.setItem('userStore', JSON.stringify(userData));
   }
 }
