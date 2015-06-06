@@ -40,7 +40,8 @@ var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
 
 
 gulp.task('css', function() {
-    gulp.src([path.resolve(CSS, '*.styl'), path.resolve(CSS, 'lib/*.css')])
+    gulp.src([path.resolve(CSS, '**/*.styl'),
+              path.resolve(CSS, 'lib/*.css')])
         .pipe(stylus({compress: true, use: [nib()]}))
         .pipe(autoprefixer())
         .pipe(concat('bundle.css'))

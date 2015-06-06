@@ -8,15 +8,19 @@ var Submission = React.createClass({
   render() {
     return (
       <FluxComponent connectToStores={'wizard'}>
-        <Wizard>
-          <Wizard.Step title="Website URL">
-            <p>Step 1</p>
+        <Wizard className="submission">
+          <Wizard.Step title="Step 1: Website URL">
+            <form>
+              <label htmlFor="submission--url">Website URL</label>
+              <input id="submission--url" className="submission-url"
+                     placeholder="Enter a website URL..."/>
+            </form>
           </Wizard.Step>
-          <Wizard.Step title="Website Compatability">
-            <p>Step 2</p>
+          <Wizard.Step title="Step 2: Website Compatability">
+            <p>Under Construction</p>
           </Wizard.Step>
-          <Wizard.Step title="Website Metadata">
-            <p>Step 3</p>
+          <Wizard.Step title="Step 3: Website Metadata">
+            <p>Under Construction</p>
           </Wizard.Step>
         </Wizard>
       </FluxComponent>

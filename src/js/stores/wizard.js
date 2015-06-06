@@ -1,5 +1,6 @@
 import LocalStore from 'flummox-localstore'
 
+
 export default class WizardStore extends LocalStore {
   constructor(flux) {
     super(flux, {

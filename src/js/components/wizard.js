@@ -1,16 +1,23 @@
+import classnames from 'classnames';
 import FluxComponent from 'flummox/component';
 import React from 'react';
 
 
 let Wizard = React.createClass({
   render() {
-    let steps = this.props.children.map(
+    const steps = this.props.children.map(
       (step, index) => React.cloneElement(step, {
         key: index,
         isActive: index === this.props.activeStep
       })
     , this);
-    return <section className="wizard">
+
+    const wizardClassNames = classnames({
+      wizard: true,
+      [this.props.className || '']: true,
+    });
+
+    return <section className={wizardClassNames}>
       <Wizard.ProgressBar wizard={this}/>
       {steps}
       <Wizard.Menu wizard={this}/>
