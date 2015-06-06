@@ -38,8 +38,8 @@ let HeaderLogin = React.createClass({
       </div>
     } else {
       return <div className="header--login">
-        <LoginButton/>
         <LoginButton signup={true}/>
+        <LoginButton/>
       </div>
     }
   }

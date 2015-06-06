@@ -6,10 +6,10 @@ export default class ApiArgs extends Store {
   constructor(flux) {
     super();
 
-    const loginActionIds = flux.getActionIds('login');
-    this.register(loginActionIds.login, this.handleUser);
-    this.register(loginActionIds.loggedIn, this.handleUser);
-    this.register(loginActionIds.logout, this.handleLogout);
+    const loginActions = flux.getActionIds('login');
+    this.register(loginActions.login, this.handleUser);
+    this.register(loginActions.loggedIn, this.handleUser);
+    this.register(loginActions.logout, this.handleLogout);
 
     this.state = this.getInitialState();
   }

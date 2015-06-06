@@ -1,3 +1,6 @@
+/*
+  Calling in dispatch.
+*/
 import {Flummox} from 'flummox';
 
 import LoginActions from './actions/login';

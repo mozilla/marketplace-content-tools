@@ -5,9 +5,9 @@ export default class Login extends Store {
   constructor(flux) {
     super();
 
-    const loginActionIds = flux.getActionIds('login');
-    this.register(loginActionIds.startLogin, this.handleStartLogin);
-    this.register(loginActionIds.login, this.handleLogin);
+    const loginActions = flux.getActionIds('login');
+    this.register(loginActions.startLogin, this.handleStartLogin);
+    this.register(loginActions.login, this.handleLogin);
 
     this.state = {};
   }

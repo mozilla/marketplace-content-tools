@@ -16,8 +16,8 @@ export default class SiteConfigStore extends LocalStore {
 
     this.state.localDevClientId = this.getLocalDevClientId();
 
-    const siteConfigActionIds = flux.getActionIds('siteConfig');
-    this.register(siteConfigActionIds.getSiteConfig, this.handleGetSiteConfig);
+    const siteConfigActions = flux.getActionIds('siteConfig');
+    this.register(siteConfigActions.getSiteConfig, this.handleGetSiteConfig);
     flux.getActions('siteConfig').getSiteConfig();
   }
   handleGetSiteConfig(siteConfig) {
