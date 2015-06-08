@@ -2,108 +2,119 @@ import classnames from 'classnames';
 import FluxComponent from 'flummox/component';
 import React from 'react';
 
+import Flux from '../flux';
 
-let Wizard = React.createClass({
+
+const Wizard = React.createClass({
+  /*
+    For props.steps, given an array of {title, onSubmit, form} objects, Wizard
+    will construct <WizardStep>s for us.
+  */
+  renderStep(step, index) {
+    return <WizardStep isActive={index === this.props.activeStep} key={index}
+                       flux={this.props.flux} title={step.title}
+                       form={step.form} onSubmit={step.onSubmit}/>
+  },
   render() {
-    const steps = this.props.children.map(
-      (step, index) => React.cloneElement(step, {
-        key: index,
-        isActive: index === this.props.activeStep
-      })
-    , this);
+    const titles = this.props.steps.map(step => step.title);
 
+    // Allow configuring classname.
     const wizardClassNames = classnames({
       wizard: true,
       [this.props.className || '']: true,
     });
 
     return <section className={wizardClassNames}>
-      <Wizard.ProgressBar wizard={this}/>
-      {steps}
-      <Wizard.Menu wizard={this}/>
+      <WizardProgressBar flux={this.props.flux} titles={titles}/>
+      {this.props.steps.map(this.renderStep)}
+      <WizardMenu flux={this.props.flux}
+                  currentStep={this.props.activeStep}
+                  numSteps={this.props.steps.length}/>
     </section>
   }
 });
+export {Wizard as Wizard}
 
 
-Wizard.ProgressBar = React.createClass({
+const WizardStep = React.createClass({
   propTypes: {
-    wizard: React.PropTypes.instanceOf(Wizard).isRequired
-  },
-  goToStep(num) {
-    return () =>
-      { this.props.wizard.props.flux.getActions('wizard').goToStep(num) }
-  },
-  render() {
-    return <menu className="wizard--progress-bar">
-      {this.props.wizard.props.children.map(
-        (step, index) =>
-          <Wizard.ProgressItem handleClick={this.goToStep(index)}
-                               key={index} step={step}/>
-      )}
-    </menu>
-  }
-});
-
-
-Wizard.ProgressItem = React.createClass({
-  propTypes: {
-    handleClick: React.PropTypes.func
-  },
-  render() {
-    return <button onClick={this.props.handleClick}>
-      {this.props.step.props.title}
-    </button>
-  }
-});;
-
-
-Wizard.Step = React.createClass({
-  propTypes: {
+    flux: React.PropTypes.instanceOf(Flux).isRequired,
+    form: React.PropTypes.element,
+    onSubmit: React.PropTypes.func,
     isActive: React.PropTypes.bool,
     title: React.PropTypes.string.isRequired
   },
-  stepStyle() {
-    return { display: this.props.isActive ? 'block': 'none' }
+  componentDidMount() {
+    // Hook up the submit callback.
+    const form = React.findDOMNode(this.refs.form).firstChild;
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      this.props.onSubmit(form, this.props.flux);
+      return false;
+    }
   },
   render() {
-    return <section className="wizard--step" style={this.stepStyle()}>
+    const stepStyle = {
+      display: this.props.isActive ? 'block': 'none'
+    };
+
+    return <section className="wizard--step" style={stepStyle}>
       <h2>{this.props.title}</h2>
-      {this.props.children}
+      <div ref="form">
+        {this.props.form}
+      </div>
     </section>
   }
 });
 
 
-Wizard.Menu = React.createClass({
+const WizardProgressBar = React.createClass({
   propTypes: {
-    wizard: React.PropTypes.instanceOf(Wizard).isRequired
+    flux: React.PropTypes.instanceOf(Flux).isRequired,
+    titles: React.PropTypes.arrayOf(React.PropTypes.string)
   },
-  actions() {
-    return this.props.wizard.props.flux.getActions('wizard');
+  goToStep(num) {
+    return () => {
+      this.props.flux.getActions('wizard').goToStep(num);
+    };
   },
-  goToPrevStep() {
-    this.actions().goToPrevStep(this.props.wizard)
-  },
-  goToNextStep() {
-    this.actions().goToNextStep(this.props.wizard)
+  renderButton(title, index) {
+    return <button onClick={this.goToStep(index)} key={index}>
+      {title}
+    </button>
   },
   render() {
-    return <menu className="wizard--menu">
-      <Wizard.MenuItem handleClick={this.goToPrevStep} title="Back"/>
-      <Wizard.MenuItem handleClick={this.goToNextStep} title="Forward"/>
+    return <menu className="wizard--progress-bar">
+      {this.props.titles.map(this.renderButton)}
     </menu>
   }
 });
 
 
-Wizard.MenuItem = React.createClass({
+const WizardMenu = React.createClass({
   propTypes: {
-    handleClick: React.PropTypes.func,
-    title: React.PropTypes.string.isRequired
+    flux: React.PropTypes.instanceOf(Flux).isRequired
+  },
+  prevDisabled() {
+    return this.props.currentStep === 0;
+  },
+  nextDisabled() {
+    return this.props.currentStep === this.props.numSteps - 1;
+  },
+  goToPrevStep() {
+    this.props.flux.getActions('wizard').goToPrevStep();
+  },
+  goToNextStep() {
+    this.props.flux.getActions('wizard').goToNextStep();
   },
   render() {
-    return <button onClick={this.props.handleClick}>{this.props.title}</button>
+    return <menu className="wizard--menu">
+      <button onClick={this.goToPrevStep}
+              disabled={this.prevDisabled()}>Back</button>
+      <button onClick={this.goToNextStep}
+              disabled={this.nextDisabled()}>Forward</button>
+    </menu>
   }
 });
 

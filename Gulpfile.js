@@ -54,6 +54,11 @@ gulp.task('css', function() {
 function jsBundle(bundler) {
     var bundle = bundler
         .bundle()
+        .on('error', function(err) {
+            console.log(err.message);
+            console.log(err.codeFrame);
+            this.emit('end');
+        })
         .pipe(vinylSource('bundle.js'))
         .pipe(vinylBuffer());
 

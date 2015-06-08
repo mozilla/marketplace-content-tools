@@ -10,13 +10,23 @@ export default class WizardStore extends LocalStore {
     });
 
     const wizardActionIds = flux.getActionIds('wizard');
-    this.register(wizardActionIds.goToPrevStep, this.changeStep);
-    this.register(wizardActionIds.goToNextStep, this.changeStep);
-    this.register(wizardActionIds.goToStep, this.changeStep);
+    this.register(wizardActionIds.goToPrevStep, this.goToPrevStep);
+    this.register(wizardActionIds.goToNextStep, this.goToNextStep);
+    this.register(wizardActionIds.goToStep, this.goToStep);
   }
-  changeStep(newStep) {
+  goToPrevStep() {
     this.setState({
-      activeStep: newStep
+      activeStep: --this.state.activeStep
+    });
+  }
+  goToNextStep() {
+    this.setState({
+      activeStep: ++this.state.activeStep
+    });
+  }
+  goToStep(step) {
+    this.setState({
+      activeStep: step
     });
   }
 }

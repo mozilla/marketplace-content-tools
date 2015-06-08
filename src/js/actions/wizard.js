@@ -2,11 +2,11 @@ import {Actions} from 'flummox';
 
 
 export default class WizardActions extends Actions {
-  goToPrevStep(wizard) {
-    return --wizard.props.activeStep;
+  goToPrevStep() {
+    return {};
   }
-  goToNextStep(wizard) {
-    return ++wizard.props.activeStep;
+  goToNextStep() {
+    return {};
   }
   goToStep(num) {
     return num;
