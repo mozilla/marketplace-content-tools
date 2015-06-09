@@ -17,8 +17,7 @@ describe('Wizard', () => {
         onSubmit: () => {},
         form: <form></form>
       }
-    ],
-    flux: helpers.fluxFactory()
+    ]
   };
 
   it('renders steps', () => {
@@ -61,7 +60,6 @@ describe('WizardStep', () => {
   jsdom();
 
   const props = {
-    flux: helpers.fluxFactory(),
     isActive: true,
     title: 'Test Step'
   };

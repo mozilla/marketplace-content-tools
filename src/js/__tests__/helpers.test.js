@@ -1,4 +1,5 @@
-import {Flummox} from 'flummox';
+import {Actions, Flummox, Store} from 'flummox';
+import FluxComponent from 'flummox/component';
 import req from 'superagent-bluebird-promise';
 
 
@@ -41,7 +42,27 @@ afterEach(() => {
 
 // Shortcuts.
 global.helpers = {
-  fluxFactory: () => new Flummox()
+  fluxWrapper: (component, flux) => {
+    return <FluxComponent flux={flux}>
+      {component}
+    </FluxComponent>
+  },
+  fluxFactory: (stubComponents=[]) => {
+    class FakeStore extends Store {}
+    class FakeActions extends Actions{}
+
+    class FakeFlux extends Flummox {
+      constructor() {
+        super();
+
+        const root = this;
+        stubComponents.forEach(componentName => {
+          root.createStore(componentName, FakeStore, root);
+        });
+      }
+    }
+    return new FakeFlux()
+  }
 };
 
 global.ReactDOMHelper = {

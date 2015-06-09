@@ -70,7 +70,7 @@ const Submission = React.createClass({
     const submitActions = this.props.flux.getActions('submission');
     const goToStep = i => () => {submitActions.goToStep(i)};
 
-    return <FluxComponent connectToStores={'submission'} flux={this.props.flux}>
+    return <FluxComponent connectToStores={'submission'}>
       <Wizard className="submission" steps={steps}
               goToPrevStep={submitActions && submitActions.goToPrevStep}
               goToNextStep={submitActions && submitActions.goToNextStep}

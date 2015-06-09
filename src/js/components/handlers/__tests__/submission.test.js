@@ -4,7 +4,9 @@ import Submission from '../submission';
 describe('Submission', () => {
   jsdom();
 
-  const submission = <Submission flux={helpers.fluxFactory()} activeStep={0}/>
+  const submission = helpers.fluxWrapper(
+    <Submission activeStep={0}/>,
+    helpers.fluxFactory(['submission']));
 
   it('renders form', () => {
     const testSubmission = ReactDOMHelper.render(submission);
