@@ -1,3 +1,7 @@
+import {Flummox} from 'flummox';
+import req from 'superagent-bluebird-promise';
+
+
 global.assert = require('chai').assert;
 global.jsdom = require('mocha-jsdom');
 global.React = require('react/addons');
@@ -25,7 +29,9 @@ global.localStorage = {
 };
 
 
-const req = require('superagent-bluebird-promise');
+global.fluxFactory = () => new Flummox();
+
+
 sinon.stub(req, 'get', () => {});
 sinon.stub(req, 'post', () => {});
 

@@ -2,15 +2,16 @@
   The Wizard component takes `steps` as a prop, where `steps` is an
 */
 import classnames from 'classnames';
+import {Flummox} from 'flummox';
 import FluxComponent from 'flummox/component';
 import React from 'react';
-
-import Flux from '../flux';
 
 
 const Wizard = React.createClass({
   propTypes: {
     activeStep: React.PropTypes.number.isRequired,
+    goToPrevStep: React.PropTypes.func,
+    goToNextStep: React.PropTypes.func,
     steps: React.PropTypes.arrayOf(React.PropTypes.shape({
       title: React.PropTypes.string,
       onSubmit: React.PropTypes.func,
@@ -65,7 +66,7 @@ export {Wizard as Wizard}
 
 const WizardStep = React.createClass({
   propTypes: {
-    flux: React.PropTypes.instanceOf(Flux),
+    flux: React.PropTypes.instanceOf(Flummox),
     form: React.PropTypes.element,
     isActive: React.PropTypes.bool,
     onSubmit: React.PropTypes.func,

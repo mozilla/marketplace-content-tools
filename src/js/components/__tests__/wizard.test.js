@@ -1,4 +1,3 @@
-import {Flummox} from 'flummox';
 import Wizard from '../wizard';
 
 
@@ -6,7 +5,6 @@ const steps = [
   {
     title: 'Step 1',
     onSubmit: (form) => {
-      console.log('YEH 1');
     },
     form: <form>
       <button type="submit">Submit</button>
@@ -15,7 +13,6 @@ const steps = [
   {
     title: 'Step 2',
     onSubmit: (form) => {
-      console.log('YEH 2');
     },
     form: <form>
       <button type="submit">Submit</button>
@@ -30,7 +27,7 @@ describe('Wizard', () => {
   const props = {
     activeStep: 0,
     steps: steps,
-    flux: new Flummox()
+    flux: fluxFactory()
   };
 
   it('renders steps', () => {
@@ -39,18 +36,6 @@ describe('Wizard', () => {
     assert.equal(
         TestUtils.scryRenderedDOMComponentsWithTag(testWizard,'form').length,
         2);
-  });
-
-  it('goes to prev on pagination click', (done) => {
-    const wizard = <Wizard {...props} activeStep={1} goToPrevStep={done}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
-    TestUtils.Simulate.click(testWizard.refs.prev);
-  });
-
-  it('goes to next on pagination click', (done) => {
-    const wizard = <Wizard {...props} goToNextStep={done}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
-    TestUtils.Simulate.click(testWizard.refs.next);
   });
 
   it('prev disabled at first step', () => {
@@ -65,5 +50,19 @@ describe('Wizard', () => {
     const testWizard = TestUtils.renderIntoDocument(wizard);
     assert.notOk(testWizard.refs.prev.props.disabled);
     assert.ok(testWizard.refs.next.props.disabled);
+  });
+
+  it('goes to prev on pagination click', (done) => {
+    const dun = () => {done()};
+    const wizard = <Wizard {...props} activeStep={1} goToPrevStep={dun}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    TestUtils.Simulate.click(testWizard.refs.prev);
+  });
+
+  it('goes to next on pagination click', (done) => {
+    const dun = () => {done()};
+    const wizard = <Wizard {...props} goToNextStep={dun}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    TestUtils.Simulate.click(testWizard.refs.next);
   });
 });
