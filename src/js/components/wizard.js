@@ -1,3 +1,7 @@
+/*
+  The Wizard component takes `steps` as a prop, where `steps` is an
+*/
+
 import classnames from 'classnames';
 import FluxComponent from 'flummox/component';
 import React from 'react';
@@ -6,15 +10,26 @@ import Flux from '../flux';
 
 
 const Wizard = React.createClass({
+  propTypes: {
+    activeStep: React.PropTypes.number.isRequired,
+    steps: React.PropTypes.arrayOf(React.PropTypes.shape({
+      title: React.PropTypes.string,
+      onSubmit: React.PropTypes.func,
+      form: React.PropTypes.oneOfType([React.PropTypes.element,
+                                       React.PropTypes.node]),
+    }))
+  },
   renderProgressBarStep(step, index) {
-    return <button onClick={this.props.goToStep(index)} key={index}>
-      {step.title}
-    </button>
+    if (this.props.goToStep) {
+      return <button onClick={this.props.goToStep(index)} key={index}>
+        {step.title}
+      </button>
+    }
+    return <span>{step.title}</span>
   },
   renderStep(step, index) {
-    return <WizardStep isActive={index === this.props.activeStep} key={index}
-                       flux={this.props.flux} title={step.title}
-                       form={step.form} onSubmit={step.onSubmit}/>
+    return <WizardStep {...step} key={index} flux={this.props.flux}
+                       isActive={index === this.props.activeStep}/>
   },
   render() {
     // Allow configuring classname.
@@ -30,10 +45,16 @@ const Wizard = React.createClass({
 
       {this.props.steps.map(this.renderStep)}
 
-      <button onClick={this.props.goToPrevStep}
-              disabled={this.props.prevDisabled}>Back</button>
-      <button onClick={this.props.goToNextStep}
-              disabled={this.props.nextDisabled}>Forward</button>
+      <menu className="wizard--progress-menu">
+        <button onClick={this.props.goToPrevStep}
+                disabled={this.props.activeStep === 0}>
+          Back
+        </button>
+        <button onClick={this.props.goToNextStep}
+                disabled={this.props.activeStep === this.props.numSteps - 1}>
+          Forward
+        </button>
+      </menu>
     </section>
   }
 });
@@ -49,9 +70,10 @@ const WizardStep = React.createClass({
     title: React.PropTypes.string.isRequired
   },
   componentDidMount() {
-    // Hook up the submit callback.
+    // Hook up the submit callback, passing in the form and Flux instance.
     const root = this;
     const form = React.findDOMNode(this.refs.form).querySelector('form');
+
     if (form) {
       form.onsubmit = e => {
         e.preventDefault();

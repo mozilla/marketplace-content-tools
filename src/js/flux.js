@@ -6,7 +6,6 @@ import {Flummox} from 'flummox';
 import LoginActions from './actions/login';
 import SiteConfigActions from './actions/siteConfig';
 import SubmissionActions from './actions/submission';
-import WizardActions from './actions/wizard';
 
 import ApiArgsStore from './stores/apiArgs';
 import LoginStore from './stores/login';

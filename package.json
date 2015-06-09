@@ -6,7 +6,7 @@
   "license": "MPL 2.0",
   "repository": "https://github.com/mozilla/marketplace-submission",
   "scripts": {
-    "test": "jest"
+    "test": "BABEL_JEST_STAGE=1 jest src/js"
   },
   "dependencies": {
     "classnames": "^2.0.0",
@@ -50,8 +50,6 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/jest.js",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react"
-    ]
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
   }
 }

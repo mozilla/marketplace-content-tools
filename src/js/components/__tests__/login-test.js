@@ -1,3 +1,4 @@
+/*
 jest.dontMock('../login.js');
 
 
@@ -8,3 +9,4 @@ describe('FxaLoginButton', function() {
     var TestUtils = React.addons.TestUtils;
   });
 });
+*/

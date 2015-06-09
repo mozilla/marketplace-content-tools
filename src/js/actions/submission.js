@@ -25,13 +25,10 @@ export default class SubmissionActions extends Actions {
         });
     });
   }
-  setNumSteps(num) {
-    return num;
-  }
-  goToPrevStep() {
+  goToNextStep() {
     return {};
   }
-  goToNextStep() {
+  goToPrevStep() {
     return {};
   }
   goToStep(num) {

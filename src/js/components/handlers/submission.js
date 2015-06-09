@@ -51,13 +51,10 @@ const metadataStep = {
 
 const Submission = React.createClass({
   render() {
-    const steps = [
-      urlStep, compatStep, metadataStep
-    ];
+    const steps = [urlStep, compatStep, metadataStep];
 
     const submitActions = this.props.flux.getActions('submission');
     const goToStep = i => () => {submitActions.goToStep(i)};
-    submitActions.setNumSteps(steps.length);
 
     return <FluxComponent connectToStores={'submission'}>
       <Wizard className="submission" steps={steps}
