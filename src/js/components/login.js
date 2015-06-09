@@ -6,12 +6,15 @@
 */
 import classnames from 'classnames';
 import FluxComponent from 'flummox/component';
+import connectToStores from 'flummox/connect';
 import fluxMixin from 'flummox/mixin';
 import React from 'react';
 import Url from 'urlgray';
 
+import Login from './handlers/login';
 
-let LoginHandler = React.createClass({
+
+let FxaLogin = React.createClass({
   /* After login, FxA OAuth redirects to this handler which is within a popup.
      Retrieves the auth info from the URL and postmessage back to opener.
      Note this handler is currently not used in production, but rather
@@ -44,7 +47,7 @@ let LoginHandler = React.createClass({
     return <h1>Processing Firefox Accounts authorization&hellip;</h1>
   }
 });
-export {LoginHandler as LoginHandler};
+export {FxaLogin as FxaLogin};
 
 
 let LoginButton = React.createClass({
@@ -155,3 +158,22 @@ let LogoutButton = React.createClass({
   }
 });
 export {LogoutButton as LogoutButton};
+
+
+const loginRequired = Component => {
+  class AuthenticatedComponent extends React.Component {
+    render() {
+      if(!this.props.isLoggedIn) {
+        return <Login />
+      } else {
+        return <Component {...this.props}/>
+      }
+    }
+  }
+  return connectToStores(AuthenticatedComponent, {
+    user: userStore => ({
+      isLoggedIn: userStore.isLoggedIn()
+    })
+  }); 
+};
+export {loginRequired as loginRequired};
