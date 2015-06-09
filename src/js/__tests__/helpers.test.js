@@ -29,8 +29,6 @@ global.localStorage = {
 };
 
 
-global.fluxFactory = () => new Flummox();
-
 
 sinon.stub(req, 'get', () => {});
 sinon.stub(req, 'post', () => {});
@@ -39,3 +37,19 @@ sinon.stub(req, 'post', () => {});
 afterEach(() => {
   localStorage.clear();
 });
+
+
+// Shortcuts.
+global.helpers = {
+  fluxFactory: () => new Flummox()
+};
+
+global.ReactDOMHelper = {
+  click: TestUtils.Simulate.click,
+  queryClass: TestUtils.findRenderedDOMComponentWithClass,
+  queryClassAll: TestUtils.scryRenderedDOMComponentsWithClass,
+  queryTag: TestUtils.findRenderedDOMComponentWithTag,
+  queryTagAll: TestUtils.scryRenderedDOMComponentsWithTag,
+  render: TestUtils.renderIntoDocument,
+  submit: TestUtils.Simulate.submit,
+};

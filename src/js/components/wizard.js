@@ -1,6 +1,3 @@
-/*
-  The Wizard component takes `steps` as a prop, where `steps` is an
-*/
 import classnames from 'classnames';
 import React from 'react';
 
@@ -66,7 +63,7 @@ const WizardStep = React.createClass({
   propTypes: {
     form: React.PropTypes.element,
     isActive: React.PropTypes.bool,
-    title: React.PropTypes.string.isRequired
+    title: React.PropTypes.string
   },
   render() {
     const stepStyle = {

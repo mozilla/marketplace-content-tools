@@ -18,27 +18,25 @@ describe('Wizard', () => {
         form: <form></form>
       }
     ],
-    flux: fluxFactory()
+    flux: helpers.fluxFactory()
   };
 
   it('renders steps', () => {
     const wizard = <Wizard {...props}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
-    assert.equal(
-        TestUtils.scryRenderedDOMComponentsWithTag(testWizard,'form').length,
-        2);
+    const testWizard = ReactDOMHelper.render(wizard);
+    assert.equal(ReactDOMHelper.queryTagAll(testWizard, 'form').length, 2);
   });
 
   it('prev disabled at first step', () => {
     const wizard = <Wizard {...props}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
+    const testWizard = ReactDOMHelper.render(wizard);
     assert.ok(testWizard.refs.prev.props.disabled);
     assert.notOk(testWizard.refs.next.props.disabled);
   });
 
   it('next disabled at last step', () => {
     const wizard = <Wizard {...props} activeStep={1}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
+    const testWizard = ReactDOMHelper.render(wizard);
     assert.notOk(testWizard.refs.prev.props.disabled);
     assert.ok(testWizard.refs.next.props.disabled);
   });
@@ -46,15 +44,15 @@ describe('Wizard', () => {
   it('goes to prev on pagination click', (done) => {
     const dun = () => {done()};
     const wizard = <Wizard {...props} activeStep={1} goToPrevStep={dun}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
-    TestUtils.Simulate.click(testWizard.refs.prev);
+    const testWizard = ReactDOMHelper.render(wizard);
+    ReactDOMHelper.click(testWizard.refs.prev);
   });
 
   it('goes to next on pagination click', (done) => {
     const dun = () => {done()};
     const wizard = <Wizard {...props} goToNextStep={dun}/>
-    const testWizard = TestUtils.renderIntoDocument(wizard);
-    TestUtils.Simulate.click(testWizard.refs.next);
+    const testWizard = ReactDOMHelper.render(wizard);
+    ReactDOMHelper.click(testWizard.refs.next);
   });
 });
 
@@ -63,7 +61,7 @@ describe('WizardStep', () => {
   jsdom();
 
   const props = {
-    flux: fluxFactory(),
+    flux: helpers.fluxFactory(),
     isActive: true,
     title: 'Test Step'
   };
@@ -76,9 +74,22 @@ describe('WizardStep', () => {
     props.form = <form onSubmit={dun}/>;
 
     const wizardStep = <WizardStep {...props} onSubmit={dun}/>
-    const testWizardStep = TestUtils.renderIntoDocument(wizardStep);
-    const form = TestUtils.findRenderedDOMComponentWithTag(testWizardStep,
-                                                           'form');
-    TestUtils.Simulate.submit(form);
+    const testWizardStep = ReactDOMHelper.render(wizardStep);
+    const form = ReactDOMHelper.queryTag(testWizardStep, 'form');
+    ReactDOMHelper.submit(form);
+  });
+
+  it('visible if active', () => {
+    const wizardStep = <WizardStep isActive={true}/>
+    const testWizardStep = ReactDOMHelper.render(wizardStep);
+    const section = ReactDOMHelper.queryClass(testWizardStep, 'wizard--step');
+    assert.notEqual(section.props.style.display, 'none');
+  });
+
+  it('hidden if not active', () => {
+    const wizardStep = <WizardStep isActive={false}/>
+    const testWizardStep = ReactDOMHelper.render(wizardStep);
+    const section = ReactDOMHelper.queryClass(testWizardStep, 'wizard--step');
+    assert.equal(section.props.style.display, 'none');
   });
 });
