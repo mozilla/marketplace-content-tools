@@ -2,8 +2,6 @@
   The Wizard component takes `steps` as a prop, where `steps` is an
 */
 import classnames from 'classnames';
-import {Flummox} from 'flummox';
-import FluxComponent from 'flummox/component';
 import React from 'react';
 
 
@@ -12,9 +10,9 @@ const Wizard = React.createClass({
     activeStep: React.PropTypes.number.isRequired,
     goToPrevStep: React.PropTypes.func,
     goToNextStep: React.PropTypes.func,
+    goToStep: React.PropTypes.func,
     steps: React.PropTypes.arrayOf(React.PropTypes.shape({
       title: React.PropTypes.string,
-      onSubmit: React.PropTypes.func,
       form: React.PropTypes.oneOfType([React.PropTypes.element,
                                        React.PropTypes.node]),
     }))
@@ -28,7 +26,7 @@ const Wizard = React.createClass({
     return <span>{step.title}</span>
   },
   renderStep(step, index) {
-    return <WizardStep {...step} key={index} flux={this.props.flux}
+    return <WizardStep {...step} key={index}
                        isActive={index === this.props.activeStep}/>
   },
   render() {
@@ -61,29 +59,14 @@ const Wizard = React.createClass({
     </section>
   }
 });
-export {Wizard as Wizard}
+export {Wizard}
 
 
 const WizardStep = React.createClass({
   propTypes: {
-    flux: React.PropTypes.instanceOf(Flummox),
     form: React.PropTypes.element,
     isActive: React.PropTypes.bool,
-    onSubmit: React.PropTypes.func,
     title: React.PropTypes.string.isRequired
-  },
-  componentDidMount() {
-    // Hook up the submit callback, passing in the form and Flux instance.
-    const root = this;
-    const form = React.findDOMNode(this.refs.form).querySelector('form');
-
-    if (form) {
-      form.onsubmit = e => {
-        e.preventDefault();
-        root.props.onSubmit(form, root.props.flux);
-        return false;
-      }
-    }
   },
   render() {
     const stepStyle = {
@@ -93,13 +76,12 @@ const WizardStep = React.createClass({
     return <section className="wizard--step" style={stepStyle}>
       <h2>{this.props.title}</h2>
       <div className="wizard--form" ref="form">
-        <FluxComponent flux={this.props.flux}>
-          {this.props.form}
-        </FluxComponent>
+        {this.props.form}
       </div>
     </section>
   }
 });
+export {WizardStep};
 
 
 export default Wizard;

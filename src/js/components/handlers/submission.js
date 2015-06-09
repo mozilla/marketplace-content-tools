@@ -5,23 +5,26 @@ import React from 'react';
 import Wizard from '../wizard';
 
 
-const urlStep = {
-  title: 'Step 1: Website URL',
-  onSubmit: (form, flux) => {
-    flux.getActions('submission').submitUrl(
-      form.elements.submissionUrl.value);
+const UrlStep = React.createClass({
+  onSubmit: (e) => {
+    e.preventDefault();
+    this.props.flux.getActions('submission').submitUrl(
+      e.currentTarget.elements.submissionUrl.value);
+    return false;
   },
-  form: <form>
-    <label htmlFor="submission--url">Website URL</label>
-    <input id="submission--url" className="submission--url"
-           name="submissionUrl" placeholder="Enter a website URL..."
-           required/>
-    <button type="submit">Submit</button>
-  </form>
-}
+  render() {
+    return <form onSubmit={this.onSubmit}>
+      <label htmlFor="submission--url">URL:</label>
+      <input id="submission--url" className="submission--url"
+             name="submissionUrl" placeholder="Enter a website URL..."
+             type="text" required/>
+      <button type="submit">Submit</button>
+    </form>
+  }
+});
 
 
-const CompatStepForm = connectToStores(React.createClass({
+const CompatStep = connectToStores(React.createClass({
   render() {
     return <form>
       <label>URL:</label>
@@ -32,27 +35,37 @@ const CompatStepForm = connectToStores(React.createClass({
 }), 'submission');
 
 
-const compatStep = {
-  title: 'Step 2: Website Compatibility',
-  onSubmit: () => {
-  },
-  form: <CompatStepForm/>
-}
-
-
-const metadataStep = {
-  title: 'Step 3: Website Metadata',
-  onSubmit: () => {
-  },
-  form: <form>
-    <p>Under construction</p>
-  </form>,
-}
+const MetadataStep = React.createClass({
+  render() {
+    return <form>
+      <p>Under construction</p>
+    </form>
+  }
+});
 
 
 const Submission = React.createClass({
   render() {
-    const steps = [urlStep, compatStep, metadataStep];
+    const steps = [
+      {
+        title: 'Step 1: Website URL',
+        form: <FluxComponent>
+                <UrlStep/>
+              </FluxComponent>
+      },
+      {
+        title: 'Step 2: Website Compatibility',
+        form: <FluxComponent connectToStores={'submission'}>
+                <CompatStep/>
+              </FluxComponent>
+      },
+      {
+        title: 'Step 3: Website Metadata',
+        form: <FluxComponent connectToStores={'submission'}>
+                <MetadataStep/>
+              </FluxComponent>
+      }
+    ];
 
     const submitActions = this.props.flux.getActions('submission');
     const goToStep = i => () => {submitActions.goToStep(i)};

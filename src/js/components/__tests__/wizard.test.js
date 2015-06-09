@@ -1,24 +1,4 @@
-import Wizard from '../wizard';
-
-
-const steps = [
-  {
-    title: 'Step 1',
-    onSubmit: (form) => {
-    },
-    form: <form>
-      <button type="submit">Submit</button>
-    </form>
-  },
-  {
-    title: 'Step 2',
-    onSubmit: (form) => {
-    },
-    form: <form>
-      <button type="submit">Submit</button>
-    </form>
-  }
-];
+import {Wizard, WizardStep} from '../wizard';
 
 
 describe('Wizard', () => {
@@ -26,7 +6,18 @@ describe('Wizard', () => {
 
   const props = {
     activeStep: 0,
-    steps: steps,
+    steps: [
+      {
+        title: 'Step 1',
+        onSubmit: () => {},
+        form: <form></form>
+      },
+      {
+        title: 'Step 2',
+        onSubmit: () => {},
+        form: <form></form>
+      }
+    ],
     flux: fluxFactory()
   };
 
@@ -64,5 +55,30 @@ describe('Wizard', () => {
     const wizard = <Wizard {...props} goToNextStep={dun}/>
     const testWizard = TestUtils.renderIntoDocument(wizard);
     TestUtils.Simulate.click(testWizard.refs.next);
+  });
+});
+
+
+describe('WizardStep', () => {
+  jsdom();
+
+  const props = {
+    flux: fluxFactory(),
+    isActive: true,
+    title: 'Test Step'
+  };
+
+  it('fires onSubmit on form submit', (done) => {
+    const dun = () => {
+      done();
+    };
+
+    props.form = <form onSubmit={dun}/>;
+
+    const wizardStep = <WizardStep {...props} onSubmit={dun}/>
+    const testWizardStep = TestUtils.renderIntoDocument(wizardStep);
+    const form = TestUtils.findRenderedDOMComponentWithTag(testWizardStep,
+                                                           'form');
+    TestUtils.Simulate.submit(form);
   });
 });
