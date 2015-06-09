@@ -164,7 +164,7 @@ const loginRequired = Component => {
   class AuthenticatedComponent extends React.Component {
     render() {
       if(!this.props.isLoggedIn) {
-        return <Login />
+        return <Login/>
       } else {
         return <Component {...this.props}/>
       }
@@ -174,6 +174,6 @@ const loginRequired = Component => {
     user: userStore => ({
       isLoggedIn: userStore.isLoggedIn()
     })
-  }); 
+  });
 };
 export {loginRequired as loginRequired};
