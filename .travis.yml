@@ -10,6 +10,7 @@ addons:
   sauce_connect: true
 env:
   matrix:
+  - RUN_TEST=test
   - RUN_TEST=test-sherlocked
   global:
   - secure: HhOJQ5WUPmVdvFigm9LTZglsWqpFhynuHB84MzEc/cH6fL8/N7MPwy7u+1n5iZL0v9hC2lN/GTdKoSC91kdKIgPPQEUjE+aBWbKak8pwhePZxy9t0fSLYN/W8Mnnv0qhJ5vREKlWJbQ/Peip62bcwffCGd3XyJp9dw/1gcyPLnUFva6QWxq/13QYaecFHyBe6sN+xlLfm+eCzkE/g/jt4B+JrPbC+kigWns67kJ0vvYNhkNI8JGeIKPl3xZeCaj2cO1YSU/iA5DjjzQYIPvO3kKl+pMIuGxkpHJVGbc8YMb/zN6KhbXobRMs3cdc6vpGcrNct3wjKsH1Y8yPRDpN9F5pDO40uVj+Ix7r1y8LopmKeCd4EdybwVEn+2XcVaE+3kx4N4iMuR2Yyn54BdKS7lYsPeXWtaK77Ajf2e5xV5nRtD55MWMyM6O08Gql0TW5eESY7e1kCVhUunJdwxndPt/W1kr4XT1YmZwH86CJPZRCWF5U717epEDniQDT2+t9gXDjFO+njqXPAXOd7esVueSOZKFjHQ0aMkZVJZg+zSGZbpBhBlPGEwW7IwQAuq8USYaHNaOpKQCOh+Ka8vmMZvC2RsJZgGC7C8hpOjRlKb8E2MBNq3KJqGTNzXBQhrjuQKQWKLDszLvug1+cRWKkXlXoXSSJhWBbGzqeHPWXM6A=

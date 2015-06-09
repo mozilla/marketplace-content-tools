@@ -30,7 +30,6 @@ global.localStorage = {
 };
 
 
-
 sinon.stub(req, 'get', () => {});
 sinon.stub(req, 'post', () => {});
 
@@ -47,17 +46,29 @@ global.helpers = {
       {component}
     </FluxComponent>
   },
-  fluxFactory: (stubComponents=[]) => {
+  fluxFactory: (opts) => {
     class FakeStore extends Store {}
     class FakeActions extends Actions{}
 
     class FakeFlux extends Flummox {
       constructor() {
         super();
-
         const root = this;
-        stubComponents.forEach(componentName => {
-          root.createStore(componentName, FakeStore, root);
+
+        const stubs = opts.stubs || [];
+        stubs.forEach(stub => {
+          root.createActions(stub, FakeActions);
+          root.createStore(stub, FakeStore, root);
+        });
+
+        const actions = opts.actions || [];
+        actions.forEach(action => {
+          root.createActions(action[0], action[1]);
+        });
+
+        const stores = opts.stores || [];
+        stores.forEach(store => {
+          root.createStore(store[0], store[1], root);
         });
       }
     }

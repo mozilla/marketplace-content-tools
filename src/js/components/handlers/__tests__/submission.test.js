@@ -4,11 +4,11 @@ import Submission from '../submission';
 describe('Submission', () => {
   jsdom();
 
-  const submission = helpers.fluxWrapper(
-    <Submission activeStep={0}/>,
-    helpers.fluxFactory(['submission']));
+  const submission = helpers.fluxWrapper(<Submission/>, helpers.fluxFactory({
+    stubs: ['submission']
+  }));
 
-  it('renders form', () => {
+  it('renders forms', () => {
     const testSubmission = ReactDOMHelper.render(submission);
     assert.equal(ReactDOMHelper.queryTagAll(testSubmission, 'form').length, 3);
   });

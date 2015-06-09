@@ -7,7 +7,6 @@ var ReactTools = require('react-tools');
 var origJs = require.extensions['.js'];
 
 
-
 function shouldStub(filename) {
   // Should this file be stubbed out for testing?
   if (!global.reactModulesToStub) return false;

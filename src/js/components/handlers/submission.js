@@ -72,8 +72,8 @@ const Submission = React.createClass({
 
     return <FluxComponent connectToStores={'submission'}>
       <Wizard className="submission" steps={steps}
-              goToPrevStep={submitActions && submitActions.goToPrevStep}
-              goToNextStep={submitActions && submitActions.goToNextStep}
+              goToPrevStep={submitActions.goToPrevStep}
+              goToNextStep={submitActions.goToNextStep}
               goToStep={goToStep}/>
     </FluxComponent>
   }
