@@ -13,8 +13,10 @@ let Header = React.createClass({
   },
   render() {
     return <header>
-      <p className="header--icon"/>
-      <h1>Submission Tools</h1>
+      <div className="header--wordmark">
+        <p className="header--icon"/>
+        <h1>Submission Tools</h1>
+      </div>
       <FluxComponent connectToStores={{user: this.userStateGetter}}>
         <HeaderLogin isLoggedIn={false}/>
       </FluxComponent>
@@ -31,7 +33,7 @@ let HeaderLogin = React.createClass({
   render() {
     if (this.props.isLoggedIn) {
       return <div className="header--login">
-        <p>{this.props.displayName}</p>
+        <p>Logged in as {this.props.displayName}</p>
         <FluxComponent>
           <LogoutButton/>
         </FluxComponent>

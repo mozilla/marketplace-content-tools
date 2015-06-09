@@ -2,31 +2,32 @@ import LocalStore from 'flummox-localstore'
 
 
 export default class WizardStore extends LocalStore {
-  constructor(flux) {
-    super(flux, {
-      initialState: {
-        activeStep: 0
-      }
+   constructor(flux) {
+     super(flux, {
+        initialState: {
+          activeStep: 0,
+          numSteps: 0,
+          prevDisabled: true,
+          nextDisabled: false
+        }
     });
-
-    const wizardActionIds = flux.getActionIds('wizard');
-    this.register(wizardActionIds.goToPrevStep, this.goToPrevStep);
-    this.register(wizardActionIds.goToNextStep, this.goToNextStep);
-    this.register(wizardActionIds.goToStep, this.goToStep);
+  }
+  setNumSteps(num) {
+    this.setState({
+      numSteps: num
+    });
   }
   goToPrevStep() {
-    this.setState({
-      activeStep: --this.state.activeStep
-    });
+    this.goToStep(this.state.activeStep - 1);
   }
   goToNextStep() {
-    this.setState({
-      activeStep: ++this.state.activeStep
-    });
+    this.goToStep(this.state.activeStep + 1);
   }
-  goToStep(step) {
+  goToStep(newStep) {
     this.setState({
-      activeStep: step
+      activeStep: newStep,
+      prevDisabled: newStep === 0,
+      nextDisabled: newStep === this.state.numSteps - 1
     });
   }
 }

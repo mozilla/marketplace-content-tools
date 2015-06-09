@@ -5,7 +5,8 @@ import urlJoin from 'url-join';
 
 
 export default class SubmissionActions extends Actions {
-  async analyzeSite(url) {
+  async submitUrl(url) {
+    // Analyze submitted URL with Google Webmaster mobileReady.
     const analyzerUrl = Url('https://www.googleapis.com/pagespeedonline/' +
                             'v3beta1/mobileReady').q({
       key: 'AIzaSyDkEX-f1JNLQLC164SZaobALqFv4PHV-kA',
@@ -16,8 +17,24 @@ export default class SubmissionActions extends Actions {
       req
         .get(analyzerUrl)
         .then(res => {
-          resolve(res.body);
+          console.log('Google Webmaster MobileReady Results', res.body);
+          resolve({
+            url: url,
+            mobileReady: res.body
+          });
         });
     });
+  }
+  setNumSteps(num) {
+    return num;
+  }
+  goToPrevStep() {
+    return {};
+  }
+  goToNextStep() {
+    return {};
+  }
+  goToStep(num) {
+    return num;
   }
 }

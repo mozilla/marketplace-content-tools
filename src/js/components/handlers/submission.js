@@ -1,4 +1,5 @@
 import FluxComponent from 'flummox/component';
+import connectToStores from 'flummox/connect';
 import React from 'react';
 
 import Wizard from '../wizard';
@@ -7,7 +8,7 @@ import Wizard from '../wizard';
 const urlStep = {
   title: 'Step 1: Website URL',
   onSubmit: (form, flux) => {
-    flux.getActions('submission').analyzeSite(
+    flux.getActions('submission').submitUrl(
       form.elements.submissionUrl.value);
   },
   form: <form>
@@ -20,13 +21,21 @@ const urlStep = {
 }
 
 
+const CompatStepForm = connectToStores(React.createClass({
+  render() {
+    return <form>
+      <label>URL:</label>
+      <input type="text" value={this.props.url} disabled={true}/>
+    </form>
+  }
+}), 'submission');
+
+
 const compatStep = {
   title: 'Step 2: Website Compatibility',
   onSubmit: () => {
   },
-  form: <form>
-    <p>Under construction</p>
-  </form>,
+  form: <CompatStepForm/>
 }
 
 
@@ -46,8 +55,15 @@ const Submission = React.createClass({
       urlStep, compatStep, metadataStep
     ];
 
-    return <FluxComponent connectToStores={'wizard'}>
-      <Wizard className="submission" steps={steps}/>
+    const submitActions = this.props.flux.getActions('submission');
+    const goToStep = i => () => {submitActions.goToStep(i)};
+    submitActions.setNumSteps(steps.length);
+
+    return <FluxComponent connectToStores={'submission'}>
+      <Wizard className="submission" steps={steps}
+              goToPrevStep={submitActions.goToPrevStep}
+              goToNextStep={submitActions.goToNextStep}
+              goToStep={goToStep}/>
     </FluxComponent>
   }
 });
