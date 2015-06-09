@@ -6,14 +6,16 @@ import Wizard from '../wizard';
 
 
 const UrlStep = React.createClass({
-  onSubmit: (e) => {
-    e.preventDefault();
-    this.props.flux.getActions('submission').submitUrl(
-      e.currentTarget.elements.submissionUrl.value);
-    return false;
-  },
   render() {
-    return <form onSubmit={this.onSubmit}>
+    const flux = this.props.flux;
+    const onSubmit = (e) => {
+      e.preventDefault();
+      flux.getActions('submission').submitUrl(
+        e.currentTarget.elements.submissionUrl.value);
+      return false;
+    };
+
+    return <form onSubmit={onSubmit}>
       <label htmlFor="submission--url">URL:</label>
       <input id="submission--url" className="submission--url"
              name="submissionUrl" placeholder="Enter a website URL..."
