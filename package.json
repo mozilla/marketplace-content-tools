@@ -6,7 +6,7 @@
   "license": "MPL 2.0",
   "repository": "https://github.com/mozilla/marketplace-submission",
   "scripts": {
-    "test": "BABEL_JEST_STAGE=1 jest src/js"
+    "test": "mocha --compilers .:mocha.js $(find src/js -name '*.test.js')"
   },
   "dependencies": {
     "classnames": "^2.0.0",
@@ -20,11 +20,12 @@
     "urlgray": "^0.2.1"
   },
   "devDependencies": {
-    "babel-jest": "^5.2.0",
+    "babel": "^5.5.6",
     "babel-runtime": "^5.4.7",
     "babelify": "^6.1.2",
     "browser-sync": "^2.7.6",
     "browserify": "^10.2.3",
+    "chai": "^3.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
@@ -36,20 +37,19 @@
     "gulp-stylus": "^2.0.2",
     "gulp-uglify": "^1.2.0",
     "gulp-webserver": "^0.9.0",
-    "jest-cli": "^0.4.5",
+    "jsdom": "^3.x.x",
     "livereactload": "^0.5.2",
+    "mocha": "^2.2.5",
+    "mocha-jsdom": "^0.4.0",
     "nib": "^1.1.0",
     "react-router": "^0.13.2",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "sherlocked": "^0.14.0",
+    "sinon": "^1.14.1",
     "stylus": "^0.50.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "3.1.2"
-  },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/jest.js",
-    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
   }
 }

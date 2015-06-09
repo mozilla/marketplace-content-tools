@@ -1,9 +1,5 @@
-jest.dontMock('../wizard');
-
-const React = require('react/addons');
-const Test = React.addons.TestUtils;
-
-const Wizard = require('../wizard').Wizard;
+import {Flummox} from 'flummox';
+import Wizard from '../wizard';
 
 
 const steps = [
@@ -29,53 +25,45 @@ const steps = [
 
 
 describe('Wizard', () => {
+  jsdom();
+
+  const props = {
+    activeStep: 0,
+    steps: steps,
+    flux: new Flummox()
+  };
+
   it('renders steps', () => {
-    const wizard = <Wizard steps={steps} activeStep={0}/>
-    const testWizard = Test.renderIntoDocument(wizard);
-    setTimeout(function() {
-    console.log(document.querySelectorAll('form'));
-    }, 1000);
-    expect(Test.scryRenderedDOMComponentsWithTag(testWizard, 'form')
-           .length).toBe(2);
+    const wizard = <Wizard {...props}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    assert.equal(
+        TestUtils.scryRenderedDOMComponentsWithTag(testWizard,'form').length,
+        2);
   });
 
-  it('goes to prev on pagination click', () => {
-    const done = {
-      done: () => {}
-    };
-    spyOn(done, 'done');
-
-    const wizard = <Wizard steps={steps} activeStep={1}
-                           goToPrevStep={done.done}/>
-    const testWizard = Test.renderIntoDocument(wizard);
-    React.addons.TestUtils.Simulate.click(testWizard.refs.prev);
-    expect(done.done).toHaveBeenCalled();
+  it('goes to prev on pagination click', (done) => {
+    const wizard = <Wizard {...props} activeStep={1} goToPrevStep={done}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    TestUtils.Simulate.click(testWizard.refs.prev);
   });
 
-  it('goes to next on pagination click', () => {
-    const done = {
-      done: () => {}
-    };
-    spyOn(done, 'done');
-
-    const wizard = <Wizard steps={steps} activeStep={0}
-                           goToNextStep={done.done}/>
-    const testWizard = Test.renderIntoDocument(wizard);
-    React.addons.TestUtils.Simulate.click(testWizard.refs.next);
-    expect(done.done).toHaveBeenCalled();
+  it('goes to next on pagination click', (done) => {
+    const wizard = <Wizard {...props} goToNextStep={done}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    TestUtils.Simulate.click(testWizard.refs.next);
   });
 
   it('prev disabled at first step', () => {
-    const wizard = <Wizard steps={steps} activeStep={0}/>
-    const testWizard = Test.renderIntoDocument(wizard);
-    expect(testWizard.refs.prev.props.disabled).toBe(true);
-    expect(testWizard.refs.next.props.disabled).toBe(false);
+    const wizard = <Wizard {...props}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    assert.ok(testWizard.refs.prev.props.disabled);
+    assert.notOk(testWizard.refs.next.props.disabled);
   });
 
   it('next disabled at last step', () => {
-    const wizard = <Wizard steps={steps} activeStep={1}/>
-    const testWizard = Test.renderIntoDocument(wizard);
-    expect(testWizard.refs.prev.props.disabled).toBe(false);
-    expect(testWizard.refs.next.props.disabled).toBe(true);
+    const wizard = <Wizard {...props} activeStep={1}/>
+    const testWizard = TestUtils.renderIntoDocument(wizard);
+    assert.notOk(testWizard.refs.prev.props.disabled);
+    assert.ok(testWizard.refs.next.props.disabled);
   });
 });

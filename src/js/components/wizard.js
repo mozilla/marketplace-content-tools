@@ -1,7 +1,6 @@
 /*
   The Wizard component takes `steps` as a prop, where `steps` is an
 */
-
 import classnames from 'classnames';
 import FluxComponent from 'flummox/component';
 import React from 'react';
@@ -66,6 +65,7 @@ export {Wizard as Wizard}
 
 const WizardStep = React.createClass({
   propTypes: {
+    flux: React.PropTypes.instanceOf(Flux),
     form: React.PropTypes.element,
     isActive: React.PropTypes.bool,
     onSubmit: React.PropTypes.func,
@@ -92,7 +92,7 @@ const WizardStep = React.createClass({
     return <section className="wizard--step" style={stepStyle}>
       <h2>{this.props.title}</h2>
       <div className="wizard--form" ref="form">
-        <FluxComponent ref="form">
+        <FluxComponent flux={this.props.flux}>
           {this.props.form}
         </FluxComponent>
       </div>
