@@ -91,7 +91,7 @@ const WizardStep = React.createClass({
 
     return <section className="wizard--step" style={stepStyle}>
       <h2>{this.props.title}</h2>
-      <div ref="form">
+      <div className="wizard--form" ref="form">
         <FluxComponent ref="form">
           {this.props.form}
         </FluxComponent>

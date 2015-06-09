@@ -15,10 +15,14 @@ export default class SubmissionStore extends WizardStore {
     this.register(submitActions.goToStep, this.goToStep);
  }
  submitUrlHandler(data) {
+    const screenshot = data.mobileReady.screenshot.data.replace(/_/g, '/')
+                                                       .replace(/-/g, '+');
+
     this.setState({
       activeStep: ++this.state.activeStep,
       url: data.url,
-      screenshot: data.mobileReady.screenshot.data,
+      screenshot: `data:${data.mobileReady.screenshot.mime_type};base64,` +
+                  screenshot,
       mobileReadyPass: data.mobileReady.ruleGroups.USABILITY.pass
     });
   }
