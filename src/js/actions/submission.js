@@ -10,6 +10,7 @@ export default class SubmissionActions extends Actions {
     const analyzerUrl = Url('https://www.googleapis.com/pagespeedonline/' +
                             'v3beta1/mobileReady').q({
       key: 'AIzaSyDkEX-f1JNLQLC164SZaobALqFv4PHV-kA',
+      screenshot: true,
       url: url
     });
 

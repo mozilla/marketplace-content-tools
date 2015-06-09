@@ -45,13 +45,16 @@ const Wizard = React.createClass({
 
       {this.props.steps.map(this.renderStep)}
 
-      <menu className="wizard--progress-menu">
+      <menu className="wizard--paginator">
         <button onClick={this.props.goToPrevStep}
-                disabled={this.props.activeStep === 0}>
+                disabled={this.props.activeStep === 0}
+                ref="prev">
           Back
         </button>
         <button onClick={this.props.goToNextStep}
-                disabled={this.props.activeStep === this.props.numSteps - 1}>
+                disabled={this.props.activeStep ===
+                          this.props.steps.length - 1}
+                ref="next">
           Forward
         </button>
       </menu>
@@ -63,7 +66,6 @@ export {Wizard as Wizard}
 
 const WizardStep = React.createClass({
   propTypes: {
-    flux: React.PropTypes.instanceOf(Flux).isRequired,
     form: React.PropTypes.element,
     isActive: React.PropTypes.bool,
     onSubmit: React.PropTypes.func,

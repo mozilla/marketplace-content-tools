@@ -26,6 +26,7 @@ const CompatStepForm = connectToStores(React.createClass({
     return <form>
       <label>URL:</label>
       <input type="text" value={this.props.url} disabled={true}/>
+      <img src={'data:image/jpeg;base64,' + this.props.screenshot}/>
     </form>
   }
 }), 'submission');
