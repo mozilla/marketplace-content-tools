@@ -55,20 +55,24 @@ global.helpers = {
         super();
         const root = this;
 
-        const stubs = opts.stubs || [];
-        stubs.forEach(stub => {
-          root.createActions(stub, FakeActions);
-          root.createStore(stub, FakeStore, root);
-        });
-
         const actions = opts.actions || [];
         actions.forEach(action => {
           root.createActions(action[0], action[1]);
         });
 
+        const stubActions = opts.stubActions || [];
+        stubActions.forEach(stubAction => {
+          root.createActions(stubAction, FakeActions);
+        });
+
         const stores = opts.stores || [];
         stores.forEach(store => {
           root.createStore(store[0], store[1], root);
+        });
+
+        const stubStores = opts.stubStores || [];
+        stubStores.forEach(stubStore => {
+          root.createStore(stubStore, FakeStore, root);
         });
       }
     }
@@ -77,6 +81,7 @@ global.helpers = {
 };
 
 global.ReactDOMHelper = {
+  change: TestUtils.Simulate.change,
   click: TestUtils.Simulate.click,
   queryClass: TestUtils.findRenderedDOMComponentWithClass,
   queryClassAll: TestUtils.scryRenderedDOMComponentsWithClass,
