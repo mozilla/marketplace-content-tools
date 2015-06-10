@@ -1,9 +1,15 @@
 @import '../lib';
 
 
-label
-  font-weight 400
-  margin-right 10px
+.submission--metadata
+  display flex
+  flex-wrap nowrap
 
-.submission--url
-  width: 600px
+  form
+    margin-top 10px
+    width unquote('calc(100% - 360px)')
+
+.submission--screenshot
+  border 1px solid $color--highlight
+  height auto
+  width 320px

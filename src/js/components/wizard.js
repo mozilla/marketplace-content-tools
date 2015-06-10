@@ -33,7 +33,7 @@ const Wizard = React.createClass({
       [this.props.className || '']: true,
     });
 
-    return <section classNames={wizardClassNames}>
+    return <section className={wizardClassNames}>
       <menu className="wizard--progress-bar">
         {this.props.steps.map(this.renderProgressBarStep)}
       </menu>

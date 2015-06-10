@@ -15,7 +15,8 @@ const UrlStep = React.createClass({
       return false;
     };
 
-    return <form className="submission--url-form" onSubmit={onSubmit}>
+    return <form className="form-inline submission--url-form"
+                 onSubmit={onSubmit}>
       <label htmlFor="submission--url">URL:</label>
       <input id="submission--url" className="submission--url"
              name="submissionUrl" placeholder="Enter a website URL..."
@@ -28,11 +29,27 @@ const UrlStep = React.createClass({
 
 const CompatStep = connectToStores(React.createClass({
   render() {
-    return <form>
-      <label>URL:</label>
-      <input type="text" value={this.props.url} disabled={true}/>
-      <img src={this.props.screenshot}/>
-    </form>
+    return <div className="submission--metadata">
+      <form className="form-block">
+        <div className="form-block--group">
+          <label>URL</label>
+          <input type="text" value={this.props.url} disabled={true}/>
+        </div>
+
+        <div className="form-block--group">
+          <label htmlFor="submission--keywords">Keywords</label>
+          <input id="submission--keywords" name="keywords" type="text"/>
+        </div>
+
+        <div className="form-block--group">
+          <label htmlFor="submission--description">Description</label>
+          <textarea id="submission--description" name="description" type="text"
+                    rows="10"/>
+        </div>
+      </form>
+
+      <img className="submission--screenshot" src={this.props.screenshot}/>
+    </div>
   }
 }), 'submission');
 
