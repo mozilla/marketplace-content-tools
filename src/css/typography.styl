@@ -46,12 +46,24 @@
     font-family FiraSansWeb
     font-weight 600
 
-body,
+body
+  font-family $font--primary
+
+a,
+p,
+span,
 button,
 input
-  font-family $font--primary
   font-size 15px
   font-weight 300
+
+a
+  color $color--primary
+  transition color .2s
+
+  &:hover
+    color $color--primary-hover
+    cursor pointer
 
 body
   color $color--body-text

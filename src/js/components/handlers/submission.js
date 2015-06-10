@@ -76,7 +76,7 @@ const MetadataStep = React.createClass({
           </div>
 
           <div className="form-block--radio">
-            <input id="submission--worldwide-yes" name="worldwide"
+            <input checked id="submission--worldwide-yes" name="worldwide"
                    type="radio">
             </input>
             <label htmlFor="submission--worldwide-yes">
@@ -90,6 +90,30 @@ const MetadataStep = React.createClass({
             Why is this site a good addition for the Firefox Marketplace?
           </label>
           <textarea id="submission--reason" name="reason" required rows="10"/>
+        </div>
+
+        <div className="form-block--group">
+          <label>
+            Would you like public credit for submitting this site?
+          </label>
+
+          <div className="form-block--radio">
+            <input id="submission--attribution-no" name="attribution"
+                   type="radio">
+            </input>
+            <label htmlFor="submission--attribution-no">
+              No
+            </label>
+          </div>
+
+          <div className="form-block--radio">
+            <input checked id="submission--attribution-yes" name="attribution"
+                   type="radio">
+            </input>
+            <label htmlFor="submission--attribution-yes">
+              Yes
+            </label>
+          </div>
         </div>
 
         <button type="submit">Finish & Submit</button>
@@ -124,6 +148,7 @@ const Submission = React.createClass({
     const goToStep = i => () => {submitActions.goToStep(i)};
 
     return <section className="submission">
+      <h1>Submitting a Website</h1>
       <FluxComponent connectToStores={'submission'}>
         <Wizard steps={steps} goToStep={goToStep}/>
       </FluxComponent>

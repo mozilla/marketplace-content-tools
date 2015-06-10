@@ -33,18 +33,34 @@ const WizardProgressBar = React.createClass({
     goToStep: React.PropTypes.func,
     steps: React.PropTypes.arrayOf(React.PropTypes.string)
   },
-  renderProgressBarStep(step, index) {
-    if (this.props.goToStep) {
-      return <button className="wizard--progress-bar-step"
-                     onClick={this.props.goToStep(index)} key={index}>
-        {step}
-      </button>
+  renderProgressBarBtn(stepTitle, index) {
+    const isActive = index === this.props.activeStep;
+    const itemClassNames = {
+      'wizard-progress-bar-item': true
+    };
+
+    if (isActive) {
+      itemClassNames['wizard-progress-bar-active'] = true;
+      return <span className={classnames(itemClassNames)} key={index}>
+        {stepTitle}
+      </span>
+    } else if (this.props.goToStep && this.props.activeStep > index) {
+      // Only allow going backwards.
+      itemClassNames['wizard-progress-bar-btn'] = true;
+      return <a className={classnames(itemClassNames)} key={index}
+                onClick={this.props.goToStep(index)}
+                title="Back to previous step">
+        {stepTitle}
+      </a>
+    } else {
+      return <span className={classnames(itemClassNames)} key={index}>
+        {stepTitle}
+      </span>
     }
-    return <span key={index}>{step}</span>
   },
   render() {
     return <menu className="wizard--progress-bar">
-      {this.props.steps.map(this.renderProgressBarStep)}
+      {this.props.steps.map(this.renderProgressBarBtn)}
     </menu>
   }
 });
@@ -62,11 +78,8 @@ const WizardStep = React.createClass({
       display: this.props.isActive ? 'block': 'none'
     };
 
-    return <section className="wizard--step" style={stepStyle}>
-      <h2>{this.props.title}</h2>
-      <div className="wizard--form" ref="form">
-        {this.props.form}
-      </div>
+    return <section className="wizard-step" style={stepStyle}>
+      {this.props.form}
     </section>
   }
 });
