@@ -6,9 +6,11 @@ import {LoginButton} from '../login';
 
 export default class Login extends React.Component {
   render() {
-    return <FluxComponent>
-      <h2>Login Required</h2>
-      <LoginButton/>
-    </FluxComponent>
+    return <section className="login-handler">
+      <FluxComponent>
+        <h2>You must be logged in to access these tools.</h2>
+        <LoginButton/>
+      </FluxComponent>
+    </section>
   }
 }

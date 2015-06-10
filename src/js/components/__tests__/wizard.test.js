@@ -26,32 +26,51 @@ describe('Wizard', () => {
     assert.equal(ReactDOMHelper.queryTagAll(testWizard, 'form').length, 2);
   });
 
-  it('prev disabled at first step', () => {
+  it('renders progress bar', () => {
     const wizard = <Wizard {...props}/>
     const testWizard = ReactDOMHelper.render(wizard);
-    assert.ok(testWizard.refs.prev.props.disabled);
-    assert.notOk(testWizard.refs.next.props.disabled);
+    assert.ok(ReactDOMHelper.queryClass(testWizard, 'wizard--progress-bar'));
+  });
+});
+
+
+describe('WizardProgressBar', () => {
+  jsdom();
+
+  const props = {
+    activeStep: 0,
+    steps: ['Step 1', 'Step 2']
+  };
+  props.goToStep = i => {
+    return () => {
+      props.activeStep = i;
+    }
+  }
+
+  afterEach(() => {
+    props.activeStep = 0;
   });
 
-  it('next disabled at last step', () => {
-    const wizard = <Wizard {...props} activeStep={1}/>
+  it('renders steps', () => {
+    const wizard = <Wizard {...props}/>
     const testWizard = ReactDOMHelper.render(wizard);
-    assert.notOk(testWizard.refs.prev.props.disabled);
-    assert.ok(testWizard.refs.next.props.disabled);
+    assert.equal(
+      ReactDOMHelper.queryClassAll(testWizard,
+                                   'wizard--progress-bar-step').length, 2);
   });
 
-  it('goes to prev on pagination click', (done) => {
-    const dun = () => {done()};
-    const wizard = <Wizard {...props} activeStep={1} goToPrevStep={dun}/>
-    const testWizard = ReactDOMHelper.render(wizard);
-    ReactDOMHelper.click(testWizard.refs.prev);
-  });
+  it('calls goToStep with proper index', () => {
+    props.activeStep = 1;
 
-  it('goes to next on pagination click', (done) => {
-    const dun = () => {done()};
-    const wizard = <Wizard {...props} goToNextStep={dun}/>
+    const wizard = <Wizard {...props}/>
     const testWizard = ReactDOMHelper.render(wizard);
-    ReactDOMHelper.click(testWizard.refs.next);
+    var steps = ReactDOMHelper.queryClassAll(testWizard,
+                                            'wizard--progress-bar-step');
+    ReactDOMHelper.click(steps[0]);
+    assert.equal(props.activeStep, 0);
+
+    ReactDOMHelper.click(steps[1]);
+    assert.equal(props.activeStep, 1);
   });
 });
 

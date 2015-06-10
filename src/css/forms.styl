@@ -13,9 +13,15 @@
     display block
     font-weight 400
     margin-bottom 10px
-  input,
+  input:not([type="radio"]),
   textarea
     width 480px
+  input[type="radio"]
+    margin-right 10px
+
+    + label
+      display inline-block
+      font-weight 300
 
 .form-inline
   label

@@ -5,8 +5,6 @@ import React from 'react';
 const Wizard = React.createClass({
   propTypes: {
     activeStep: React.PropTypes.number.isRequired,
-    goToPrevStep: React.PropTypes.func,
-    goToNextStep: React.PropTypes.func,
     goToStep: React.PropTypes.func,
     steps: React.PropTypes.arrayOf(React.PropTypes.shape({
       title: React.PropTypes.string,
@@ -14,54 +12,48 @@ const Wizard = React.createClass({
                                        React.PropTypes.node]),
     }))
   },
-  renderProgressBarStep(step, index) {
-    if (this.props.goToStep) {
-      return <button onClick={this.props.goToStep(index)} key={index}>
-        {step.title}
-      </button>
-    }
-    return <span>{step.title}</span>
-  },
   renderStep(step, index) {
     return <WizardStep {...step} key={index}
                        isActive={index === this.props.activeStep}/>
   },
   render() {
-    // Allow configuring classname.
-    const wizardClassNames = classnames({
-      wizard: true,
-      [this.props.className || '']: true,
-    });
-
-    return <section className={wizardClassNames}>
-      <menu className="wizard--progress-bar">
-        {this.props.steps.map(this.renderProgressBarStep)}
-      </menu>
-
+    return <section className="wizard">
+      <WizardProgressBar {...this.props}
+                         steps={this.props.steps.map(step => step.title)}/>
       {this.props.steps.map(this.renderStep)}
-
-      <menu className="wizard--paginator">
-        <button onClick={this.props.goToPrevStep}
-                disabled={this.props.activeStep === 0}
-                ref="prev">
-          Back
-        </button>
-        <button onClick={this.props.goToNextStep}
-                disabled={this.props.activeStep ===
-                          this.props.steps.length - 1}
-                ref="next">
-          Forward
-        </button>
-      </menu>
     </section>
   }
 });
 export {Wizard}
 
 
+const WizardProgressBar = React.createClass({
+  propTypes: {
+    activeStep: React.PropTypes.number,
+    goToStep: React.PropTypes.func,
+    steps: React.PropTypes.arrayOf(React.PropTypes.string)
+  },
+  renderProgressBarStep(step, index) {
+    if (this.props.goToStep) {
+      return <button className="wizard--progress-bar-step"
+                     onClick={this.props.goToStep(index)} key={index}>
+        {step}
+      </button>
+    }
+    return <span key={index}>{step}</span>
+  },
+  render() {
+    return <menu className="wizard--progress-bar">
+      {this.props.steps.map(this.renderProgressBarStep)}
+    </menu>
+  }
+});
+
+
 const WizardStep = React.createClass({
   propTypes: {
-    form: React.PropTypes.element,
+    form: React.PropTypes.oneOfType([React.PropTypes.element,
+                                     React.PropTypes.node]),
     isActive: React.PropTypes.bool,
     title: React.PropTypes.string
   },
