@@ -27,10 +27,15 @@ const UrlStep = React.createClass({
 });
 
 
-const CompatStep = connectToStores(React.createClass({
+const MetadataStep = connectToStores(React.createClass({
   render() {
     return <div className="submission--metadata">
       <form className="form-block">
+        <div className="form-block--group">
+          <label>Name</label>
+          <input type="text" name="name"/>
+        </div>
+
         <div className="form-block--group">
           <label>URL</label>
           <input type="text" value={this.props.url} disabled={true}/>
@@ -46,21 +51,22 @@ const CompatStep = connectToStores(React.createClass({
           <textarea id="submission--description" name="description" type="text"
                     rows="10"/>
         </div>
+
+        <div className="form-block--group">
+          <label htmlFor="submission--reason">
+            Why is this site a good addition for the Firefox Marketplace?
+          </label>
+          <textarea id="submission--reason" name="reason" type="text"
+                    rows="10"/>
+        </div>
+
+        <button type="submit">Finish & Submit</button>
       </form>
 
       <img className="submission--screenshot" src={this.props.screenshot}/>
     </div>
   }
 }), 'submission');
-
-
-const MetadataStep = React.createClass({
-  render() {
-    return <form>
-      <p>Under construction</p>
-    </form>
-  }
-});
 
 
 const Submission = React.createClass({
@@ -73,13 +79,7 @@ const Submission = React.createClass({
               </FluxComponent>
       },
       {
-        title: 'Step 2: Website Compatibility',
-        form: <FluxComponent connectToStores={'submission'}>
-                <CompatStep/>
-              </FluxComponent>
-      },
-      {
-        title: 'Step 3: Website Metadata',
+        title: 'Step 2: Website Metadata',
         form: <FluxComponent connectToStores={'submission'}>
                 <MetadataStep/>
               </FluxComponent>

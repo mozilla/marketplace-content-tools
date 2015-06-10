@@ -12,7 +12,7 @@ describe('Submission', () => {
     });
     const submission = helpers.fluxWrapper(<Submission/>, flux);
     const testSubmission = ReactDOMHelper.render(submission);
-    assert.equal(ReactDOMHelper.queryTagAll(testSubmission, 'form').length, 3);
+    assert.equal(ReactDOMHelper.queryTagAll(testSubmission, 'form').length, 2);
   });
 
   it('fires submit URL action', (done) => {
