@@ -2,6 +2,7 @@ import FluxComponent from 'flummox/component';
 import React from 'react';
 
 import Wizard from '../wizard';
+import {CategorySelectGroup} from '../categorySelect';
 
 
 const UrlStep = React.createClass({
@@ -28,7 +29,7 @@ const UrlStep = React.createClass({
       <label htmlFor="submission--url">URL:</label>
       <input id="submission--url" className="submission--url"
              name="submissionUrl" placeholder="Enter a website URL..."
-             requiredj type="text" value={this.props.url}/>
+             required type="text"/>
       <button type="submit">Submit</button>
     </form>
   }
@@ -36,9 +37,39 @@ const UrlStep = React.createClass({
 
 
 const MetadataStep = React.createClass({
+  getInitialState() {
+    // Have to manage controlled props. A lot of workaround to allow checked
+    // by default.
+    return {
+      worldwideChecked: true,
+      attributionChecked: true
+    };
+  },
+  handleWorldwideChange() {
+    this.setState({worldwideChecked: !this.state.worldwideChecked});
+  },
+  handleAttributionChange() {
+    this.setState({attributionChecked: !this.state.attributionChecked});
+  },
   render() {
+    const worldwideProps = {};
+    if (this.state.worldwideChecked) {
+      worldwideProps.checked = true;
+    }
+    const attributionProps = {};
+    if (this.state.attributionChecked) {
+      attributionProps.checked = true;
+    }
+
     return <div className="submission--metadata">
       <form className="form-block">
+        <p>
+          This site has successfully been detected as mobile-friendly! Please
+          fill in more information about the website below and our Marketplace
+          Reviewers will take a look at them promptly. We tried our best to
+          fill out some of the information below for you.
+        </p>
+
         <div className="form-block--group">
           <label>Name</label>
           <input name="name" required type="text"/>
@@ -62,12 +93,16 @@ const MetadataStep = React.createClass({
         </div>
 
         <div className="form-block--group">
-          <label>
-            Is this useful for a worldwide audience?
-          </label>
+          <label>Categories</label>
+          <CategorySelectGroup/>
+        </div>
+
+        <div className="form-block--group">
+          <label>Is this useful for a worldwide audience?</label>
 
           <div className="form-block--radio">
             <input id="submission--worldwide-no" name="worldwide"
+                   onChange={this.handleWorldwideChange}
                    type="radio">
             </input>
             <label htmlFor="submission--worldwide-no">
@@ -76,8 +111,9 @@ const MetadataStep = React.createClass({
           </div>
 
           <div className="form-block--radio">
-            <input checked id="submission--worldwide-yes" name="worldwide"
-                   type="radio">
+            <input id="submission--worldwide-yes" name="worldwide"
+                   onChange={this.handleWorldwideChange}
+                   type="radio" {...worldwideProps}>
             </input>
             <label htmlFor="submission--worldwide-yes">
               Yes
@@ -93,12 +129,11 @@ const MetadataStep = React.createClass({
         </div>
 
         <div className="form-block--group">
-          <label>
-            Would you like public credit for submitting this site?
-          </label>
+          <label>Would you like public credit for submitting this site?</label>
 
           <div className="form-block--radio">
             <input id="submission--attribution-no" name="attribution"
+                   onChange={this.handleAttributionChange}
                    type="radio">
             </input>
             <label htmlFor="submission--attribution-no">
@@ -107,8 +142,9 @@ const MetadataStep = React.createClass({
           </div>
 
           <div className="form-block--radio">
-            <input checked id="submission--attribution-yes" name="attribution"
-                   type="radio">
+            <input id="submission--attribution-yes" name="attribution"
+                   onChange={this.handleAttributionChange}
+                   type="radio" {...attributionProps}>
             </input>
             <label htmlFor="submission--attribution-yes">
               Yes
