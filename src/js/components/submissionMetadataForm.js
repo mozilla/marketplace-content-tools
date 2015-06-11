@@ -5,6 +5,7 @@ import {CategorySelectGroup} from './categorySelect';
 
 const SubmissionMetadataForm = React.createClass({
   propTypes: {
+    email: React.PropTypes.string.isRequired,
     url: React.PropTypes.string.isRequired
   },
   getInitialState() {
@@ -12,7 +13,7 @@ const SubmissionMetadataForm = React.createClass({
     // by default.
     return {
       worldwideChecked: true,
-      attributionChecked: true
+      attributeChecked: true
     };
   },
   debugFill() {
@@ -30,7 +31,7 @@ const SubmissionMetadataForm = React.createClass({
     this.setState({worldwideChecked: !this.state.worldwideChecked});
   },
   handleAttributionChange() {
-    this.setState({attributionChecked: !this.state.attributionChecked});
+    this.setState({attributeChecked: !this.state.attributionChecked});
   },
   handleSubmit(e) {
     e.preventDefault();
@@ -39,7 +40,16 @@ const SubmissionMetadataForm = React.createClass({
   },
   serializeFormData(form) {
     return {
-      url: form.elements.siteUrl.value
+      attribute: this.state.attributeChecked,
+      categories: [form.elements.category1.value,
+                   form.elements.category2.value],
+      description: form.elements.description.value,
+      keywords: form.elements.keywords.value.split(','),
+      name: form.elements.siteName.value,
+      reason: form.elements.reason.value,
+      submitterEmail: form.elements.submitterEmail.value,
+      url: form.elements.siteUrl.value,
+      worldwide: this.state.worldwideChecked,
     };
   },
   render() {
@@ -48,7 +58,7 @@ const SubmissionMetadataForm = React.createClass({
       worldwideProps.checked = true;
     }
     const attributionProps = {};
-    if (this.state.attributionChecked) {
+    if (this.state.attributeChecked) {
       attributionProps.checked = true;
     }
 
@@ -143,6 +153,8 @@ const SubmissionMetadataForm = React.createClass({
               Yes
             </label>
           </div>
+          <input name="submitterEmail" type="hidden"
+                 value={this.props.email}/>
         </div>
 
         <button type="submit">Finish & Submit</button>

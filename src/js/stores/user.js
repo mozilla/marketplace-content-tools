@@ -27,4 +27,11 @@ export default class UserStore extends LocalStore {
       return this.state.settings.display_name;
     }
   }
+  getEmail() {
+    if (this.isLoggedIn()) {
+      return {
+        email: this.state.settings.email
+      };
+    }
+  }
 }

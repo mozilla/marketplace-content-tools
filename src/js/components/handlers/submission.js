@@ -8,6 +8,11 @@ import Wizard from '../wizard';
 
 const Submission = React.createClass({
   render() {
+    const metadataStoreConnector = {
+      'submission': null,
+      'user': store => store.getEmail()
+    };
+
     const steps = [
       {
         title: 'Step 1: Website URL',
@@ -17,7 +22,7 @@ const Submission = React.createClass({
       },
       {
         title: 'Step 2: Website Metadata',
-        form: <FluxComponent connectToStores={'submission'}>
+        form: <FluxComponent connectToStores={metadataStoreConnector}>
                 <SubmissionMetadataForm/>
               </FluxComponent>
       }
