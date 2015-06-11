@@ -1,5 +1,5 @@
 // Visual regression test script for Sherlocked.
-var ROOT = 'http://localhost:8000/submission/';
+var ROOT = 'http://localhost:8680/submission/';
 
 function mobile(client, path) {
     return client
