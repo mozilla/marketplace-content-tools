@@ -5,15 +5,11 @@ import WizardStore from './wizard';
 
 export default class SubmissionStore extends WizardStore {
   constructor(flux) {
-    super(flux, {
-      initialState: {
-        activeStep: 0,
-        mobileFriendlyData: {}
-      }
-    });
+    super(flux);
 
     const submitActions = flux.getActionIds('submission');
     this.register(submitActions.submitUrl, this.submitUrlHandler);
+    this.register(submitActions.submitMetadata, this.submitMetadataHandler);
     this.register(submitActions.setNumSteps, this.setNumSteps);
     this.register(submitActions.goToStep, this.goToStep);
  }
@@ -29,11 +25,20 @@ export default class SubmissionStore extends WizardStore {
       url: data.url,
       mobileFriendlyData: {
         isMobileFriendly: isMobileFriendly,
-        screenshot: this.formatScreenshot(data.mobileFriendlyData.screenshot)
-      }
+        screenshot: this._formatScreenshot(data.mobileFriendlyData.screenshot)
+      },
+      successfullySubmittedUrl: null
     });
   }
-  formatScreenshot(screenshot) {
+  submitMetadataHandler(data) {
+    const url = this.state.url;
+
+    this._resetState();
+    this.setState({
+      successfullySubmittedUrl: url
+    });
+  }
+  _formatScreenshot(screenshot) {
     screenshot = screenshot.data.replace(/_/g, '/').replace(/-/g, '+');
     return `data:${screenshot.mime_type};base64,${screenshot}`;
   }

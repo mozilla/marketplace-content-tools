@@ -7,12 +7,18 @@ import LocalStore from 'flummox-localstore'
 
 
 export default class WizardStore extends LocalStore {
-   constructor(flux) {
+  constructor(flux) {
      super(flux, {
         initialState: {
           activeStep: 0,
           highestStep: 0
         }
+    });
+  }
+  _resetState() {
+    this.replaceState({
+      activeStep: 0,
+      highestStep: 0
     });
   }
   goToNextStep() {

@@ -7,7 +7,7 @@ import urlJoin from 'url-join';
 
 export default class SubmissionActions extends Actions {
   async submitUrl(url) {
-    // Get mobile-friendly data and metadata.
+    // Step 1: get mobile-friendly data and metadata to prepopulate form.
     return await new Promise(resolve => {
       Promise.all([this.getMobileFriendlyData(url), this.getMetadata(url)])
         .then(results => {
@@ -17,6 +17,12 @@ export default class SubmissionActions extends Actions {
             url: url
           });
         });
+    });
+  }
+  async submitMetadata(data) {
+    // Step 2: submit metadata to API.
+    return await new Promise(resolve => {
+      resolve(data);
     });
   }
   getMetadata(url) {

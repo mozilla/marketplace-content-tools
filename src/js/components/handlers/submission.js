@@ -6,12 +6,27 @@ import {CategorySelectGroup} from '../categorySelect';
 
 
 const UrlStep = React.createClass({
-  renderMobileFriendlyError() {
-    if (this.props.url && !this.props.mobileFriendlyData.isMobileFriendly) {
-      return <div className="form-inline-error">
+  renderSuccessMsg() {
+    if (this.props.successfullySubmittedUrl) {
+      return <div className="form-msg--success">
         <p>
-          Sorry, this site was not detected as mobile-friendly. Please enter
-          another site.
+          <span>You have just successfully submitted </span>
+          <span className="submission--url-success">
+            {this.props.successfullySubmittedUrl}
+          </span>
+          <span>!</span>
+        </p>
+      </div>
+    }
+  },
+  renderMobileFriendlyErr() {
+    if (this.props.url && this.props.mobileFriendlyData &&
+        !this.props.mobileFriendlyData.isMobileFriendly) {
+      return <div className="form-msg--error">
+        <p>
+          Sorry, {this.props.url} was not detected as mobile-friendly.
+          We are not accepting non-mobile-friendly sites at this time.
+          Please enter another website.
         </p>
       </div>
     }
@@ -24,14 +39,24 @@ const UrlStep = React.createClass({
         e.currentTarget.elements.submissionUrl.value);
     };
 
-    return <form className="form-inline submission--url-form"
+    let placeholder = "Enter a website URL...";
+    if (this.props.successfullySubmittedUrl) {
+      placeholder = "Enter another website URL...";
+    }
+
+    return <div className="submission--url-step">
+      {this.renderSuccessMsg()}
+      {this.renderMobileFriendlyErr()}
+
+      <form className="form-inline submission--url-form"
                  onSubmit={onSubmit}>
-      <label htmlFor="submission--url">URL:</label>
-      <input id="submission--url" className="submission--url"
-             name="submissionUrl" placeholder="Enter a website URL..."
-             required type="text"/>
-      <button type="submit">Submit</button>
-    </form>
+        <label htmlFor="submission--url">URL:</label>
+        <input id="submission--url" className="submission--url"
+               name="submissionUrl" placeholder={placeholder}
+               required type="text"/>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   }
 });
 
@@ -51,6 +76,16 @@ const MetadataStep = React.createClass({
   handleAttributionChange() {
     this.setState({attributionChecked: !this.state.attributionChecked});
   },
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.flux.getActions('submission').submitMetadata(
+      this.serializeFormData(e.currentTarget));
+  },
+  serializeFormData(form) {
+    return {
+      url: form.elements.url.value
+    };
+  },
   render() {
     const worldwideProps = {};
     if (this.state.worldwideChecked) {
@@ -62,7 +97,7 @@ const MetadataStep = React.createClass({
     }
 
     return <div className="submission--metadata">
-      <form className="form-block">
+      <form className="form-block" onSubmit={this.handleSubmit}>
         <p>
           This site has successfully been detected as mobile-friendly! Please
           fill in more information about the website below and our Marketplace
@@ -77,7 +112,8 @@ const MetadataStep = React.createClass({
 
         <div className="form-block--group">
           <label>URL</label>
-          <input type="text" value={this.props.url} disabled={true}/>
+          <input disabled={true} name="url" value={this.props.url}
+                 type="text"/>
         </div>
 
         <div className="form-block--group">
