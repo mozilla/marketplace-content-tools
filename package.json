@@ -16,7 +16,8 @@
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-select": "^0.4.9",
-    "superagent-bluebird-promise": "^2.0.2",
+    "superagent": "^1.2.0",
+    "superagent-promise": "^1.0.0",
     "url-join": "0.0.1",
     "urlgray": "^0.2.1"
   },

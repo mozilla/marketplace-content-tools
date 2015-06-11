@@ -1,7 +1,8 @@
 import {Actions} from 'flummox';
-import req from 'superagent-bluebird-promise';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
+
+import req from '../request';
 
 
 export default class SiteConfigActions extends Actions {

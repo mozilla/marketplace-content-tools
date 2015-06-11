@@ -1,6 +1,7 @@
 import {Actions, Flummox, Store} from 'flummox';
 import FluxComponent from 'flummox/component';
-import req from 'superagent-bluebird-promise';
+
+import req from '../request';
 
 
 global.assert = require('chai').assert;

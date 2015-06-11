@@ -1,7 +1,8 @@
 import LocalStore from 'flummox-localstore';
-import req from 'superagent-bluebird-promise';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
+
+import req from '../request';
 
 
 export default class SiteConfigStore extends LocalStore {
