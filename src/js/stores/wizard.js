@@ -11,6 +11,7 @@ export default class WizardStore extends LocalStore {
      super(flux, {
         initialState: {
           activeStep: 0,
+          highestStep: 0
         }
     });
   }
@@ -21,8 +22,14 @@ export default class WizardStore extends LocalStore {
     this.goToStep(this.state.activeStep - 1);
   }
   goToStep(newStep) {
+    let highestStep = this.state.highestStep;
+    if (newStep > this.state.highestStep) {
+      highestStep: this.state.activeStep;
+    }
+
     this.setState({
       activeStep: newStep,
+      highestStep: highestStep,
     });
   }
 }

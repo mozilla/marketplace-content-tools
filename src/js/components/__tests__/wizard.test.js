@@ -39,6 +39,7 @@ describe('WizardProgressBar', () => {
 
   const props = {
     activeStep: 0,
+    highestStep: 0,
     steps: ['Step 1', 'Step 2']
   };
   props.goToStep = i => {
@@ -49,6 +50,7 @@ describe('WizardProgressBar', () => {
 
   afterEach(() => {
     props.activeStep = 0;
+    props.highestStep = 0;
   });
 
   it('renders steps', () => {
@@ -61,6 +63,7 @@ describe('WizardProgressBar', () => {
 
   it('calls goToStep on previous step', () => {
     props.activeStep = 1;
+    props.highestStep = 1;
 
     const wizard = <Wizard {...props}/>
     const testWizard = ReactDOMHelper.render(wizard);
@@ -68,6 +71,45 @@ describe('WizardProgressBar', () => {
                                             'wizard-progress-bar-item');
     ReactDOMHelper.click(steps[0]);
     assert.equal(props.activeStep, 0);
+  });
+
+  it('has correct state when on step 1 but have not been to step 2', () => {
+    props.activeStep = 0;
+    props.highestStep = 0;
+
+    const wizard = <Wizard {...props}/>
+    const testWizard = ReactDOMHelper.render(wizard);
+    var steps = ReactDOMHelper.queryClassAll(testWizard,
+                                            'wizard-progress-bar-item');
+
+    assert.notEqual(React.findDOMNode(steps[0]).tagName, 'A');
+    assert.notEqual(React.findDOMNode(steps[1]).tagName, 'A');
+  });
+
+  it('has correct state when on step 2', () => {
+    props.activeStep = 1;
+    props.highestStep = 1;
+
+    const wizard = <Wizard {...props}/>
+    const testWizard = ReactDOMHelper.render(wizard);
+    var steps = ReactDOMHelper.queryClassAll(testWizard,
+                                            'wizard-progress-bar-item');
+
+    assert.equal(React.findDOMNode(steps[0]).tagName, 'A');
+    assert.notEqual(React.findDOMNode(steps[1]).tagName, 'A');
+  });
+
+  it('has correct state when on step 1 but have been to step 2', () => {
+    props.activeStep = 0;
+    props.highestStep = 1;
+
+    const wizard = <Wizard {...props}/>
+    const testWizard = ReactDOMHelper.render(wizard);
+    var steps = ReactDOMHelper.queryClassAll(testWizard,
+                                            'wizard-progress-bar-item');
+
+    assert.notEqual(React.findDOMNode(steps[0]).tagName, 'A');
+    assert.equal(React.findDOMNode(steps[1]).tagName, 'A');
   });
 });
 

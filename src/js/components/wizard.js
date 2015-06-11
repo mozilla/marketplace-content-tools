@@ -5,6 +5,7 @@ import React from 'react';
 const Wizard = React.createClass({
   propTypes: {
     activeStep: React.PropTypes.number.isRequired,
+    highestStep: React.PropTypes.number.isRequired,
     goToStep: React.PropTypes.func,
     steps: React.PropTypes.arrayOf(React.PropTypes.shape({
       title: React.PropTypes.string,
@@ -29,7 +30,8 @@ export {Wizard}
 
 const WizardProgressBar = React.createClass({
   propTypes: {
-    activeStep: React.PropTypes.number,
+    activeStep: React.PropTypes.number.isRequired,
+    highestStep: React.PropTypes.number.isRequired,
     goToStep: React.PropTypes.func,
     steps: React.PropTypes.arrayOf(React.PropTypes.string)
   },
@@ -44,8 +46,8 @@ const WizardProgressBar = React.createClass({
       return <span className={classnames(itemClassNames)} key={index}>
         {stepTitle}
       </span>
-    } else if (this.props.goToStep && this.props.activeStep > index) {
-      // Only allow going backwards.
+    } else if (this.props.goToStep && this.props.highestStep >= index) {
+      // Highest step keeps track if we went backwards before or not.
       itemClassNames['wizard-progress-bar-btn'] = true;
       return <a className={classnames(itemClassNames)} key={index}
                 onClick={this.props.goToStep(index)}

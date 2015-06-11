@@ -20,10 +20,12 @@ export default class SubmissionStore extends WizardStore {
  submitUrlHandler(data) {
     // Don't continue if not mobile-friendly.
     const isMobileFriendly = data.mobileFriendlyData.ruleGroups.USABILITY.pass;
+    const activeStep = isMobileFriendly ? ++this.state.activeStep :
+                                          this.state.activeStep;
 
     this.setState({
-      activeStep: isMobileFriendly ? ++this.state.activeStep :
-                                     this.state.activeStep,
+      activeStep: activeStep,
+      highestStep: activeStep,  // Reset highest step.
       url: data.url,
       mobileFriendlyData: {
         isMobileFriendly: isMobileFriendly,
