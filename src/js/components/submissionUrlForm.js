@@ -1,0 +1,63 @@
+import React from 'react';
+
+
+const SubmissionUrlForm = React.createClass({
+  propTypes: {
+    mobileFriendlyData: React.PropTypes.object,
+    successfullySubmittedUrl: React.PropTypes.string,
+    url: React.PropTypes.string
+  },
+  renderSuccessMsg() {
+    if (this.props.successfullySubmittedUrl) {
+      return <div className="form-msg--success">
+        <p>
+          <span>You have just successfully submitted </span>
+          <span className="submission--url-success">
+            {this.props.successfullySubmittedUrl}
+          </span>
+          <span>!</span>
+        </p>
+      </div>
+    }
+  },
+  renderMobileFriendlyErr() {
+    if (this.props.url && this.props.mobileFriendlyData &&
+        !this.props.mobileFriendlyData.isMobileFriendly) {
+      return <div className="form-msg--error">
+        <p>
+          Sorry, {this.props.url} was not detected as mobile-friendly.
+          We are not accepting non-mobile-friendly sites at this time.
+          Please enter another website.
+        </p>
+      </div>
+    }
+  },
+  render() {
+    const flux = this.props.flux;
+    const onSubmit = e => {
+      e.preventDefault();
+      flux.getActions('submission').submitUrl(
+        e.currentTarget.elements.submissionUrl.value);
+    };
+
+    let placeholder = "Enter a website URL...";
+    if (this.props.successfullySubmittedUrl) {
+      placeholder = "Enter another website URL...";
+    }
+
+    return <div className="submission--url-step">
+      {this.renderSuccessMsg()}
+      {this.renderMobileFriendlyErr()}
+
+      <form className="form-inline submission--url-form"
+                 onSubmit={onSubmit}>
+        <label htmlFor="submission--url">URL:</label>
+        <input id="submission--url" className="submission--url"
+               name="submissionUrl" placeholder={placeholder}
+               required type="text"/>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  }
+});
+export default SubmissionUrlForm;
