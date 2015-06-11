@@ -29,8 +29,8 @@ export {categories}
 class CategorySelectGroup extends React.Component {
   render() {
     return <div className="category-select-group">
-      <CategorySelect name="category-1" required/>
-      <CategorySelect name="category-2"/>
+      <CategorySelect name="category1" required/>
+      <CategorySelect name="category2"/>
     </div>
   }
 }
@@ -50,7 +50,7 @@ export default class CategorySelect extends React.Component {
     const hiddenStyle = {display: 'none'};
 
     return <div className="category-select">
-      <Select options={categories} onChange={(e) => this.handleChange(e)}
+      <Select options={categories} onChange={e => this.handleChange(e)}
               value={this.state.value}/>
       <input type="hidden" {...this.props} style={hiddenStyle}
              value={this.state.value}/>
