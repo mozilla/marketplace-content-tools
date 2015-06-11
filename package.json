@@ -6,7 +6,7 @@
   "license": "MPL 2.0",
   "repository": "https://github.com/mozilla/marketplace-submission",
   "scripts": {
-    "test": "mocha --compilers .:mocha.js $(find src/js -name '*.test.js')"
+    "test": "mocha --compilers .:mocha.js $(find src/media/js -name '*.test.js')"
   },
   "dependencies": {
     "classnames": "^2.0.0",

@@ -1,5 +1,12 @@
-import {Actions} from 'flummox';
+import {Actions, Store} from 'flummox';
 import Submission from '../submission';
+
+
+class UserStore extends Store {
+  getEmail() {
+    return 'kngo@mozilla.com';
+  }
+}
 
 
 describe('Submission', () => {
@@ -7,6 +14,7 @@ describe('Submission', () => {
 
   it('renders forms', () => {
     const flux = helpers.fluxFactory({
+      stores: [['user', UserStore]],
       stubActions: ['submission'],
       stubStores: ['submission']
     });
@@ -23,8 +31,10 @@ describe('Submission', () => {
         return url;
       }
     }
+
     const flux = helpers.fluxFactory({
       actions: [['submission', SubmissionActions]],
+      stores: [['user', UserStore]],
       stubStores: ['submission']
     });
 
