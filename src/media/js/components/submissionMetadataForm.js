@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {CategorySelectGroup} from './categorySelect';
+import RegionSelect from './regionSelect';
 
 
 const SubmissionMetadataForm = React.createClass({
@@ -120,6 +121,11 @@ const SubmissionMetadataForm = React.createClass({
             <label htmlFor="submission--worldwide-yes">
               Yes
             </label>
+
+            <div style={{display: this.state.worldwideChecked ?
+                                  'none' : 'block'}}>
+              <RegionSelect multi={true}/>
+            </div>
           </div>
         </div>
 
