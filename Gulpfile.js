@@ -19,7 +19,7 @@ var vinylSource = require('vinyl-source-stream');
 var watchify = require('watchify');
 
 
-var ROOT = './src/';
+var ROOT = './src/media';
 var JS = path.resolve(ROOT, 'js');
 var CSS = path.resolve(ROOT, 'css');
 
@@ -46,7 +46,7 @@ gulp.task('css', function() {
         .pipe(autoprefixer())
         .pipe(concat('bundle.css'))
         .pipe(minifyCss())
-        .pipe(gulp.dest('build'))
+        .pipe(gulp.dest(CSS))
         .pipe(browserSync.stream());
 });
 
@@ -66,7 +66,7 @@ function jsBundle(bundler) {
         bundle = bundle.pipe(uglify());
     }
 
-    return bundle.pipe(gulp.dest('build'));
+    return bundle.pipe(gulp.dest(JS));
 }
 
 
@@ -77,11 +77,11 @@ gulp.task('js', function() {
 
 gulp.task('serve', function() {
     browserSync.init({
-        index: 'index.html',
+        index: 'src/index.html',
         middleware: [connectFallback()],
         notify: false,
         open: false,
-        server: './',
+        server: './src/',
         port: process.env.MKT_CLIENT_PORT || 8680
     });
 });
