@@ -8,6 +8,8 @@ var concat = require('gulp-concat');
 var connectFallback = require('connect-history-api-fallback');
 var envify = require('envify/custom');
 var gulp = require('gulp');
+var gulpIf = require('gulp-if');
+var imgUrlCachebust = require('gulp-css-img-cachebust');
 var liveReactLoad = require('livereactload');
 var minifyCss = require('gulp-minify-css');
 var nib = require('nib');
@@ -46,6 +48,7 @@ gulp.task('css', function() {
         .pipe(autoprefixer())
         .pipe(concat('bundle.css'))
         .pipe(minifyCss())
+        .pipe(gulpIf(process.env.NODE_ENV === 'production', imgUrlCachebust()))
         .pipe(gulp.dest(CSS))
         .pipe(browserSync.stream());
 });
