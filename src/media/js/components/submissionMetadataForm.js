@@ -40,14 +40,18 @@ const SubmissionMetadataForm = React.createClass({
       this.serializeFormData(e.currentTarget));
   },
   serializeFormData(form) {
+    let categories = [form.elements.category1.value];
+    if (form.elements.category2) {
+      categories.push(form.elements.category2.value);
+    }
+
     return {
       attribute: this.state.attributeChecked,
-      categories: [form.elements.category1.value,
-                   form.elements.category2.value],
-      description: form.elements.description.value,
-      keywords: form.elements.keywords.value.split(','),
+      categories: categories,
+      description: form.elements.siteDescription.value,
+      keywords: form.elements.siteKeywords.value.split(','),
       name: form.elements.siteName.value,
-      reason: form.elements.reason.value,
+      reason: form.elements.siteReason.value,
       submitterEmail: form.elements.submitterEmail.value,
       url: form.elements.siteUrl.value,
       worldwide: this.state.worldwideChecked,
