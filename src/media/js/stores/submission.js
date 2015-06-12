@@ -12,6 +12,8 @@ export default class SubmissionStore extends WizardStore {
     this.register(submitActions.submitMetadata, this.submitMetadataHandler);
     this.register(submitActions.setNumSteps, this.setNumSteps);
     this.register(submitActions.goToStep, this.goToStep);
+
+    delete this.state.successfullySubmittedUrl;
  }
  submitUrlHandler(data) {
     // Don't continue if not mobile-friendly.

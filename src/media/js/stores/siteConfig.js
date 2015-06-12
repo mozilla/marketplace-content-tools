@@ -15,11 +15,11 @@ export default class SiteConfigStore extends LocalStore {
       }
     });
 
+    const siteConfigActions = flux.getActions('siteConfig');
+    this.register(siteConfigActions.getSiteConfig, this.handleGetSiteConfig);
+
     this.state.localDevClientId = this.getLocalDevClientId();
 
-    const siteConfigActions = flux.getActionIds('siteConfig');
-    this.register(siteConfigActions.getSiteConfig, this.handleGetSiteConfig);
-    flux.getActions('siteConfig').getSiteConfig();
   }
   handleGetSiteConfig(siteConfig) {
     this.setState({

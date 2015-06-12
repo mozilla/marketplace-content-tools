@@ -7,7 +7,7 @@ import req from '../request';
 export default class LoginActions extends Actions {
   loggedIn(data) {
     // Notify that app is logged in on startup through localStorage.
-    return data
+    return data;
   }
   startLogin(popup) {
     return popup;

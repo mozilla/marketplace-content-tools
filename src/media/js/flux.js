@@ -28,5 +28,15 @@ export default class Flux extends Flummox {
     this.createStore('siteConfig', SiteConfigStore, this);
     this.createStore('submission', SubmissionStore, this);
     this.createStore('user', UserStore, this);
+
+    /* Initialize. */
+    const siteConfigActions = this.getActions('siteConfig');
+    siteConfigActions.getSiteConfig();
+
+    const userStore = this.getStore('user');
+    const loginActions = this.getActions('login');
+    if (userStore.isLoggedIn()) {
+      this.getActions('login').loggedIn(userStore.getUser());
+    }
   }
 }
