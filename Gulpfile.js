@@ -25,6 +25,25 @@ var ROOT = './src/media';
 var JS = path.resolve(ROOT, 'js');
 var CSS = path.resolve(ROOT, 'css');
 
+var ENVS = {
+   'altdev': {
+        apiRoot: 'https://marketplace-altdev.allizom.org',
+        mediaRoot: 'https://marketplace-altdev-cdn.allizom.org/media/',
+    },
+    dev: {
+        apiRoot: 'https://marketplace-dev.allizom.org',
+        mediaRoot: 'https://marketplace-dev.mozflare.net/media/',
+    },
+    stage: {
+        apiRoot: 'https://marketplace.allizom.org',
+        mediaRoot: 'https://marketplace-stage.cdn.mozilla.net/media/',
+    },
+    prod: {
+        apiRoot: 'https://marketplace.firefox.com',
+        mediaRoot: 'https://marketplace.cdn.mozilla.net/media/',
+    }
+};
+
 var browserifyArgs = watchify.args;
 browserifyArgs.debug = process.NODE_ENV !== 'production';
 var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
@@ -32,10 +51,8 @@ var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
         optional: ['es7.asyncFunctions', 'runtime']
     }))
     .transform(envify({
-        MKT_API_ROOT: process.env.MKT_API_ROOT ||
-                      'https://marketplace-dev.allizom.org/',
-        MKT_MEDIA_ROOT: process.env.MKT_MEDIA_ROOT ||
-                        'https://marketplace.cdn.mozilla.net/media/',
+        MKT_API_ROOT: ENVS[process.env.MKT_ENV || 'dev'].apiRoot,
+        MKT_MEDIA_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mediaRoot
     }))
     .transform(reactify)
     .transform(liveReactLoad);
