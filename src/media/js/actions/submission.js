@@ -12,6 +12,8 @@ export default class SubmissionActions extends Actions {
     return await new Promise(resolve => {
       Promise.all([this.getMobileFriendlyData(url), this.getMetadata(url)])
         .then(results => {
+          let mobileFriendlyData;
+          let metadata;
           [mobileFriendlyData, metadata] = results;
           resolve({
             mobileFriendlyData: mobileFriendlyData,

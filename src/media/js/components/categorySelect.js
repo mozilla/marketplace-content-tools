@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React from 'react';
 import Select from 'react-select';
 
@@ -26,17 +27,27 @@ const categories = [
 export {categories}
 
 
-class CategorySelectGroup extends React.Component {
+class CategoryGroupSelect extends React.Component {
   render() {
+    let requiredMsgStyle = {};
+    if (!this.props.showRequiredMsg) {
+      requiredMsgStyle.display = 'none';
+    }
+
     return <div className="category-select-group">
-      <CategorySelect name="category1" placeholder="Select first category..."
-                      required/>
+      <p className="category-select-group-required-msg"
+         style={requiredMsgStyle}>
+        You must select at least one category.
+      </p>
+      <CategorySelect name="category1"
+                      placeholder="Select first category..."
+                      indicateRequired={this.props.showRequiredMsg}/>
       <CategorySelect name="category2"
                       placeholder="Select second category..."/>
     </div>
   }
 }
-export {CategorySelectGroup}
+export {CategoryGroupSelect}
 
 
 export default class CategorySelect extends React.Component {
@@ -48,14 +59,13 @@ export default class CategorySelect extends React.Component {
     this.setState({value: newValue});
   }
   render() {
-    // Use react-select as a frontend to hidden input.
-    const hiddenStyle = {display: 'none'};
-
-    return <div className="category-select">
-      <Select {...this.props} options={categories}
+    const selectClassnames = classnames({
+      ['category-select']: true,
+      ['category-select--required']: this.props.indicateRequired
+    });
+    return <div className={selectClassnames}>
+      <Select {...this.props} options={categories} ref="select"
               onChange={e => this.handleChange(e)} value={this.state.value}/>
-      <input {...this.props} style={hiddenStyle} type="hidden"
-             value={this.state.value}/>
     </div>
   }
 }

@@ -1,6 +1,7 @@
+import _ from 'lodash';
 import React from 'react';
 
-import {CategorySelectGroup} from './categorySelect';
+import {CategoryGroupSelect} from './categorySelect';
 import RegionSelect from './regionSelect';
 
 
@@ -13,8 +14,10 @@ const SubmissionMetadataForm = React.createClass({
     // Have to manage controlled props. A lot of workaround to allow checked
     // by default.
     return {
-      worldwideChecked: true,
-      attributeChecked: true
+      attributeChecked: true,
+      showCategoryRequiredMsg: false,
+      showRegionsRequiredMsg: false,
+      worldwideChecked: true
     };
   },
   debugFill() {
@@ -35,15 +38,17 @@ const SubmissionMetadataForm = React.createClass({
     this.setState({attributeChecked: !this.state.attributionChecked});
   },
   handleSubmit(e) {
+    // Only called once the form is completely validated.
     e.preventDefault();
-    this.props.flux.getActions('submission').submitMetadata(
-      this.serializeFormData(e.currentTarget));
+
+    if (this.isValid()) {
+      this.props.flux.getActions('submission').submitMetadata(
+        this.serializeFormData(e.currentTarget));
+    }
   },
   serializeFormData(form) {
-    let categories = [form.elements.category1.value];
-    if (form.elements.category2) {
-      categories.push(form.elements.category2.value);
-    }
+    let categories = _.filter([form.elements.category1.value,
+                               form.elements.category2.value]);
 
     return {
       attribute: this.state.attributeChecked,
@@ -52,10 +57,31 @@ const SubmissionMetadataForm = React.createClass({
       keywords: form.elements.siteKeywords.value.split(','),
       name: form.elements.siteName.value,
       reason: form.elements.siteReason.value,
+      regions: form.elements.siteRegions.value,
       submitterEmail: form.elements.submitterEmail.value,
       url: form.elements.siteUrl.value,
       worldwide: this.state.worldwideChecked,
     };
+  },
+  isValid() {
+    // Handle validation not handled by HTML5. Triggered on button onClick.
+    const form = React.findDOMNode(this.refs.form);
+    let isValid = true;
+
+    if (!form.elements.category1.value && !form.elements.category2.value) {
+      this.setState({showCategoryRequiredMsg: true});
+      isValid = false;
+    }
+    if (!this.state.worldwideChecked && !form.elements.siteRegions.value) {
+      this.setState({showRegionsRequiredMsg: true});
+      isValid = false;
+    }
+
+    return isValid;
+  },
+  showErrors() {
+    this.isValid();
+    return true;
   },
   render() {
     const worldwideProps = {};
@@ -101,7 +127,8 @@ const SubmissionMetadataForm = React.createClass({
 
         <div className="form-block--group">
           <label>Categories</label>
-          <CategorySelectGroup/>
+          <CategoryGroupSelect
+             showRequiredMsg={this.state.showCategoryRequiredMsg}/>
         </div>
 
         <div className="form-block--group">
@@ -128,7 +155,8 @@ const SubmissionMetadataForm = React.createClass({
 
             <div style={{display: this.state.worldwideChecked ?
                                   'none' : 'block'}}>
-              <RegionSelect multi={true}/>
+              <RegionSelect multi={true} name="siteRegions"
+                 showRequiredMsg={this.state.showRegionsRequiredMsg}/>
             </div>
           </div>
         </div>
@@ -167,7 +195,9 @@ const SubmissionMetadataForm = React.createClass({
                  value={this.props.email}/>
         </div>
 
-        <button type="submit">Finish & Submit</button>
+        <button onClick={this.showErrors} type="submit">
+          Finish & Submit
+        </button>
       </form>
 
       <img className="submission--screenshot"

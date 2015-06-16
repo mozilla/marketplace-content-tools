@@ -37,6 +37,59 @@ describe('SubmissionMetadataForm', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}
                                                                flux={flux}/>);
     form.debugFill();
+    assert.ok(form.isValid(true));
     ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
+  });
+
+  it('does not submit with no category', done => {
+    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    assert.notOk(form.state.showCategoryRequiredMsg);
+
+    form.debugFill();
+
+    const domForm = ReactDOMHelper.queryTag(form, 'form');
+    React.findDOMNode(domForm).elements.category1.value = '';
+    ReactDOMHelper.submit(domForm);
+
+    assert.notOk(form.isValid(true));
+
+    setTimeout(() => {
+      assert.ok(form.state.showCategoryRequiredMsg);
+      done();
+    });
+  });
+
+  it('does not submit with no regions if not worldwide', done => {
+    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    assert.notOk(form.state.showRegionsRequiredMsg);
+
+    form.debugFill();
+    form.setState({worldwideChecked: false}, () => {
+      assert.notOk(form.isValid(true));
+
+      setTimeout(() => {
+        assert.ok(form.state.showRegionsRequiredMsg);
+        done();
+      });
+    });
+  });
+
+  it('does submit with regions if not worldwide', done => {
+    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    assert.notOk(form.state.showRegionsRequiredMsg);
+
+    form.debugFill();
+    form.setState({worldwideChecked: false}, () => {
+      const domForm = React.findDOMNode(ReactDOMHelper.queryTag(form, 'form'));
+      domForm.elements.category1.value = 'games';
+      domForm.elements.siteRegions.value = 'usa,canada';
+
+      assert.ok(form.isValid(true));
+
+      setTimeout(() => {
+        assert.notOk(form.state.showRegionsRequiredMsg);
+        done();
+      });
+    });
   });
 });

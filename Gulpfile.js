@@ -10,7 +10,6 @@ var envify = require('envify/custom');
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
 var imgUrlCachebust = require('gulp-css-img-cachebust');
-var liveReactLoad = require('livereactload');
 var minifyCss = require('gulp-minify-css');
 var nib = require('nib');
 var reactify = require('reactify');
@@ -54,8 +53,7 @@ var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
         MKT_API_ROOT: ENVS[process.env.MKT_ENV || 'dev'].apiRoot,
         MKT_MEDIA_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mediaRoot
     }))
-    .transform(reactify)
-    .transform(liveReactLoad);
+    .transform(reactify);
 
 
 gulp.task('css', function() {
