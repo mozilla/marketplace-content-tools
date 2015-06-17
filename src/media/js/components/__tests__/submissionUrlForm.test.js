@@ -22,8 +22,8 @@ describe('SubmissionUrlForm', () => {
     });
 
     const form = ReactDOMHelper.render(<SubmissionUrlForm flux={flux}/>);
-    const input = React.findDOMNode(ReactDOMHelper.queryTag(form, 'input'));
-    input.value = 'http://ngokevin.com';
+    const input = ReactDOMHelper.queryTag(form, 'input');
+    ReactDOMHelper.change(input, {target: {value: 'http://ngokevin.com'}});
     ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
   });
 });

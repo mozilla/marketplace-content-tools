@@ -2,10 +2,17 @@ import React from 'react';
 
 
 const SubmissionUrlForm = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
   propTypes: {
     mobileFriendlyData: React.PropTypes.object,
     successfullySubmittedUrl: React.PropTypes.string,
     url: React.PropTypes.string
+  },
+  getInitialState() {
+    return {
+      // this.props.url only for initializing from store.
+      submissionUrl: this.props.url
+    };
   },
   renderSuccessMsg() {
     if (this.props.successfullySubmittedUrl) {
@@ -53,8 +60,8 @@ const SubmissionUrlForm = React.createClass({
                  onSubmit={onSubmit}>
         <label htmlFor="submission--url">URL:</label>
         <input id="submission--url" className="submission--url"
-               name="submissionUrl" placeholder={placeholder}
-               required type="url"/>
+               name="submissionUrl" placeholder={placeholder} required
+               type="url" valueLink={this.linkState('submissionUrl')}/>
         <button type="submit">Submit</button>
       </form>
     </div>
