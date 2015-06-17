@@ -54,7 +54,7 @@ const SubmissionUrlForm = React.createClass({
         <label htmlFor="submission--url">URL:</label>
         <input id="submission--url" className="submission--url"
                name="submissionUrl" placeholder={placeholder}
-               required type="text"/>
+               required type="url"/>
         <button type="submit">Submit</button>
       </form>
     </div>
