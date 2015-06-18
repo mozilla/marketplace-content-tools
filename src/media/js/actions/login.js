@@ -12,7 +12,7 @@ export default class LoginActions extends Actions {
   startLogin(popup) {
     return popup;
   }
-  async login(authResponse, authState, clientId) {
+  login(authResponse, authState, clientId) {
     let data = {
       auth_response: authResponse,
       state: authState,
@@ -21,7 +21,7 @@ export default class LoginActions extends Actions {
       data.client_id = clientId;
     }
 
-    return await this.serverLogin(data);
+    return this.serverLogin(data);
   }
   logout() {
     // Post logout data to server.
