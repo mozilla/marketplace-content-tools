@@ -1,12 +1,28 @@
-import {Actions, Flummox, Store} from 'flummox';
-import FluxComponent from 'flummox/component';
-
 import req from '../request';
 
 
-global.assert = require('chai').assert;
-global.jsdom = require('mocha-jsdom');
+/*
+  Force React to recognize that a DOM is available.
+  - React will check whether a DOM is available.
+  - Requiring React now will have issues since there is currently no DOM.
+  - We know that we will generate a DOM later within every Mocha test.
+  - Fake a window so that react/lib/ExecutionEnvironment's canUseDOM
+    initializes correctly.
+*/
+const _jsdom = require('jsdom');
+global.document = _jsdom.jsdom('<html><body></body></html>');
+global.window = document.parentWindow;
+global.navigator = window.navigator;
 global.React = require('react/addons');
+
+// Require these AFTER setting up React or else it will initialize too early.
+const Actions = require('flummox').Actions;
+const Flummox = require('flummox').Flummox;
+const FluxComponent = require('flummox/component');
+const Store = require('flummox').Store;
+
+global.assert = require('chai').assert;
+global.jsdom = require('mocha-jsdom').bind(this, {skipWindowCheck: true});
 global.sinon = require('sinon');
 global.TestUtils = React.addons.TestUtils;
 

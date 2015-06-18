@@ -5,6 +5,17 @@ import SubmissionMetadataForm from '../submissionMetadataForm';
 describe('SubmissionMetadataForm', () => {
   jsdom();
 
+  let fakeState = {};
+  beforeEach(() => {
+    fakeState = {
+      siteCategory1: 'games',
+      siteDescription: 'Experience the magic.',
+      siteKeywords: 'legendary, awesome, wazzup',
+      siteName: 'The Kevin Ngo Experience',
+      siteReason: 'Because high-five.'
+    };
+  });
+
   const props = {
     email: 'kngo@mozilla.com',
     url: 'http://ngokevin.com'
@@ -18,15 +29,15 @@ describe('SubmissionMetadataForm', () => {
   it('submits okay', (done) => {
     class SubmissionActions extends Actions {
       submitMetadata(data) {
-        assert.ok(data.attribute);
-        assert.ok(data.categories.length);
-        assert.ok(data.description);
-        assert.ok(data.keywords);
-        assert.ok(data.name);
-        assert.ok(data.reason);
-        assert.ok(data.submitterEmail);
-        assert.ok(data.url);
-        assert.ok(data.worldwide);
+        assert.ok(data.doAttribute, 'Check doAttribute');
+        assert.ok(data.categories.length, 'Check categories');
+        assert.ok(data.description, 'Check description');
+        assert.ok(data.keywords, 'Check keywords');
+        assert.ok(data.name, 'Check name');
+        assert.ok(data.reason, 'Check reason');
+        assert.ok(data.submitterEmail, 'Check email');
+        assert.ok(data.url, 'Check URL');
+        assert.ok(data.worldwide, 'Check worldwide');
         done();
       }
     }
@@ -36,26 +47,24 @@ describe('SubmissionMetadataForm', () => {
 
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}
                                                                flux={flux}/>);
-    form.debugFill();
-    assert.ok(form.isValid(true));
-    ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
+    form.setState(fakeState, () => {
+      assert.ok(form.isValid(true));
+      ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
+    });
   });
 
   it('does not submit with no category', done => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showCategoryRequiredMsg);
 
-    form.debugFill();
+    fakeState.siteCategory1 = '';
+    form.setState(fakeState, () => {
+      assert.notOk(form.isValid(true));
 
-    const domForm = ReactDOMHelper.queryTag(form, 'form');
-    React.findDOMNode(domForm).elements.category1.value = '';
-    ReactDOMHelper.submit(domForm);
-
-    assert.notOk(form.isValid(true));
-
-    setTimeout(() => {
-      assert.ok(form.state.showCategoryRequiredMsg);
-      done();
+      setTimeout(() => {
+        assert.ok(form.state.showCategoryRequiredMsg);
+        done();
+      });
     });
   });
 
@@ -63,8 +72,8 @@ describe('SubmissionMetadataForm', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    form.debugFill();
-    form.setState({worldwideChecked: false}, () => {
+    fakeState.siteWorldwide = false;
+    form.setState(fakeState, () => {
       assert.notOk(form.isValid(true));
 
       setTimeout(() => {
@@ -78,12 +87,9 @@ describe('SubmissionMetadataForm', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    form.debugFill();
-    form.setState({worldwideChecked: false}, () => {
-      const domForm = React.findDOMNode(ReactDOMHelper.queryTag(form, 'form'));
-      domForm.elements.category1.value = 'games';
-      domForm.elements.siteRegions.value = 'usa,canada';
-
+    fakeState.siteWorldwide = false;
+    fakeState.siteRegions = 'usa,canada';
+    form.setState(fakeState, () => {
       assert.ok(form.isValid(true));
 
       setTimeout(() => {

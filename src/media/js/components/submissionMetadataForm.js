@@ -45,11 +45,14 @@ const SubmissionMetadataForm = React.createClass({
   handleSiteCategory2Change(val) {
     this.setState({siteCategory2: val});
   },
-  handleSiteWorldwideChange() {
-    this.setState({siteWorldwide: !this.state.siteWorldwide});
-  },
   handleSiteDoAttributeChange() {
     this.setState({siteDoAttribute: !this.state.siteDoAttribute});
+  },
+  handleSiteRegionsChange(val) {
+    this.setState({siteRegions: val});
+  },
+  handleSiteWorldwideChange() {
+    this.setState({siteWorldwide: !this.state.siteWorldwide});
   },
   handleSubmit(e) {
     // Only called once the form is completely validated.
@@ -172,7 +175,9 @@ const SubmissionMetadataForm = React.createClass({
             <div style={{display: this.state.siteWorldwide ?
                                   'none' : 'block'}}>
               <RegionSelect multi={true} name="siteRegions"
-                 showRequiredMsg={this.state.showRegionsRequiredMsg}/>
+                 onChange={this.handleSiteRegionsChange}
+                 showRequiredMsg={this.state.showRegionsRequiredMsg}
+                 value={this.state.siteRegions}/>
             </div>
           </div>
         </div>

@@ -9,12 +9,6 @@ const RegionSelect = React.createClass({
   propTypes: {
     multi: React.PropTypes.boolean
   },
-  getInitialState() {
-    return {value: null};
-  },
-  handleChange(newValue) {
-    this.setState({value: newValue});
-  },
   render() {
     // Sort alphabetically.
     let regions = mktConstants.regions.REGION_CHOICES_SLUG;
@@ -39,9 +33,8 @@ const RegionSelect = React.createClass({
       <p className="region-select-required-msg" style={requiredMsgStyle}>
         You must select at least one region.
       </p>
-      <Select {...this.props} onChange={this.handleChange}
-              options={options} placeholder={placeholder}
-              value={this.state.value}/>
+      <Select {...this.props} options={options} placeholder={placeholder}
+              value={this.props.value}/>
     </div>
   }
 });
