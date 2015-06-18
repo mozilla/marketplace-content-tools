@@ -22,6 +22,7 @@ const FluxComponent = require('flummox/component');
 const Store = require('flummox').Store;
 
 global.assert = require('chai').assert;
+global.FluxTestUtils = require('flummox/test-utils');
 global.jsdom = require('mocha-jsdom').bind(this, {skipWindowCheck: true});
 global.sinon = require('sinon');
 global.TestUtils = React.addons.TestUtils;

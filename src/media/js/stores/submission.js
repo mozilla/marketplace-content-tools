@@ -41,7 +41,7 @@ export default class SubmissionStore extends WizardStore {
     });
   }
   _formatScreenshot(screenshot) {
-    screenshot = screenshot.data.replace(/_/g, '/').replace(/-/g, '+');
-    return `data:${screenshot.mime_type};base64,${screenshot}`;
+    let screenshotData = screenshot.data.replace(/_/g, '/').replace(/-/g, '+');
+    return `data:${screenshot.mime_type};base64,${screenshotData}`;
   }
 }
