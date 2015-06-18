@@ -47,7 +47,7 @@ var browserifyArgs = watchify.args;
 browserifyArgs.debug = process.NODE_ENV !== 'production';
 var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
     .transform(babelify.configure({
-        optional: ['es7.asyncFunctions', 'runtime']
+        optional: ['runtime']
     }))
     .transform(envify({
         MKT_API_ROOT: ENVS[process.env.MKT_ENV || 'dev'].apiRoot,

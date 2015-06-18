@@ -47,10 +47,6 @@ global.localStorage = {
 };
 
 
-sinon.stub(req, 'get', () => {});
-sinon.stub(req, 'post', () => {});
-
-
 afterEach(() => {
   localStorage.clear();
 });

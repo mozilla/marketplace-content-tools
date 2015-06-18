@@ -33,7 +33,7 @@ function transform(filename) {
     var content = fs.readFileSync(filename, 'utf8');
     return ReactTools.transform(
       babel.transform(content, {
-        optional: ['es7.asyncFunctions', 'runtime']
+        optional: ['runtime']
       }).code
     );
   }
