@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 
 import {CategoryGroupSelect} from './categorySelect';
+import LikertSelect from './likertSelect';
 import RegionSelect from './regionSelect';
 
 
@@ -24,7 +25,8 @@ const SubmissionMetadataForm = React.createClass({
       siteName: '',
       siteReason: '',
       siteRegions: '',
-      siteWorldwide: true
+      siteWorldwide: true,
+      siteWorksWell: ''
     };
   },
   debugFill() {
@@ -35,7 +37,8 @@ const SubmissionMetadataForm = React.createClass({
         siteDescription: 'Experience the magic.',
         siteKeywords: 'legendary, awesome, wazzup',
         siteName: 'The Kevin Ngo Experience',
-        siteReason: 'Because high-five.'
+        siteReason: 'Because high-five.',
+        siteWorksWell: 5
       });
     }
   },
@@ -53,6 +56,9 @@ const SubmissionMetadataForm = React.createClass({
   },
   handleSiteWorldwideChange() {
     this.setState({siteWorldwide: !this.state.siteWorldwide});
+  },
+  handleSiteWorksWellChange(val) {
+    this.setState({siteWorksWell: val});
   },
   handleSubmit(e) {
     // Only called once the form is completely validated.
@@ -75,6 +81,7 @@ const SubmissionMetadataForm = React.createClass({
       submitterEmail: this.props.email,
       url: this.props.url,
       worldwide: this.state.siteWorldwide,
+      worksWell: this.state.siteWorksWell
     };
   },
   isValid() {
@@ -180,6 +187,15 @@ const SubmissionMetadataForm = React.createClass({
                  value={this.state.siteRegions}/>
             </div>
           </div>
+        </div>
+
+        <div className="form-block--group">
+          <label>How well does this website work?</label>
+          <LikertSelect labels={['Very Poorly', 'Poorly', 'Okay', 'Well',
+                                 'Very Well']}
+                        name="worksWell"
+                        onChange={this.handleSiteWorksWellChange}
+                        required value={this.state.siteWorksWell}/>
         </div>
 
         <div className="form-block--group">

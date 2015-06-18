@@ -12,7 +12,8 @@ describe('SubmissionMetadataForm', () => {
       siteDescription: 'Experience the magic.',
       siteKeywords: 'legendary, awesome, wazzup',
       siteName: 'The Kevin Ngo Experience',
-      siteReason: 'Because high-five.'
+      siteReason: 'Because high-five.',
+      siteWorksWell: 'Because high-five.'
     };
   });
 
@@ -38,6 +39,7 @@ describe('SubmissionMetadataForm', () => {
         assert.ok(data.submitterEmail, 'Check email');
         assert.ok(data.url, 'Check URL');
         assert.ok(data.worldwide, 'Check worldwide');
+        assert.ok(data.worksWell, 5);
         done();
       }
     }
