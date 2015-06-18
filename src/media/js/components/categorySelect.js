@@ -27,7 +27,11 @@ const categories = [
 export {categories}
 
 
-class CategoryGroupSelect extends React.Component {
+const CategoryGroupSelect = React.createClass({
+  propTypes: {
+    onChangeCategory1: React.PropTypes.func,
+    onChangeCategory2: React.PropTypes.func
+  },
   render() {
     let requiredMsgStyle = {};
     if (!this.props.showRequiredMsg) {
@@ -40,33 +44,33 @@ class CategoryGroupSelect extends React.Component {
         You must select at least one category.
       </p>
       <CategorySelect name="category1"
+                      onChange={this.props.onChangeCategory1}
                       placeholder="Select first category..."
-                      indicateRequired={this.props.showRequiredMsg}/>
+                      indicateRequired={this.props.showRequiredMsg}
+                      value={this.props.valueCategory1 || undefined}/>
       <CategorySelect name="category2"
-                      placeholder="Select second category..."/>
+                      onChange={this.props.onChangeCategory2}
+                      placeholder="Select second category..."
+                      value={this.props.valueCategory2 || undefined}/>
     </div>
   }
-}
+});
 export {CategoryGroupSelect}
 
 
-export default class CategorySelect extends React.Component {
-  constructor() {
-    super();
-    this.state = {value: null};
-  }
-  handleChange(newValue) {
-    this.setState({value: newValue});
-  }
+const CategorySelect = React.createClass({
+  propTypes: {
+    onChange: React.PropTypes.func
+  },
   render() {
     const selectClassnames = classnames({
       ['category-select']: true,
       ['category-select--required']: this.props.indicateRequired
     });
     return <div className={selectClassnames}>
-      <Select {...this.props} options={categories} ref="select"
-              onChange={e => this.handleChange(e)} value={this.state.value}/>
+      <Select {...this.props} options={categories} ref="select"/>
     </div>
   }
-}
+});
 export {CategorySelect}
+export default CategorySelect;

@@ -6,36 +6,50 @@ import RegionSelect from './regionSelect';
 
 
 const SubmissionMetadataForm = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
   propTypes: {
     email: React.PropTypes.string.isRequired,
     url: React.PropTypes.string.isRequired
   },
   getInitialState() {
-    // Have to manage controlled props. A lot of workaround to allow checked
-    // by default.
     return {
       attributeChecked: true,
       showCategoryRequiredMsg: false,
       showRegionsRequiredMsg: false,
-      worldwideChecked: true
+      siteCategory1: '',
+      siteCategory2: '',
+      siteDescription: '',
+      siteDoAttribute: true,
+      siteKeywords: '',
+      siteName: '',
+      siteReason: '',
+      siteRegions: '',
+      siteWorldwide: true
     };
   },
   debugFill() {
     // On local dev, clicking on the image will fill out form fields.
     if (process.env.NODE_ENV !== 'production') {
-      const form = React.findDOMNode(this.refs.form);
-      form.elements.siteName.value = 'The Kevin Ngo Experience';
-      form.elements.siteKeywords.value = 'legendary, awesome, wazzup';
-      form.elements.siteDescription.value = 'Experience the magic.';
-      form.elements.category1.value = 'games';
-      form.elements.siteReason.value = 'Because high-five.';
+      this.setState({
+        siteCategory1: 'games',
+        siteDescription: 'Experience the magic.',
+        siteKeywords: 'legendary, awesome, wazzup',
+        siteName: 'The Kevin Ngo Experience',
+        siteReason: 'Because high-five.'
+      });
     }
   },
-  handleWorldwideChange() {
-    this.setState({worldwideChecked: !this.state.worldwideChecked});
+  handleSiteCategory1Change(val) {
+    this.setState({siteCategory1: val});
   },
-  handleAttributionChange() {
-    this.setState({attributeChecked: !this.state.attributionChecked});
+  handleSiteCategory2Change(val) {
+    this.setState({siteCategory2: val});
+  },
+  handleSiteWorldwideChange() {
+    this.setState({siteWorldwide: !this.state.siteWorldwide});
+  },
+  handleSiteDoAttributeChange() {
+    this.setState({siteDoAttribute: !this.state.siteDoAttribute});
   },
   handleSubmit(e) {
     // Only called once the form is completely validated.
@@ -46,33 +60,29 @@ const SubmissionMetadataForm = React.createClass({
         this.serializeFormData(e.currentTarget));
     }
   },
-  serializeFormData(form) {
-    let categories = _.filter([form.elements.category1.value,
-                               form.elements.category2.value]);
-
+  serializeFormData() {
     return {
-      attribute: this.state.attributeChecked,
-      categories: categories,
-      description: form.elements.siteDescription.value,
-      keywords: form.elements.siteKeywords.value.split(','),
-      name: form.elements.siteName.value,
-      reason: form.elements.siteReason.value,
-      regions: form.elements.siteRegions.value,
-      submitterEmail: form.elements.submitterEmail.value,
-      url: form.elements.siteUrl.value,
-      worldwide: this.state.worldwideChecked,
+      categories: [this.state.siteCategory1, this.state.siteCategory2],
+      description: this.state.siteDescription,
+      doAttribute: this.state.siteDoAttribute,
+      keywords: this.state.siteKeywords,
+      name: this.state.siteName,
+      reason: this.state.siteReason,
+      regions: this.state.siteRegions,
+      submitterEmail: this.props.email,
+      url: this.props.url,
+      worldwide: this.state.siteWorldwide,
     };
   },
   isValid() {
     // Handle validation not handled by HTML5. Triggered on button onClick.
-    const form = React.findDOMNode(this.refs.form);
     let isValid = true;
 
-    if (!form.elements.category1.value && !form.elements.category2.value) {
+    if (!this.state.siteCategory1) {
       this.setState({showCategoryRequiredMsg: true});
       isValid = false;
     }
-    if (!this.state.worldwideChecked && !form.elements.siteRegions.value) {
+    if (!this.state.siteWorldwide && !this.state.siteRegions) {
       this.setState({showRegionsRequiredMsg: true});
       isValid = false;
     }
@@ -84,17 +94,17 @@ const SubmissionMetadataForm = React.createClass({
     return true;
   },
   render() {
-    const worldwideProps = {};
-    if (this.state.worldwideChecked) {
-      worldwideProps.checked = true;
+    const siteWorldwideProps = {};
+    if (this.state.siteWorldwide) {
+      siteWorldwideProps.checked = true;
     }
-    const attributionProps = {};
+    const siteDoAttributeProps = {};
     if (this.state.attributeChecked) {
-      attributionProps.checked = true;
+      siteDoAttributeProps.checked = true;
     }
 
     return <div className="submission--metadata">
-      <form className="form-block" onSubmit={this.handleSubmit} ref="form">
+      <form className="form-block" onSubmit={this.handleSubmit}>
         <p>
           This site has successfully been detected as mobile-friendly! Please
           fill in more information about the website below and our Marketplace
@@ -104,7 +114,8 @@ const SubmissionMetadataForm = React.createClass({
 
         <div className="form-block--group">
           <label>Name</label>
-          <input name="siteName" required type="text"/>
+          <input name="siteName" required type="text"
+                 valueLink={this.linkState('siteName')}/>
         </div>
 
         <div className="form-block--group">
@@ -114,46 +125,51 @@ const SubmissionMetadataForm = React.createClass({
         </div>
 
         <div className="form-block--group">
-          <label htmlFor="submission--keywords">Keywords</label>
-          <input id="submission--keywords" name="siteKeywords" required
-                 type="text"/>
+          <label htmlFor="site--keywords">Keywords</label>
+          <input id="site--keywords" name="siteKeywords" required
+                 type="text" valueLink={this.linkState('siteKeywords')}/>
         </div>
 
         <div className="form-block--group">
-          <label htmlFor="submission--description">Description</label>
-          <textarea id="submission--description" name="siteDescription"
-                    required rows="10" type="text"/>
+          <label htmlFor="site--description">Description</label>
+          <textarea id="site--description" name="siteDescription"
+                    required rows="10" type="text"
+                    valueLink={this.linkState('siteDescription')}/>
         </div>
 
         <div className="form-block--group">
           <label>Categories</label>
           <CategoryGroupSelect
-             showRequiredMsg={this.state.showCategoryRequiredMsg}/>
+             onChangeCategory1={this.handleSiteCategory1Change}
+             onChangeCategory2={this.handleSiteCategory2Change}
+             showRequiredMsg={this.state.showCategoryRequiredMsg}
+             valueCategory1={this.state.siteCategory1}
+             valueCategory2={this.state.siteCategory2}/>
         </div>
 
         <div className="form-block--group">
           <label>Is this useful for a worldwide audience?</label>
 
           <div className="form-block--radio">
-            <input id="submission--worldwide-no" name="siteWorldwide"
-                   onChange={this.handleWorldwideChange}
+            <input id="site--worldwide-no" name="siteWorldwide"
+                   onChange={this.handleSiteWorldwideChange}
                    type="radio">
             </input>
-            <label htmlFor="submission--worldwide-no">
+            <label htmlFor="site--worldwide-no">
               No
             </label>
           </div>
 
           <div className="form-block--radio">
-            <input id="submission--worldwide-yes" name="siteWorldwide"
-                   onChange={this.handleWorldwideChange}
-                   type="radio" {...worldwideProps}>
+            <input id="site--worldwide-yes" name="siteWorldwide"
+                   onChange={this.handleSiteWorldwideChange}
+                   type="radio" {...siteWorldwideProps}>
             </input>
-            <label htmlFor="submission--worldwide-yes">
+            <label htmlFor="site--worldwide-yes">
               Yes
             </label>
 
-            <div style={{display: this.state.worldwideChecked ?
+            <div style={{display: this.state.siteWorldwide ?
                                   'none' : 'block'}}>
               <RegionSelect multi={true} name="siteRegions"
                  showRequiredMsg={this.state.showRegionsRequiredMsg}/>
@@ -162,37 +178,35 @@ const SubmissionMetadataForm = React.createClass({
         </div>
 
         <div className="form-block--group">
-          <label htmlFor="submission--reason">
+          <label htmlFor="site--reason">
             Why is this site a good addition for the Firefox Marketplace?
           </label>
-          <textarea id="submission--reason" name="siteReason" required
-                    rows="10"/>
+          <textarea id="site--reason" name="siteReason" required
+                    rows="10" valueLink={this.linkState('siteReason')}/>
         </div>
 
         <div className="form-block--group">
           <label>Would you like public credit for submitting this site?</label>
 
           <div className="form-block--radio">
-            <input id="submission--attribution-no" name="siteAttribute"
-                   onChange={this.handleAttributionChange}
+            <input id="site--do-attribute-no" name="siteDoAttribute"
+                   onChange={this.handleSiteDoAttributeChange}
                    type="radio">
             </input>
-            <label htmlFor="submission--attribution-no">
+            <label htmlFor="site--do-attribute-no">
               No
             </label>
           </div>
 
           <div className="form-block--radio">
-            <input id="submission--attribution-yes" name="siteAttribute"
-                   onChange={this.handleAttributionChange}
-                   type="radio" {...attributionProps}>
+            <input id="site--do-attribute-yes" name="siteDoAttribute"
+                   onChange={this.handleSiteDoAttributeChange}
+                   type="radio" {...siteDoAttributeProps}>
             </input>
-            <label htmlFor="submission--attribution-yes">
+            <label htmlFor="site--do-attribute-yes">
               Yes
             </label>
           </div>
-          <input name="submitterEmail" type="hidden"
-                 value={this.props.email}/>
         </div>
 
         <button onClick={this.showErrors} type="submit">
@@ -200,7 +214,7 @@ const SubmissionMetadataForm = React.createClass({
         </button>
       </form>
 
-      <img className="submission--screenshot"
+      <img className="site--screenshot"
            onClick={this.debugFill}
            src={this.props.mobileFriendlyData &&
                 this.props.mobileFriendlyData.screenshot}/>
