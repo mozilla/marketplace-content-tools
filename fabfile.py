@@ -47,7 +47,8 @@ def deploy_jenkins():
     r.local_install()
     r.remote_install(['web'])
 
-    deploy_build_id(settings.PROJECT_NAME)
+    # disable deploy_build_id
+    # deploy_build_id(settings.PROJECT_NAME)
 
 
 @task
