@@ -28,7 +28,7 @@ def pre_update(ref):
 
 
 @task
-def update():
+def build():
     with lcd(PROJECT_NAME):
         local('npm install')
         local('NODE_ENV=production MKT_ENV=%s node_modules/.bin/gulp build' %
@@ -36,13 +36,13 @@ def update():
 
 
 @task
-def deploy():
-    helpers.deploy(name=settings.PROJECT_NAME,
-                   app_dir='marketplace-submission',
-                   env=settings.ENV,
-                   cluster=settings.CLUSTER,
-                   domain=settings.DOMAIN,
-                   root=ROOT)
+def deploy_jenkins():
+    r = helpers.build_rpm(name=settings.PROJECT_NAME,
+                          app_dir='marketplace-submission',
+                          env=settings.ENV,
+                          cluster=settings.CLUSTER,
+                          domain=settings.DOMAIN,
+                          root=ROOT)
 
     r.local_install()
     r.remote_install(['web'])
