@@ -13,10 +13,11 @@ import Submission from './components/handlers/submission';
 var Route = Router.Route;
 var routes = <Route name="app" path="/" handler={App}>
   <Route handler={SubmissionRedirect}/>
-  <Route name="login" path="/login" handler={Login}/>
   <Route name="fxaLogin" path="/fxa-authorize" handler={FxaLogin}/>
+  <Route name="login" path="/login" handler={Login}/>
   <Route name="review" path="/review" handler={Review}/>
-  <Route name="submission" path="/submission" handler={loginRequired(Submission)}/>
+  <Route name="submission" path="/submission/"
+         handler={loginRequired(Submission)}/>
 </Route>
 
 

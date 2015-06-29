@@ -3,7 +3,7 @@ import React from 'react';
 
 var SubmissionRedirect = React.createClass({
   statics: {
-    willTransitionTo: (transition) => {
+    willTransitionTo: transition => {
       transition.redirect('submission');
     }
   },
