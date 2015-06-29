@@ -9,8 +9,9 @@ import Wizard from '../wizard';
 const Submission = React.createClass({
   render() {
     const metadataStoreConnector = {
-      'submission': null,
-      'user': store => store.getEmail()
+      submission: null,
+      submissionMetadataForm: null,
+      user: store => store.getEmail()
     };
 
     const steps = [

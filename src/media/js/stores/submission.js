@@ -5,13 +5,19 @@ import WizardStore from './wizard';
 
 export default class SubmissionStore extends WizardStore {
   constructor(flux) {
-    super(flux, {key: 'SubmissionStore'});
+    super(flux, {
+        key: 'SubmissionStore'
+    });
 
     const submitActions = flux.getActionIds('submission');
     this.register(submitActions.submitUrl, this.submitUrlHandler);
-    this.register(submitActions.submitMetadata, this.submitMetadataHandler);
     this.register(submitActions.setNumSteps, this.setNumSteps);
     this.register(submitActions.goToStep, this.goToStep);
+
+    const submitMetadataFormActions = flux.getActionIds(
+      'submissionMetadataForm');
+    this.register(submitMetadataFormActions.submitMetadata,
+                  this.submitMetadataHandler);
 
     delete this.state.successfullySubmittedUrl;
  }

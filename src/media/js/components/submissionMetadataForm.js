@@ -7,31 +7,20 @@ import RegionSelect from './regionSelect';
 
 
 const SubmissionMetadataForm = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
   propTypes: {
     email: React.PropTypes.string.isRequired,
     url: React.PropTypes.string.isRequired
   },
   getInitialState() {
     return {
-      category1: '',
-      category2: '',
-      description: '',
-      keywords: '',
-      name: '',
-      preferred_regions: [],
-      public_credit: true,
       showCategoryRequiredMsg: false,
-      showRegionsRequiredMsg: false,
-      why_relevant: '',
-      worldwide: true,
-      works_well: ''
+      showRegionsRequiredMsg: false
     };
   },
   debugFill() {
     // On local dev, clicking on the image will fill out form fields.
     if (process.env.NODE_ENV !== 'production') {
-      this.setState({
+      this.props.flux.getActions('submissionMetadataForm').setFormData({
         category1: 'games',
         description: 'Experience the magic.',
         keywords: 'legendary, awesome, wazzup',
@@ -41,56 +30,57 @@ const SubmissionMetadataForm = React.createClass({
       });
     }
   },
-  handlePublicCreditChange() {
-    this.setState({public_credit: !this.state.public_credit});
-  },
-  handleCategory1Change(val) {
-    this.setState({category1: val});
-  },
-  handleCategory2Change(val) {
-    this.setState({category2: val});
+  handleChange(formFieldName, isBool) {
+    // Generates a function that handles a field onChange and fire the data
+    // off to update store state.
+    return val => {
+      if (isBool) {
+        val = !this.props[formFieldName];
+      } else if (val.target) {
+        val = val.target.value;
+      }
+      this.props.flux.getActions('submissionMetadataForm').setFormData({
+        [formFieldName]: val
+      });
+    };
   },
   handlePreferredRegionsChange(val) {
-    this.setState({preferred_regions: val.split(',')});
-  },
-  handleWorldwideChange() {
-    this.setState({worldwide: !this.state.worldwide});
-  },
-  handleWorksWellChange(val) {
-    this.setState({works_well: val});
+    this.props.flux.getActions('submissionMetadataForm').setFormData({
+      preferred_regions: val.split(',')
+    });
   },
   handleSubmit(e) {
     // Only called once the form is completely validated.
     e.preventDefault();
 
     if (this.isValid()) {
-      this.props.flux.getActions('submission').submitMetadata(
+      this.props.flux.getActions('submissionMetadataForm').submitMetadata(
         this.serializeFormData(e.currentTarget));
     }
   },
   serializeFormData() {
     return {
-      categories: [this.state.category1, this.state.category2],
-      description: this.state.description,
-      keywords: this.state.keywords,
-      name: this.state.name,
-      preferred_regions: this.state.preferred_regions,
-      public_credit: this.state.public_credit,
+      categories: [this.props.category1, this.props.category2],
+      description: this.props.description,
+      keywords: this.props.keywords,
+      name: this.props.name,
+      preferred_regions: this.props.preferred_regions,
+      public_credit: this.props.public_credit,
       submitter: this.props.email,
       url: this.props.url,
-      why_relevant: this.state.why_relevant,
-      works_well: this.state.works_well
+      why_relevant: this.props.why_relevant,
+      works_well: this.props.works_well
     };
   },
   isValid() {
     // Handle validation not handled by HTML5. Triggered on button onClick.
     let isValid = true;
 
-    if (!this.state.category1) {
+    if (!this.props.category1) {
       this.setState({showCategoryRequiredMsg: true});
       isValid = false;
     }
-    if (!this.state.worldwide && !this.state.preferred_regions.length) {
+    if (!this.props.worldwide && !this.props.preferred_regions.length) {
       this.setState({showRegionsRequiredMsg: true});
       isValid = false;
     }
@@ -102,15 +92,6 @@ const SubmissionMetadataForm = React.createClass({
     return true;
   },
   render() {
-    const worldwideProps = {};
-    if (this.state.worldwide) {
-      worldwideProps.checked = true;
-    }
-    const publicCreditProps = {};
-    if (this.state.public_credit) {
-      publicCreditProps.checked = true;
-    }
-
     return <div className="submission--metadata">
       <form className="form-block" onSubmit={this.handleSubmit}>
         <p>
@@ -122,8 +103,8 @@ const SubmissionMetadataForm = React.createClass({
 
         <div className="form-block--group">
           <label>Name</label>
-          <input name="name" required type="text"
-                 valueLink={this.linkState('name')}/>
+          <input name="name" onChange={this.handleChange('name')} required
+                 type="text" value={this.props.name}/>
         </div>
 
         <div className="form-block--group">
@@ -134,25 +115,27 @@ const SubmissionMetadataForm = React.createClass({
 
         <div className="form-block--group">
           <label htmlFor="keywords">Keywords</label>
-          <input id="keywords" name="keywords" required
-                 type="text" valueLink={this.linkState('keywords')}/>
+          <input id="keywords" name="keywords"
+                 onChange={this.handleChange('keywords')} required
+                 type="text" value={this.props.keywords}/>
         </div>
 
         <div className="form-block--group">
           <label htmlFor="description">Description</label>
           <textarea id="description" name="description"
+                    onChange={this.handleChange('description')}
                     required rows="10" type="text"
-                    valueLink={this.linkState('description')}/>
+                    value={this.props.description}/>
         </div>
 
         <div className="form-block--group">
           <label>Categories</label>
           <CategoryGroupSelect
-             onChangeCategory1={this.handleCategory1Change}
-             onChangeCategory2={this.handleCategory2Change}
+             onChangeCategory1={this.handleChange('category1')}
+             onChangeCategory2={this.handleChange('category2')}
              showRequiredMsg={this.state.showCategoryRequiredMsg}
-             valueCategory1={this.state.category1}
-             valueCategory2={this.state.category2}/>
+             valueCategory1={this.props.category1}
+             valueCategory2={this.props.category2}/>
         </div>
 
         <div className="form-block--group">
@@ -160,28 +143,24 @@ const SubmissionMetadataForm = React.createClass({
 
           <div className="form-block--radio">
             <input id="worldwide-no" name="worldwide"
-                   onChange={this.handleWorldwideChange}
-                   type="radio">
+                   onChange={this.handleChange('worldwide', true)}
+                   type="radio" checked={!this.props.worldwide}>
             </input>
-            <label htmlFor="worldwide-no">
-              No
-            </label>
+            <label htmlFor="worldwide-no">No</label>
           </div>
 
           <div className="form-block--radio">
             <input id="worldwide-yes" name="worldwide"
-                   onChange={this.handleWorldwideChange}
-                   type="radio" {...worldwideProps}>
+                   onChange={this.handleChange('worldwide', true)}
+                   type="radio" checked={this.props.worldwide}>
             </input>
-            <label htmlFor="worldwide-yes">
-              Yes
-            </label>
+            <label htmlFor="worldwide-yes">Yes</label>
 
-            <div style={{display: this.state.worldwide ? 'none' : 'block'}}>
+            <div style={{display: this.props.worldwide ? 'none' : 'block'}}>
               <RegionSelect multi={true} name="preferred_regions"
                  onChange={this.handlePreferredRegionsChange}
                  showRequiredMsg={this.state.showRegionsRequiredMsg}
-                 value={this.state.preferred_regions}/>
+                 value={this.props.preferred_regions}/>
             </div>
           </div>
         </div>
@@ -191,16 +170,17 @@ const SubmissionMetadataForm = React.createClass({
           <LikertSelect labels={['Very Poorly', 'Poorly', 'Okay', 'Well',
                                  'Very Well']}
                         name="worksWell"
-                        onChange={this.handleWorksWellChange}
-                        required value={this.state.works_well}/>
+                        onChange={this.handleChange('works_well')}
+                        required value={this.props.works_well}/>
         </div>
 
         <div className="form-block--group">
           <label htmlFor="why-relevant">
             Why is this site a good addition for the Firefox Marketplace?
           </label>
-          <textarea id="why-relevant" name="why_relevant" required
-                    rows="10" valueLink={this.linkState('why_relevant')}/>
+          <textarea id="why-relevant" name="why_relevant"
+                    onChange={this.handleChange('why_relevant')}
+                    required rows="10" value={this.props.why_relevant}/>
         </div>
 
         <div className="form-block--group">
@@ -208,22 +188,18 @@ const SubmissionMetadataForm = React.createClass({
 
           <div className="form-block--radio">
             <input id="public-credit-no" name="public_credit"
-                   onChange={this.handlePublicCreditChange}
-                   type="radio">
+                   onChange={this.handleChange('public_credit', true)}
+                   type="radio" checked={!this.props.public_credit}>
             </input>
-            <label htmlFor="public-credit-no">
-              No
-            </label>
+            <label htmlFor="public-credit-no">No</label>
           </div>
 
           <div className="form-block--radio">
             <input id="public-credit-yes" name="public_credit"
-                   onChange={this.handlePublicCreditChange}
-                   type="radio" {...publicCreditProps}>
+                   onChange={this.handleChange('public_credit', true)}
+                   type="radio" checked={this.props.public_credit}>
             </input>
-            <label htmlFor="public-credit-yes">
-              Yes
-            </label>
+            <label htmlFor="public-credit-yes">Yes</label>
           </div>
         </div>
 
@@ -232,8 +208,7 @@ const SubmissionMetadataForm = React.createClass({
         </button>
       </form>
 
-      <img className="site--screenshot"
-           onClick={this.debugFill}
+      <img className="site--screenshot" onClick={this.debugFill}
            src={this.props.mobileFriendlyData &&
                 this.props.mobileFriendlyData.screenshot}/>
     </div>

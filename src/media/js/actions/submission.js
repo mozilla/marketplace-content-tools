@@ -21,12 +21,6 @@ const SubmissionActions = {
         });
     });
   },
-  submitMetadata(data) {
-    // Step 2: submit metadata to API.
-    return new Promise(resolve => {
-      resolve(data);
-    });
-  },
   getMetadata(url) {
     // TODO: scrape metadata from site.
     return new Promise(resolve => {

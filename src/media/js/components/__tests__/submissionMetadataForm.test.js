@@ -5,23 +5,22 @@ import SubmissionMetadataForm from '../submissionMetadataForm';
 describe('SubmissionMetadataForm', () => {
   jsdom();
 
-  let fakeState = {};
+  let props = {};
   beforeEach(() => {
-    fakeState = {
+    props = {
       category1: 'games',
       description: 'Experience the magic.',
+      email: 'kngo@mozilla.com',
       keywords: 'legendary, awesome, wazzup',
       name: 'The Kevin Ngo Experience',
       preferred_regions: [],
+      public_credit: true,
+      url: 'http://ngokevin.com',
       why_relevant: 'Because high-five.',
+      worldwide: true,
       works_well: 5
-    }
+    };
   });
-
-  const props = {
-    email: 'kngo@mozilla.com',
-    url: 'http://ngokevin.com'
-  };
 
   it('renders form', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
@@ -29,7 +28,7 @@ describe('SubmissionMetadataForm', () => {
   });
 
   it('submits okay', (done) => {
-    class SubmissionActions extends Actions {
+    class SubmissionMetadataFormActions extends Actions {
       submitMetadata(data) {
         assert.ok(data.categories.length, 'Check categories');
         assert.ok(data.description, 'Check description');
@@ -45,61 +44,56 @@ describe('SubmissionMetadataForm', () => {
       }
     }
     const flux = helpers.fluxFactory({
-      actions: [['submission', SubmissionActions]],
+      actions: [['submissionMetadataForm', SubmissionMetadataFormActions]],
     });
 
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}
                                                                flux={flux}/>);
-    form.setState(fakeState, () => {
-      assert.ok(form.isValid(true));
-      ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
-    });
+    assert.ok(form.isValid(), 'Form is valid');
+    ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
   });
 
   it('does not submit with no category', done => {
-    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showCategoryRequiredMsg);
 
-    fakeState.category1 = '';
-    form.setState(fakeState, () => {
-      assert.notOk(form.isValid(true));
+    props.category1 = '';
+    form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    assert.notOk(form.isValid());
 
-      setTimeout(() => {
-        assert.ok(form.state.showCategoryRequiredMsg);
-        done();
-      });
+    setTimeout(() => {
+      assert.ok(form.state.showCategoryRequiredMsg);
+      done();
     });
   });
 
   it('does not submit with no regions if not worldwide', done => {
-    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    fakeState.worldwide = false;
-    form.setState(fakeState, () => {
-      assert.notOk(form.isValid(true), 'Form should be invalid');
+    props.worldwide = false;
+    form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    assert.notOk(form.isValid(), 'Form should be invalid');
 
-      setTimeout(() => {
-        assert.ok(form.state.showRegionsRequiredMsg,
-                  'Regions message should be visible');
-        done();
-      });
+    setTimeout(() => {
+      assert.ok(form.state.showRegionsRequiredMsg,
+                'Regions message should be visible');
+      done();
     });
   });
 
   it('does submit with regions if not worldwide', done => {
-    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    fakeState.preferred_regions= ['usa', 'canada'];
-    fakeState.worldwide = false;
-    form.setState(fakeState, () => {
-      assert.ok(form.isValid(true));
+    props.preferred_regions= ['usa', 'canada'];
+    props.worldwide = false;
+    form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    assert.ok(form.isValid());
 
-      setTimeout(() => {
-        assert.notOk(form.state.showRegionsRequiredMsg);
-        done();
-      });
+    setTimeout(() => {
+      assert.notOk(form.state.showRegionsRequiredMsg);
+      done();
     });
   });
 });

@@ -16,7 +16,7 @@ describe('Submission', () => {
     const flux = helpers.fluxFactory({
       stores: [['user', UserStore]],
       stubActions: ['submission'],
-      stubStores: ['submission']
+      stubStores: ['submission', 'submissionMetadataForm']
     });
     const submission = helpers.fluxWrapper(<Submission/>, flux);
     const testSubmission = ReactDOMHelper.render(submission);
@@ -35,7 +35,7 @@ describe('Submission', () => {
     const flux = helpers.fluxFactory({
       actions: [['submission', SubmissionActions]],
       stores: [['user', UserStore]],
-      stubStores: ['submission']
+      stubStores: ['submission', 'submissionMetadataForm']
     });
 
     const submission = helpers.fluxWrapper(<Submission/>, flux);
