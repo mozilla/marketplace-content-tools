@@ -5,7 +5,7 @@ import WizardStore from './wizard';
 
 export default class SubmissionStore extends WizardStore {
   constructor(flux) {
-    super(flux);
+    super(flux, {key: 'SubmissionStore'});
 
     const submitActions = flux.getActionIds('submission');
     this.register(submitActions.submitUrl, this.submitUrlHandler);

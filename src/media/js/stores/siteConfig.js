@@ -8,6 +8,7 @@ import req from '../request';
 export default class SiteConfigStore extends LocalStore {
   constructor(flux) {
     super(flux, {
+      key: 'SiteConfigStore',
       serializer: state => {
         return {
           switches: state.switches

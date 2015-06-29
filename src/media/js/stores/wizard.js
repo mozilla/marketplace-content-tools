@@ -9,6 +9,7 @@ import LocalStore from 'flummox-localstore'
 export default class WizardStore extends LocalStore {
   constructor(flux) {
      super(flux, {
+        key: 'WizardStore',
         initialState: {
           activeStep: 0,
           highestStep: 0
