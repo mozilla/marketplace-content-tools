@@ -8,13 +8,14 @@ describe('SubmissionMetadataForm', () => {
   let fakeState = {};
   beforeEach(() => {
     fakeState = {
-      siteCategory1: 'games',
-      siteDescription: 'Experience the magic.',
-      siteKeywords: 'legendary, awesome, wazzup',
-      siteName: 'The Kevin Ngo Experience',
-      siteReason: 'Because high-five.',
-      siteWorksWell: 'Because high-five.'
-    };
+      category1: 'games',
+      description: 'Experience the magic.',
+      keywords: 'legendary, awesome, wazzup',
+      name: 'The Kevin Ngo Experience',
+      preferred_regions: [],
+      why_relevant: 'Because high-five.',
+      works_well: 5
+    }
   });
 
   const props = {
@@ -30,16 +31,16 @@ describe('SubmissionMetadataForm', () => {
   it('submits okay', (done) => {
     class SubmissionActions extends Actions {
       submitMetadata(data) {
-        assert.ok(data.doAttribute, 'Check doAttribute');
         assert.ok(data.categories.length, 'Check categories');
         assert.ok(data.description, 'Check description');
         assert.ok(data.keywords, 'Check keywords');
         assert.ok(data.name, 'Check name');
-        assert.ok(data.reason, 'Check reason');
-        assert.ok(data.submitterEmail, 'Check email');
+        assert.ok(data.public_credit, 'Check public_credit');
+        assert.equal(data.preferred_regions.length, 0, 'Check regions');
+        assert.ok(data.submitter, 'Check submitter');
+        assert.ok(data.why_relevant, 'Check why_relevant');
+        assert.equal(data.works_well, 5, 'Check works_well');
         assert.ok(data.url, 'Check URL');
-        assert.ok(data.worldwide, 'Check worldwide');
-        assert.ok(data.worksWell, 5);
         done();
       }
     }
@@ -59,7 +60,7 @@ describe('SubmissionMetadataForm', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showCategoryRequiredMsg);
 
-    fakeState.siteCategory1 = '';
+    fakeState.category1 = '';
     form.setState(fakeState, () => {
       assert.notOk(form.isValid(true));
 
@@ -74,12 +75,13 @@ describe('SubmissionMetadataForm', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    fakeState.siteWorldwide = false;
+    fakeState.worldwide = false;
     form.setState(fakeState, () => {
-      assert.notOk(form.isValid(true));
+      assert.notOk(form.isValid(true), 'Form should be invalid');
 
       setTimeout(() => {
-        assert.ok(form.state.showRegionsRequiredMsg);
+        assert.ok(form.state.showRegionsRequiredMsg,
+                  'Regions message should be visible');
         done();
       });
     });
@@ -89,8 +91,8 @@ describe('SubmissionMetadataForm', () => {
     const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    fakeState.siteWorldwide = false;
-    fakeState.siteRegions = 'usa,canada';
+    fakeState.preferred_regions= ['usa', 'canada'];
+    fakeState.worldwide = false;
     form.setState(fakeState, () => {
       assert.ok(form.isValid(true));
 

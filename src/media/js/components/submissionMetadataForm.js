@@ -14,51 +14,50 @@ const SubmissionMetadataForm = React.createClass({
   },
   getInitialState() {
     return {
-      attributeChecked: true,
+      category1: '',
+      category2: '',
+      description: '',
+      keywords: '',
+      name: '',
+      preferred_regions: [],
+      public_credit: true,
       showCategoryRequiredMsg: false,
       showRegionsRequiredMsg: false,
-      siteCategory1: '',
-      siteCategory2: '',
-      siteDescription: '',
-      siteDoAttribute: true,
-      siteKeywords: '',
-      siteName: '',
-      siteReason: '',
-      siteRegions: '',
-      siteWorldwide: true,
-      siteWorksWell: ''
+      why_relevant: '',
+      worldwide: true,
+      works_well: ''
     };
   },
   debugFill() {
     // On local dev, clicking on the image will fill out form fields.
     if (process.env.NODE_ENV !== 'production') {
       this.setState({
-        siteCategory1: 'games',
-        siteDescription: 'Experience the magic.',
-        siteKeywords: 'legendary, awesome, wazzup',
-        siteName: 'The Kevin Ngo Experience',
-        siteReason: 'Because high-five.',
-        siteWorksWell: 5
+        category1: 'games',
+        description: 'Experience the magic.',
+        keywords: 'legendary, awesome, wazzup',
+        name: 'The Kevin Ngo Experience',
+        why_relevant: 'Because high-five.',
+        works_well: 5
       });
     }
   },
-  handleSiteCategory1Change(val) {
-    this.setState({siteCategory1: val});
+  handlePublicCreditChange() {
+    this.setState({public_credit: !this.state.public_credit});
   },
-  handleSiteCategory2Change(val) {
-    this.setState({siteCategory2: val});
+  handleCategory1Change(val) {
+    this.setState({category1: val});
   },
-  handleSiteDoAttributeChange() {
-    this.setState({siteDoAttribute: !this.state.siteDoAttribute});
+  handleCategory2Change(val) {
+    this.setState({category2: val});
   },
-  handleSiteRegionsChange(val) {
-    this.setState({siteRegions: val});
+  handlePreferredRegionsChange(val) {
+    this.setState({preferred_regions: val.split(',')});
   },
-  handleSiteWorldwideChange() {
-    this.setState({siteWorldwide: !this.state.siteWorldwide});
+  handleWorldwideChange() {
+    this.setState({worldwide: !this.state.worldwide});
   },
-  handleSiteWorksWellChange(val) {
-    this.setState({siteWorksWell: val});
+  handleWorksWellChange(val) {
+    this.setState({works_well: val});
   },
   handleSubmit(e) {
     // Only called once the form is completely validated.
@@ -71,28 +70,27 @@ const SubmissionMetadataForm = React.createClass({
   },
   serializeFormData() {
     return {
-      categories: [this.state.siteCategory1, this.state.siteCategory2],
-      description: this.state.siteDescription,
-      doAttribute: this.state.siteDoAttribute,
-      keywords: this.state.siteKeywords,
-      name: this.state.siteName,
-      reason: this.state.siteReason,
-      regions: this.state.siteRegions,
-      submitterEmail: this.props.email,
+      categories: [this.state.category1, this.state.category2],
+      description: this.state.description,
+      keywords: this.state.keywords,
+      name: this.state.name,
+      preferred_regions: this.state.preferred_regions,
+      public_credit: this.state.public_credit,
+      submitter: this.props.email,
       url: this.props.url,
-      worldwide: this.state.siteWorldwide,
-      worksWell: this.state.siteWorksWell
+      why_relevant: this.state.why_relevant,
+      works_well: this.state.works_well
     };
   },
   isValid() {
     // Handle validation not handled by HTML5. Triggered on button onClick.
     let isValid = true;
 
-    if (!this.state.siteCategory1) {
+    if (!this.state.category1) {
       this.setState({showCategoryRequiredMsg: true});
       isValid = false;
     }
-    if (!this.state.siteWorldwide && !this.state.siteRegions) {
+    if (!this.state.worldwide && !this.state.preferred_regions.length) {
       this.setState({showRegionsRequiredMsg: true});
       isValid = false;
     }
@@ -104,13 +102,13 @@ const SubmissionMetadataForm = React.createClass({
     return true;
   },
   render() {
-    const siteWorldwideProps = {};
-    if (this.state.siteWorldwide) {
-      siteWorldwideProps.checked = true;
+    const worldwideProps = {};
+    if (this.state.worldwide) {
+      worldwideProps.checked = true;
     }
-    const siteDoAttributeProps = {};
-    if (this.state.attributeChecked) {
-      siteDoAttributeProps.checked = true;
+    const publicCreditProps = {};
+    if (this.state.public_credit) {
+      publicCreditProps.checked = true;
     }
 
     return <div className="submission--metadata">
@@ -124,67 +122,66 @@ const SubmissionMetadataForm = React.createClass({
 
         <div className="form-block--group">
           <label>Name</label>
-          <input name="siteName" required type="text"
-                 valueLink={this.linkState('siteName')}/>
+          <input name="name" required type="text"
+                 valueLink={this.linkState('name')}/>
         </div>
 
         <div className="form-block--group">
           <label>URL</label>
-          <input disabled={true} name="siteUrl" value={this.props.url}
+          <input disabled={true} name="url" value={this.props.url}
                  type="text"/>
         </div>
 
         <div className="form-block--group">
-          <label htmlFor="site--keywords">Keywords</label>
-          <input id="site--keywords" name="siteKeywords" required
-                 type="text" valueLink={this.linkState('siteKeywords')}/>
+          <label htmlFor="keywords">Keywords</label>
+          <input id="keywords" name="keywords" required
+                 type="text" valueLink={this.linkState('keywords')}/>
         </div>
 
         <div className="form-block--group">
-          <label htmlFor="site--description">Description</label>
-          <textarea id="site--description" name="siteDescription"
+          <label htmlFor="description">Description</label>
+          <textarea id="description" name="description"
                     required rows="10" type="text"
-                    valueLink={this.linkState('siteDescription')}/>
+                    valueLink={this.linkState('description')}/>
         </div>
 
         <div className="form-block--group">
           <label>Categories</label>
           <CategoryGroupSelect
-             onChangeCategory1={this.handleSiteCategory1Change}
-             onChangeCategory2={this.handleSiteCategory2Change}
+             onChangeCategory1={this.handleCategory1Change}
+             onChangeCategory2={this.handleCategory2Change}
              showRequiredMsg={this.state.showCategoryRequiredMsg}
-             valueCategory1={this.state.siteCategory1}
-             valueCategory2={this.state.siteCategory2}/>
+             valueCategory1={this.state.category1}
+             valueCategory2={this.state.category2}/>
         </div>
 
         <div className="form-block--group">
           <label>Is this useful for a worldwide audience?</label>
 
           <div className="form-block--radio">
-            <input id="site--worldwide-no" name="siteWorldwide"
-                   onChange={this.handleSiteWorldwideChange}
+            <input id="worldwide-no" name="worldwide"
+                   onChange={this.handleWorldwideChange}
                    type="radio">
             </input>
-            <label htmlFor="site--worldwide-no">
+            <label htmlFor="worldwide-no">
               No
             </label>
           </div>
 
           <div className="form-block--radio">
-            <input id="site--worldwide-yes" name="siteWorldwide"
-                   onChange={this.handleSiteWorldwideChange}
-                   type="radio" {...siteWorldwideProps}>
+            <input id="worldwide-yes" name="worldwide"
+                   onChange={this.handleWorldwideChange}
+                   type="radio" {...worldwideProps}>
             </input>
-            <label htmlFor="site--worldwide-yes">
+            <label htmlFor="worldwide-yes">
               Yes
             </label>
 
-            <div style={{display: this.state.siteWorldwide ?
-                                  'none' : 'block'}}>
-              <RegionSelect multi={true} name="siteRegions"
-                 onChange={this.handleSiteRegionsChange}
+            <div style={{display: this.state.worldwide ? 'none' : 'block'}}>
+              <RegionSelect multi={true} name="preferred_regions"
+                 onChange={this.handlePreferredRegionsChange}
                  showRequiredMsg={this.state.showRegionsRequiredMsg}
-                 value={this.state.siteRegions}/>
+                 value={this.state.preferred_regions}/>
             </div>
           </div>
         </div>
@@ -194,37 +191,37 @@ const SubmissionMetadataForm = React.createClass({
           <LikertSelect labels={['Very Poorly', 'Poorly', 'Okay', 'Well',
                                  'Very Well']}
                         name="worksWell"
-                        onChange={this.handleSiteWorksWellChange}
-                        required value={this.state.siteWorksWell}/>
+                        onChange={this.handleWorksWellChange}
+                        required value={this.state.works_well}/>
         </div>
 
         <div className="form-block--group">
-          <label htmlFor="site--reason">
+          <label htmlFor="why-relevant">
             Why is this site a good addition for the Firefox Marketplace?
           </label>
-          <textarea id="site--reason" name="siteReason" required
-                    rows="10" valueLink={this.linkState('siteReason')}/>
+          <textarea id="why-relevant" name="why_relevant" required
+                    rows="10" valueLink={this.linkState('why_relevant')}/>
         </div>
 
         <div className="form-block--group">
           <label>Would you like public credit for submitting this site?</label>
 
           <div className="form-block--radio">
-            <input id="site--do-attribute-no" name="siteDoAttribute"
-                   onChange={this.handleSiteDoAttributeChange}
+            <input id="public-credit-no" name="public_credit"
+                   onChange={this.handlePublicCreditChange}
                    type="radio">
             </input>
-            <label htmlFor="site--do-attribute-no">
+            <label htmlFor="public-credit-no">
               No
             </label>
           </div>
 
           <div className="form-block--radio">
-            <input id="site--do-attribute-yes" name="siteDoAttribute"
-                   onChange={this.handleSiteDoAttributeChange}
-                   type="radio" {...siteDoAttributeProps}>
+            <input id="public-credit-yes" name="public_credit"
+                   onChange={this.handlePublicCreditChange}
+                   type="radio" {...publicCreditProps}>
             </input>
-            <label htmlFor="site--do-attribute-yes">
+            <label htmlFor="public-credit-yes">
               Yes
             </label>
           </div>

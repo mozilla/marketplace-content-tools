@@ -56,8 +56,7 @@ const SubmissionUrlForm = React.createClass({
       {this.renderSuccessMsg()}
       {this.renderMobileFriendlyErr()}
 
-      <form className="form-inline submission--url-form"
-                 onSubmit={onSubmit}>
+      <form className="form-inline submission--url-form" onSubmit={onSubmit}>
         <label htmlFor="submission--url">URL:</label>
         <input id="submission--url" className="submission--url"
                name="submissionUrl" placeholder={placeholder} required
