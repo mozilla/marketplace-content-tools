@@ -5,21 +5,26 @@ import req from '../request';
 
 
 const WebsiteSubmissionsActions = {
-  getWebsiteSubmissions() {
+  fetch() {
     return new Promise(resolve => {
       if (process.env.NODE_ENV === 'test') {
         // Mock data.
-        resolve(new Array(10).map(() => {
-          return {
+        let submissions = [];
+        for (let i = 0; i < 10; i++) {
+          submissions.push({
+            id: i,
             categories: ['games', 'books-comics'],
-            description: 'Fake submission.',
+            description: `Fake submission ${i}.`,
             keywords: ['fake', 'submission'],
-            name: 'Fake Submission',
+            name: `Fake Submission ${i}`,
             preferred_regions: ['us', 'ca'],
             public_credit: true,
+            url: `http://xkcd.com/${i}/`,
             why_relevant: 'Because it is fake.',
             works_well: 4
-        }));
+          });
+        }
+        resolve(submissions);
       }
     });
   }

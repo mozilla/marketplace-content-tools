@@ -7,7 +7,7 @@ import LoginActions from './actions/login';
 import SiteConfigActions from './actions/siteConfig';
 import SubmissionActions from './actions/submission';
 import SubmissionMetadataFormActions from './actions/submissionMetadataForm';
-import WebsiteSubmissionsActionsfrom './stores/websiteSubmissionsActions';
+import WebsiteSubmissionsActions from './actions/websiteSubmissions';
 
 import ApiArgsStore from './stores/apiArgs';
 import LoginStore from './stores/login';

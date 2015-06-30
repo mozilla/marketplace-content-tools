@@ -163,7 +163,7 @@ export {LogoutButton as LogoutButton};
 const loginRequired = Component => {
   class AuthenticatedComponent extends React.Component {
     render() {
-      if(!this.props.isLoggedIn) {
+      if(!this.props.isLoggedIn && !process.env.NODE_ENV === 'test') {
         return <Login/>
       } else {
         return <Component {...this.props}/>

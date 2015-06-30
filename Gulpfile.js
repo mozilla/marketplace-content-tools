@@ -50,6 +50,7 @@ var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
         optional: ['runtime']
     }))
     .transform(envify({
+        NODE_ENV: process.env.NODE_ENV || '',
         MKT_API_ROOT: ENVS[process.env.MKT_ENV || 'dev'].apiRoot,
         MKT_MEDIA_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mediaRoot
     }))
