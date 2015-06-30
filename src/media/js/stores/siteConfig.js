@@ -1,8 +1,5 @@
 import LocalStore from 'flummox-localstore';
 import Url from 'urlgray';
-import urlJoin from 'url-join';
-
-import req from '../request';
 
 
 export default class SiteConfigStore extends LocalStore {

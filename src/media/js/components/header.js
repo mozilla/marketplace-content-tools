@@ -1,10 +1,14 @@
 import FluxComponent from 'flummox/component';
 import React from 'react';
+import Router from 'react-router';
 
 import {LoginButton, LogoutButton} from './login';
 
 
 let Header = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func
+  },
   userStateGetter(user) {
     return {
       displayName: user.getDisplayName(),
@@ -17,6 +21,12 @@ let Header = React.createClass({
         <p className="header--icon"/>
         <h1>Submission Tools</h1>
       </div>
+      <nav>
+        <li>
+          <Router.Link to="submission">Submission Tools</Router.Link>
+          <Router.Link to="review-listing">Reviewer Tools</Router.Link>
+        </li>
+      </nav>
       <FluxComponent connectToStores={{user: this.userStateGetter}}>
         <HeaderLogin isLoggedIn={false}/>
       </FluxComponent>

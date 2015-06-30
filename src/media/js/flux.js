@@ -7,6 +7,7 @@ import LoginActions from './actions/login';
 import SiteConfigActions from './actions/siteConfig';
 import SubmissionActions from './actions/submission';
 import SubmissionMetadataFormActions from './actions/submissionMetadataForm';
+import WebsiteSubmissionsActionsfrom './stores/websiteSubmissionsActions';
 
 import ApiArgsStore from './stores/apiArgs';
 import LoginStore from './stores/login';
@@ -14,6 +15,7 @@ import SiteConfigStore from './stores/siteConfig';
 import SubmissionStore from './stores/submission';
 import SubmissionMetadataFormStore from './stores/submissionMetadataForm';
 import UserStore from './stores/user';
+import WebsiteSubmissionsStore from './stores/websiteSubmissions';
 import WizardStore from './stores/wizard';
 
 
@@ -26,6 +28,7 @@ export default class Flux extends Flummox {
     this.createActions('submission', SubmissionActions);
     this.createActions('submissionMetadataForm',
                        SubmissionMetadataFormActions);
+    this.createActions('websiteSubmissions', WebsiteSubmissionsActions);
 
     this.createStore('apiArgs', ApiArgsStore, this);
     this.createStore('login', LoginStore, this);
@@ -34,6 +37,7 @@ export default class Flux extends Flummox {
     this.createStore('submissionMetadataForm', SubmissionMetadataFormStore,
                      this);
     this.createStore('user', UserStore, this);
+    this.createStore('websiteSubmissions', WebsiteSubmissionsStore, this);
 
     /* Initialize. */
     const siteConfigActions = this.getActions('siteConfig');
