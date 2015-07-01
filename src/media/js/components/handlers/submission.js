@@ -18,7 +18,7 @@ const Submission = React.createClass({
     const metadataStoreConnector = {
       submission: null,
       submissionMetadataForm: null,
-      user: store => store.getEmail()
+      user: store => ({submitter: store.getEmail()})
     };
 
     const steps = [

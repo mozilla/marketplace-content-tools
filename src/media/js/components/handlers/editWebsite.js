@@ -9,6 +9,10 @@ const EditWebsiteHandler = React.createClass({
   contextTypes: {
     router: React.PropTypes.func
   },
+  handleOnChange(data) {
+    this.props.flux.getActions('websiteSubmissions').editSubmission(
+      this.context.router.getCurrentParams().id, data);
+  },
   render() {
     const id = this.context.router.getCurrentParams().id;
 
@@ -16,7 +20,8 @@ const EditWebsiteHandler = React.createClass({
       <h1>Editing a Website</h1>
       <FluxComponent connectToStores={{'websiteSubmissions': store =>
                                        store.get(id)}}>
-        <SubmissionMetadataForm isEditing={true}/>
+        <SubmissionMetadataForm isEditing={true}
+                                onChange={this.handleOnChange}/>
       </FluxComponent>
     </div>
   }

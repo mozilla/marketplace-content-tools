@@ -29,6 +29,12 @@ const WebsiteSubmissionsActions = {
         resolve(submissions);
       }
     });
+  },
+  editSubmission(id, data) {
+    return {
+      id: id,
+      submissionData: data
+    };
   }
 };
 export default WebsiteSubmissionsActions;

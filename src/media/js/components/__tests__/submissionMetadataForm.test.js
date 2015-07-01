@@ -10,11 +10,11 @@ describe('SubmissionMetadataForm', () => {
     props = {
       categories: ['games'],
       description: 'Experience the magic.',
-      email: 'kngo@mozilla.com',
       keywords: 'legendary, awesome, wazzup',
       name: 'The Kevin Ngo Experience',
       preferred_regions: [],
       public_credit: true,
+      submitter: 'kngo@mozilla.com',
       url: 'http://ngokevin.com',
       why_relevant: 'Because high-five.',
       worldwide: true,

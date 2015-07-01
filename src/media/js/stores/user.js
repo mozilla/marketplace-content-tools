@@ -25,9 +25,7 @@ export default class UserStore extends LocalStore {
   }
   getEmail() {
     if (this.isLoggedIn()) {
-      return {
-        email: this.state.settings.email
-      };
+      return this.state.settings.email
     }
   }
   getUser() {

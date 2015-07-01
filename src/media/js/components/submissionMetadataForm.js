@@ -13,9 +13,9 @@ import RegionSelect from './regionSelect';
 
 const SubmissionMetadataForm = React.createClass({
   propTypes: {
-    email: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onSubmit: React.PropTypes.func,
+    submitter: React.PropTypes.string.isRequired,
     url: React.PropTypes.string.isRequired
   },
   getInitialState() {
@@ -68,7 +68,7 @@ const SubmissionMetadataForm = React.createClass({
       name: this.props.name,
       preferred_regions: this.props.preferred_regions,
       public_credit: this.props.public_credit,
-      submitter: this.props.email,
+      submitter: this.props.submitter,
       url: this.props.url,
       why_relevant: this.props.why_relevant,
       works_well: this.props.works_well
@@ -107,6 +107,13 @@ const SubmissionMetadataForm = React.createClass({
           <label>Name</label>
           <input name="name" onChange={this.handleChange('name')} required
                  type="text" value={this.props.name}/>
+        </div>
+
+        <div className="form-block--group"
+             style={{display: this.props.isEditing ? 'block': 'none'}}>
+          <label>Submitter</label>
+          <input disabled={true} name="submitter" value={this.props.submitter}
+                 type="text"/>
         </div>
 
         <div className="form-block--group">
