@@ -44,11 +44,6 @@ const SubmissionMetadataForm = React.createClass({
       });
     };
   },
-  handlePreferredRegionsChange(val) {
-    this.props.flux.getActions('submissionMetadataForm').setFormData({
-      preferred_regions: val.split(',')
-    });
-  },
   handleSubmit(e) {
     // Only called once the form is completely validated.
     e.preventDefault();
@@ -156,7 +151,7 @@ const SubmissionMetadataForm = React.createClass({
 
             <div style={{display: this.props.worldwide ? 'none' : 'block'}}>
               <RegionSelect multi={true} name="preferred_regions"
-                 onChange={this.handlePreferredRegionsChange}
+                 onChange={this.handleChange('preferred_regions')}
                  showRequiredMsg={this.state.showRegionsRequiredMsg}
                  value={this.props.preferred_regions}/>
             </div>

@@ -7,7 +7,12 @@ import Select from 'react-select';
 
 const RegionSelect = React.createClass({
   propTypes: {
-    multi: React.PropTypes.boolean
+    multi: React.PropTypes.boolean,
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.array
+  },
+  handleChange(val) {
+    this.props.onChange(val.split(','));
   },
   render() {
     // Sort alphabetically.
@@ -26,15 +31,19 @@ const RegionSelect = React.createClass({
       requiredMsgStyle.display = 'none';
     }
 
-    let placeholder = 'Select countries which would be good audiences for ' +
-                      'this website...';
+    const selectProps = {
+      onChange: this.handleChange,
+      options: options,
+      placeholder: 'Select countries which would be good audiences for ' +
+                   'this website...',
+      value: this.props.value.length ? this.props.value.join(',') : undefined
+    };
 
     return <div className={selectClassnames}>
       <p className="region-select-required-msg" style={requiredMsgStyle}>
         You must select at least one region.
       </p>
-      <Select {...this.props} options={options} placeholder={placeholder}
-              value={this.props.value}/>
+      <Select {...this.props} {...selectProps}/>
     </div>
   }
 });
