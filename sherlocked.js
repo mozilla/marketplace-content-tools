@@ -1,5 +1,5 @@
 // Visual regression test script for Sherlocked.
-var ROOT = 'http://localhost:8680/submission/';
+var ROOT = 'http://localhost:8680/';
 
 function mobile(client, path) {
     return client
@@ -16,13 +16,8 @@ function desktop(client, path) {
 
 require('sherlocked')
 
-.investigate('Landing', function(client) {
-    return desktop(client)
-        .waitForExist('main', 60000);
-})
-
 .investigate('Submission Tools', function(client) {
-    return desktop(client, 'submit/')
+    return desktop(client, 'submission/')
         .waitForExist('main', 60000);
 })
 

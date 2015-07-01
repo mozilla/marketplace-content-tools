@@ -6,5 +6,5 @@ test: install
 	@npm test
 
 test-sherlocked: install
-	@SUBMISSION_CLIENT_PORT=8000 node_modules/.bin/gulp serve &
+	@NODE_ENV=test SUBMISSION_CLIENT_PORT=8000 node_modules/.bin/gulp serve &
 	@sleep 5 && node sherlocked.js
