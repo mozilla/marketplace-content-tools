@@ -28,27 +28,21 @@ describe('SubmissionMetadataForm', () => {
   });
 
   it('submits okay', (done) => {
-    class SubmissionMetadataFormActions extends Actions {
-      submitMetadata(data) {
-        assert.ok(data.categories.length, 'Check categories');
-        assert.ok(data.description, 'Check description');
-        assert.ok(data.keywords, 'Check keywords');
-        assert.ok(data.name, 'Check name');
-        assert.ok(data.public_credit, 'Check public_credit');
-        assert.equal(data.preferred_regions.length, 0, 'Check regions');
-        assert.ok(data.submitter, 'Check submitter');
-        assert.ok(data.why_relevant, 'Check why_relevant');
-        assert.equal(data.works_well, 5, 'Check works_well');
-        assert.ok(data.url, 'Check URL');
-        done();
-      }
+    props.onSubmit = data => {
+      assert.ok(data.categories.length, 'Check categories');
+      assert.ok(data.description, 'Check description');
+      assert.ok(data.keywords, 'Check keywords');
+      assert.ok(data.name, 'Check name');
+      assert.ok(data.public_credit, 'Check public_credit');
+      assert.equal(data.preferred_regions.length, 0, 'Check regions');
+      assert.ok(data.submitter, 'Check submitter');
+      assert.ok(data.why_relevant, 'Check why_relevant');
+      assert.equal(data.works_well, 5, 'Check works_well');
+      assert.ok(data.url, 'Check URL');
+      done();
     }
-    const flux = helpers.fluxFactory({
-      actions: [['submissionMetadataForm', SubmissionMetadataFormActions]],
-    });
 
-    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}
-                                                               flux={flux}/>);
+    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.ok(form.isValid(), 'Form is valid');
     ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
   });

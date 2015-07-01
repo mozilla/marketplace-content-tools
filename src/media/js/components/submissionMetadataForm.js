@@ -1,3 +1,8 @@
+/*
+  Website metadata form.
+  Fires props.onChange with {fieldName, val} whenever a field is changed.
+  Fires props.onSubmit with form data when form is submitted.
+*/
 import _ from 'lodash';
 import React from 'react';
 
@@ -9,6 +14,8 @@ import RegionSelect from './regionSelect';
 const SubmissionMetadataForm = React.createClass({
   propTypes: {
     email: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
+    onSubmit: React.PropTypes.func,
     url: React.PropTypes.string.isRequired
   },
   getInitialState() {
@@ -19,8 +26,8 @@ const SubmissionMetadataForm = React.createClass({
   },
   debugFill() {
     // On local dev, clicking on the image will fill out form fields.
-    if (process.env.NODE_ENV !== 'production') {
-      this.props.flux.getActions('submissionMetadataForm').setFormData({
+    if (process.env.NODE_ENV !== 'production' && this.props.onChange) {
+      this.props.onChange({
         categories: ['games'],
         description: 'Experience the magic.',
         keywords: 'legendary, awesome, wazzup',
@@ -39,18 +46,18 @@ const SubmissionMetadataForm = React.createClass({
       } else if (val.target) {
         val = val.target.value;
       }
-      this.props.flux.getActions('submissionMetadataForm').setFormData({
-        [formFieldName]: val
-      });
+
+      if (this.props.onChange) {
+        this.props.onChange({[formFieldName]: val});
+      }
     };
   },
   handleSubmit(e) {
     // Only called once the form is completely validated.
     e.preventDefault();
 
-    if (this.isValid()) {
-      this.props.flux.getActions('submissionMetadataForm').submitMetadata(
-        this.serializeFormData(e.currentTarget));
+    if (this.isValid() && this.props.onSubmit) {
+      this.props.onSubmit(this.serializeFormData(e.currentTarget));
     }
   },
   serializeFormData() {
@@ -153,7 +160,7 @@ const SubmissionMetadataForm = React.createClass({
               <RegionSelect multi={true} name="preferred_regions"
                  onChange={this.handleChange('preferred_regions')}
                  showRequiredMsg={this.state.showRegionsRequiredMsg}
-                 value={this.props.preferred_regions}/>
+                 value={this.props.preferred_regions || []}/>
             </div>
           </div>
         </div>

@@ -7,6 +7,13 @@ import Wizard from '../wizard';
 
 
 const Submission = React.createClass({
+  handleMetadataFormChange(data) {
+    this.props.flux.getActions('submissionMetadataForm').setFormData(data);
+  },
+  handleMetadataFormSubmit(data) {
+    this.props.flux.getActions('submissionMetadataForm').submitMetadata(
+      data);
+  },
   render() {
     const metadataStoreConnector = {
       submission: null,
@@ -24,7 +31,9 @@ const Submission = React.createClass({
       {
         title: 'Step 2: Website Metadata',
         form: <FluxComponent connectToStores={metadataStoreConnector}>
-                <SubmissionMetadataForm/>
+                <SubmissionMetadataForm
+                   onChange={this.handleMetadataFormChange}
+                   onSubmit={this.handleMetadataFormSubmit}/>
               </FluxComponent>
       }
     ];
