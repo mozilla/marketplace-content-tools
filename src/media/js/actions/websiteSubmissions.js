@@ -16,9 +16,11 @@ const WebsiteSubmissionsActions = {
             categories: ['games', 'books-comics'],
             description: `Fake submission ${i}.`,
             keywords: ['fake', 'submission'],
+            icon: 'http://imgur.com/msW5XI3.jpg',
             name: `Fake Submission ${i}`,
             preferred_regions: ['us', 'ca'],
             public_credit: true,
+            submitter: 'kngo@mozilla.com',
             url: `http://xkcd.com/${i}/`,
             why_relevant: 'Because it is fake.',
             works_well: 4
