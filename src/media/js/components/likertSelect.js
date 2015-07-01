@@ -10,16 +10,21 @@ const LikertSelect = React.createClass({
   },
   renderInput(label, i) {
     i = i + 1;  // 1-indexed.
-
-    const inputProps = {
-      checked: this.props.value === i
-    };
     const htmlFor = `${this.props.name}-${i}`;
 
+    const inputProps = {
+      checked: this.props.value === i,
+      id: htmlFor,
+      key: i,
+      onChange: () => {this.props.onChange(i)},
+      name: this.props.name,
+      required: !!this.props.required,
+      type: 'radio',
+      value: i,
+    };
+
     return <div className="likert-select__input-group">
-      <input id={htmlFor} name={this.props.name} type="radio" value={i}
-             {...inputProps} onChange={() => {this.props.onChange(i)}}
-             required={!!this.props.required}/>
+      <input {...inputProps}/>
       <label htmlFor={htmlFor}>{label}</label>
     </div>
   },

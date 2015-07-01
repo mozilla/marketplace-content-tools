@@ -2,8 +2,7 @@ import LocalStore from 'flummox-localstore';
 
 
 const initialState = {
-  category1: '',
-  category2: '',
+  categories: [],
   description: '',
   keywords: '',
   name: '',

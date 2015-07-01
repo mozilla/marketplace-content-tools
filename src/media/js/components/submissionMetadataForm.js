@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 
-import {CategoryGroupSelect} from './categorySelect';
+import CategoryGroupSelect from './categorySelect';
 import LikertSelect from './likertSelect';
 import RegionSelect from './regionSelect';
 
@@ -21,7 +21,7 @@ const SubmissionMetadataForm = React.createClass({
     // On local dev, clicking on the image will fill out form fields.
     if (process.env.NODE_ENV !== 'production') {
       this.props.flux.getActions('submissionMetadataForm').setFormData({
-        category1: 'games',
+        categories: ['games'],
         description: 'Experience the magic.',
         keywords: 'legendary, awesome, wazzup',
         name: 'The Kevin Ngo Experience',
@@ -60,7 +60,7 @@ const SubmissionMetadataForm = React.createClass({
   },
   serializeFormData() {
     return {
-      categories: [this.props.category1, this.props.category2],
+      categories: this.props.categories,
       description: this.props.description,
       keywords: this.props.keywords,
       name: this.props.name,
@@ -76,7 +76,7 @@ const SubmissionMetadataForm = React.createClass({
     // Handle validation not handled by HTML5. Triggered on button onClick.
     let isValid = true;
 
-    if (!this.props.category1) {
+    if (!this.props.categories.length) {
       this.setState({showCategoryRequiredMsg: true});
       isValid = false;
     }
@@ -131,11 +131,9 @@ const SubmissionMetadataForm = React.createClass({
         <div className="form-block--group">
           <label>Categories</label>
           <CategoryGroupSelect
-             onChangeCategory1={this.handleChange('category1')}
-             onChangeCategory2={this.handleChange('category2')}
+             onChange={this.handleChange('categories')}
              showRequiredMsg={this.state.showCategoryRequiredMsg}
-             valueCategory1={this.props.category1}
-             valueCategory2={this.props.category2}/>
+             value={this.props.categories || []}/>
         </div>
 
         <div className="form-block--group">

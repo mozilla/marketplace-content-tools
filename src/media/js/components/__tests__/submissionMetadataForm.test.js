@@ -8,7 +8,7 @@ describe('SubmissionMetadataForm', () => {
   let props = {};
   beforeEach(() => {
     props = {
-      category1: 'games',
+      categories: ['games'],
       description: 'Experience the magic.',
       email: 'kngo@mozilla.com',
       keywords: 'legendary, awesome, wazzup',
@@ -57,7 +57,7 @@ describe('SubmissionMetadataForm', () => {
     let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.state.showCategoryRequiredMsg);
 
-    props.category1 = '';
+    props.categories = [];
     form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
     assert.notOk(form.isValid());
 
