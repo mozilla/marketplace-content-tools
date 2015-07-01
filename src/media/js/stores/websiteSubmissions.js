@@ -15,13 +15,15 @@ export default class WebsiteSubmissionsStore extends LocalStore {
     this.register(submissionsActions.fetch, this.handleFetch);
   }
   handleFetch(submissions) {
-    console.log(submissions);
     submissions.forEach(submission => {
       this.setState(state => {
         state.submissions[submission.id] = submission;
         return state;
       });
     });
+  }
+  get(id) {
+    return this.state.submissions[id];
   }
   getAsList() {
     // Return submissions in list form.

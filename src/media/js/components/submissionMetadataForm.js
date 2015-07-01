@@ -94,12 +94,12 @@ const SubmissionMetadataForm = React.createClass({
   render() {
     return <div className="submission--metadata">
       <form className="form-block" onSubmit={this.handleSubmit}>
-        <p>
+        {this.props.isEditing ? '' : <p>
           This site has successfully been detected as mobile-friendly! Please
           fill in more information about the website below and our Marketplace
           Reviewers will take a look at them promptly. We tried our best to
           fill out some of the information below for you.
-        </p>
+         </p>}
 
         <div className="form-block--group">
           <label>Name</label>

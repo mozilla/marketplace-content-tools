@@ -1,5 +1,6 @@
 import FluxComponent from 'flummox/component';
 import React from 'react';
+import Router from 'react-router';
 
 import mktConstants from 'marketplace-constants';
 import {humanizeCategory} from '../../constants/categories';
@@ -14,13 +15,14 @@ const ReviewListingHandler = React.createClass({
       submissions: store.getAsList()
     });
 
-    return <div className="review-listing-wrapper">
-      <h1>Reviewer Tools</h1>
+    return <section>
+      <h1>Reviewing Websites</h1>
 
-      <FluxComponent connectToStores={{'websiteSubmissions': submissionGetter}}>
+      <FluxComponent connectToStores={{'websiteSubmissions':
+                                       submissionGetter}}>
         <ReviewListing/>
       </FluxComponent>
-    </div>
+    </section>
   }
 });
 export default ReviewListingHandler;
@@ -37,6 +39,9 @@ const ReviewListing = React.createClass({
 
 
 const ReviewListingItem = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func
+  },
   render() {
     return <li className="review-listing-item">
       <div className="review-listing-item-header">
@@ -66,17 +71,17 @@ const ReviewListingItem = React.createClass({
         {this.props.categories.map(cat => <dt>{humanizeCategory(cat)}</dt>)}
 
         <dd>Keywords</dd>
-        <dt>{this.props.keywords}</dt>
+        <dt>{this.props.keywords.map(kw => <dt>{kw}</dt>)}</dt>
 
         <dd>How well does this website work?</dd>
         <dt>{this.props.works_well}/5</dt>
       </dl>
       <div className="review-listing-actions">
-        <button>
-          <a>Edit</a>
-        </button>
+        <Router.Link to="edit-website" params={{id: this.props.id}}>
+          <button>Edit</button>
+        </Router.Link>
         <button className="button--success">
-          <a>Approve</a>
+          Approve
         </button>
       </div>
     </li>
