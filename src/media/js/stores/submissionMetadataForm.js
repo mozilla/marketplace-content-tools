@@ -33,11 +33,11 @@ export default class SubmissionMetadataFormStore extends LocalStore {
     this.register(submitMetadataActions.submitMetadata, this.clearData);
   }
   handleSubmitUrl(data) {
-    console.log(data);
     this.setState({
       description: data.metadata.description,
       detected_icon: data.metadata.icon,
       name: data.metadata.name,
+      url: data.metadata.canonical_url || this.state.url
     });
   }
   handleSetFormData(data) {
