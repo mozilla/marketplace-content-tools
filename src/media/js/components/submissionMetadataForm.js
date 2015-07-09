@@ -123,10 +123,12 @@ const SubmissionMetadataForm = React.createClass({
                  type="text"/>
         </div>
 
+        {this.props.detected_icon ?
+        // Don't show icon if there is none.
         <div className="form-block--group">
           <label>Detected Icon</label>
           <img src={this.props.detected_icon}/>
-        </div>
+        </div> : ''}
 
         <div className="form-block--group">
           <label htmlFor="keywords">Keywords</label>

@@ -4,6 +4,7 @@ import React from 'react';
 const SubmissionUrlForm = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
   propTypes: {
+    isLoading: React.PropTypes.bool,
     mobileFriendlyData: React.PropTypes.object,
     successfullySubmittedUrl: React.PropTypes.string,
     url: React.PropTypes.string
@@ -56,7 +57,7 @@ const SubmissionUrlForm = React.createClass({
 
     const buttonProps = {
       type: 'submit',
-      disabled: this.props.submitting
+      disabled: this.props.isLoading
     };
 
     return <div className="submission--url-step">
@@ -69,7 +70,7 @@ const SubmissionUrlForm = React.createClass({
                name="submissionUrl" placeholder={placeholder} required
                type="url" valueLink={this.linkState('submissionUrl')}/>
         <button {...buttonProps}>
-          {this.props.submitting ? 'Loading' : 'Submit'}
+          {this.props.isLoading ? 'Loading...' : 'Submit'}
         </button>
       </form>
     </div>

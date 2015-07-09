@@ -10,7 +10,8 @@ export default class SubmissionStore extends WizardStore {
     });
 
     const submitActions = flux.getActionIds('submission');
-    this.register(submitActions.submitUrl, this.submitUrlHandler);
+    this.registerAsync(submitActions.submitUrl, this.beginSubmitUrlHandler,
+                       this.submitUrlHandler);
     this.register(submitActions.setNumSteps, this.setNumSteps);
     this.register(submitActions.goToStep, this.goToStep);
 
@@ -19,7 +20,14 @@ export default class SubmissionStore extends WizardStore {
     this.register(submitMetadataFormActions.submitMetadata,
                   this.submitMetadataHandler);
 
+    this.state.isLoading = false;
     delete this.state.successfullySubmittedUrl;
+ }
+ beginSubmitUrlHandler(data) {
+    // Called when action for submitting a URL begins.
+    this.setState({
+      isLoading: true
+    });
  }
  submitUrlHandler(data) {
     // Don't continue if not mobile-friendly.
@@ -30,6 +38,7 @@ export default class SubmissionStore extends WizardStore {
     this.setState({
       activeStep: activeStep,
       highestStep: activeStep,  // Reset highest step.
+      isLoading: false,
       mobileFriendlyData: {
         isMobileFriendly: isMobileFriendly,
         screenshot: this._formatScreenshot(data.mobileFriendlyData.screenshot)
