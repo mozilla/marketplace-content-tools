@@ -37,7 +37,7 @@ export default class SubmissionMetadataFormStore extends LocalStore {
       description: data.metadata.description,
       detected_icon: data.metadata.icon,
       name: data.metadata.name,
-      url: data.metadata.canonical_url || this.state.url
+      url: data.metadata.canonical_url || data.url
     });
   }
   handleSetFormData(data) {

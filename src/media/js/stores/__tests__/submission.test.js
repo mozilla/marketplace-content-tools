@@ -18,7 +18,7 @@ describe('SubmissionStore', () => {
 
   it('handles submit URL', () => {
     const store = new SubmissionStore(dispatcher);
-    FluxTestUtils.simulateAction(store, 'submitUrl', {
+    FluxTestUtils.simulateActionAsync(store, 'submitUrl', 'success', {
       mobileFriendlyData: {
         ruleGroups: {
           USABILITY: {
