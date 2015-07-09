@@ -30,12 +30,12 @@ export default class SubmissionStore extends WizardStore {
     this.setState({
       activeStep: activeStep,
       highestStep: activeStep,  // Reset highest step.
-      url: data.url,
       mobileFriendlyData: {
         isMobileFriendly: isMobileFriendly,
         screenshot: this._formatScreenshot(data.mobileFriendlyData.screenshot)
       },
-      successfullySubmittedUrl: null
+      successfullySubmittedUrl: null,
+      url: data.url
     });
   }
   submitMetadataHandler(data) {

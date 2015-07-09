@@ -26,19 +26,19 @@ var CSS = path.resolve(ROOT, 'css');
 
 var ENVS = {
    'altdev': {
-        apiRoot: 'https://marketplace-altdev.allizom.org',
+        apiRoot: 'https://marketplace-altdev.allizom.org/api/v2/',
         mediaRoot: 'https://marketplace-altdev-cdn.allizom.org/media/',
     },
     dev: {
-        apiRoot: 'https://marketplace-dev.allizom.org',
+        apiRoot: 'https://marketplace-dev.allizom.org/api/v2/',
         mediaRoot: 'https://marketplace-dev.mozflare.net/media/',
     },
     stage: {
-        apiRoot: 'https://marketplace.allizom.org',
+        apiRoot: 'https://marketplace.allizom.org/api/v2/',
         mediaRoot: 'https://marketplace-stage.cdn.mozilla.net/media/',
     },
     prod: {
-        apiRoot: 'https://marketplace.firefox.com',
+        apiRoot: 'https://marketplace.firefox.com/api/v2/',
         mediaRoot: 'https://marketplace.cdn.mozilla.net/media/',
     }
 };

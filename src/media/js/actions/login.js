@@ -25,7 +25,7 @@ export default class LoginActions extends Actions {
   }
   logout() {
     // Post logout data to server.
-    const url = urlJoin(process.env.MKT_API_ROOT, '/api/v2/account/logout/')
+    const url = urlJoin(process.env.MKT_API_ROOT, 'account/logout/')
 
     req
       .del(url)
@@ -36,7 +36,7 @@ export default class LoginActions extends Actions {
   serverLogin(data) {
     // Post login data to server.
     const url = urlJoin(process.env.MKT_API_ROOT,
-                        '/api/v2/account/fxa-login/');
+                        'account/fxa-login/');
 
     return new Promise(resolve => {
         req

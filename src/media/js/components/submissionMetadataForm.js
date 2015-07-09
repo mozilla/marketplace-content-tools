@@ -64,6 +64,7 @@ const SubmissionMetadataForm = React.createClass({
     return {
       categories: this.props.categories,
       description: this.props.description,
+      detected_icon: this.props.detected_icon,
       keywords: this.props.keywords,
       name: this.props.name,
       preferred_regions: this.props.preferred_regions,
@@ -120,6 +121,11 @@ const SubmissionMetadataForm = React.createClass({
           <label>URL</label>
           <input disabled={true} name="url" value={this.props.url}
                  type="text"/>
+        </div>
+
+        <div className="form-block--group">
+          <label>Detected Icon</label>
+          <img src={this.props.detected_icon}/>
         </div>
 
         <div className="form-block--group">

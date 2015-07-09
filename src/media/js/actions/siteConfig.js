@@ -7,7 +7,7 @@ import req from '../request';
 const SiteConfigActions = {
   getSiteConfig() {
     const url = Url(urlJoin(process.env.MKT_API_ROOT,
-                            '/api/v2/services/config/site/'))
+                            'services/config/site/'))
                 .q({serializer: 'commonplace'});
 
     return new Promise(resolve => {

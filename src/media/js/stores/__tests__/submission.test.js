@@ -3,10 +3,16 @@ import SubmissionStore from '../submission';
 
 describe('SubmissionStore', () => {
   const dispatcher = {
-    getActionIds() {
-      return {
-        submitUrl: 'submitUrl'
+    getActionIds(id) {
+      const ids = {
+        submission: {
+          submitUrl: 'submitUrl'
+        },
+        submissionMetadataForm: {
+          submitMetadataHandler: 'submitMetadataHandler'
+        }
       };
+      return ids[id];
     }
   };
 

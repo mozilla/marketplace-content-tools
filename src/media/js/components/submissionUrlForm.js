@@ -41,8 +41,10 @@ const SubmissionUrlForm = React.createClass({
   },
   render() {
     const flux = this.props.flux;
+
     const onSubmit = e => {
       e.preventDefault();
+
       flux.getActions('submission').submitUrl(
         e.currentTarget.elements.submissionUrl.value);
     };
@@ -51,6 +53,11 @@ const SubmissionUrlForm = React.createClass({
     if (this.props.successfullySubmittedUrl) {
       placeholder = "Enter another website URL...";
     }
+
+    const buttonProps = {
+      type: 'submit',
+      disabled: this.props.submitting
+    };
 
     return <div className="submission--url-step">
       {this.renderSuccessMsg()}
@@ -61,7 +68,9 @@ const SubmissionUrlForm = React.createClass({
         <input id="submission--url" className="submission--url"
                name="submissionUrl" placeholder={placeholder} required
                type="url" valueLink={this.linkState('submissionUrl')}/>
-        <button type="submit">Submit</button>
+        <button {...buttonProps}>
+          {this.props.submitting ? 'Loading' : 'Submit'}
+        </button>
       </form>
     </div>
   }

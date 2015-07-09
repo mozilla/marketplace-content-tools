@@ -15,6 +15,7 @@ const SubmissionActions = {
           let metadata;
           [mobileFriendlyData, metadata] = results;
           resolve({
+            metadata: metadata,
             mobileFriendlyData: mobileFriendlyData,
             url: url
           });
@@ -22,9 +23,16 @@ const SubmissionActions = {
     });
   },
   getMetadata(url) {
-    // TODO: scrape metadata from site.
+    const scrapeUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'websites/scrape')).q({url: url});
+
     return new Promise(resolve => {
-      resolve();
+      req
+        .get(scrapeUrl)
+        .then(res => {
+          console.log('Scrape Results', res.body);
+          resolve(res.body);
+        });
     });
   },
   getMobileFriendlyData(url) {

@@ -1,9 +1,13 @@
+/*
+    Store for the Metadata form of Submission.
+*/
 import LocalStore from 'flummox-localstore';
 
 
 const initialState = {
   categories: [],
   description: '',
+  detected_icon: '',
   keywords: '',
   name: '',
   preferred_regions: [],
@@ -21,9 +25,20 @@ export default class SubmissionMetadataFormStore extends LocalStore {
         key: 'SubmissionMetadataFormStore'
     });
 
-    const submitActions = flux.getActionIds('submissionMetadataForm');
-    this.register(submitActions.setFormData, this.handleSetFormData);
-    this.register(submitActions.submitMetadata, this.clearData);
+    const submitActions = flux.getActionIds('submission');
+    this.register(submitActions.submitUrl, this.handleSubmitUrl);
+
+    const submitMetadataActions = flux.getActionIds('submissionMetadataForm');
+    this.register(submitMetadataActions.setFormData, this.handleSetFormData);
+    this.register(submitMetadataActions.submitMetadata, this.clearData);
+  }
+  handleSubmitUrl(data) {
+    console.log(data);
+    this.setState({
+      description: data.metadata.description,
+      detected_icon: data.metadata.icon,
+      name: data.metadata.name,
+    });
   }
   handleSetFormData(data) {
     this.setState(data);
