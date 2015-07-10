@@ -14,7 +14,6 @@ describe('SubmissionMetadataForm', () => {
       name: 'The Kevin Ngo Experience',
       preferred_regions: [],
       public_credit: true,
-      submitter: 'kngo@mozilla.com',
       url: 'http://ngokevin.com',
       why_relevant: 'Because high-five.',
       worldwide: true,
@@ -35,7 +34,6 @@ describe('SubmissionMetadataForm', () => {
       assert.ok(data.name, 'Check name');
       assert.ok(data.public_credit, 'Check public_credit');
       assert.equal(data.preferred_regions.length, 0, 'Check regions');
-      assert.ok(data.submitter, 'Check submitter');
       assert.ok(data.why_relevant, 'Check why_relevant');
       assert.equal(data.works_well, 5, 'Check works_well');
       assert.ok(data.url, 'Check URL');

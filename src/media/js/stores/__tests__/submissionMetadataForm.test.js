@@ -26,7 +26,7 @@ describe('SubmissionMetadataFormStore', () => {
     assert.equal(store.state.url, 'http://ngokevin.com/photography');
   });
 
-  it('overwrites URL with metadata canonical URL if exists', () => {
+  it('sets canonical URL', () => {
     const store = new SubmissionMetadataFormStore(dispatcher);
     FluxTestUtils.simulateAction(store, 'submitUrl', {
       metadata: {
@@ -35,6 +35,7 @@ describe('SubmissionMetadataFormStore', () => {
       url: 'http://ngokevin.com/photography'
     });
 
-    assert.equal(store.state.url, 'http://ngokevin.com');
+    assert.equal(store.state.canonical_url, 'http://ngokevin.com');
+    assert.equal(store.state.url, 'http://ngokevin.com/photography');
   });
 });

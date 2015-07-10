@@ -1,4 +1,5 @@
 'use strict';
+import _ from 'lodash';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
@@ -9,10 +10,19 @@ const SubmissionMetadataActions = {
   setFormData(data) {
     return data;
   },
-  submitMetadata(data) {
-    // Step 2: submit metadata to API.
+  submitMetadata(data, apiArgs) {
+    // Submit metadata to API.
+    const route = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'websites/submit/'))
+      .q(apiArgs);
+
     return new Promise(resolve => {
-      resolve(data);
+      req
+        .post(route)
+        .send(data)
+        .then((res, err) => {
+          resolve(res);
+        });
     });
   },
 };

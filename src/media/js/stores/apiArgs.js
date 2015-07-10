@@ -28,6 +28,9 @@ export default class ApiArgs extends Store {
     }
     return state;
   }
+  getArgs() {
+    return this.state;
+  }
   handleUser(user) {
     // User data available. Set args based on user information.
     var newState = {};

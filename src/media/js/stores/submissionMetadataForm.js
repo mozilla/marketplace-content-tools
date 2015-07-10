@@ -5,6 +5,7 @@ import LocalStore from 'flummox-localstore';
 
 
 const initialState = {
+  canonical_url: '',
   categories: [],
   description: '',
   detected_icon: '',
@@ -34,10 +35,11 @@ export default class SubmissionMetadataFormStore extends LocalStore {
   }
   handleSubmitUrl(data) {
     this.setState({
+      canonical_url: data.metadata.canonical_url,
       description: data.metadata.description,
       detected_icon: data.metadata.icon,
       name: data.metadata.name,
-      url: data.metadata.canonical_url || data.url
+      url: data.url
     });
   }
   handleSetFormData(data) {

@@ -63,13 +63,13 @@ const SubmissionMetadataForm = React.createClass({
   serializeFormData() {
     return {
       categories: this.props.categories,
+      canonical_url: this.props.canonical_url,
       description: this.props.description,
       detected_icon: this.props.detected_icon,
-      keywords: this.props.keywords,
+      keywords: this.props.keywords.split(','),
       name: this.props.name,
       preferred_regions: this.props.preferred_regions,
       public_credit: this.props.public_credit,
-      submitter: this.props.submitter,
       url: this.props.url,
       why_relevant: this.props.why_relevant,
       works_well: this.props.works_well

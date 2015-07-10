@@ -33,6 +33,9 @@ const ReviewListing = React.createClass({
     return <ul className="review-listing">
       {this.props.submissions.map(submission =>
                                   (<ReviewListingItem {...submission}/>))}
+      {this.props.submissions.length === 0 ?
+      <p>No submissions to review.</p> :
+      ''}
     </ul>
   }
 });

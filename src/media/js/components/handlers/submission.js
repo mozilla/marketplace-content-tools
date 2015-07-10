@@ -12,7 +12,7 @@ const Submission = React.createClass({
   },
   handleMetadataFormSubmit(data) {
     this.props.flux.getActions('submissionMetadataForm').submitMetadata(
-      data);
+      data, this.props.flux.getStore('apiArgs').getArgs());
   },
   render() {
     const metadataStoreConnector = {
