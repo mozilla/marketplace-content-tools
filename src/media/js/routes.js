@@ -18,7 +18,7 @@ var routes = <Route name="app" path="/" handler={App}>
   <Route name="login" path="/login" handler={Login}/>
   <Route name="submission" path="/submission/"
          handler={loginRequired(Submission)}/>
-  <Route name="review-listing" path="/review/"
+  <Route name="review-listing" path="/submission/review/"
          handler={loginRequired(ReviewListing)}/>
   <Route name="edit-website" path="/review/website/:id"
          handler={loginRequired(EditWebsite)}/>
