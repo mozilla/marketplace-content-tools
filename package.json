@@ -20,7 +20,7 @@
     "superagent": "^1.2.0",
     "superagent-promise": "^1.0.0",
     "url-join": "0.0.1",
-    "urlgray": "^0.2.1"
+    "urlgray": "^0.2.2"
   },
   "devDependencies": {
     "babel": "^5.5.6",
