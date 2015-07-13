@@ -8,7 +8,8 @@ import {humanizeCategory} from '../../constants/categories';
 
 const ReviewListingHandler = React.createClass({
   componentDidMount() {
-    this.props.flux.getActions('websiteSubmissions').fetch();
+    this.props.flux.getActions('websiteSubmissions').fetch(
+      this.props.flux.getStore('apiArgs').getArgs());
   },
   render() {
     const submissionGetter = store => ({

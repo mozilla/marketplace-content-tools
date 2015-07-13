@@ -5,7 +5,7 @@ import req from '../request';
 
 
 const WebsiteSubmissionsActions = {
-  fetch() {
+  fetch(apiArgs) {
     return new Promise(resolve => {
       if (process.env.NODE_ENV === 'test') {
         // Mock data.
@@ -27,6 +27,13 @@ const WebsiteSubmissionsActions = {
           });
         }
         resolve(submissions);
+      } else {
+        req
+          .get(Url(urlJoin(process.env.MKT_API_ROOT, 'websites/submissions/'))
+               .q(apiArgs))
+          .then(res => {
+            resolve(res.body.objects);
+          });
       }
     });
   },
