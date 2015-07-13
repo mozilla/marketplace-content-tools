@@ -14,7 +14,7 @@ import Url from 'urlgray';
 import Login from './handlers/login';
 
 
-let FxaLogin = React.createClass({
+const FxaLogin = React.createClass({
   /* After login, FxA OAuth redirects to this handler which is within a popup.
      Retrieves the auth info from the URL and postmessage back to opener.
      Note this handler is currently not used in production, but rather
@@ -50,7 +50,7 @@ let FxaLogin = React.createClass({
 export {FxaLogin as FxaLogin};
 
 
-let LoginButton = React.createClass({
+const LoginButton = React.createClass({
   // Wrapper around FxA login button to connect to Marketplace's API.
   propTypes: {
     signup: React.PropTypes.bool
@@ -68,7 +68,7 @@ let LoginButton = React.createClass({
 export {LoginButton as LoginButton};
 
 
-let FxaLoginButton = React.createClass({
+const FxaLoginButton = React.createClass({
   // Opens up an FxA login popup window.
  propTypes: {
     authUrl: React.PropTypes.string,
@@ -146,7 +146,7 @@ let FxaLoginButton = React.createClass({
 export {FxaLoginButton as FxaLoginButton};
 
 
-let LogoutButton = React.createClass({
+const LogoutButton = React.createClass({
   logout() {
     // Trigger Logout action.
     this.props.flux.getActions('login').logout();
@@ -160,19 +160,22 @@ let LogoutButton = React.createClass({
 export {LogoutButton as LogoutButton};
 
 
-const loginRequired = Component => {
+const loginRequired = (Component, group) => {
   class AuthenticatedComponent extends React.Component {
     render() {
-      if(!this.props.isLoggedIn && !process.env.NODE_ENV === 'test') {
-        return <Login/>
-      } else {
+      if (process.env.NODE_ENV === 'test' ||
+          (this.props.isLoggedIn && this.props.hasPermission)) {
         return <Component {...this.props}/>
+      } else {
+        // Return login handler if not logged in or doesn't have permission.
+        return <Login/>
       }
     }
   }
   return connectToStores(AuthenticatedComponent, {
     user: userStore => ({
-      isLoggedIn: userStore.isLoggedIn()
+      hasPermission: userStore.hasPermission(group),
+      isLoggedIn: userStore.isLoggedIn(),
     })
   });
 };

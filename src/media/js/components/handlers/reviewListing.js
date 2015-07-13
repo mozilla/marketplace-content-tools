@@ -46,10 +46,14 @@ const ReviewListingItem = React.createClass({
   contextTypes: {
     router: React.PropTypes.func
   },
+  approve() {
+    alert('Sorry, the development of reviewer tools have been paused. ' +
+          'Approving websites has not yet been implemented.');
+  },
   render() {
     return <li className="review-listing-item">
       <div className="review-listing-item-header">
-        <img className="review-listing-icon" src={this.props.icon}/>
+        <img className="review-listing-icon" src={this.props.detected_icon}/>
         <h2>{this.props.name}</h2>
       </div>
       <dl className="review-listing-details">
@@ -84,7 +88,7 @@ const ReviewListingItem = React.createClass({
         <Router.Link to="edit-website" params={{id: this.props.id}}>
           <button>Edit</button>
         </Router.Link>
-        <button className="button--success">
+        <button className="button--success" onClick={this.approve}>
           Approve
         </button>
       </div>

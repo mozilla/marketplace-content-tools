@@ -15,6 +15,27 @@ export default class UserStore extends LocalStore {
   handleLogout() {
     this.replaceState({});
   }
+  hasPermission(group) {
+    if (!this.isLoggedIn()) {
+      return false;
+    }
+
+    if (!group) {
+      // If no group is specified, then simply return true.
+      return true;
+    }
+    if (group.constructor === String && this.state.permissions[group]) {
+      // Check if the user has the group permission.
+      return true;
+    } else if (group.constructor === Array) {
+      // Check if the user has ANY of the group permissions.
+      for (var i = 0; i < group.length; i++) {
+        if (this.state.permissions[group[i]]) {
+          return true;
+        }
+      }
+    }
+  }
   isLoggedIn() {
     return !!this.state.token;
   }
