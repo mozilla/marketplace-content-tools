@@ -1,29 +1,40 @@
 'use strict';
-import _ from 'lodash';
+import {createAction} from 'redux-actions';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
 import req from '../request';
 
 
-const SubmissionMetadataActions = {
-  setFormData(data) {
-    return data;
-  },
-  submitMetadata(data, apiArgs) {
-    // Submit metadata to API.
-    const route = Url(
-      urlJoin(process.env.MKT_API_ROOT, 'websites/submit/'))
-      .q(apiArgs);
+export const SET_FORM_DATA = 'SUBMISSION__SET_FORM_DATA';
+export const setFormData = createAction(SET_FORM_DATA);
 
-    return new Promise(resolve => {
-      req
-        .post(route)
-        .send(data)
-        .then((res, err) => {
-          resolve(res);
-        });
-    });
-  },
-};
-export default SubmissionMetadataActions;
+export const SUBMIT_WEBSITE_START = 'SUBMISSION__SUBMIT_WEBSITE_START';
+const submitWebsiteStart = createAction(SUBMIT_WEBSITE_START);
+
+export const SUBMIT_WEBSITE_OK = 'SUBMISSION__SUBMIT_WEBSITE_OK';
+const submitWebsiteOk = createAction(SUBMIT_WEBSITE_OK);
+
+export const SUBMIT_WEBSITE_ERR = 'SUBMISSION__SUBMIT_WEBSITE_ERR';
+const submitWebsiteErr = createAction(SUBMIT_WEBSITE_ERR);
+
+
+export function submitWebsite(data, apiArgs) {
+  // Submit website.
+  const submitUrl = Url(
+    urlJoin(process.env.MKT_API_ROOT, 'websites/submit/')
+  ).q(apiArgs);
+
+  return dispatch => {
+     req
+      .post(submitUrl)
+      .send(data)
+      .then((res, err) => {
+        if (err) {
+          dispatch(submitWebsiteErr(err));
+        } else {
+          dispatch(submitWebsiteOk(res));
+        }
+      });
+  };
+}

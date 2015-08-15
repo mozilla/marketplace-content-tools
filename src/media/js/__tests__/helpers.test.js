@@ -1,6 +1,3 @@
-import req from '../request';
-
-
 /*
   Force React to recognize that a DOM is available.
   - React will check whether a DOM is available.
@@ -27,6 +24,19 @@ global.jsdom = require('mocha-jsdom').bind(this, {skipWindowCheck: true});
 global.sinon = require('sinon');
 global.TestUtils = React.addons.TestUtils;
 
+global.getReqMock = (res, err) => {
+  return {
+    send() {
+      return this;
+    },
+    set() {
+      return this;
+    },
+    then(cb) {
+      cb(res, err);
+    }
+  };
+};
 
 let store = {};
 global.localStorage = {
@@ -62,7 +72,7 @@ global.helpers = {
   },
   fluxFactory: (opts) => {
     class FakeStore extends Store {}
-    class FakeActions extends Actions{}
+    class FakeActions extends Actions {}
 
     class FakeFlux extends Flummox {
       constructor() {

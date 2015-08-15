@@ -47,7 +47,8 @@ var browserifyArgs = watchify.args;
 browserifyArgs.debug = process.NODE_ENV !== 'production';
 var bundler = browserify(path.resolve(JS, 'app.js'), browserifyArgs)
     .transform(babelify.configure({
-        optional: ['runtime']
+        optional: ['runtime'],
+        stage: 0
     }))
     .transform(envify({
         NODE_ENV: process.env.NODE_ENV || '',

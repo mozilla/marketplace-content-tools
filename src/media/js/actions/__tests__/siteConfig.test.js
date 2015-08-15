@@ -1,18 +1,24 @@
 import req from '../../request';
-import SiteConfigActions from '../siteConfig';
+import * as siteConfig from '../siteConfig';
 
 
-describe('SiteConfigActions.getSiteConfig', () => {
-  sinon.stub(req, 'get', () => {
-    return new Promise(resolve => {
-      resolve({body: {fxa: 'kevintoken'}});
+describe('siteConfig.fetch', () => {
+  beforeEach(() => {
+    sinon.stub(req, 'get', () => {
+      return getReqMock({body: {fxa: 'abc'}});
     });
   });
 
-  it('resolves siteConfig data', done => {
-    SiteConfigActions.getSiteConfig().then(data => {
-      assert.equal(data.fxa, 'kevintoken');
+  afterEach(() => {
+    req.get.restore();
+  });
+
+  it('fetches siteConfig data', done => {
+    function dispatch(action) {
+      assert.equal(action.type, siteConfig.FETCH_OK);
+      assert.deepEqual(action.payload, {fxa: 'abc'});
       done();
-    });
+    }
+    siteConfig.fetch()(dispatch);
   });
 });
