@@ -1,4 +1,3 @@
-import FluxComponent from 'flummox/component';
 import React from 'react';
 
 import SubmissionMetadataForm from '../submissionMetadataForm';
@@ -15,6 +14,9 @@ const Submission = React.createClass({
       data, this.props.flux.getStore('apiArgs').getArgs());
   },
   render() {
+    return <h1>UNDER CONSTRUCTION</h1>;
+
+    /*
     const metadataStoreConnector = {
       submission: null,
       submissionMetadataForm: null,
@@ -47,6 +49,7 @@ const Submission = React.createClass({
         <Wizard steps={steps} goToStep={goToStep}/>
       </FluxComponent>
     </section>
+    */
   }
 });
 

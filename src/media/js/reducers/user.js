@@ -9,8 +9,13 @@ export default function userReducer(state=initialState, action) {
     case loginActions.LOGIN_OK: {
       return Object.assign({}, action.payload);
     }
+
     case loginActions.LOGOUT_OK: {
       return initialState;
+    }
+
+    default: {
+      return state;
     }
   }
 }

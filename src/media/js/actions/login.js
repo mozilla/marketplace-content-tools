@@ -14,7 +14,7 @@ export const LOGIN_START = 'LOGIN__LOGIN_START';
 const loginStart = createAction(LOGIN_START);
 
 export const LOGIN_OK = 'LOGIN__LOGIN_OK';
-const loginOk = createAction(LOGIN_OK);
+export const loginOk = createAction(LOGIN_OK);
 
 export const LOGOUT_START = 'LOGIN__LOGOUT_START';
 const logoutStart = createAction(LOGOUT_START);
