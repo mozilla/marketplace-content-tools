@@ -4,7 +4,7 @@ import * as siteConfigActions from '../actions/siteConfig';
 
 
 const initialState = {
-  localDevClientId: getLocalDevClientId(),
+  clientId: getLocalDevClientId(),
   switches: []
 }
 
@@ -16,34 +16,20 @@ export default function siteConfigReducer(state=initialState, action) {
 
       // Add client ID parameter.
       let authUrl = siteConfig.fxa.fxa_auth_url;
-      if (state.localDevClientId) {
-        authUrl = Url(authUrl).q({client_id: state.localDevClientId});
+      if (state.clientId) {
+        authUrl = Url(authUrl).q({client_id: state.clientId});
       }
 
       return Object.assign({}, state, {
-        authUrl: authUrl,
+        authUrl: authUrl.toString(),
         authState: action.payload.fxa.fxa_auth_state,
         switches: action.payload.switches
       });
     }
+
     default: {
       return state;
     }
-  }
-}
-export {siteConfigReducer};
-
-
-function _getAuthInfo(isSignup) {
-  // State-getter.
-  let authUrl = Url(this.state.authUrl || '');
-  if (isSignup) {
-    authUrl = authUrl.q({action: 'signup'});
-  }
-  return {
-    authUrl: authUrl,
-    authState: this.state.authState,
-    localDevClientId: this.state.localDevClientId
   }
 }
 

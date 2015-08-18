@@ -1,7 +1,9 @@
 import * as loginActions from '../actions/login';
 
 
-const initialState = {};
+const initialState = {
+  settings: {}
+};
 
 
 export default function userReducer(state=initialState, action) {

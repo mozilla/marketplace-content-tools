@@ -1,16 +1,15 @@
 import React from 'react';
 
 
-var SubmissionRedirect = React.createClass({
-  statics: {
-    willTransitionTo: transition => {
-      transition.redirect('submission');
-    }
-  },
+export default class SubmissionRedirect extends React.Component {
+  static propTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+  constructor(props) {
+    super(props);
+    this.props.router.transitionTo('/submission/');
+  }
   render() {
     return <div/>;
   }
-});
-
-
-export default SubmissionRedirect;
+}

@@ -1,4 +1,5 @@
 import {Provider} from 'react-redux';
+import stubContext from 'react-stub-context'
 
 import App from '../app';
 import * as loginActions from '../../actions/login';
@@ -6,7 +7,7 @@ import * as siteConfigActions from '../../actions/siteConfig';
 
 
 function setup(isLoggedIn) {
-  const store = {
+  const stubStore = {
     dispatch: () => {},
     getState: () => {
       return {
@@ -17,9 +18,11 @@ function setup(isLoggedIn) {
     },
     subscribe: () => {},
   };
+
+  const StubApp = stubContext(App, {router: StubRouter});
   return ReactDOMHelper.render(
-    <Provider store={store}>
-      {() => <App/>}
+    <Provider store={stubStore}>
+      {() => <StubApp/>}
     </Provider>
   );
 }

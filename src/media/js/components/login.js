@@ -1,38 +1,104 @@
 /*
-    FxA Login component.
-
-    Involved in the process is the Login action, the Login store, and User
-    store.
+    FxA login components.
 */
 import classnames from 'classnames';
-import FluxComponent from 'flummox/component';
-import connectToStores from 'flummox/connect';
-import fluxMixin from 'flummox/mixin';
 import React from 'react';
 import Url from 'urlgray';
 
-import Login from './handlers/login';
+
+export class LoginButton extends React.Component {
+  /* Opens FxA login popup window and receive authCode from postMessage. */
+  static propTypes = {
+    authUrl: React.PropTypes.string,
+    content: React.PropTypes.any,
+    isSignup: React.PropTypes.bool,
+    loginBeginHandler: React.PropTypes.func,
+    loginHandler: React.PropTypes.func.isRequired,
+  };
+  state = {
+    loggingIn: false
+  };
+  handlePostMessage = msg => {
+    const origins = [process.env.API_ROOT, window.location.origin];
+    if (msg.data && msg.data.auth_code && origins.indexOf(msg.origin) !== -1) {
+      // Got the auth code. Your duty is complete, login button.
+      this.props.loginHandler(msg.data.auth_code);
+    }
+  }
+  openPopup() {
+    window.addEventListener('message', this.handlePostMessage);
+
+    const authUrl = this.props.isSignup ?
+                    Url(this.props.authUrl).q({signup: true}) :
+                    this.props.authUrl;
+
+    const w = 320;
+    const h = 600;
+    const x = window.screenX +
+          Math.max(0, Math.floor((window.innerWidth - w) / 2));
+    const y = window.screenY +
+          Math.max(0, Math.floor((window.innerHeight - h) / 2));
+
+    const popup = window.open(
+      authUrl, 'fxa',
+      `scrollbars=yes,width=${w},height=${h},left=${x},top=${y}`);
+
+    return new Promise((resolve, reject) => {
+      resolve(popup);
+      const popupInterval = setInterval(() => {
+        if (!popup || popup.closed) {
+          // Popup closed, login cancelled.
+          window.removeEventListener('message', this.handlePostMessage);
+          clearInterval(popupInterval);
+          reject(popup);
+        }
+      }, 500);
+    });
+  }
+  startLogin = () => {
+    this.setState({
+      loggingIn: true
+    });
+    this.openPopup().then((popup) => {
+      if (this.props.loginBeginHandler) {
+        // loginBeginHandler generally used to store popup to close later.
+        this.props.loginBeginHandler(popup);
+      }
+    }, () => {
+      this.setState({
+        loggingIn: false
+      });
+    });
+  }
+  render() {
+    var btnClasses = classnames({
+      login: true,
+      ['login--register']: this.props.signup,
+    });
+    return <button className={btnClasses} onClick={this.startLogin}>
+      {this.props.content || this.props.isSignup ? 'Register' : 'Login'}
+    </button>;
+  }
+}
 
 
-const FxaLogin = React.createClass({
-  /* After login, FxA OAuth redirects to this handler which is within a popup.
-     Retrieves the auth info from the URL and postmessage back to opener.
-     Note this handler is currently not used in production, but rather
-     Fireplace's /fxa-authorize handler, but it'll work since every app will
-     be proxied onto the same domain.
+export class LoginOAuthRedirectHandler extends React.Component {
+  /*
+    After login, FxA OAuth redirects to this handler which is within a popup.
+    Retrieves the auth info from the URL and postmessage back to opener.
+    Note this handler is currently not used in production, but rather
+    Fireplace's /fxa-authorize handler, but it'll work since every app will
+    be proxied onto the same domain.
   */
-  contextTypes: {
-    router: React.PropTypes.func
-  },
-  componentDidMount() {
-    const {router} = this.context;
+  constructor() {
+    super();
 
     if (this.isPopup()) {
       // `auth_code` to match the legacy Commonplace key.
       window.opener.postMessage({auth_code: window.location.href},
                                 window.location.origin);
     }
-  },
+  }
   isPopup() {
     try {
         if (window.opener.location.protocol == window.location.protocol &&
@@ -42,141 +108,8 @@ const FxaLogin = React.createClass({
     } catch (e) {
       return false;
     }
-  },
+  }
   render() {
-    return <h1>Processing Firefox Accounts authorization&hellip;</h1>
+    return <h2>Processing Firefox Accounts authorization...</h2>
   }
-});
-export {FxaLogin as FxaLogin};
-
-
-const LoginButton = React.createClass({
-  // Wrapper around FxA login button to connect to Marketplace's API.
-  propTypes: {
-    signup: React.PropTypes.bool
-  },
-  siteConfigStateGetter(siteConfig) {
-    return siteConfig.getAuthInfo(this.props.signup);
-  },
-  render() {
-    return <FluxComponent
-              connectToStores={{siteConfig: this.siteConfigStateGetter}}>
-      <FxaLoginButton signup={this.props.signup}/>
-    </FluxComponent>
-  }
-});
-export {LoginButton as LoginButton};
-
-
-const FxaLoginButton = React.createClass({
-  // Opens up an FxA login popup window.
- propTypes: {
-    authUrl: React.PropTypes.string,
-    authState: React.PropTypes.string,
-    content: React.PropTypes.any,
-    localDevClientId: React.PropTypes.string,
-    signup: React.PropTypes.bool
-  },
-  getInitialState() {
-    return {
-      loggingIn: false
-    };
-  },
-  componentDidMount() {
-    window.addEventListener('message', this.handlePostMessage);
-  },
-  componentWillUnmount() {
-    window.removeEventListener('message', this.handlePostMessage);
-  },
-  handlePostMessage(msg) {
-    var origins = [process.env.API_ROOT, window.location.origin];
-    if (msg.data && msg.data.auth_code && origins.indexOf(msg.origin) !== -1) {
-        // Trigger Login action.
-        this.props.flux.getActions('login').login(
-            msg.data.auth_code, this.props.authState,
-            this.props.localDevClientId);
-    }
-  },
-  openPopup() {
-    const w = this.props.popupWidth || 320;
-    const h = this.props.popupHeight || 600;
-    const x = window.screenX +
-          Math.max(0, Math.floor((window.innerWidth - w) / 2));
-    const y = window.screenY +
-          Math.max(0, Math.floor((window.innerHeight - h) / 2));
-
-    const popup = window.open(
-      this.props.authUrl, 'fxa',
-      `scrollbars=yes,width=${w},height=${h},left=${x},top=${y}`);
-
-    return new Promise((resolve, reject) => {
-      resolve(popup);
-      const popupInterval = setInterval(() => {
-        if (!popup || popup.closed) {
-          // Popup closed, login cancelled.
-          clearInterval(popupInterval);
-          reject(popup);
-        }
-      }, 500);
-    });
-  },
-  startLogin() {
-    const root = this;
-    root.setState({
-      loggingIn: true
-    });
-    root.openPopup().then((popup) => {
-      this.props.flux.getActions('login').startLogin(popup);
-    }, () => {
-      root.setState({
-        loggingIn: false
-      });
-    });
-  },
-  render() {
-    var btnClasses = classnames({
-      login: true,
-      ['login--register']: this.props.signup,
-    });
-    return <button className={btnClasses} onClick={this.startLogin}>
-      {this.props.content || this.props.signup ? 'Register' : 'Login'}
-    </button>;
-  }
-});
-export {FxaLoginButton as FxaLoginButton};
-
-
-const LogoutButton = React.createClass({
-  logout() {
-    // Trigger Logout action.
-    this.props.flux.getActions('login').logout();
-  },
-  render() {
-    return <button className="logout" onClick={this.logout}>
-      {this.props.content || 'Logout'}
-    </button>
-  }
-});
-export {LogoutButton as LogoutButton};
-
-
-const loginRequired = (Component, group) => {
-  class AuthenticatedComponent extends React.Component {
-    render() {
-      if (process.env.NODE_ENV === 'test' ||
-          (this.props.isLoggedIn && this.props.hasPermission)) {
-        return <Component {...this.props}/>
-      } else {
-        // Return login handler if not logged in or doesn't have permission.
-        return <Login/>
-      }
-    }
-  }
-  return connectToStores(AuthenticatedComponent, {
-    user: userStore => ({
-      hasPermission: userStore.hasPermission(group),
-      isLoggedIn: userStore.isLoggedIn(),
-    })
-  });
-};
-export {loginRequired as loginRequired};
+}

@@ -15,8 +15,8 @@ describe('login.login', () => {
 
   it('dispatches login start', done => {
     function dispatch(action) {
-      if (action.type == login.LOGIN_START) {
-        assert.equal(action.type, login.LOGIN_START);
+      if (action.type == login.LOGIN_BEGIN) {
+        assert.equal(action.type, login.LOGIN_BEGIN);
         assert.deepEqual(action.payload, {
           auth_response: 'a',
           state: 'b',
@@ -56,8 +56,8 @@ describe('login.logout', () => {
 
   it('dispatches logout start', done => {
     function dispatch(action) {
-      if (action.type == login.LOGOUT_START) {
-        assert.equal(action.type, login.LOGOUT_START);
+      if (action.type == login.LOGOUT_BEGIN) {
+        assert.equal(action.type, login.LOGOUT_BEGIN);
         done();
       }
     }

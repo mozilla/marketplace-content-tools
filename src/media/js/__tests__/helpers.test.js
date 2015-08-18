@@ -114,3 +114,17 @@ global.ReactDOMHelper = {
   render: TestUtils.renderIntoDocument,
   submit: TestUtils.Simulate.submit,
 };
+
+global.StubRouter = {
+  makeHref: () => {},
+  makePath: () => {},
+  transitionTo: () => {},
+  replaceWith: () => {},
+  goBack: () => {},
+  getCurrentPath: () => {},
+  getCurrentRoutes: () => {},
+  getCurrentPathname: () => {},
+  getCurrentParams: () => {},
+  getCurrentQuery: () => {},
+  isActive: () => {},
+};

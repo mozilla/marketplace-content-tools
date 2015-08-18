@@ -4,15 +4,25 @@ import {connect} from 'react-redux';
 
 import Footer from './footer';
 import Header from './header';
-import {loginOk} from '../actions/login';
+import {fxaLoginBegin, login, loginOk, logout} from '../actions/login';
 import {fetch as siteConfigFetch} from '../actions/siteConfig';
 
 
-@connect(
-  state => ({user: state.user}),
-  dispatch => bindActionCreators({loginOk, siteConfigFetch}, dispatch)
-)
-export default class App extends React.Component {
+export class App extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  };
+  static propTypes = {
+    children: React.PropTypes.object.isRequired,
+    fxaLoginBegin: React.PropTypes.func.isRequired,
+    login: React.PropTypes.func.isRequired,
+    loginOk: React.PropTypes.func.isRequired,
+    logout: React.PropTypes.func.isRequired,
+    siteConfig: React.PropTypes.object.isRequired,
+    siteConfigFetch: React.PropTypes.func.isRequired,
+    store: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object.isRequired,
+  };
   constructor(props, context) {
     super(props, context);
 
@@ -24,11 +34,46 @@ export default class App extends React.Component {
       this.props.loginOk(this.props.user);
     }
   }
+  loginHandler = authCode => {
+    // Call login, passing in some extra stuff from siteConfig.
+    this.props.login(authCode, this.props.siteConfig.authState,
+                     this.props.siteConfig.clientId);
+  }
   render() {
+    // Inject the store into the children.
+    const children = React.Children.map(this.props.children, e => {
+      return React.addons.cloneWithProps(e, {
+        router: this.context.router,
+        store: this.props.store
+      });
+    });
+
     return <div className="app">
+      <Header authUrl={this.props.siteConfig.authUrl}
+              displayName={this.props.user.settings.display_name}
+              loginBeginHandler={this.props.fxaLoginBegin}
+              loginHandler={this.loginHandler}
+              logoutHandler={this.props.logout}
+              isLoggedIn={!!this.props.user.token}/>
       <main>
-        {this.props.children}
+        {children}
       </main>
+      <Footer/>
     </div>
   }
 }
+
+
+export default connect(
+  state => ({
+    siteConfig: state.siteConfig,
+    user: state.user,
+  }),
+  dispatch => bindActionCreators({
+    fxaLoginBegin,
+    login,
+    loginOk,
+    logout,
+    siteConfigFetch
+  }, dispatch)
+)(App);
