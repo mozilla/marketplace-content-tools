@@ -9,9 +9,6 @@ import {fetch as siteConfigFetch} from '../actions/siteConfig';
 
 
 export class App extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired,
-  };
   static propTypes = {
     children: React.PropTypes.object.isRequired,
     fxaLoginBegin: React.PropTypes.func.isRequired,
@@ -20,7 +17,6 @@ export class App extends React.Component {
     logout: React.PropTypes.func.isRequired,
     siteConfig: React.PropTypes.object.isRequired,
     siteConfigFetch: React.PropTypes.func.isRequired,
-    store: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired,
   };
   constructor(props, context) {
@@ -40,14 +36,6 @@ export class App extends React.Component {
                      this.props.siteConfig.clientId);
   }
   render() {
-    // Inject the store into the children.
-    const children = React.Children.map(this.props.children, e => {
-      return React.addons.cloneWithProps(e, {
-        router: this.context.router,
-        store: this.props.store
-      });
-    });
-
     return <div className="app">
       <Header authUrl={this.props.siteConfig.authUrl}
               displayName={this.props.user.settings.display_name}
@@ -56,7 +44,7 @@ export class App extends React.Component {
               logoutHandler={this.props.logout}
               isLoggedIn={!!this.props.user.token}/>
       <main>
-        {children}
+        {this.props.children}
       </main>
       <Footer/>
     </div>

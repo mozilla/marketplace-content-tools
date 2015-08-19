@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react/addons';
 
 
 const SubmissionUrlForm = React.createClass({
@@ -6,6 +6,7 @@ const SubmissionUrlForm = React.createClass({
   propTypes: {
     isLoading: React.PropTypes.bool,
     mobileFriendlyData: React.PropTypes.object,
+    submitHandler: React.PropTypes.func.isRequired,
     successfullySubmittedUrl: React.PropTypes.string,
     url: React.PropTypes.string
   },
@@ -41,13 +42,9 @@ const SubmissionUrlForm = React.createClass({
     }
   },
   render() {
-    const flux = this.props.flux;
-
     const onSubmit = e => {
       e.preventDefault();
-
-      flux.getActions('submission').submitUrl(
-        e.currentTarget.elements.submissionUrl.value);
+      this.props.submitHandler(e.currentTarget.elements.submissionUrl.value);
     };
 
     let placeholder = "Enter a website URL...";

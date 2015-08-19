@@ -2,6 +2,9 @@ import * as submissionActions from '../actions/submission';
 
 
 const initialState = {
+  meta: {
+    persist: true
+  },
   activeStep: 0,
   highestStep: 0,
   isLoading: false,
@@ -31,6 +34,7 @@ export default function submissionReducer(state=initialState, action) {
         activeStep: activeStep,
         highestStep: activeStep,  // Reset highest step.
         isLoading: false,
+        metadata: action.payload.metadata,
         mobileFriendlyData: {
           isMobileFriendly: isMobileFriendly,
           screenshot: _formatScreenshot(mobileFriendlyData.screenshot)

@@ -6,6 +6,9 @@ import * as submissionMetadataActions from '../actions/submissionMetadataForm';
 
 
 const initialState = {
+  meta: {
+    persist: true
+  },
   canonical_url: '',
   categories: [],
   description: '',

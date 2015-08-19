@@ -7,6 +7,9 @@ import {fxaLoginBegin, login} from '../../actions/login';
 
 
 export class Login extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object
+  };
   static propTypes = {
     authUrl: React.PropTypes.string,
     fxaLoginBegin: React.PropTypes.func.isRequired,

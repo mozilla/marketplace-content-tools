@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {ReverseLink} from 'react-router-reverse';
 
 import {LoginButton} from './login';
 
@@ -16,8 +16,8 @@ export default class Header extends React.Component {
       </div>
       <nav>
         <li>
-          <Link to="/submission/">Submission Tools</Link>
-          <Link to="/submission/review/">Reviewer Tools</Link>
+          <ReverseLink to="submission">Submission Tools</ReverseLink>
+          <ReverseLink to="review-listing">Reviewer Tools</ReverseLink>
         </li>
       </nav>
 

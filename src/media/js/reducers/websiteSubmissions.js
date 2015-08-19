@@ -9,7 +9,7 @@ const initialState = {};
 
 export default function websiteSubmissionsReducer(state=initialState, action) {
   switch (action.type) {
-    case websiteSubmissionActions.FETCH_OK: {
+    case websiteSubmissionActions.FETCH_SUBMISSIONS_OK: {
       let submissions = {};
       action.payload.forEach(submission => {
         submissions[submission.id] = submission;

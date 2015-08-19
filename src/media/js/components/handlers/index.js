@@ -2,12 +2,12 @@ import React from 'react';
 
 
 export default class SubmissionRedirect extends React.Component {
-  static propTypes = {
+  static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
-  constructor(props) {
-    super(props);
-    this.props.router.transitionTo('/submission/');
+  constructor(props, context) {
+    super(props, context);
+    this.context.router.transitionTo('/submission/');
   }
   render() {
     return <div/>;

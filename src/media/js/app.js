@@ -55,33 +55,36 @@ const createStoreWithMiddleware = applyMiddleware(
 const store = createStoreWithMiddleware(reducer);
 
 
+function renderRoutes() {
+  return <Router history={history}>
+    <Route component={reduxRouteComponent(store)}>
+      <Route name="app" component={App}>
+        <Route path="/" component={SubmissionRedirect}/>
+        <Route name="login-oauth-redirect" path="/fxa-authorize"
+               component={LoginOAuthRedirectHandler}/>
+        <Route name="login" path="/login" component={Login}/>
+
+        <Route name="submission" path="/submission/"
+               component={loginRequired(Submission, Login,
+                                        ['reviewer', 'website_submitter'])}/>
+
+        <Route name="review-listing" path="/review/"
+               component={loginRequired(ReviewListing, Login, 'reviewer')}/>
+        <Route name="edit-website" path="/review/website/:id"
+               component={loginRequired(EditWebsite, Login, 'reviewer')}/>
+      </Route>
+    </Route>
+  </Router>
+}
+
+
 class ReduxApp extends React.Component {
-  // Need to wrap the handler component in a wrapper since react@0.13 does
-  // owner-based context.
   render() {
-    // Pass in the store so we can pass it to the top-level handlers
-    // in this.props.children while still being able to use @connect.
     return <Provider store={store}>
-      {() => <App children={this.props.children} store={store}/>}
+      {renderRoutes.bind(null)}
     </Provider>
   }
 }
 
-React.render(<Router history={history}>
-  <Route component={reduxRouteComponent(store)}>
-    <Route name="app" component={ReduxApp}>
-      <Route path="/" component={SubmissionRedirect}/>
-      <Route name="login-oauth-redirect" path="/fxa-authorize"
-             component={LoginOAuthRedirectHandler}/>
-      <Route name="login" path="/login" component={Login}/>
 
-      <Route name="submission" path="/submission/"
-             component={loginRequired(Submission, Login,
-                                      ['reviewer', 'website_submitter'])}/>
-      <Route name="review-listing" path="/submission/review/"
-             component={loginRequired(ReviewListing, Login, 'reviewer')}/>
-      <Route name="edit-website" path="/review/website/:id"
-             component={loginRequired(EditWebsite, Login, 'reviewer')}/>
-    </Route>
-  </Route>
-</Router>, document.querySelector('.app-container'));
+React.render(<ReduxApp/>, document.querySelector('.app-container'));

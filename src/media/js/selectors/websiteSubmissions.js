@@ -1,0 +1,14 @@
+import {createSelector} from 'reselect';
+
+
+export default createSelector(
+  [state => state.websiteSubmissions],
+  websiteSubmissions => {
+    // Return submissions in list form.
+    return {
+      websiteSubmissions: Object.keys(websiteSubmissions)
+                                .sort()
+                                .map(id => websiteSubmissions[id])
+    };
+  }
+);

@@ -5,19 +5,20 @@ import urlJoin from 'url-join';
 import req from '../request';
 
 
-export const EDIT_SUBMISSION = createAction('WEBSITE__EDIT_SUBMISSION');
+export const EDIT_SUBMISSION = 'WEBSITE__EDIT_SUBMISSION';
 export const editSubmission = createAction(EDIT_SUBMISSION);
 
-export const FETCH_SUBMISSIONS_OK = createAction(
-  'WEBSITE__FETCH_SUBMISSIONS_OK');
-export const fetchSubmissionsOk = createAction(FETCH_SUBMISSIONS_OK);
+export const FETCH_SUBMISSIONS_OK = 'WEBSITE__FETCH_SUBMISSIONS_OK';
+const fetchSubmissionsOk = createAction(FETCH_SUBMISSIONS_OK);
 
 
-export function fetch(apiArgs) {
-  return dispatch => {
+export function fetch() {
+  return (dispatch, getState) => {
     if (process.env.NODE_ENV === 'test') {
-      dispatch(fetchWebsiteSubmissionsOk(_generateFakeWebsiteSubmissions()));
+      dispatch(fetchSubmissionsOk(_generateFakeWebsiteSubmissions()));
     } else {
+      const apiArgs = getState().apiArgs || {};
+
       const submissionsListRoute = Url(
         urlJoin(process.env.MKT_API_ROOT, 'websites/submissions/')
       ).q(apiArgs);
@@ -39,8 +40,8 @@ function _generateFakeWebsiteSubmissions() {
       id: i,
       categories: ['games', 'books-comics'],
       description: `Fake submission ${i}.`,
+      detected_icon: 'http://imgur.com/msW5XI3.jpg',
       keywords: ['fake', 'submission'],
-      icon: 'http://imgur.com/msW5XI3.jpg',
       name: `Fake Submission ${i}`,
       preferred_regions: ['us', 'ca'],
       public_credit: true,

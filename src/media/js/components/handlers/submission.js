@@ -1,57 +1,66 @@
 import React from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import SubmissionMetadataForm from '../submissionMetadataForm';
 import SubmissionUrlForm from '../submissionUrlForm';
 import Wizard from '../wizard';
 
+import {goToStep, submitUrl} from '../../actions/submission';
+import {setFormData,
+        submitMetadata} from '../../actions/submissionMetadataForm';
 
-const Submission = React.createClass({
-  handleMetadataFormChange(data) {
-    this.props.flux.getActions('submissionMetadataForm').setFormData(data);
-  },
-  handleMetadataFormSubmit(data) {
-    this.props.flux.getActions('submissionMetadataForm').submitMetadata(
-      data, this.props.flux.getStore('apiArgs').getArgs());
-  },
+
+class Submission extends React.Component {
+  static propTypes = {
+    goToStep: React.PropTypes.func.isRequired,
+    setFormData: React.PropTypes.func.isRequired,
+    submission: React.PropTypes.object.isRequired,
+    submissionMetadata: React.PropTypes.object.isRequired,
+    submitter: React.PropTypes.string.isRequired,
+    submitMetadata: React.PropTypes.func.isRequired,
+    submitUrl: React.PropTypes.func.isRequired,
+  };
   render() {
-    return <h1>UNDER CONSTRUCTION</h1>;
-
-    /*
-    const metadataStoreConnector = {
-      submission: null,
-      submissionMetadataForm: null,
-      user: store => ({submitter: store.getEmail()})
-    };
-
     const steps = [
       {
         title: 'Step 1: Website URL',
-        form: <FluxComponent connectToStores={'submission'}>
-                <SubmissionUrlForm/>
-              </FluxComponent>
+        form: <SubmissionUrlForm
+                 submitHandler={this.props.submitUrl}
+                 url={this.props.submission.url}/>
       },
       {
         title: 'Step 2: Website Metadata',
-        form: <FluxComponent connectToStores={metadataStoreConnector}>
-                <SubmissionMetadataForm
-                   onChange={this.handleMetadataFormChange}
-                   onSubmit={this.handleMetadataFormSubmit}/>
-              </FluxComponent>
+        form: <SubmissionMetadataForm
+                 onChange={this.props.setFormData}
+                 onSubmit={this.props.submitMetadata}
+                 screenshot={this.props.submission.mobileFriendlyData
+                                                  .screenshot}
+                 submitter={this.props.submitter}
+                 url={this.props.submission.url}
+                 {...this.props.submissionMetadata}
+              />
       }
     ];
-
-    const submitActions = this.props.flux.getActions('submission');
-    const goToStep = i => () => {submitActions.goToStep(i)};
-
     return <section className="submission">
       <h1>Submitting a Website</h1>
-      <FluxComponent connectToStores={'submission'}>
-        <Wizard steps={steps} goToStep={goToStep}/>
-      </FluxComponent>
+      <Wizard steps={steps} goToStep={this.props.goToStep}
+              {...this.props.submission}/>
     </section>
-    */
   }
-});
+}
 
 
-export default Submission;
+export default connect(
+  state => ({
+    submitter: state.user.settings.email,
+    submission: state.submission,
+    submissionMetadata: state.submissionMetadata,
+  }),
+  dispatch => bindActionCreators({
+    goToStep,
+    setFormData,
+    submitMetadata,
+    submitUrl,
+  }, dispatch)
+)(Submission);

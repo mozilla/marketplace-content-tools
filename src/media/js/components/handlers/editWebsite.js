@@ -1,29 +1,33 @@
-import FluxComponent from 'flummox/component';
 import React from 'react';
-import Router from 'react-router';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import SubmissionMetadataForm from '../submissionMetadataForm';
+import {editSubmission} from '../../actions/websiteSubmissions';
 
 
-const EditWebsiteHandler = React.createClass({
-  contextTypes: {
-    router: React.PropTypes.func
-  },
-  handleOnChange(data) {
-    this.props.flux.getActions('websiteSubmissions').editSubmission(
-      this.context.router.getCurrentParams().id, data);
-  },
+export class EditWebsiteHandler extends React.Component {
+  handleOnChange = data => {
+    this.props.editSubmission(this.props.id, data);
+  }
   render() {
-    const id = this.context.router.getCurrentParams().id;
-
     return <div className="edit-website">
-      <h1>Editing a Website</h1>
-      <FluxComponent connectToStores={{'websiteSubmissions': store =>
-                                       store.get(id)}}>
-        <SubmissionMetadataForm isEditing={true}
-                                onChange={this.handleOnChange}/>
-      </FluxComponent>
+      <h2>Editing a Website</h2>
+      <SubmissionMetadataForm
+         isEditing={true}
+         onChange={this.handleOnChange}
+         {...this.props.websiteSubmissions[this.props.id]}/>
     </div>
   }
-});
-export default EditWebsiteHandler;
+}
+
+
+export default connect(
+  state => ({
+    id: state.router.params.id,
+    websiteSubmissions: state.websiteSubmissions
+  }),
+  dispatch => bindActionCreators({
+
+  })
+)(EditWebsiteHandler);

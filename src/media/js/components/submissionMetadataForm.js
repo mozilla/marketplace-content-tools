@@ -223,9 +223,9 @@ const SubmissionMetadataForm = React.createClass({
         </button>
       </form>
 
-      <img className="site--screenshot" onClick={this.debugFill}
-           src={this.props.mobileFriendlyData &&
-                this.props.mobileFriendlyData.screenshot}/>
+      {this.props.screenshot &&
+       <img className="site--screenshot" onClick={this.debugFill}
+            src={this.props.screenshot}/>}
     </div>
   }
 });

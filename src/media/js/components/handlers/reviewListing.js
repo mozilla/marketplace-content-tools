@@ -1,32 +1,35 @@
-import FluxComponent from 'flummox/component';
-import React from 'react';
-import Router from 'react-router';
-
 import mktConstants from 'marketplace-constants';
+import React from 'react';
+import {connect} from 'react-redux';
+import {ReverseLink} from 'react-router-reverse';
+import {bindActionCreators} from 'redux';
+
+import {fetch as websiteFetch} from '../../actions/websiteSubmissions';
+import websiteSubmissionsSelector from '../../selectors/websiteSubmissions';
 import {humanizeCategory} from '../../constants/categories';
 
 
-const ReviewListingHandler = React.createClass({
-  componentDidMount() {
-    this.props.flux.getActions('websiteSubmissions').fetch(
-      this.props.flux.getStore('apiArgs').getArgs());
-  },
-  render() {
-    const submissionGetter = store => ({
-      submissions: store.getAsList()
-    });
+export class ReviewListingHandler extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.props.websiteFetch();
+  }
+  render() {
     return <section>
       <h1>Reviewing Websites</h1>
-
-      <FluxComponent connectToStores={{'websiteSubmissions':
-                                       submissionGetter}}>
-        <ReviewListing/>
-      </FluxComponent>
+      <ReviewListing submissions={this.props.websiteSubmissions}/>
     </section>
   }
-});
-export default ReviewListingHandler;
+};
+
+
+export default connect(
+  websiteSubmissionsSelector,
+  dispatch => bindActionCreators({
+    websiteFetch
+  }, dispatch)
+)(ReviewListingHandler);
 
 
 const ReviewListing = React.createClass({
@@ -85,9 +88,9 @@ const ReviewListingItem = React.createClass({
         <dt>{this.props.works_well}/5</dt>
       </dl>
       <div className="review-listing-actions">
-        <Router.Link to="edit-website" params={{id: this.props.id}}>
+        <ReverseLink to="edit-website" params={{id: this.props.id}}>
           <button>Edit</button>
-        </Router.Link>
+        </ReverseLink>
         <button className="button--success" onClick={this.approve}>
           Approve
         </button>
