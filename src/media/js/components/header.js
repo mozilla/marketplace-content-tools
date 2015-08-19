@@ -40,7 +40,7 @@ class HeaderLogin extends React.Component {
     if (this.props.isLoggedIn) {
       return <div className="header--login">
         <p>Logged in as {this.props.displayName}</p>
-        <button className="logout" onClick={this.logoutHandler}>
+        <button className="logout" onClick={this.props.logoutHandler}>
           Logout
         </button>
       </div>

@@ -4,6 +4,9 @@ import * as siteConfigActions from '../actions/siteConfig';
 
 
 const initialState = {
+  meta: {
+    persist: true
+  },
   clientId: getLocalDevClientId(),
   switches: []
 }

@@ -2,6 +2,9 @@ import * as loginActions from '../actions/login';
 
 
 const initialState = {
+  meta: {
+    persist: true
+  },
   settings: {}
 };
 
@@ -9,7 +12,7 @@ const initialState = {
 export default function userReducer(state=initialState, action) {
   switch (action.type) {
     case loginActions.LOGIN_OK: {
-      return Object.assign({}, action.payload);
+      return Object.assign({}, state, action.payload);
     }
 
     case loginActions.LOGOUT_OK: {

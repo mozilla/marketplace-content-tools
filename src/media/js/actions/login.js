@@ -3,6 +3,7 @@
 */
 import {createAction} from 'redux-actions';
 import urlJoin from 'url-join';
+import Url from 'urlgray';
 
 import req from '../request';
 
@@ -55,12 +56,14 @@ export function logout() {
   // Tells Zamboni we are logged out.
   const url = urlJoin(process.env.MKT_API_ROOT, 'account/logout/')
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(logoutBegin());
+
+    const apiArgs = getState().apiArgs || {};
 
     // Post logout data to server to clear session.
     req
-      .del(url)
+      .del(Url(url).q(apiArgs))
       .then(() => {
         dispatch(logoutOk());
       });

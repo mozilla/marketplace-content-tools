@@ -2,10 +2,12 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {Route, Router} from 'react-router';
 import {history} from 'react-router/lib/BrowserHistory';
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import loggerMiddleware from 'redux-logger';
 import {reduxRouteComponent,
         routerStateReducer as router} from 'redux-react-router';
+import persistState from 'redux-localstorage'
+import persistSlicer from 'redux-localstorage-slicer';
 import thunkMiddleware from 'redux-thunk';
 
 import {loginRequired} from './login';
@@ -38,10 +40,17 @@ const reducer = combineReducers({
   websiteSubmissions
 });
 
+const createPersistentStore = compose(
+  persistState(null, {
+    slicer: persistSlicer()
+  }),
+  createStore
+);
+
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
   loggerMiddleware,
-)(createStore);
+)(createPersistentStore);
 
 const store = createStoreWithMiddleware(reducer);
 
