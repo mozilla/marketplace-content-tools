@@ -50,7 +50,7 @@ const WizardProgressBar = React.createClass({
       // Highest step keeps track if we went backwards before or not.
       itemClassNames['wizard-progress-bar-btn'] = true;
       return <a className={classnames(itemClassNames)} key={index}
-                onClick={this.props.goToStep(index)}
+                onClick={() => {this.props.goToStep(index)}}
                 title="Back to previous step">
         {stepTitle}
       </a>
