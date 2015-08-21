@@ -21,20 +21,21 @@ const submitWebsiteErr = createAction(SUBMIT_WEBSITE_ERR);
 
 export function submitWebsite(data, apiArgs) {
   // Submit website.
-  const submitUrl = Url(
-    urlJoin(process.env.MKT_API_ROOT, 'websites/submit/')
-  ).q(apiArgs);
+  return (dispatch, getState) => {
+    const apiArgs = getState().apiArgs || {};
+    const submitUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'websites/submit/')
+    ).q(apiArgs);
 
-  return dispatch => {
-     req
-      .post(submitUrl)
-      .send(data)
-      .then((res, err) => {
-        if (err) {
-          dispatch(submitWebsiteErr(err));
-        } else {
-          dispatch(submitWebsiteOk(res));
-        }
-      });
+    req
+     .post(submitUrl)
+     .send(data)
+     .then((res, err) => {
+       if (err) {
+         dispatch(submitWebsiteErr(err));
+       } else {
+         dispatch(submitWebsiteOk(res));
+       }
+     });
   };
 }
