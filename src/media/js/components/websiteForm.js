@@ -3,7 +3,6 @@
   Fires props.onChange with {fieldName, val} whenever a field is changed.
   Fires props.onSubmit with form data when form is submitted.
 */
-import _ from 'lodash';
 import React from 'react';
 
 import CategoryGroupSelect from './categorySelect';

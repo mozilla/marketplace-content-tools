@@ -28,6 +28,7 @@ import apiArgs from './reducers/apiArgs';
 import login from './reducers/login';
 import reviewWebsiteListing from './reducers/reviewWebsiteListing';
 import siteConfig from './reducers/siteConfig';
+import submissionAddon from './reducers/submissionAddon';
 import submissionWebsite from './reducers/submissionWebsite';
 import submissionWebsiteUrl from './reducers/submissionWebsiteUrl';
 import user from './reducers/user';
@@ -39,6 +40,7 @@ const reducer = combineReducers({
   reviewWebsiteListing,
   router,
   siteConfig,
+  submissionAddon,
   submissionWebsite,
   submissionWebsiteUrl,
   user,

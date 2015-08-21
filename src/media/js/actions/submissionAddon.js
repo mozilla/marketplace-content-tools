@@ -1,3 +1,13 @@
+/*
+Add-on validation and submission actions.
+
+1. Upload a ZIP, get a validation ID.
+2. Poll the validation API using the given ID to get processing status.
+3. Once validation passes, ping the API with the validation ID to create the
+   add-on and finish the submission process.
+
+firefox-marketplace-api.readthedocs.org/en/latest/topics/addon_submission.html
+*/
 'use strict';
 import {createAction} from 'redux-actions';
 import Url from 'urlgray';
@@ -6,20 +16,28 @@ import urlJoin from 'url-join';
 import req from '../request';
 
 
-export const VALIDAITON_BEGIN = 'SUBMISSION_ADDON__VALIDAITON_BEGIN';
-const validationBegin = createAction(VALIDAITON_BEGIN);
+export const VALIDATION_BEGIN = 'SUBMISSION_ADDON__VALIDATION_BEGIN';
+const validationBegin = createAction(VALIDATION_BEGIN);
 
-// For when the add-on upload is in process of validation.
-export const VALIDAITON_PENDING = 'SUBMISSION_ADDON__VALIDAITON_PENDING';
-const validationPending = createAction(VALIDAITON_PENDING);
+// For when the add-on upload has started processing.
+export const VALIDATION_PENDING = 'SUBMISSION_ADDON__VALIDATION_PENDING';
+const validationPending = createAction(VALIDATION_PENDING);
 
 // For when the add-on upload has finished validation.
-export const VALIDAITON_PROCESSED = 'SUBMISSION_ADDON__VALIDAITON_PROCESSED';
-const validationProcessed = createAction(VALIDAITON_PROCESSED);
+export const VALIDATION_PASS = 'SUBMISSION_ADDON__VALIDATION_PASS';
+const validationPassed = createAction(VALIDATION_PASS);
+
+export const VALIDATION_FAIL = 'SUBMISSION_ADDON__VALIDATION_FAIL';
+const validationError = createAction(VALIDATION_FAIL);
+
+export const SUBMIT_OK = 'SUBMISSION_ADDON__SUBMIT_OK';
+const submitOk = createAction(SUBMIT_OK);
+
+export const SUBMIT_ERROR = 'SUBMISSION_ADDON__SUBMIT_ERROR';
+const submitError = createAction(SUBMIT_ERROR);
 
 
-
-export function validate(data) {
+export function validate(fileData) {
   /*
     Upload add-on .zip file for validation.
   */
@@ -32,17 +50,77 @@ export function validate(data) {
     dispatch(validationBegin());
 
     req
-      .post(validation)
+      .post(validationUrl)
       .set('Content-Type', 'application/zip')
       .set('Content-Disposition',
            'form-data; name="binary_data"; filename="extension.zip"')
-      .send(data)
+      .send(fileData)
+      .then((res, err) => {
+        // Notify the reducers.
+        dispatch(validationPending(res.body.id));
+
+        // Take further action by polling.
+        dispatch(pollValidator(res.body.id));
+      });
+  };
+}
+
+
+export function pollValidator(validationId) {
+  /*
+    Poll add-on's validation detail endpoint to wait until validation has
+    processed.
+  */
+  return (dispatch, getState) => {
+    const apiArgs = getState().apiArgs || {};
+    const pollUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT,
+              `extensions/validation/${validationId}/`)
+    ).q(apiArgs);
+
+    function poll(interval) {
+      req
+        .get(pollUrl)
+        .then((res, err) => {
+          if (res.body.processed) {
+            // If processed, then validation is complete. Resolve process.
+            clearInterval(pollValidatorInterval);
+
+            if (res.body.valid) {
+              dispatch(create(res.body));
+            } else {
+              dispatch(validationFail(res.body.validation));
+            }
+          }
+        });
+    }
+
+    // Poll the validator, poll() will clear interval when complete + dispatch.
+    const pollValidatorInterval = setInterval(() => {
+      poll(pollValidatorInterval);
+    }, 500);
+  };
+}
+
+
+export function create() {
+  /*
+    Finish add-on submission process.
+  */
+  return (dispatch, getState) => {
+    const apiArgs = getState().apiArgs || {};
+    const createUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/')
+    ).q(apiArgs);
+
+    req
+      .post(createUrl)
+      .send({upload: getState().submissionAddon.validationId})
       .then((res, err) => {
         if (res.statusCode === 201) {
-          dispatch(validationProcessed());
-        } else if (res.statusCode === 202) {
-          dispatch(validationPending());
+          dispatch(submitOk());
         } else {
+          dispatch(submitError(res.body));
         }
       });
   };
