@@ -6,13 +6,13 @@ import urlJoin from 'url-join';
 import req from '../request';
 
 
-export const SUBMIT_URL_BEGIN = 'SUBMISSION__SUBMIT_URL_BEGIN';
+export const SUBMIT_URL_BEGIN = 'SUBMISSION_WEBSITE_URL__SUBMIT_URL_BEGIN';
 const submitUrlBegin = createAction(SUBMIT_URL_BEGIN);
 
-export const SUBMIT_URL_OK = 'SUBMISSION__SUBMIT_URL_OK';
+export const SUBMIT_URL_OK = 'SUBMISSION_WEBSITE_URL__SUBMIT_URL_OK';
 const submitUrlOk = createAction(SUBMIT_URL_OK);
 
-export const GO_TO_STEP = 'SUBMISSION__GO_TO_STEP';
+export const GO_TO_STEP = 'SUBMISSION_WEBSITE_URL__GO_TO_STEP';
 export const goToStep = createAction(GO_TO_STEP);
 
 

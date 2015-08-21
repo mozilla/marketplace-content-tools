@@ -5,17 +5,17 @@ import urlJoin from 'url-join';
 import req from '../request';
 
 
-export const EDIT_SUBMISSION = 'WEBSITE__EDIT_SUBMISSION';
+export const EDIT_SUBMISSION = 'REVIEW_WEBSITE_LISTING__EDIT_SUBMISSION';
 export const editSubmission = createAction(EDIT_SUBMISSION);
 
-export const FETCH_SUBMISSIONS_OK = 'WEBSITE__FETCH_SUBMISSIONS_OK';
-const fetchSubmissionsOk = createAction(FETCH_SUBMISSIONS_OK);
+export const FETCH_OK = 'REVIEW_WEBSITE_LISTING__FETCH_OK';
+const fetchOk = createAction(FETCH_OK);
 
 
 export function fetch() {
   return (dispatch, getState) => {
     if (process.env.NODE_ENV === 'test') {
-      dispatch(fetchSubmissionsOk(_generateFakeWebsiteSubmissions()));
+      dispatch(fetchOk(_generateFakeWebsites()));
     } else {
       const apiArgs = getState().apiArgs || {};
 
@@ -25,14 +25,14 @@ export function fetch() {
       req
         .get(submissionsListRoute)
         .then(res => {
-          dispatch(fetchSubmissionsOk(res.body.objects));
+          dispatch(fetchOk(res.body.objects));
         });
     }
   };
 }
 
 
-function _generateFakeWebsiteSubmissions() {
+function _generateFakeWebsites() {
   // Mock data.
   let submissions = [];
   for (let i = 0; i < 10; i++) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import {reverse} from 'react-router-reverse';
 
 
 export default class SubmissionRedirect extends React.Component {
@@ -7,7 +8,8 @@ export default class SubmissionRedirect extends React.Component {
   };
   constructor(props, context) {
     super(props, context);
-    this.context.router.transitionTo('/submission/');
+    const path = reverse(this.context.router.routes, 'submission-landing');
+    this.context.router.transitionTo(path);
   }
   render() {
     return <div/>;

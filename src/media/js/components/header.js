@@ -16,8 +16,8 @@ export default class Header extends React.Component {
       </div>
       <nav>
         <li>
-          <ReverseLink to="submission">Submission Tools</ReverseLink>
-          <ReverseLink to="review-listing">Reviewer Tools</ReverseLink>
+          <ReverseLink to="submission-landing">Submission Tools</ReverseLink>
+          <ReverseLink to="review-landing">Reviewer Tools</ReverseLink>
         </li>
       </nav>
 

@@ -1,8 +1,8 @@
 /*
-    Reducer for the Metadata form of Submission.
+    Reducer for the Website metadata form step of Website Submission.
 */
-import * as submissionActions from '../actions/submission';
-import * as submissionMetadataActions from '../actions/submissionMetadataForm';
+import * as submissionWebsiteActions from '../actions/submissionWebsite';
+import * as submissionWebsiteUrlActions from '../actions/submissionWebsiteUrl';
 
 
 const initialState = {
@@ -23,10 +23,9 @@ const initialState = {
 };
 
 
-export default function submissionMetadataFormReducer(state=initialState,
-                                                      action) {
+export default function submissionWebsite(state=initialState, action) {
   switch (action.type) {
-    case submissionActions.SUBMIT_URL_OK: {
+    case submissionWebsiteUrlActions.SUBMIT_URL_OK: {
       const data = action.payload;
       return Object.assign({}, state, {
         canonical_url: data.metadata.canonical_url,
@@ -37,11 +36,11 @@ export default function submissionMetadataFormReducer(state=initialState,
       });
     }
 
-    case submissionMetadataActions.SET_FORM_DATA: {
+    case submissionWebsiteActions.SET_FORM_DATA: {
       return Object.assign({}, state, action.payload);
     }
 
-    case submissionMetadataActions.SUBMIT_METADATA_OK: {
+    case submissionWebsiteActions.SUBMIT_METADATA_OK: {
       return initialState
     }
 

@@ -2,21 +2,20 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import SubmissionMetadataForm from '../submissionMetadataForm';
-import SubmissionUrlForm from '../submissionUrlForm';
+import WebsiteForm from '../websiteForm';
+import WebsiteUrlForm from '../websiteUrlForm';
 import Wizard from '../wizard';
 
-import {goToStep, submitUrl} from '../../actions/submission';
-import {setFormData,
-        submitMetadata} from '../../actions/submissionMetadataForm';
+import {setFormData, submitMetadata} from '../../actions/submissionWebsite';
+import {goToStep, submitUrl} from '../../actions/submissionWebsiteUrl';
 
 
-class Submission extends React.Component {
+export class SubmissionWebsiteHandler extends React.Component {
   static propTypes = {
     goToStep: React.PropTypes.func.isRequired,
     setFormData: React.PropTypes.func.isRequired,
-    submission: React.PropTypes.object.isRequired,
-    submissionMetadata: React.PropTypes.object.isRequired,
+    submissionWebsite: React.PropTypes.object.isRequired,
+    submissionWebsiteUrl: React.PropTypes.object.isRequired,
     submitter: React.PropTypes.string.isRequired,
     submitMetadata: React.PropTypes.func.isRequired,
     submitUrl: React.PropTypes.func.isRequired,
@@ -25,27 +24,27 @@ class Submission extends React.Component {
     const steps = [
       {
         title: 'Step 1: Website URL',
-        form: <SubmissionUrlForm
+        form: <WebsiteUrlForm
                  submitHandler={this.props.submitUrl}
-                 url={this.props.submission.url}/>
+                 url={this.props.submissionWebsiteUrl.url}/>
       },
       {
         title: 'Step 2: Website Metadata',
-        form: <SubmissionMetadataForm
+        form: <WebsiteForm
                  onChange={this.props.setFormData}
                  onSubmit={this.props.submitMetadata}
-                 screenshot={this.props.submission.mobileFriendlyData
-                                                  .screenshot}
+                 screenshot={this.props.submissionWebsiteUrl
+                                       .mobileFriendlyData.screenshot}
                  submitter={this.props.submitter}
-                 url={this.props.submission.url}
-                 {...this.props.submissionMetadata}
+                 url={this.props.submissionWebsiteUrl.url}
+                 {...this.props.submissionWebsite}
               />
       }
     ];
     return <section className="submission">
       <h1>Submitting a Website</h1>
       <Wizard steps={steps} goToStep={this.props.goToStep}
-              {...this.props.submission}/>
+              {...this.props.submissionWebsiteUrl}/>
     </section>
   }
 }
@@ -54,8 +53,8 @@ class Submission extends React.Component {
 export default connect(
   state => ({
     submitter: state.user.settings.email,
-    submission: state.submission,
-    submissionMetadata: state.submissionMetadata,
+    submissionWebsite: state.submissionWebsite,
+    submissionWebsiteUrl: state.submissionWebsiteUrl,
   }),
   dispatch => bindActionCreators({
     goToStep,
@@ -63,4 +62,4 @@ export default connect(
     submitMetadata,
     submitUrl,
   }, dispatch)
-)(Submission);
+)(SubmissionWebsiteHandler);

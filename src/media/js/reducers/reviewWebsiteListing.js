@@ -1,15 +1,16 @@
 /*
     Holds website submissions, keyed by ID.
 */
-import * as websiteSubmissionActions from '../actions/websiteSubmissions';
+import * as reviewWebsiteListingActions from '../actions/reviewWebsiteListing';
 
 
 const initialState = {};
 
 
-export default function websiteSubmissionsReducer(state=initialState, action) {
+export default function reviewWebsiteListingReducer(state=initialState,
+                                                    action) {
   switch (action.type) {
-    case websiteSubmissionActions.FETCH_SUBMISSIONS_OK: {
+    case reviewWebsiteListingActions.FETCH_OK: {
       let submissions = {};
       action.payload.forEach(submission => {
         submissions[submission.id] = submission;
@@ -17,7 +18,7 @@ export default function websiteSubmissionsReducer(state=initialState, action) {
       return Object.assign({}, state, submissions);
     }
 
-    case websiteSubmissionActions.EDIT_SUBMISSION: {
+    case reviewWebsiteListingActions.EDIT_SUBMISSION: {
       const newState = Object.assign({}, state);
 
       const submissionData = action.payload;

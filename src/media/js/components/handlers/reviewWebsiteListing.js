@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
-import {fetch as websiteFetch} from '../../actions/websiteSubmissions';
-import websiteSubmissionsSelector from '../../selectors/websiteSubmissions';
+import {fetch as websiteFetch} from '../../actions/reviewWebsiteListing';
+import reviewWebsiteListingSelector from '../../selectors/reviewWebsiteListing';
 import {humanizeCategory} from '../../constants/categories';
 
 
-export class ReviewListingHandler extends React.Component {
+export class ReviewWebsiteListingHandler extends React.Component {
   constructor(props) {
     super(props);
 
@@ -25,11 +25,11 @@ export class ReviewListingHandler extends React.Component {
 
 
 export default connect(
-  websiteSubmissionsSelector,
+  reviewWebsiteListingSelector,
   dispatch => bindActionCreators({
     websiteFetch
   }, dispatch)
-)(ReviewListingHandler);
+)(ReviewWebsiteListingHandler);
 
 
 const ReviewListing = React.createClass({
@@ -88,7 +88,7 @@ const ReviewListingItem = React.createClass({
         <dt>{this.props.works_well}/5</dt>
       </dl>
       <div className="review-listing-actions">
-        <ReverseLink to="edit-website" params={{id: this.props.id}}>
+        <ReverseLink to="review-website-edit" params={{id: this.props.id}}>
           <button>Edit</button>
         </ReverseLink>
         <button className="button--success" onClick={this.approve}>

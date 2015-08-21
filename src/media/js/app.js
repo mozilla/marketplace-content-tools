@@ -13,31 +13,35 @@ import thunkMiddleware from 'redux-thunk';
 import {loginRequired} from './login';
 
 import App from './components/app';
-import EditWebsite from './components/handlers/editWebsite';
-import {LoginOAuthRedirectHandler} from './components/login';
 import Login from './components/handlers/login'
-import ReviewListing from './components/handlers/reviewListing';
+import LoginOAuthRedirect from './components/handlers/loginOAuthRedirect';
+import ReviewLanding from './components/handlers/reviewLanding';
+import ReviewAddonListing from './components/handlers/reviewAddonListing';
+import ReviewWebsiteEdit from './components/handlers/reviewWebsiteEdit';
+import ReviewWebsiteListing from './components/handlers/reviewWebsiteListing';
 import SubmissionRedirect from './components/handlers/index';
-import Submission from './components/handlers/submission';
+import SubmissionAddon from './components/handlers/submissionAddon';
+import SubmissionLanding from './components/handlers/submissionLanding';
+import SubmissionWebsite from './components/handlers/submissionWebsite';
 
 import apiArgs from './reducers/apiArgs';
 import login from './reducers/login';
+import reviewWebsiteListing from './reducers/reviewWebsiteListing';
 import siteConfig from './reducers/siteConfig';
-import submission from './reducers/submission';
-import submissionMetadata from './reducers/submissionMetadataForm';
+import submissionWebsite from './reducers/submissionWebsite';
+import submissionWebsiteUrl from './reducers/submissionWebsiteUrl';
 import user from './reducers/user';
-import websiteSubmissions from './reducers/websiteSubmissions';
 
 
 const reducer = combineReducers({
   apiArgs,
   login,
+  reviewWebsiteListing,
   router,
   siteConfig,
-  submission,
-  submissionMetadata,
+  submissionWebsite,
+  submissionWebsiteUrl,
   user,
-  websiteSubmissions
 });
 
 const createPersistentStore = compose(
@@ -60,18 +64,33 @@ function renderRoutes() {
     <Route component={reduxRouteComponent(store)}>
       <Route name="app" component={App}>
         <Route path="/" component={SubmissionRedirect}/>
-        <Route name="login-oauth-redirect" path="/fxa-authorize"
-               component={LoginOAuthRedirectHandler}/>
-        <Route name="login" path="/login" component={Login}/>
 
-        <Route name="submission" path="/submission/"
-               component={loginRequired(Submission, Login,
+        <Route name="login" path="/login" component={Login}/>
+        <Route name="login-oauth-redirect" path="/fxa-authorize"
+               component={LoginOAuthRedirect}/>
+
+        <Route name="submission-landing" path="/submission/"
+               component={loginRequired(SubmissionLanding, Login,
+                                        ['reviewer', 'website_submitter'])}/>
+        <Route name="submission-addon" path="/submission/addon/"
+               component={loginRequired(SubmissionAddon, Login,
                                         ['reviewer', 'website_submitter'])}/>
 
-        <Route name="review-listing" path="/review/"
-               component={loginRequired(ReviewListing, Login, 'reviewer')}/>
-        <Route name="edit-website" path="/review/website/:id"
-               component={loginRequired(EditWebsite, Login, 'reviewer')}/>
+        <Route name="submission-website" path="/submission/website/"
+               component={loginRequired(SubmissionWebsite, Login,
+                                        ['reviewer', 'website_submitter'])}/>
+
+        <Route name="review-landing" path="/review/"
+               component={loginRequired(ReviewLanding, Login, 'reviewer')}/>
+        <Route name="review-addon-listing" path="/review/addon/"
+               component={loginRequired(ReviewAddonListing, Login,
+                                        'reviewer')}/>
+        <Route name="review-website-listing" path="/review/website/"
+               component={loginRequired(ReviewWebsiteListing, Login,
+                                        'reviewer')}/>
+        <Route name="review-website-edit" path="/review/website/:id"
+               component={loginRequired(ReviewWebsiteEdit, Login,
+                                        'reviewer')}/>
       </Route>
     </Route>
   </Router>

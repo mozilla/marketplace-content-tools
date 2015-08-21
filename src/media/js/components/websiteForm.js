@@ -11,19 +11,21 @@ import LikertSelect from './likertSelect';
 import RegionSelect from './regionSelect';
 
 
-const SubmissionMetadataForm = React.createClass({
-  propTypes: {
+export default class WebsiteForm extends React.Component {
+  static propTypes = {
     onChange: React.PropTypes.func,
     onSubmit: React.PropTypes.func,
     submitter: React.PropTypes.string.isRequired,
     url: React.PropTypes.string.isRequired
-  },
-  getInitialState() {
-    return {
+  };
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
       showCategoryRequiredMsg: false,
       showRegionsRequiredMsg: false
     };
-  },
+  }
   debugFill() {
     // On local dev, clicking on the image will fill out form fields.
     if (process.env.NODE_ENV !== 'production' && this.props.onChange) {
@@ -36,7 +38,7 @@ const SubmissionMetadataForm = React.createClass({
         works_well: 5
       });
     }
-  },
+  }
   handleChange(formFieldName, isBool) {
     // Generates a function that handles a field onChange and fire the data
     // off to update store state.
@@ -51,15 +53,15 @@ const SubmissionMetadataForm = React.createClass({
         this.props.onChange({[formFieldName]: val});
       }
     };
-  },
-  handleSubmit(e) {
+  }
+  handleSubmit = e => {
     // Only called once the form is completely validated.
     e.preventDefault();
 
     if (this.isValid() && this.props.onSubmit) {
       this.props.onSubmit(this.serializeFormData(e.currentTarget));
     }
-  },
+  }
   serializeFormData() {
     return {
       categories: this.props.categories,
@@ -74,7 +76,7 @@ const SubmissionMetadataForm = React.createClass({
       why_relevant: this.props.why_relevant,
       works_well: this.props.works_well
     };
-  },
+  }
   isValid() {
     // Handle validation not handled by HTML5. Triggered on button onClick.
     let isValid = true;
@@ -89,11 +91,11 @@ const SubmissionMetadataForm = React.createClass({
     }
 
     return isValid;
-  },
+  }
   showErrors() {
     this.isValid();
     return true;
-  },
+  }
   render() {
     return <div className="submission--metadata">
       <form className="form-block" onSubmit={this.handleSubmit}>
@@ -228,5 +230,4 @@ const SubmissionMetadataForm = React.createClass({
             src={this.props.screenshot}/>}
     </div>
   }
-});
-export default SubmissionMetadataForm;
+}

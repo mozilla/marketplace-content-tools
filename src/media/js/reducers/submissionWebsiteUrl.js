@@ -1,4 +1,4 @@
-import * as submissionActions from '../actions/submission';
+import * as submissionWebsiteUrlActions from '../actions/submissionWebsiteUrl';
 
 
 const initialState = {
@@ -14,16 +14,17 @@ const initialState = {
 };
 
 
-export default function submissionReducer(state=initialState, action) {
+export default function submissionWebsiteUrlReducer(state=initialState,
+                                                    action) {
   switch (action.type) {
-    case submissionActions.SUBMIT_URL_BEGIN: {
+    case submissionWebsiteUrlActions.SUBMIT_URL_BEGIN: {
       // Called when action for submitting a URL begins.
       return Object.assign({}, state, {
         isLoading: true
       });
     }
 
-    case submissionActions.SUBMIT_URL_OK: {
+    case submissionWebsiteUrlActions.SUBMIT_URL_OK: {
       // Don't continue if not mobile-friendly.
       const mobileFriendlyData = action.payload.mobileFriendlyData;
       const isMobileFriendly = mobileFriendlyData.ruleGroups.USABILITY.pass;
@@ -44,14 +45,14 @@ export default function submissionReducer(state=initialState, action) {
       });
     }
 
-    case submissionActions.SUBMIT_METADATA_OK: {
+    case submissionWebsiteUrlActions.SUBMIT_METADATA_OK: {
       // Website successfully submitted. Reset the state.
       return Object.assign({}, initialState, {
         successfullySubmittedUrl: state.url
       });
     }
 
-    case submissionActions.GO_TO_STEP: {
+    case submissionWebsiteUrlActions.GO_TO_STEP: {
       const newStep = action.payload;
 
       let highestStep = state.highestStep;
