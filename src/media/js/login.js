@@ -11,7 +11,8 @@ export function loginRequired(Component, LoginHandler, group) {
   )
   class AuthenticatedComponent extends React.Component {
     render() {
-      if (process.env.NODE_ENV === 'test' || _checkPermissions(user, group)) {
+      if (process.env.NODE_ENV === 'test' ||
+          _checkPermissions(this.props.user, group)) {
         return <Component/>
       } else {
         // Redirect to LoginHandler if not logged in or no permission.
