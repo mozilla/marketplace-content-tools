@@ -1,5 +1,6 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
+import FileReaderInput from 'react-file-reader-input';
 import {connect} from 'react-redux';
 
 import {validate as validateAddon} from '../../actions/submissionAddon';
@@ -13,18 +14,31 @@ export class SubmissionAddon extends React.Component {
   };
   constructor(props) {
     super(props);
+
+    this.accept = [
+      'application/octet-stream',
+      'application/zip',
+      'application/x-zip',
+      'application/x-zip-compressed'
+    ].join(',');
+
     this.state = {
-      addonFile: null
+      fileData: null,
+      fileSize: null,
+      fileName: null
     };
   }
-  handleChange = e => {
-    console.log(e.currentTarget);
+  handleChange = (e, results) => {
+    const [result, file] = results[0];
     this.setState({
+      fileData: result.target.result,
+      fileSize: result.loaded,
+      fileName: file.name
     });
   }
   handleSubmit = e => {
     e.preventDefault();
-    this.props.validateAddon(this.state.addonFile);
+    this.props.validateAddon(this.state.fileData);
   }
   render() {
     return <section className="submission-addon">
@@ -32,8 +46,16 @@ export class SubmissionAddon extends React.Component {
 
       <form className="form-inline" onSubmit={this.handleSubmit}>
         <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
-        <input id="submission-addon--zip" onChange={this.handleChange}
-               type="file"/>
+        <FileReaderInput as="binary" accept=".zip"
+                         id="submission-addon--zip"
+                         onChange={this.handleChange}>
+          <div className="form-inline--file-input"
+               data-file-input--has-data={!!this.state.fileName}>
+            {this.state.fileName ?
+             `${this.state.fileName} (${this.state.fileSize}KB)` :
+             'Select a File...'}
+          </div>
+        </FileReaderInput>
         <button type="submit">
           {this.props.isProcessing ? 'Processing...' : 'Submit'}
         </button>

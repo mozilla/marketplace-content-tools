@@ -71,7 +71,7 @@ export class LoginButton extends React.Component {
     });
   }
   render() {
-    var btnClasses = classnames({
+    const btnClasses = classnames({
       login: true,
       ['login--register']: this.props.signup,
     });

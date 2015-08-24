@@ -44,10 +44,18 @@
   background $color--primary
   color $color--white
 
-input[type="file"]
-  background $color--white
+.form-inline--file-input
+  background $color--primary
+  border 2px dotted $color--grey;
   border-radius 5px
+  color $color--white
+  cursor pointer
+  margin-right 10px
+  padding 10px
   transition background .2s
+  width 300px
 
   &:hover
-    cursor pointer
+    background $color--primary-hover
+  &[data-file-input--has-data="true"]
+    border-style solid

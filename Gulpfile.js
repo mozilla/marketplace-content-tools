@@ -33,6 +33,10 @@ var ENVS = {
         apiRoot: 'https://marketplace-dev.allizom.org/api/v2/',
         mediaRoot: 'https://marketplace-dev.mozflare.net/media/',
     },
+    local: {
+        apiRoot: 'http://localhost:2600/api/v2/',
+        mediaRoot: 'https://marketplace-dev.mozflare.net/media/',
+    },
     stage: {
         apiRoot: 'https://marketplace.allizom.org/api/v2/',
         mediaRoot: 'https://marketplace-stage.cdn.mozilla.net/media/',
@@ -40,7 +44,7 @@ var ENVS = {
     prod: {
         apiRoot: 'https://marketplace.firefox.com/api/v2/',
         mediaRoot: 'https://marketplace.cdn.mozilla.net/media/',
-    }
+    },
 };
 
 var browserifyArgs = watchify.args;
