@@ -1,11 +1,11 @@
-import submissionReducer from '../submission';
-import * as submissionActions from '../../actions/submission';
+import submissionWebsiteReducer from '../submissionWebsite';
+import * as submissionWebsiteActions from '../../actions/submissionWebsite';
 
 
-describe('submissionReducer', () => {
+describe('submissionWebsiteReducer', () => {
   it('handles submit URL', () => {
-    const state = submissionReducer({}, {
-      type: submissionActions.SUBMIT_URL_OK,
+    const state = submissionWebsiteReducer({}, {
+      type: submissionWebsiteActions.SUBMIT_URL_OK,
       payload: {
         mobileFriendlyData: {
           ruleGroups: {

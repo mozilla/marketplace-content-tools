@@ -12,14 +12,7 @@ global.window = document.parentWindow;
 global.navigator = window.navigator;
 global.React = require('react/addons');
 
-// Require these AFTER setting up React or else it will initialize too early.
-const Actions = require('flummox').Actions;
-const Flummox = require('flummox').Flummox;
-const FluxComponent = require('flummox/component');
-const Store = require('flummox').Store;
-
 global.assert = require('chai').assert;
-global.FluxTestUtils = require('flummox/test-utils');
 global.jsdom = require('mocha-jsdom').bind(this, {skipWindowCheck: true});
 global.sinon = require('sinon');
 global.TestUtils = React.addons.TestUtils;
@@ -65,43 +58,6 @@ afterEach(() => {
 
 // Shortcuts.
 global.helpers = {
-  fluxWrapper: (component, flux) => {
-    return <FluxComponent flux={flux}>
-      {component}
-    </FluxComponent>
-  },
-  fluxFactory: (opts) => {
-    class FakeStore extends Store {}
-    class FakeActions extends Actions {}
-
-    class FakeFlux extends Flummox {
-      constructor() {
-        super();
-        const root = this;
-
-        const actions = opts.actions || [];
-        actions.forEach(action => {
-          root.createActions(action[0], action[1]);
-        });
-
-        const stubActions = opts.stubActions || [];
-        stubActions.forEach(stubAction => {
-          root.createActions(stubAction, FakeActions);
-        });
-
-        const stores = opts.stores || [];
-        stores.forEach(store => {
-          root.createStore(store[0], store[1], root);
-        });
-
-        const stubStores = opts.stubStores || [];
-        stubStores.forEach(stubStore => {
-          root.createStore(stubStore, FakeStore, root);
-        });
-      }
-    }
-    return new FakeFlux()
-  }
 };
 
 global.ReactDOMHelper = {

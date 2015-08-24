@@ -1,8 +1,7 @@
-import {Actions} from 'flummox';
-import SubmissionMetadataForm from '../submissionMetadataForm';
+import WebsiteForm from '../websiteForm';
 
 
-describe('SubmissionMetadataForm', () => {
+describe('WebsiteForm', () => {
   jsdom();
 
   let props = {};
@@ -22,11 +21,11 @@ describe('SubmissionMetadataForm', () => {
   });
 
   it('renders form', () => {
-    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    const form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.equal(ReactDOMHelper.queryTagAll(form, 'form').length, 1);
   });
 
-  it('submits okay', (done) => {
+  it('submits okay', done => {
     props.onSubmit = data => {
       assert.ok(data.categories.length, 'Check categories');
       assert.ok(data.description, 'Check description');
@@ -40,17 +39,17 @@ describe('SubmissionMetadataForm', () => {
       done();
     }
 
-    const form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    const form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.ok(form.isValid(), 'Form is valid');
     ReactDOMHelper.submit(ReactDOMHelper.queryTag(form, 'form'));
   });
 
   it('does not submit with no category', done => {
-    let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    let form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.notOk(form.state.showCategoryRequiredMsg);
 
     props.categories = [];
-    form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.notOk(form.isValid());
 
     setTimeout(() => {
@@ -60,11 +59,11 @@ describe('SubmissionMetadataForm', () => {
   });
 
   it('does not submit with no regions if not worldwide', done => {
-    let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    let form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
     props.worldwide = false;
-    form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.notOk(form.isValid(), 'Form should be invalid');
 
     setTimeout(() => {
@@ -75,12 +74,12 @@ describe('SubmissionMetadataForm', () => {
   });
 
   it('does submit with regions if not worldwide', done => {
-    let form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    let form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.notOk(form.state.showRegionsRequiredMsg);
 
-    props.preferred_regions= ['usa', 'canada'];
+    props.preferred_regions = ['usa', 'canada'];
     props.worldwide = false;
-    form = ReactDOMHelper.render(<SubmissionMetadataForm {...props}/>);
+    form = ReactDOMHelper.render(<WebsiteForm {...props}/>);
     assert.ok(form.isValid());
 
     setTimeout(() => {
