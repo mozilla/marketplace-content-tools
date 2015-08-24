@@ -23,15 +23,19 @@ const LikertSelect = React.createClass({
       value: i,
     };
 
-    return <div className="likert-select__input-group">
-      <input {...inputProps}/>
-      <label htmlFor={htmlFor}>{label}</label>
-    </div>
+    return (
+      <div className="likert-select__input-group">
+        <input {...inputProps}/>
+        <label htmlFor={htmlFor}>{label}</label>
+      </div>
+    );
   },
   render() {
-    return <div className="likert-select">
-      {this.props.labels.map(this.renderInput)}
-    </div>
+    return (
+      <div className="likert-select">
+        {this.props.labels.map(this.renderInput)}
+      </div>
+    );
   }
 });
 export default LikertSelect;

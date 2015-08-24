@@ -2,15 +2,15 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import WebsiteForm from '../websiteForm';
-import WebsiteUrlForm from '../websiteUrlForm';
-import Wizard from '../wizard';
+import WebsiteForm from '../../websiteForm';
+import WebsiteUrlForm from '../../websiteUrlForm';
+import Wizard from '../../wizard';
 
-import {setFormData, submitMetadata} from '../../actions/submissionWebsite';
-import {goToStep, submitUrl} from '../../actions/submissionWebsiteUrl';
+import {setFormData, submitMetadata} from '../../../actions/submissionWebsite';
+import {goToStep, submitUrl} from '../../../actions/submissionWebsiteUrl';
 
 
-export class SubmissionWebsiteHandler extends React.Component {
+export class WebsiteSubmit extends React.Component {
   static propTypes = {
     goToStep: React.PropTypes.func.isRequired,
     setFormData: React.PropTypes.func.isRequired,
@@ -41,7 +41,7 @@ export class SubmissionWebsiteHandler extends React.Component {
               />
       }
     ];
-    return <section className="submission">
+    return <section>
       <h1>Submitting a Website</h1>
       <Wizard steps={steps} goToStep={this.props.goToStep}
               {...this.props.submissionWebsiteUrl}/>
@@ -62,4 +62,4 @@ export default connect(
     submitMetadata,
     submitUrl,
   }, dispatch)
-)(SubmissionWebsiteHandler);
+)(WebsiteSubmit);

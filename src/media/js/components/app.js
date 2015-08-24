@@ -36,18 +36,20 @@ export class App extends React.Component {
                      this.props.siteConfig.clientId);
   }
   render() {
-    return <div className="app">
-      <Header authUrl={this.props.siteConfig.authUrl}
-              displayName={this.props.user.settings.display_name}
-              loginBeginHandler={this.props.fxaLoginBegin}
-              loginHandler={this.loginHandler}
-              logoutHandler={this.props.logout}
-              isLoggedIn={!!this.props.user.token}/>
-      <main>
-        {this.props.children}
-      </main>
-      <Footer/>
-    </div>
+    return (
+      <div className="app">
+        <Header authUrl={this.props.siteConfig.authUrl}
+                displayName={this.props.user.settings.display_name}
+                loginBeginHandler={this.props.fxaLoginBegin}
+                loginHandler={this.loginHandler}
+                logoutHandler={this.props.logout}
+                isLoggedIn={!!this.props.user.token}/>
+        <main>
+          {this.props.children}
+        </main>
+        <Footer/>
+      </div>
+    );
   }
 }
 

@@ -11,7 +11,6 @@ export class ReviewAddonListingHandler extends React.Component {
   render() {
     return <section>
       <h1>Reviewing Firefox OS Add-ons</h1>
-
       <h2>Under Construction</h2>
     </section>
   }

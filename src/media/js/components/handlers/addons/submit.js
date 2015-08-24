@@ -4,10 +4,10 @@ import {bindActionCreators} from 'redux';
 import FileReaderInput from 'react-file-reader-input';
 import {connect} from 'react-redux';
 
-import {validate as validateAddon} from '../../actions/submissionAddon';
+import {validate as validateAddon} from '../../../actions/submissionAddon';
 
 
-export class SubmissionAddon extends React.Component {
+export class AddonsSubmit extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   };
@@ -55,30 +55,32 @@ export class SubmissionAddon extends React.Component {
     this.props.validateAddon(this.state.fileData);
   }
   render() {
-    return <section className="submission-addon">
-      <h1>Submitting a Firefox OS Add-on</h1>
+    return (
+      <section>
+        <h1>Addons Submission</h1>
 
-      <form className="form-inline" onSubmit={this.handleSubmit}>
-        <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
-        <FileReaderInput as="buffer" accept=".zip"
-                         id="submission-addon--zip"
-                         onChange={this.handleChange}>
-          <div className="form-inline--file-input"
-               data-file-input--has-data={!!this.state.fileName}>
-            {this.state.fileName ?
-             `${this.state.fileName} (${this.state.fileSize}KB)` :
-             'Select a File...'}
-          </div>
-        </FileReaderInput>
-        <button type="submit" disabled={this.props.isProcessing}>
-          {this.props.isProcessing ? 'Processing...' : 'Submit'}
-        </button>
-      </form>
+        <form className="form-inline" onSubmit={this.handleSubmit}>
+          <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
+          <FileReaderInput as="buffer" accept=".zip"
+                           id="submission-addon--zip"
+                           onChange={this.handleChange}>
+            <div className="form-inline--file-input"
+                 data-file-input--has-data={!!this.state.fileName}>
+              {this.state.fileName ?
+               `${this.state.fileName} (${this.state.fileSize}KB)` :
+               'Select a File...'}
+            </div>
+          </FileReaderInput>
+          <button type="submit" disabled={this.props.isProcessing}>
+            {this.props.isProcessing ? 'Processing...' : 'Submit'}
+          </button>
+        </form>
 
-      {this.props.validationErrMsg && <p className="form-msg--error">
-        {this.props.validationErrMsg}
-      </p>}
-    </section>
+        {this.props.validationErrMsg && <p>
+          {this.props.validationErrMsg}
+        </p>}
+      </section>
+    );
   }
 }
 
@@ -91,4 +93,4 @@ export default connect(
   dispatch => bindActionCreators({
     validateAddon
   }, dispatch)
-)(SubmissionAddon);
+)(AddonSubmit);

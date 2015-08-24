@@ -43,27 +43,35 @@ const WizardProgressBar = React.createClass({
 
     if (isActive) {
       itemClassNames['wizard-progress-bar-active'] = true;
-      return <span className={classnames(itemClassNames)} key={index}>
-        {stepTitle}
-      </span>
+      return (
+        <span className={classnames(itemClassNames)} key={index}>
+          {stepTitle}
+        </span>
+      );
     } else if (this.props.goToStep && this.props.highestStep >= index) {
       // Highest step keeps track if we went backwards before or not.
       itemClassNames['wizard-progress-bar-btn'] = true;
-      return <a className={classnames(itemClassNames)} key={index}
-                onClick={() => {this.props.goToStep(index)}}
-                title="Back to previous step">
-        {stepTitle}
-      </a>
+      return (
+        <a className={classnames(itemClassNames)} key={index}
+                  onClick={() => {this.props.goToStep(index)}}
+                  title="Back to previous step">
+          {stepTitle}
+        </a>
+      );
     } else {
-      return <span className={classnames(itemClassNames)} key={index}>
-        {stepTitle}
-      </span>
+      return (
+        <span className={classnames(itemClassNames)} key={index}>
+          {stepTitle}
+        </span>
+      );
     }
   },
   render() {
-    return <menu className="wizard--progress-bar">
-      {this.props.steps.map(this.renderProgressBarBtn)}
-    </menu>
+    return (
+      <menu className="wizard--progress-bar">
+        {this.props.steps.map(this.renderProgressBarBtn)}
+      </menu>
+    );
   }
 });
 
@@ -80,9 +88,11 @@ const WizardStep = React.createClass({
       display: this.props.isActive ? 'block': 'none'
     };
 
-    return <section className="wizard-step" style={stepStyle}>
-      {this.props.form}
-    </section>
+    return (
+      <section className="wizard-step" style={stepStyle}>
+        {this.props.form}
+      </section>
+    );
   }
 });
 export {WizardStep};

@@ -96,137 +96,139 @@ export default class WebsiteForm extends React.Component {
     return true;
   }
   render() {
-    return <div className="submission--metadata">
-      <form className="form-block" onSubmit={this.handleSubmit}>
-        {this.props.isEditing ? '' : <p>
-          This site has successfully been detected as mobile-friendly! Please
-          fill in more information about the website below and our Marketplace
-          Reviewers will take a look at them promptly. We tried our best to
-          fill out some of the information below for you.
-         </p>}
+    return (
+      <div className="submission--metadata">
+        <form className="form-block" onSubmit={this.handleSubmit}>
+          {this.props.isEditing ? '' : <p>
+            This site has successfully been detected as mobile-friendly! Please
+            fill in more information about the website below and our Marketplace
+            Reviewers will take a look at them promptly. We tried our best to
+            fill out some of the information below for you.
+           </p>}
 
-        <div className="form-block--group">
-          <label>Name</label>
-          <input name="name" onChange={this.handleChange('name')} required
-                 type="text" value={this.props.name}/>
-        </div>
-
-        <div className="form-block--group"
-             style={{display: this.props.isEditing ? 'block': 'none'}}>
-          <label>Submitter</label>
-          <input disabled={true} name="submitter" value={this.props.submitter}
-                 type="text"/>
-        </div>
-
-        <div className="form-block--group">
-          <label>URL</label>
-          <input disabled={true} name="url" value={this.props.url}
-                 type="text"/>
-        </div>
-
-        {this.props.detected_icon ?
-        // Don't show icon if there is none.
-        <div className="form-block--group">
-          <label>Detected Icon</label>
-          <img src={this.props.detected_icon}/>
-        </div> : ''}
-
-        <div className="form-block--group">
-          <label htmlFor="keywords">Keywords</label>
-          <input id="keywords" name="keywords"
-                 onChange={this.handleChange('keywords')} required
-                 type="text" value={this.props.keywords}/>
-        </div>
-
-        <div className="form-block--group">
-          <label htmlFor="description">Description</label>
-          <textarea id="description" name="description"
-                    onChange={this.handleChange('description')}
-                    required rows="10" type="text"
-                    value={this.props.description}/>
-        </div>
-
-        <div className="form-block--group">
-          <label>Categories</label>
-          <CategoryGroupSelect
-             onChange={this.handleChange('categories')}
-             showRequiredMsg={this.state.showCategoryRequiredMsg}
-             value={this.props.categories || []}/>
-        </div>
-
-        <div className="form-block--group">
-          <label>Is this useful for a worldwide audience?</label>
-
-          <div className="form-block--radio">
-            <input id="worldwide-no" name="worldwide"
-                   onChange={this.handleChange('worldwide', true)}
-                   type="radio" checked={!this.props.worldwide}>
-            </input>
-            <label htmlFor="worldwide-no">No</label>
+          <div className="form-block--group">
+            <label>Name</label>
+            <input name="name" onChange={this.handleChange('name')} required
+                   type="text" value={this.props.name}/>
           </div>
 
-          <div className="form-block--radio">
-            <input id="worldwide-yes" name="worldwide"
-                   onChange={this.handleChange('worldwide', true)}
-                   type="radio" checked={this.props.worldwide}>
-            </input>
-            <label htmlFor="worldwide-yes">Yes</label>
+          <div className="form-block--group"
+               style={{display: this.props.isEditing ? 'block': 'none'}}>
+            <label>Submitter</label>
+            <input disabled={true} name="submitter" value={this.props.submitter}
+                   type="text"/>
+          </div>
 
-            <div style={{display: this.props.worldwide ? 'none' : 'block'}}>
-              <RegionSelect multi={true} name="preferred_regions"
-                 onChange={this.handleChange('preferred_regions')}
-                 showRequiredMsg={this.state.showRegionsRequiredMsg}
-                 value={this.props.preferred_regions || []}/>
+          <div className="form-block--group">
+            <label>URL</label>
+            <input disabled={true} name="url" value={this.props.url}
+                   type="text"/>
+          </div>
+
+          {this.props.detected_icon ?
+          // Don't show icon if there is none.
+          <div className="form-block--group">
+            <label>Detected Icon</label>
+            <img src={this.props.detected_icon}/>
+          </div> : ''}
+
+          <div className="form-block--group">
+            <label htmlFor="keywords">Keywords</label>
+            <input id="keywords" name="keywords"
+                   onChange={this.handleChange('keywords')} required
+                   type="text" value={this.props.keywords}/>
+          </div>
+
+          <div className="form-block--group">
+            <label htmlFor="description">Description</label>
+            <textarea id="description" name="description"
+                      onChange={this.handleChange('description')}
+                      required rows="10" type="text"
+                      value={this.props.description}/>
+          </div>
+
+          <div className="form-block--group">
+            <label>Categories</label>
+            <CategoryGroupSelect
+               onChange={this.handleChange('categories')}
+               showRequiredMsg={this.state.showCategoryRequiredMsg}
+               value={this.props.categories || []}/>
+          </div>
+
+          <div className="form-block--group">
+            <label>Is this useful for a worldwide audience?</label>
+
+            <div className="form-block--radio">
+              <input id="worldwide-no" name="worldwide"
+                     onChange={this.handleChange('worldwide', true)}
+                     type="radio" checked={!this.props.worldwide}>
+              </input>
+              <label htmlFor="worldwide-no">No</label>
+            </div>
+
+            <div className="form-block--radio">
+              <input id="worldwide-yes" name="worldwide"
+                     onChange={this.handleChange('worldwide', true)}
+                     type="radio" checked={this.props.worldwide}>
+              </input>
+              <label htmlFor="worldwide-yes">Yes</label>
+
+              <div style={{display: this.props.worldwide ? 'none' : 'block'}}>
+                <RegionSelect multi={true} name="preferred_regions"
+                   onChange={this.handleChange('preferred_regions')}
+                   showRequiredMsg={this.state.showRegionsRequiredMsg}
+                   value={this.props.preferred_regions || []}/>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="form-block--group">
-          <label>How well does this website work?</label>
-          <LikertSelect labels={['Very Poorly', 'Poorly', 'Okay', 'Well',
-                                 'Very Well']}
-                        name="worksWell"
-                        onChange={this.handleChange('works_well')}
-                        required value={this.props.works_well}/>
-        </div>
-
-        <div className="form-block--group">
-          <label htmlFor="why-relevant">
-            Why is this site a good addition for the Firefox Marketplace?
-          </label>
-          <textarea id="why-relevant" name="why_relevant"
-                    onChange={this.handleChange('why_relevant')}
-                    required rows="10" value={this.props.why_relevant}/>
-        </div>
-
-        <div className="form-block--group">
-          <label>Would you like public credit for submitting this site?</label>
-
-          <div className="form-block--radio">
-            <input id="public-credit-no" name="public_credit"
-                   onChange={this.handleChange('public_credit', true)}
-                   type="radio" checked={!this.props.public_credit}>
-            </input>
-            <label htmlFor="public-credit-no">No</label>
+          <div className="form-block--group">
+            <label>How well does this website work?</label>
+            <LikertSelect labels={['Very Poorly', 'Poorly', 'Okay', 'Well',
+                                   'Very Well']}
+                          name="worksWell"
+                          onChange={this.handleChange('works_well')}
+                          required value={this.props.works_well}/>
           </div>
 
-          <div className="form-block--radio">
-            <input id="public-credit-yes" name="public_credit"
-                   onChange={this.handleChange('public_credit', true)}
-                   type="radio" checked={this.props.public_credit}>
-            </input>
-            <label htmlFor="public-credit-yes">Yes</label>
+          <div className="form-block--group">
+            <label htmlFor="why-relevant">
+              Why is this site a good addition for the Firefox Marketplace?
+            </label>
+            <textarea id="why-relevant" name="why_relevant"
+                      onChange={this.handleChange('why_relevant')}
+                      required rows="10" value={this.props.why_relevant}/>
           </div>
-        </div>
 
-        <button onClick={this.showErrors} type="submit">
-          Finish & Submit
-        </button>
-      </form>
+          <div className="form-block--group">
+            <label>Would you like public credit for submitting this site?</label>
 
-      {this.props.screenshot &&
-       <img className="site--screenshot" onClick={this.debugFill}
-            src={this.props.screenshot}/>}
-    </div>
+            <div className="form-block--radio">
+              <input id="public-credit-no" name="public_credit"
+                     onChange={this.handleChange('public_credit', true)}
+                     type="radio" checked={!this.props.public_credit}>
+              </input>
+              <label htmlFor="public-credit-no">No</label>
+            </div>
+
+            <div className="form-block--radio">
+              <input id="public-credit-yes" name="public_credit"
+                     onChange={this.handleChange('public_credit', true)}
+                     type="radio" checked={this.props.public_credit}>
+              </input>
+              <label htmlFor="public-credit-yes">Yes</label>
+            </div>
+          </div>
+
+          <button onClick={this.showErrors} type="submit">
+            Finish & Submit
+          </button>
+        </form>
+
+        {this.props.screenshot &&
+         <img className="site--screenshot" onClick={this.debugFill}
+              src={this.props.screenshot}/>}
+      </div>
+    );
   }
 }

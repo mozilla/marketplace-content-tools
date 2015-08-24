@@ -39,12 +39,14 @@ const RegionSelect = React.createClass({
       value: this.props.value.length ? this.props.value.join(',') : undefined
     };
 
-    return <div className={selectClassnames}>
-      <p className="region-select-required-msg" style={requiredMsgStyle}>
-        You must select at least one region.
-      </p>
-      <Select {...this.props} {...selectProps}/>
-    </div>
+    return (
+      <div className={selectClassnames}>
+        <p className="region-select-required-msg" style={requiredMsgStyle}>
+          You must select at least one region.
+        </p>
+        <Select {...this.props} {...selectProps}/>
+      </div>
+    );
   }
 });
 export default RegionSelect;
