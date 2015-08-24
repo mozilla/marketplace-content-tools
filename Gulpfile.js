@@ -102,7 +102,7 @@ gulp.task('serve', function() {
         notify: false,
         open: false,
         server: './src/',
-        port: process.env.MKT_CLIENT_PORT || 8680
+        port: process.env.MKT_CLIENT_PORT || 8679
     });
 });
 
