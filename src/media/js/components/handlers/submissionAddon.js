@@ -46,7 +46,7 @@ export class SubmissionAddon extends React.Component {
 
       <form className="form-inline" onSubmit={this.handleSubmit}>
         <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
-        <FileReaderInput as="binary" accept=".zip"
+        <FileReaderInput as="buffer" accept=".zip"
                          id="submission-addon--zip"
                          onChange={this.handleChange}>
           <div className="form-inline--file-input"
@@ -56,7 +56,7 @@ export class SubmissionAddon extends React.Component {
              'Select a File...'}
           </div>
         </FileReaderInput>
-        <button type="submit">
+        <button type="submit" disabled={this.props.isProcessing}>
           {this.props.isProcessing ? 'Processing...' : 'Submit'}
         </button>
       </form>

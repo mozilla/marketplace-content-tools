@@ -62,10 +62,8 @@ export function logout() {
     const apiArgs = getState().apiArgs || {};
 
     // Post logout data to server to clear session.
+    dispatch(logoutOk());
     req
-      .del(Url(url).q(apiArgs))
-      .then(() => {
-        dispatch(logoutOk());
-      });
+      .del(Url(url).q(apiArgs));
   };
 }

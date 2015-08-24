@@ -117,8 +117,8 @@ export function create() {
       .post(createUrl)
       .send({upload: getState().submissionAddon.validationId})
       .then((res, err) => {
-        if (res.statusCode === 201) {
-          dispatch(submitOk());
+        if (res.status === 201) {
+          dispatch(submitOk(res.body));
         } else {
           dispatch(submitError(res.body));
         }
