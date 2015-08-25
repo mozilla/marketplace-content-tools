@@ -5,9 +5,7 @@ import * as reviewWebsiteListingActions from '../actions/reviewWebsiteListing';
 
 
 const initialState = {
-  _meta: {
-    persist: true
-  }
+  __persist: true
 };
 
 

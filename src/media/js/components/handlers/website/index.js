@@ -8,8 +8,8 @@ export default class WebsiteLanding extends React.Component {
       <section>
         <h1>Websites</h1>
         <ul>
-          <li><ReverseLink to="websites-review">Review</ReverseLink></li>
-          <li><ReverseLink to="websites-submit">Submit</ReverseLink></li>
+          <li><ReverseLink to="website-review">Review</ReverseLink></li>
+          <li><ReverseLink to="website-submit">Submit</ReverseLink></li>
         </ul>
       </section>
     );

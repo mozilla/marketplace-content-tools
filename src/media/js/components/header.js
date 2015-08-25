@@ -16,8 +16,8 @@ export default class Header extends React.Component {
         </div>
         <nav>
           <li>
-            <ReverseLink to="addons">Addons</ReverseLink>
-            <ReverseLink to="websites">Websites</ReverseLink>
+            <ReverseLink to="addon">Firefox OS Add-ons</ReverseLink>
+            <ReverseLink to="website">Websites</ReverseLink>
           </li>
         </nav>
         <HeaderLogin {...this.props}/>

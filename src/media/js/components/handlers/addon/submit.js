@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {validate as validateAddon} from '../../../actions/submissionAddon';
 
 
-export class AddonsSubmit extends React.Component {
+export class AddonSubmit extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   };
@@ -57,7 +57,7 @@ export class AddonsSubmit extends React.Component {
   render() {
     return (
       <section>
-        <h1>Addons Submission</h1>
+        <h1>Submitting a Firefox OS Add-on</h1>
 
         <form className="form-inline" onSubmit={this.handleSubmit}>
           <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>

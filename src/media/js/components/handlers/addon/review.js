@@ -8,7 +8,7 @@ export class AddonReview extends React.Component {
   render() {
     return (
       <section>
-        <h1>Addons Review</h1>
+        <h1>Reviewing a Firefox OS Add-on</h1>
         <h2>Under Construction</h2>
       </section>
     );

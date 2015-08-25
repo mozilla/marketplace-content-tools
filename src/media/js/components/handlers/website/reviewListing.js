@@ -93,7 +93,7 @@ const WebsiteReviewListingItem = React.createClass({
           <dt>{this.props.works_well}/5</dt>
         </dl>
         <div>
-          <ReverseLink to="review-website-edit" params={{id: this.props.id}}>
+          <ReverseLink to="website-review-form" params={{id: this.props.id}}>
             <button>Edit</button>
           </ReverseLink>
           <button onClick={this.approve}>

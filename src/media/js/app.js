@@ -14,16 +14,16 @@ import {loginRequired} from './login';
 
 import AddonDashboard from './components/handlers/addonDashboard';
 import App from './components/app';
-import AddonLanding from './components/handlers/addons/index';
-import AddonReview from './components/handlers/addons/review';
-import AddonSubmit from './components/handlers/addons/submit';
+import AddonLanding from './components/handlers/addon/index';
+import AddonReview from './components/handlers/addon/review';
+import AddonSubmit from './components/handlers/addon/submit';
 import Homepage from './components/handlers/index';
 import Login from './components/handlers/login'
 import LoginOAuthRedirect from './components/handlers/loginOAuthRedirect';
-import WebsiteLanding from './components/handlers/websites/index';
-import WebsiteReviewForm from './components/handlers/websites/reviewForm';
-import WebsiteReviewListing from './components/handlers/websites/reviewListing';
-import WebsiteSubmit from './components/handlers/websites/submit';
+import WebsiteLanding from './components/handlers/website/index';
+import WebsiteReviewForm from './components/handlers/website/reviewForm';
+import WebsiteReviewListing from './components/handlers/website/reviewListing';
+import WebsiteSubmit from './components/handlers/website/submit';
 
 import addonDashboard from './reducers/addonDashboard';
 import apiArgs from './reducers/apiArgs';
@@ -80,25 +80,27 @@ function renderRoutes() {
             <Route name="login" path="/login" component={Login}/>
             <Route name="login-oauth-redirect" path="/fxa-authorize"
                    component={LoginOAuthRedirect}/>
-            <Route name="addons" path="/addons"
-                   component={loginRequired(AddonsLanding, Login,
+
+            <Route name="addon" path="/addon/"
+                   component={loginRequired(AddonLanding, Login,
                                             ['reviewer', 'website_submitter'])}/>
-            <Route name="addons-submit" path="/addons/submit"
-                   component={loginRequired(AddonsSubmit, Login,
+            <Route name="addon-submit" path="/addon/submit"
+                   component={loginRequired(AddonSubmit, Login,
                                             ['reviewer', 'website_submitter'])}/>
-            <Route name="addons-review" path="/addons/review"
-                   component={loginRequired(AddonsReview, Login,
+            <Route name="addon-review" path="/addon/review"
+                   component={loginRequired(AddonReview, Login,
                                             ['reviewer', 'website_submitter'])}/>
-            <Route name="websites" path="/websites"
-                   component={loginRequired(WebsitesLanding, Login, 'reviewer')}/>
-            <Route name="websites-submit" path="/websites/submit"
-                   component={loginRequired(WebsitesSubmit, Login,
+
+            <Route name="website" path="/website/"
+                   component={loginRequired(WebsiteLanding, Login, 'reviewer')}/>
+            <Route name="website-submit" path="/website/submit"
+                   component={loginRequired(WebsiteSubmit, Login,
                                             'reviewer')}/>
-            <Route name="websites-review" path="/websites/review"
-                   component={loginRequired(WebsitesReviewListing, Login,
+            <Route name="website-review" path="/website/review"
+                   component={loginRequired(WebsiteReviewListing, Login,
                                             'reviewer')}/>
-            <Route name="websites-review-form" path="/websites/review/:id"
-                   component={loginRequired(WebsitesReviewForm, Login,
+            <Route name="website-review-form" path="/website/review/:id"
+                   component={loginRequired(WebsiteReviewForm, Login,
                                             'reviewer')}/>
           </Route>
         </Route>

@@ -8,8 +8,8 @@ export default class Homepage extends React.Component {
       <section>
         <h1>Homepage</h1>
         <ul>
-          <li><ReverseLink to="addons">Addons</ReverseLink></li>
-          <li><ReverseLink to="websites">Websites</ReverseLink></li>
+          <li><ReverseLink to="addon">Firefox OS Add-ons</ReverseLink></li>
+          <li><ReverseLink to="website">Websites</ReverseLink></li>
         </ul>
       </section>
     );
