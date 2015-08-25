@@ -5,7 +5,9 @@ export default createSelector(
   [state => state.addonDashboard],
   addons => {
     // Return submissions in list form.
+    addons = Object.assign({}, addons);
     delete addons.__persist;
+
     return {
       addons: Object.keys(addons)
                     .sort()

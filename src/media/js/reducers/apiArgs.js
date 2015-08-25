@@ -7,17 +7,15 @@ const qs = Url._parseQuery(window.location.href);
 const lang = qs.lang ||
              (navigator.l10n && navigator.l10n.language) ||
              navigator.language ||
-             navigator.userLanguage;
+             navigator.userLanguage ||
+             'en-US';
 let initialState = {
+  lang: lang,
   region: qs.region || 'restofworld',
 };
 if (qs.carrier) {
   initialState.carrier = qs.carrier;
 }
-if (qs.lang) {
-  initialState.lang = lang;
-}
-
 
 export default function apiArgs(state=initialState, action) {
   switch (action.type) {
