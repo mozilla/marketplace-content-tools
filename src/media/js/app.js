@@ -12,6 +12,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import {loginRequired} from './login';
 
+import AddonDashboard from './components/handlers/addonDashboard';
 import App from './components/app';
 import Login from './components/handlers/login'
 import LoginOAuthRedirect from './components/handlers/loginOAuthRedirect';
@@ -24,6 +25,7 @@ import SubmissionAddon from './components/handlers/submissionAddon';
 import SubmissionLanding from './components/handlers/submissionLanding';
 import SubmissionWebsite from './components/handlers/submissionWebsite';
 
+import addonDashboard from './reducers/addonDashboard';
 import apiArgs from './reducers/apiArgs';
 import login from './reducers/login';
 import reviewWebsiteListing from './reducers/reviewWebsiteListing';
@@ -35,6 +37,8 @@ import user from './reducers/user';
 
 
 const reducer = combineReducers({
+  // The name of the reducers, as imported, will be the keys of state tree.
+  addonDashboard,
   apiArgs,
   login,
   reviewWebsiteListing,
@@ -62,40 +66,44 @@ const store = createStoreWithMiddleware(reducer);
 
 
 function renderRoutes() {
-  return <Router history={history}>
-    <Route component={reduxRouteComponent(store)}>
-      <Route name="app" component={App}>
-        <Route path="/" component={SubmissionRedirect}/>
+  return (
+    <Router history={history}>
+      <Route component={reduxRouteComponent(store)}>
+        <Route name="app" component={App}>
+          <Route path="/" component={SubmissionRedirect}/>
 
-        <Route name="login" path="/login" component={Login}/>
-        <Route name="login-oauth-redirect" path="/fxa-authorize"
-               component={LoginOAuthRedirect}/>
+          <Route name="login" path="/login" component={Login}/>
+          <Route name="login-oauth-redirect" path="/fxa-authorize"
+                 component={LoginOAuthRedirect}/>
 
-        <Route name="submission-landing" path="/submission/"
-               component={loginRequired(SubmissionLanding, Login,
-                                        ['reviewer', 'website_submitter'])}/>
-        <Route name="submission-addon" path="/submission/addon/"
-               component={loginRequired(SubmissionAddon, Login,
-                                        ['reviewer', 'website_submitter'])}/>
+          <Route name="addon-dashboard" path="/submission/addon/"
+                 component={loginRequired(AddonDashboard, Login)}/>
 
-        <Route name="submission-website" path="/submission/website/"
-               component={loginRequired(SubmissionWebsite, Login,
-                                        ['reviewer', 'website_submitter'])}/>
+          <Route name="submission-landing" path="/submission/"
+                 component={loginRequired(SubmissionLanding, Login,
+                                          ['reviewer', 'website_submitter'])}/>
+          <Route name="submission-addon" path="/submission/addon/submit/"
+                 component={loginRequired(SubmissionAddon, Login,
+                                          ['reviewer', 'website_submitter'])}/>
+          <Route name="submission-website" path="/submission/website/"
+                 component={loginRequired(SubmissionWebsite, Login,
+                                          ['reviewer', 'website_submitter'])}/>
 
-        <Route name="review-landing" path="/review/"
-               component={loginRequired(ReviewLanding, Login, 'reviewer')}/>
-        <Route name="review-addon-listing" path="/review/addon/"
-               component={loginRequired(ReviewAddonListing, Login,
-                                        'reviewer')}/>
-        <Route name="review-website-listing" path="/review/website/"
-               component={loginRequired(ReviewWebsiteListing, Login,
-                                        'reviewer')}/>
-        <Route name="review-website-edit" path="/review/website/:id"
-               component={loginRequired(ReviewWebsiteEdit, Login,
-                                        'reviewer')}/>
+          <Route name="review-landing" path="/review/"
+                 component={loginRequired(ReviewLanding, Login, 'reviewer')}/>
+          <Route name="review-addon-listing" path="/review/addon/"
+                 component={loginRequired(ReviewAddonListing, Login,
+                                          'reviewer')}/>
+          <Route name="review-website-listing" path="/review/website/"
+                 component={loginRequired(ReviewWebsiteListing, Login,
+                                          'reviewer')}/>
+          <Route name="review-website-edit" path="/review/website/:id"
+                 component={loginRequired(ReviewWebsiteEdit, Login,
+                                          'reviewer')}/>
+        </Route>
       </Route>
-    </Route>
-  </Router>
+    </Router>
+  );
 }
 
 

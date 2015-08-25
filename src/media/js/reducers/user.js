@@ -2,9 +2,7 @@ import * as loginActions from '../actions/login';
 
 
 const initialState = {
-  meta: {
-    persist: true
-  },
+  __persist: true,
   settings: {}
 };
 

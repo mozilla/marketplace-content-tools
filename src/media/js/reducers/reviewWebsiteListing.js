@@ -1,10 +1,14 @@
 /*
-    Holds website submissions, keyed by ID.
+  Holds website submissions, keyed by ID.
 */
 import * as reviewWebsiteListingActions from '../actions/reviewWebsiteListing';
 
 
-const initialState = {};
+const initialState = {
+  _meta: {
+    persist: true
+  }
+};
 
 
 export default function reviewWebsiteListingReducer(state=initialState,
@@ -28,7 +32,7 @@ export default function reviewWebsiteListingReducer(state=initialState,
       return newState;
     }
 
-    default : {
+    default: {
       return state;
     }
   }

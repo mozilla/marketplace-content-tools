@@ -2,9 +2,7 @@ import * as submissionWebsiteUrlActions from '../actions/submissionWebsiteUrl';
 
 
 const initialState = {
-  meta: {
-    persist: true
-  },
+  __persist: true,
   activeStep: 0,
   highestStep: 0,
   isLoading: false,

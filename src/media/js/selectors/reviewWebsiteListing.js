@@ -5,6 +5,7 @@ export default createSelector(
   [state => state.reviewWebsiteListing],
   websiteSubmissions => {
     // Return submissions in list form.
+    delete websiteSubmissions.__persist;
     return {
       websiteSubmissions: Object.keys(websiteSubmissions)
                                 .sort()

@@ -6,9 +6,7 @@ import * as submissionWebsiteUrlActions from '../actions/submissionWebsiteUrl';
 
 
 const initialState = {
-  meta: {
-    persist: true
-  },
+  __persist: true,
   canonical_url: '',
   categories: [],
   description: '',
