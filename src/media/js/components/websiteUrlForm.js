@@ -27,27 +27,31 @@ export default class WebsiteUrlForm extends React.Component {
   }
   renderSuccessMsg() {
     if (this.props.successfullySubmittedUrl) {
-      return <div className="form-msg--success">
-        <p>
-          <span>You have just successfully submitted </span>
-          <span className="submission--url-success">
-            {this.props.successfullySubmittedUrl}
-          </span>
-          <span>!</span>
-        </p>
-      </div>
+      return (
+        <div className="form-msg--success">
+          <p>
+            <span>You have just successfully submitted </span>
+            <span className="submission--url-success">
+              {this.props.successfullySubmittedUrl}
+            </span>
+            <span>!</span>
+          </p>
+        </div>
+      )
     }
   }
   renderMobileFriendlyErr() {
     if (this.props.url && this.props.mobileFriendlyData &&
         !this.props.mobileFriendlyData.isMobileFriendly) {
-      return <div className="form-msg--error">
-        <p>
-          Sorry, {this.props.url} was not detected as mobile-friendly.
-          We are not accepting non-mobile-friendly sites at this time.
-          Please enter another website.
-        </p>
-      </div>
+      return (
+        <div className="form-msg--error">
+          <p>
+            Sorry, {this.props.url} was not detected as mobile-friendly.
+            We are not accepting non-mobile-friendly sites at this time.
+            Please enter another website.
+          </p>
+        </div>
+      );
     }
   }
   render() {
@@ -61,20 +65,22 @@ export default class WebsiteUrlForm extends React.Component {
       disabled: this.props.isLoading
     };
 
-    return <div className="submission--url-step">
-      {this.renderSuccessMsg()}
-      {this.renderMobileFriendlyErr()}
+    return (
+      <div className="submission--url-step">
+        {this.renderSuccessMsg()}
+        {this.renderMobileFriendlyErr()}
 
-      <form className="form-inline submission--url-form"
-            onSubmit={this.handleSubmit}>
-        <label htmlFor="submission--url">URL:</label>
-        <input id="submission--url" className="submission--url"
-               name="submissionUrl" placeholder={placeholder} required
-               type="url" onChange={this.handleChange}/>
-        <button {...buttonProps}>
-          {this.props.isLoading ? 'Loading...' : 'Submit'}
-        </button>
-      </form>
-    </div>
+        <form className="form-inline submission--url-form"
+              onSubmit={this.handleSubmit}>
+          <label htmlFor="submission--url">URL:</label>
+          <input id="submission--url" className="submission--url"
+                 name="submissionUrl" placeholder={placeholder} required
+                 type="url" onChange={this.handleChange}/>
+          <button {...buttonProps}>
+            {this.props.isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        </form>
+      </div>
+    );
   }
 }

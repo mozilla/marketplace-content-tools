@@ -86,9 +86,11 @@ const CategorySelect = React.createClass({
       ['category-select']: true,
       ['category-select--required']: this.props.indicateRequired
     });
-    return <div className={selectClassnames}>
-      <Select {...this.props} options={categoryOptions} ref="select"/>
-    </div>
+    return (
+      <div className={selectClassnames}>
+        <Select {...this.props} options={categoryOptions} ref="select"/>
+      </div>
+    );
   }
 });
 export {CategorySelect};

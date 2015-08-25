@@ -1,17 +1,17 @@
 import React from 'react';
-import {reverse} from 'react-router-reverse';
+import {ReverseLink} from 'react-router-reverse';
 
 
-export default class SubmissionRedirect extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-  constructor(props, context) {
-    super(props, context);
-    const path = reverse(this.context.router.routes, 'submission-landing');
-    this.context.router.transitionTo(path);
-  }
+export default class Homepage extends React.Component {
   render() {
-    return <div/>;
+    return (
+      <section>
+        <h1>Homepage</h1>
+        <ul>
+          <li><ReverseLink to="addons">Addons</ReverseLink></li>
+          <li><ReverseLink to="websites">Websites</ReverseLink></li>
+        </ul>
+      </section>
+    );
   }
 }

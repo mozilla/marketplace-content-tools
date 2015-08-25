@@ -21,7 +21,7 @@ export class Login extends React.Component {
                      this.props.siteConfig.clientId);
   }
   render() {
-    return <section className="login-handler">
+    return <section>
       <h2>You must be logged in to access these tools.</h2>
       <LoginButton authUrl={this.props.siteConfig.authUrl}
                    loginBeginHandler={this.props.fxaLoginBegin}
