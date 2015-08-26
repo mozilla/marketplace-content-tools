@@ -35,15 +35,21 @@ export class Addon extends React.Component {
     isReview: React.PropTypes.bool,
     isReviewListing: React.PropTypes.bool,
 
+    isPublishing: React.PropTypes.bool,
+    isRejecting: React.PropTypes.bool,
+
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
   };
+
   publish = () => {
     this.props.publish(this.props.slug);
   }
+
   reject = () => {
     this.props.reject(this.props.slug);
   }
+
   renderName() {
     if (this.props.isReviewListing) {
       return (
@@ -55,6 +61,11 @@ export class Addon extends React.Component {
     }
     return <h2>{this.props.name}</h2>
   }
+
+  isButtonDisabled() {
+    return this.props.isPublishing || this.props.isRejecting;
+  }
+
   render() {
     return (
       <div>
@@ -74,8 +85,12 @@ export class Addon extends React.Component {
 
         {this.props.isReview &&
           <div>
-            <button onClick={this.reject}>Reject</button>
-            <button onClick={this.publish}>Publish</button>
+            <button onClick={this.reject} disabled={this.isButtonDisabled()}>
+              {this.props.isRejecting ? 'Rejecting...' : 'Reject'}
+            </button>
+            <button onClick={this.publish} disabled={this.isButtonDisabled()}>
+              {this.props.isPublishing ? 'Publishing...' : 'Publish'}
+            </button>
           </div>
         }
       </div>

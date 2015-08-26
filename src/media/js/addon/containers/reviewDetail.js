@@ -17,13 +17,13 @@ export class AddonReviewDetail extends React.Component {
   constructor(props) {
     super(props);
     // this.props.fetch();
-    this.props.addon = this.props.addons[this.props.slug];
   }
   render() {
+    const addon = this.props.addons[this.props.slug];
     return (
       <section>
-        <h1>{`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}</h1>
-        <Addon {...this.props.addon}
+        <h1>{`Reviewing Firefox OS Add-on: ${addon.name}`}</h1>
+        <Addon {...addon}
                isReview={true}
                publish={this.props.publish}
                reject={this.props.reject}/>
