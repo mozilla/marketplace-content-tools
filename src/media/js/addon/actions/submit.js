@@ -112,7 +112,7 @@ export function create() {
 
     req
       .post(createUrl)
-      .send({upload: getState().submissionAddon.validationId})
+      .send({upload: getState().addonSubmit.validationId})
       .then((res, err) => {
         if (res.status === 201) {
           dispatch(submitOk(res.body));
