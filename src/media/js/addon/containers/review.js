@@ -4,7 +4,7 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch, publish} from '../actions/review';
-import AddonListing from '../components/addonListing';
+import {AddonListing} from '../components/addon';
 import addonReviewSelector from '../selectors/review';
 
 

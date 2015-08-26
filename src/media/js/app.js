@@ -15,6 +15,7 @@ import {loginRequired} from './site/login';
 import AddonDashboard from './addon/containers/dashboard';
 import AddonLanding from './addon/containers/landing';
 import AddonReview from './addon/containers/review';
+import AddonReviewDetail from './addon/containers/reviewDetail';
 import AddonSubmit from './addon/containers/submit';
 import App from './site/containers/app';
 import Landing from './site/containers/landing';
@@ -92,9 +93,11 @@ function renderRoutes() {
                    component={loginRequired(AddonDashboard, Login)}/>
             <Route name="addon-review" path="/addon/review/"
                    component={loginRequired(AddonReview, Login,
-                                            ['reviewer',
-                                             'website_submitter'])}/>
-            <Route name="addon-submit" path="/addon/submit"
+                                            ['reviewer'])}/>
+            <Route name="addon-review-detail" path="/addon/review/:slug"
+                   component={loginRequired(AddonReviewDetail, Login,
+                                            ['reviewer'])}/>
+            <Route name="addon-submit" path="/addon/submit/"
                    component={loginRequired(AddonSubmit, Login,
                                             ['reviewer',
                                              'website_submitter'])}/>
@@ -108,7 +111,7 @@ function renderRoutes() {
             <Route name="website-review-form" path="/website/review/:id"
                    component={loginRequired(WebsiteReviewForm, Login,
                                             'reviewer')}/>
-            <Route name="website-submit" path="/website/submit"
+            <Route name="website-submit" path="/website/submit/"
                    component={loginRequired(WebsiteSubmit, Login,
                                             'reviewer')}/>
           </Route>
