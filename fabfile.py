@@ -38,7 +38,7 @@ def build():
 @task
 def deploy_jenkins():
     r = helpers.build_rpm(name=settings.PROJECT_NAME,
-                          app_dir='marketplace-submission',
+                          app_dir='marketplace-content-tools',
                           env=settings.ENV,
                           cluster=settings.CLUSTER,
                           domain=settings.DOMAIN,
