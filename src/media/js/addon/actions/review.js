@@ -8,7 +8,7 @@ import urlJoin from 'url-join';
 export const FETCH_OK = 'ADDON_REVIEW__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
 
-export const PUBLISH = 'ADDON_REVIEW__publish_OK';
+export const PUBLISH = 'ADDON_REVIEW__PUBLISH_OK';
 const publishOk = createAction(PUBLISH);
 
 

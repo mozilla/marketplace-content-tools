@@ -21,7 +21,7 @@ export class AddonDashboard extends React.Component {
     return (
       <section>
         <h1>My Firefox OS Add-ons</h1>
-        <AddonListing addons={this.props.addons} isReview={true}/>
+        <AddonListing addons={this.props.addons}/>
       </section>
     );
   }
