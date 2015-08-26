@@ -1,17 +1,25 @@
+import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
 
 
 const initialState = {
   __persist: true,
-  addons: {}
 };
 
 
 export default function addonReviewReducer(state=initialState, action) {
   switch (action.type) {
-    case submissionAddonActions.SUBMIT_OK: {
+    case reviewActions.FETCH_OK: {
+      let addons = {};
+      action.payload.forEach(addon => {
+        addons[addon.slug] = addon;
+      });
+      return {...{}, ...state, ...addons};
+    }
+
+    case submitActions.SUBMIT_OK: {
       const newState = Object.assign({}, state);
-      newState.addons[action.payload.slug] = action.payload;
+      newState[action.payload.slug] = action.payload;
       return newState;
     }
 
