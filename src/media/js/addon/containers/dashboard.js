@@ -4,7 +4,7 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch} from '../actions/dashboard';
-import AddonListing from '../components/addon';
+import {AddonListing} from '../components/addon';
 import dashboardSelector from '../selectors/dashboard';
 
 
