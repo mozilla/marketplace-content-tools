@@ -83,10 +83,10 @@ function renderRoutes() {
           <Route name="login-oauth-redirect" path="/fxa-authorize"
                  component={LoginOAuthRedirect}/>
 
+          <Route name="root" path="/content/" component={Landing}/>
+
           <Route path="/content">
             <Route name="login" path="/login" component={Login}/>
-
-            <Route name="root" component={Landing}/>
 
             <Route name="addon" path="/addon/"
                    component={loginRequired(AddonLanding, Login,
