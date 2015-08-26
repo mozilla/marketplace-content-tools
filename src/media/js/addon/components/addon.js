@@ -6,7 +6,8 @@ export class AddonListing extends React.Component {
   static propTypes = {
     addons: React.PropTypes.array.isRequired,
     isReview: React.PropTypes.bool,
-    publish: React.PropTypes.func
+    publish: React.PropTypes.func,
+    reject: React.PropTypes.func,
   };
   render() {
     return (
@@ -33,10 +34,15 @@ export class Addon extends React.Component {
 
     isReview: React.PropTypes.bool,
     isReviewListing: React.PropTypes.bool,
+
     publish: React.PropTypes.func,
+    reject: React.PropTypes.func,
   };
   publish = () => {
     this.props.publish(this.props.slug);
+  }
+  reject = () => {
+    this.props.reject(this.props.slug);
   }
   renderName() {
     if (this.props.isReviewListing) {
@@ -68,7 +74,7 @@ export class Addon extends React.Component {
 
         {this.props.isReview &&
           <div>
-            <button>Reject</button>
+            <button onClick={this.reject}>Reject</button>
             <button onClick={this.publish}>Publish</button>
           </div>
         }

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
-import {fetch, publish} from '../actions/review';
+import {fetch, publish, reject} from '../actions/review';
 import {Addon} from '../components/addon';
 
 
@@ -12,6 +12,7 @@ export class AddonReviewDetail extends React.Component {
     addons: React.PropTypes.array.isRequired,
     // fetch: React.PropTypes.func,
     publish: React.PropTypes.func,
+    reject: React.PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -24,7 +25,8 @@ export class AddonReviewDetail extends React.Component {
         <h1>{`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}</h1>
         <Addon {...this.props.addon}
                isReview={true}
-               publish={this.props.publish}/>
+               publish={this.props.publish}
+               reject={this.props.reject}/>
       </section>
     );
   }
@@ -39,5 +41,6 @@ export default connect(
   dispatch => bindActionCreators({
     // fetch,
     publish,
+    reject,
   }, dispatch)
 )(AddonReviewDetail);
