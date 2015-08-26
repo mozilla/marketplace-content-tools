@@ -4,10 +4,15 @@ import React from 'react';
 export default class AddonListing extends React.Component {
   static propTypes = {
     addons: React.PropTypes.array.isRequired,
-    isReview: React.PropTypes.bool
+    isReview: React.PropTypes.bool,
+    publish: React.PropTypes.func
   };
   renderAddon(addon) {
     /* Not a separate component yet because it doesn't have extra logic. */
+    const publish = () => {
+      this.props.publish(addon.slug);
+    };
+
     return (
       <li className="addon-listing-item">
         <div className="addon-listing-item-header">
@@ -27,7 +32,7 @@ export default class AddonListing extends React.Component {
         {this.props.isReview &&
           <div>
             <button>Reject</button>
-            <button>Approve</button>
+            <button onClick={publish}>Publish</button>
           </div>
         }
       </li>

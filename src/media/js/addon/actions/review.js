@@ -8,8 +8,8 @@ import urlJoin from 'url-join';
 export const FETCH_OK = 'ADDON_REVIEW__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
 
-export const APPROVE = 'ADDON_REVIEW__APPROVE_OK';
-const approveOk = createAction(APPROVE);
+export const PUBLISH = 'ADDON_REVIEW__publish_OK';
+const publishOk = createAction(PUBLISH);
 
 
 export function fetch() {
@@ -29,17 +29,17 @@ export function fetch() {
 }
 
 
-export function approve(slug) {
+export function publish(slug) {
   return (dispatch, getState) => {
     const apiArgs = getState().apiArgs || {};
-    const approveUrl = Url(
-      urlJoin(process.env.MKT_API_ROOT, `extensions/queue/${slug}/approve`)
+    const publishUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, `extensions/queue/${slug}/publish/`)
     ).q(apiArgs);
 
     req
-      .post(approveUrl)
+      .post(publishUrl)
       .then((res, err) => {
-        dispatch(approveOk(slug));
+        dispatch(publishOk(slug));
       });
   };
 }
