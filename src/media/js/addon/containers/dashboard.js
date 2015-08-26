@@ -4,6 +4,7 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch} from '../actions/dashboard';
+import AddonListing from '../components/addonListing';
 import dashboardSelector from '../selectors/dashboard';
 
 
@@ -20,7 +21,7 @@ export class AddonDashboard extends React.Component {
     return (
       <section>
         <h1>My Firefox OS Add-ons</h1>
-        <AddonListing addons={this.props.addons}/>
+        <AddonListing addons={this.props.addons} isReview={true}/>
       </section>
     );
   }
@@ -33,46 +34,3 @@ export default connect(
     fetch
   }, dispatch)
 )(AddonDashboard);
-
-
-class AddonListing extends React.Component {
-  /* Can be re-used for reviewer tools. */
-  render() {
-    return (
-      <ul className="addon-listing">
-        {this.props.addons.map(addon => (<AddonListingItem {...addon}/>))}
-        {this.props.addons.length === 0 ? <p>No submissions to review.</p> :
-                                          ''}
-      </ul>
-    );
-  }
-}
-
-
-class AddonListingItem extends React.Component {
-  static propTypes = {
-    name: React.PropTypes.string.isRequired,
-    slug: React.PropTypes.string.isRequired,
-    status: React.PropTypes.string.isRequired,
-    version: React.PropTypes.string.isRequired,
-  };
-  render() {
-    return (
-      <li className="addon-listing-item">
-        <div className="addon-listing-item-header">
-          <h2>{this.props.name}</h2>
-        </div>
-        <dl className="addon-listing-item-details">
-          <dt>Slug</dt>
-          <dd>{this.props.slug}</dd>
-
-          <dt>Status</dt>
-          <dd>{this.props.status}</dd>
-
-          <dt>Version</dt>
-          <dd>{this.props.version}</dd>
-        </dl>
-      </li>
-    );
-  }
-}
