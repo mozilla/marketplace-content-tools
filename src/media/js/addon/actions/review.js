@@ -11,6 +11,9 @@ const fetchOk = createAction(FETCH_OK);
 export const PUBLISH = 'ADDON_REVIEW__PUBLISH_OK';
 const publishOk = createAction(PUBLISH);
 
+export const REJECT = 'ADDON_REVIEW__REJECT_OK';
+const rejectOk = createAction(REJECT);
+
 
 export function fetch() {
   return (dispatch, getState) => {
@@ -39,6 +42,22 @@ export function publish(slug) {
       .post(publishUrl)
       .then((res, err) => {
         dispatch(publishOk(slug));
+      });
+  };
+}
+
+
+export function reject(slug) {
+  return (dispatch, getState) => {
+    const apiArgs = getState().apiArgs || {};
+    const rejectUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, `extensions/queue/${slug}/reject/`)
+    ).q(apiArgs);
+
+    req
+      .post(rejectUrl)
+      .then((res, err) => {
+        dispatch(rejectOk(slug));
       });
   };
 }
