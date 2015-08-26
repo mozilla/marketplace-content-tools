@@ -4,6 +4,7 @@ import {Redirect, Route, Router} from 'react-router';
 import {history} from 'react-router/lib/BrowserHistory';
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import loggerMiddleware from 'redux-logger';
+import RavenMiddleware from 'redux-raven-middleware'
 import {reduxRouteComponent,
         routerStateReducer as router} from 'redux-react-router';
 import persistState from 'redux-localstorage'
@@ -63,6 +64,8 @@ const createPersistentStore = compose(
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
   loggerMiddleware,
+  RavenMiddleware(
+    'https://89570b6cb9b6474aaf269716621836ee@sentry.prod.mozaws.net/44'),
 )(createPersistentStore);
 
 const store = createStoreWithMiddleware(reducer);

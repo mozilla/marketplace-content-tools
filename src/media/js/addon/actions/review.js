@@ -22,7 +22,6 @@ export function fetch() {
     req
       .get(queueUrl)
       .then((res, err) => {
-        // Take further action by polling.
         dispatch(fetchOk(res.body.objects));
       });
   };
