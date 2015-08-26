@@ -26,7 +26,7 @@ export class AddonReview extends React.Component {
 
 
 export default connect(
- array addonReviewSelector,
+  addonReviewSelector,
   dispatch => bindActionCreators({
     fetch
   }, dispatch)
