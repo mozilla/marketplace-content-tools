@@ -1,7 +1,4 @@
-export default function listify(addons) {
-  if (!addons) {
-    return [];
-  }
+export default function listify(addons={}) {
   return Object.keys(addons)
                .sort()
                .map(slug => addons[slug]);
