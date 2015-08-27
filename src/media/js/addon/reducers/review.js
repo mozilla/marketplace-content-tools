@@ -1,65 +1,74 @@
+/*
+  Review queue add-ons, keyed by slug.
+*/
+import _ from 'lodash';
+
 import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
 
 
 const initialState = {
   __persist: true,
+  addons: {}
 };
 
 
 export default function addonReviewReducer(state=initialState, action) {
   switch (action.type) {
     case reviewActions.FETCH_OK: {
-      let addons = {};
+      const newState = _.cloneDeep(state);
+      newState.addons = {};  // Invalidate.
+
       action.payload.forEach(addon => {
-        addons[addon.slug] = addon;
+        newState.addons[addon.slug] = addon;
       });
-      return {...{}, ...state, ...addons};
+
+      return newState;
     }
 
     case reviewActions.PUBLISH_PENDING: {
-      const newState = Object.assign({}, state);
-      newState[action.payload].isPublishing = true;
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isPublishing = true;
       return newState;
     }
 
     case reviewActions.PUBLISH: {
-      const newState = Object.assign({}, state);
-      delete newState[action.payload];
+      const newState = _.cloneDeep(state);
+      delete newState.addons[action.payload];
       return newState;
     }
 
     case reviewActions.PUBLISH_ERROR: {
-      const newState = Object.assign({}, state);
-      newState[action.payload].isPublishing = false;
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isPublishing = false;
       return newState;
     }
 
     case reviewActions.REJECT_PENDING: {
-      const newState = Object.assign({}, state);
-      newState[action.payload].isRejecting = true;
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isRejecting = true;
       return newState;
     }
 
     case reviewActions.REJECT: {
-      const newState = Object.assign({}, state);
-      delete newState[action.payload];
+      const newState = _.cloneDeep(state);
+      delete newState.addons[action.payload];
       return newState;
     }
 
     case reviewActions.REJECT_ERROR: {
-      const newState = Object.assign({}, state);
-      newState[action.payload].isRejecting = false;
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isRejecting = false;
       return newState;
     }
 
     case submitActions.SUBMIT_OK: {
-      const newState = Object.assign({}, state);
-      newState[action.payload.slug] = action.payload;
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload.slug] = action.payload;
       return newState;
     }
 
-    default : {
+    default: {
       return state;
     }
   }

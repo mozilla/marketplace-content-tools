@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {fetch} from '../actions/dashboard';
 import {AddonListing} from '../components/addon';
-import dashboardSelector from '../selectors/dashboard';
+import listify from '../selectors/listify';
 
 
 export class AddonDashboard extends React.Component {
@@ -29,7 +29,9 @@ export class AddonDashboard extends React.Component {
 
 
 export default connect(
-  dashboardSelector,
+  state => ({
+    addons: listify(state.addonDashboard.addons)
+  }),
   dispatch => bindActionCreators({
     fetch
   }, dispatch)

@@ -79,7 +79,7 @@ function renderRoutes() {
 
           {/* nginx will be serving this at /content, but we need this in
               place for when it's run as a standalone app. */}
-          <Redirect from="/" to="/content"/>
+          <Redirect from="/" to="/content/"/>
           <Route name="login-oauth-redirect" path="/fxa-authorize"
                  component={LoginOAuthRedirect}/>
 

@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {fetch, publish, reject} from '../actions/review';
 import {AddonListing} from '../components/addon';
-import addonReviewSelector from '../selectors/review';
+import listify from '../selectors/listify';
 
 
 export class AddonReview extends React.Component {
@@ -34,7 +34,9 @@ export class AddonReview extends React.Component {
 
 
 export default connect(
-  addonReviewSelector,
+  state => ({
+    addons: listify(state.addonReview.addons)
+  }),
   dispatch => bindActionCreators({
     fetch,
     publish,
