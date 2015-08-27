@@ -9,6 +9,7 @@ export class AddonListing extends React.Component {
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
   };
+
   render() {
     return (
       <ul className="addon-listing">
@@ -27,6 +28,8 @@ export class AddonListing extends React.Component {
 
 export class Addon extends React.Component {
   static PropTypes = {
+    download_url: React.PropTypes.string.isRequired,
+    manifest_url: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired,
@@ -34,10 +37,8 @@ export class Addon extends React.Component {
 
     isReview: React.PropTypes.bool,
     isReviewListing: React.PropTypes.bool,
-
     isPublishing: React.PropTypes.bool,
     isRejecting: React.PropTypes.bool,
-
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
   };
@@ -62,17 +63,29 @@ export class Addon extends React.Component {
     return <h2>{this.props.name}</h2>
   }
 
-  isButtonDisabled() {
-    return this.props.isPublishing || this.props.isRejecting;
-  }
-
   render() {
+    const disabled = this.props.isPublishing || this.props.isRejecting;
+
     return (
       <div>
         <div>
           {this.renderName()}
         </div>
         <dl>
+          <dt>Files</dt>
+          <dd>
+            <a href={this.props.download_url}>
+              Download {this.props.name} .zip
+            </a>
+          </dd>
+
+          <dt>Manifest</dt>
+          <dd>
+            <a href={this.props.manifest_url}>
+              Download {this.props.name} manifest
+            </a>
+          </dd>
+
           <dt>Slug</dt>
           <dd>{this.props.slug}</dd>
 
@@ -85,10 +98,10 @@ export class Addon extends React.Component {
 
         {this.props.isReview &&
           <div>
-            <button onClick={this.reject} disabled={this.isButtonDisabled()}>
+            <button onClick={this.reject} disabled={disabled}>
               {this.props.isRejecting ? 'Rejecting...' : 'Reject'}
             </button>
-            <button onClick={this.publish} disabled={this.isButtonDisabled()}>
+            <button onClick={this.publish} disabled={disabled}>
               {this.props.isPublishing ? 'Publishing...' : 'Publish'}
             </button>
           </div>
