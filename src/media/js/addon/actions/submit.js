@@ -25,7 +25,7 @@ export const VALIDATION_PASS = 'SUBMISSION_ADDON__VALIDATION_PASS';
 const validationPassed = createAction(VALIDATION_PASS);
 
 export const VALIDATION_FAIL = 'SUBMISSION_ADDON__VALIDATION_FAIL';
-const validationError = createAction(VALIDATION_FAIL);
+const validationFail = createAction(VALIDATION_FAIL);
 
 export const SUBMIT_OK = 'SUBMISSION_ADDON__SUBMIT_OK';
 const submitOk = createAction(SUBMIT_OK);
@@ -52,12 +52,14 @@ export function validate(fileData) {
       .set('Content-Disposition',
            'form-data; name="binary_data"; filename="extension.zip"')
       .send(fileData)
-      .then((res, err) => {
+      .then(res => {
         // Notify the reducers.
         dispatch(validationPending(res.body.id));
 
         // Take further action by polling.
         dispatch(pollValidator(res.body.id));
+      }, err => {
+        dispatch(validationFail(JSON.parse(err.response.text).detail));
       });
   };
 }
@@ -78,7 +80,7 @@ export function pollValidator(validationId) {
     function poll(interval) {
       req
         .get(pollUrl)
-        .then((res, err) => {
+        .then(res => {
           if (res.body.processed) {
             // If processed, then validation is complete. Resolve process.
             clearInterval(pollValidatorInterval);
@@ -113,12 +115,10 @@ export function create() {
     req
       .post(createUrl)
       .send({upload: getState().addonSubmit.validationId})
-      .then((res, err) => {
-        if (res.status === 201) {
-          dispatch(submitOk(res.body));
-        } else {
-          dispatch(submitError(res.body));
-        }
+      .then(res => {
+        dispatch(submitOk(res.body));
+      }, err => {
+        dispatch(submitError(res.body));
       });
   };
 }

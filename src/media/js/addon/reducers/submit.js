@@ -5,13 +5,20 @@ import * as submitActions from '../actions/submit';
 
 
 const initialState = {
-  validationErrorMsg: '',
+  isSubmitting: false,
+  validationErrorMessage: '',
   validationId: '',
 };
 
 
 export default function addonSubmitReducer(state=initialState, action) {
   switch (action.type) {
+    case submitActions.VALIDATION_BEGIN: {
+      return Object.assign({}, initialState, {
+        isSubmitting: true
+      });
+    }
+
     case submitActions.VALIDATION_PENDING: {
       return Object.assign({}, state, {
         validationId: action.payload,
@@ -20,7 +27,8 @@ export default function addonSubmitReducer(state=initialState, action) {
 
     case submitActions.VALIDATION_FAIL: {
       return Object.assign({}, state, {
-        validationErrorMsg: action.payload,
+        isSubmitting: false,
+        validationErrorMessage: action.payload,
       });
     }
 

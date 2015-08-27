@@ -12,9 +12,9 @@ export class AddonSubmit extends React.Component {
     router: React.PropTypes.object
   };
   static propTypes = {
-    isProcessing: React.PropTypes.bool,
+    isSubmitting: React.PropTypes.bool,
     submit: React.PropTypes.func.isRequired,
-    validationErrorMsg: React.PropTypes.string
+    validationErrorMessage: React.PropTypes.string
   };
   constructor(props) {
     super(props);
@@ -37,7 +37,8 @@ export class AddonSubmit extends React.Component {
     // transitionTo in add-on submission actions instead. Doesn't work in 0.13.
 
     // Redirect to dashboard once submission is complete.
-    if (this.props.isProcessing && !nextProps.isProcessing) {
+    if (this.props.isSubmitting && !nextProps.isSubmitting &&
+        !nextProps.validationErrorMessage) {
       const path = reverse(this.context.router.routes, 'addon-dashboard');
       this.context.router.transitionTo(path);
     }
@@ -71,13 +72,13 @@ export class AddonSubmit extends React.Component {
                'Select a File...'}
             </div>
           </FileReaderInput>
-          <button type="submit" disabled={this.props.isProcessing}>
-            {this.props.isProcessing ? 'Processing...' : 'Submit'}
+          <button type="submit" disabled={this.props.isSubmitting}>
+            {this.props.isSubmitting ? 'Processing...' : 'Submit'}
           </button>
         </form>
 
-        {this.props.validationErrMsg && <p>
-          {this.props.validationErrMsg}
+        {this.props.validationErrorMessage && <p>
+          {this.props.validationErrorMessage}
         </p>}
       </section>
     );
@@ -87,8 +88,8 @@ export class AddonSubmit extends React.Component {
 
 export default connect(
   state => ({
-    isProcessing: !!state.addonSubmit.validationId,
-    validationErrorMsg: state.addonSubmit.validationErrorMsg,
+    isSubmitting: !!state.addonSubmit.isSubmitting,
+    validationErrorMessage: state.addonSubmit.validationErrorMessage,
   }),
   dispatch => bindActionCreators({
     submit
