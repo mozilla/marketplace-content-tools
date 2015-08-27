@@ -9,17 +9,14 @@ export default class Header extends React.Component {
     router: React.PropTypes.object
   };
   renderMenu() {
-    if (this.props.isLoggedIn) {
-      return (
-        <nav>
-          <li>
-            <ReverseLink to="addon">Firefox OS Add-ons</ReverseLink>
-            <ReverseLink to="website">Websites</ReverseLink>
-          </li>
-        </nav>
-      );
-    }
-    return '';
+    return (
+      <nav>
+        <li>
+          <ReverseLink to="addon">Firefox OS Add-ons</ReverseLink>
+          <ReverseLink to="website">Websites</ReverseLink>
+        </li>
+      </nav>
+    );
   }
   render() {
     return (
@@ -27,7 +24,7 @@ export default class Header extends React.Component {
         <div className="header--wordmark">
           <h1><ReverseLink to="root">Content Tools</ReverseLink></h1>
         </div>
-        {this.renderMenu()}
+        {this.props.isLoggedIn && this.renderMenu()}
         <HeaderLogin {...this.props}/>
       </header>
     );
