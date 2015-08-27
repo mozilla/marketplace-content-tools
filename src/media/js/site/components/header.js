@@ -8,18 +8,26 @@ export default class Header extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   };
-  render() {
-    return (
-      <header>
-        <div className="header--wordmark">
-          <h1><ReverseLink to="root">Content Tools</ReverseLink></h1>
-        </div>
+  renderMenu() {
+    if (this.props.isLoggedIn) {
+      return (
         <nav>
           <li>
             <ReverseLink to="addon">Firefox OS Add-ons</ReverseLink>
             <ReverseLink to="website">Websites</ReverseLink>
           </li>
         </nav>
+      );
+    }
+    return '';
+  }
+  render() {
+    return (
+      <header>
+        <div className="header--wordmark">
+          <h1><ReverseLink to="root">Content Tools</ReverseLink></h1>
+        </div>
+        {this.renderMenu()}
         <HeaderLogin {...this.props}/>
       </header>
     );
