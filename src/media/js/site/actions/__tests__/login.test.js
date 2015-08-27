@@ -1,8 +1,9 @@
-import * as login from '../login';
-import req from '../../request';
+import req from 'request';
+
+import * as loginActions from '../login';
 
 
-describe('login.login', () => {
+describe('loginActions.login', () => {
   beforeEach(() => {
     sinon.stub(req, 'post', () => {
       return getReqMock({body: {token: 'abc'}});
@@ -15,8 +16,8 @@ describe('login.login', () => {
 
   it('dispatches login start', done => {
     function dispatch(action) {
-      if (action.type == login.LOGIN_BEGIN) {
-        assert.equal(action.type, login.LOGIN_BEGIN);
+      if (action.type == loginActions.LOGIN_BEGIN) {
+        assert.equal(action.type, loginActions.LOGIN_BEGIN);
         assert.deepEqual(action.payload, {
           auth_response: 'a',
           state: 'b',
@@ -25,25 +26,25 @@ describe('login.login', () => {
         done();
       }
     }
-    login.login('a', 'b', 'c')(dispatch);
+    loginActions.login('a', 'b', 'c')(dispatch);
   });
 
   it('dispatches login success', done => {
     function dispatch(action) {
-      if (action.type == login.LOGIN_OK) {
-        assert.equal(action.type, login.LOGIN_OK);
+      if (action.type == loginActions.LOGIN_OK) {
+        assert.equal(action.type, loginActions.LOGIN_OK);
         assert.deepEqual(action.payload, {
           token: 'abc'
         });
         done();
       }
     }
-    login.login()(dispatch);
+    loginActions.login()(dispatch, () => ({}));
   });
 });
 
 
-describe('login.logout', () => {
+describe('loginActions.logout', () => {
   beforeEach(() => {
     sinon.stub(req, 'del', () => {
       return getReqMock();
@@ -56,21 +57,21 @@ describe('login.logout', () => {
 
   it('dispatches logout start', done => {
     function dispatch(action) {
-      if (action.type == login.LOGOUT_BEGIN) {
-        assert.equal(action.type, login.LOGOUT_BEGIN);
+      if (action.type == loginActions.LOGOUT_BEGIN) {
+        assert.equal(action.type, loginActions.LOGOUT_BEGIN);
         done();
       }
     }
-    login.logout()(dispatch);
+    loginActions.logout()(dispatch, () => ({}));
   });
 
   it('dispatches logout success', done => {
     function dispatch(action) {
-      if (action.type == login.LOGOUT_OK) {
-        assert.equal(action.type, login.LOGOUT_OK);
+      if (action.type == loginActions.LOGOUT_OK) {
+        assert.equal(action.type, loginActions.LOGOUT_OK);
         done();
       }
     }
-    login.logout()(dispatch);
+    loginActions.logout()(dispatch, () => ({}));
   });
 });

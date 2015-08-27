@@ -1,8 +1,9 @@
-import * as submissionWebsiteUrlActions from '../submissionWebsiteUrl';
-import req from '../../request';
+import req from 'request';
+
+import * as submitUrlActions from '../submitUrl';
 
 
-describe('submissionWebsiteUrlActions.submitUrl', () => {
+describe('submitUrlActions.submitUrl', () => {
   beforeEach(() => {
     sinon.stub(req, 'get', data => {
       if (data.url.indexOf('googleapis') !== -1) {
@@ -19,7 +20,7 @@ describe('submissionWebsiteUrlActions.submitUrl', () => {
 
   it('resolves URL and mobile-friendly data', done => {
     function dispatch(action) {
-      if (action.type === submissionWebsiteUrlActions.SUBMIT_URL_OK) {
+      if (action.type === submitUrlActions.SUBMIT_URL_OK) {
         const payload = action.payload;
         assert.equal(payload.mobileFriendlyData.mobileFriendlyScore, 100);
         assert.equal(payload.metadata.description, 'The best game.');
@@ -27,13 +28,13 @@ describe('submissionWebsiteUrlActions.submitUrl', () => {
         done();
       }
     }
-    submissionWebsiteUrlActions.submitUrl('http://ngokevin.com')(dispatch);
+    submitUrlActions.submitUrl('http://ngokevin.com')(dispatch);
   });
 });
 
 
-describe('submissionWebsiteUrlActions.goToStep', () => {
+describe('submitUrlActions.goToStep', () => {
   it('creates goToStep action', () => {
-    assert.equal(submissionWebsiteUrlActions.goToStep(5).payload, 5);
+    assert.equal(submitUrlActions.goToStep(5).payload, 5);
   });
 });

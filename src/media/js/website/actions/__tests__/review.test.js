@@ -1,17 +1,9 @@
-import * as websiteSubmissions from '../websiteSubmissions';
-import req from '../../request';
+import req from 'request';
+
+import * as reviewActions from '../review';
 
 
-describe('websiteSubmissions.editSubmission', () => {
-  it('creates edit submission action', () J=> {
-    const action = websiteSubmissions.editSubmission({id: 5, name: 'Swooop'});
-    assert.equal(action.type, websiteSubmissions.EDIT_SUBMISSION);
-    assert.deepEqual(action.payload, {id: 5, name: 'Swooop'});
-  });
-});
-
-
-describe('websiteSubmissions.fetch', () => {
+describe('reviewActions.fetch', () => {
  beforeEach(() => {
     sinon.stub(req, 'get', data => {
       return getReqMock({body: {objects: [{id: 1}, {id: 2}]}});
@@ -22,13 +14,13 @@ describe('websiteSubmissions.fetch', () => {
     req.get.restore();
   });
 
-  it('fetches website submissions', done => {
+  it('fetches websites', done => {
     function dispatch(action) {
-      if (action.type === websiteSubmissions.FETCH_SUBMISSIONS_OK) {
+      if (action.type === reviewActions.FETCH_OK) {
         assert.deepEqual(action.payload, [{id: 1}, {id: 2}]);
         done();
       }
     }
-    websiteSubmissions.fetch({})(dispatch);
+    reviewActions.fetch({})(dispatch);
   });
 });

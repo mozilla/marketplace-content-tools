@@ -1,20 +1,9 @@
-import * as submissionWebsiteActions from '../submissionWebsite';
-import req from '../../request';
+import req from 'request';
+
+import * as submitActions from '../submit';
 
 
-describe('submissionWebsiteActions.setFormData', () => {
-  it('sets form data', done => {
-    function dispatch(action) {
-      assert.equal(action.type, submissionWebsiteActions.SET_FORM_DATA);
-      assert.deepEqual(action.payload, {a: ['b', 'c']});
-      done();
-    }
-    dispatch(submissionWebsiteActions.setFormData({a: ['b', 'c']}));
-  });
-});
-
-
-describe('submissionWebsiteActions.submitWebsite', () => {
+describe('submitActions.submitWebsite', () => {
  beforeEach(() => {
     sinon.stub(req, 'post', data => {
       return getReqMock({});
@@ -27,12 +16,12 @@ describe('submissionWebsiteActions.submitWebsite', () => {
 
   it('succeeds', done => {
     function dispatch(action) {
-      if (action.type == submissionWebsiteActions.SUBMIT_WEBSITE_OK) {
-        assert.equal(action.type, submissionWebsiteActions.SUBMIT_WEBSITE_OK);
+      if (action.type == submitActions.SUBMIT_WEBSITE_OK) {
+        assert.equal(action.type, submitActions.SUBMIT_WEBSITE_OK);
         assert.deepEqual(action.payload, {});
         done();
       }
     }
-    submissionWebsiteActions.submitWebsite({name: 'Tanx'}, {})(dispatch);
+    submitActions.submitWebsite({name: 'Tanx'}, {})(dispatch);
   });
 });

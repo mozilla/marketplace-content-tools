@@ -1,12 +1,11 @@
-import reviewWebsiteListingReducer from '../reviewWebsiteListing';
-import * as reviewWebsiteListingActions
-         from '../../actions/reviewWebsiteListing';
+import websiteReviewReducer from '../review';
+import * as reviewActions from '../../actions/review';
 
 
-describe('reviewWebsiteListingReducer', () => {
+describe('websiteReviewReducer', () => {
   it('handles fetch', () => {
-    const state = reviewWebsiteListingReducer({}, {
-      type: reviewWebsiteListingActions.FETCH_OK,
+    const state = websiteReviewReducer({}, {
+      type: reviewActions.FETCH_OK,
       payload: [
         {id: 5, name: 'Swooop'},
         {id: 9, name: 'Tanx'},
@@ -19,11 +18,11 @@ describe('reviewWebsiteListingReducer', () => {
   });
 
   it('handles edit', () => {
-    const state = reviewWebsiteListingReducer({
+    const state = websiteReviewReducer({
       5: {id: 5, name: 'Swooop'},
       9: {id: 9, name: 'Tanks'}
     }, {
-      type: reviewWebsiteListingActions.EDIT_SUBMISSION,
+      type: reviewActions.EDIT_SUBMISSION,
       payload: {
         id: 9,
         name: 'Tanx'

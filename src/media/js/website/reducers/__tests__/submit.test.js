@@ -1,12 +1,11 @@
-import submissionWebsiteReducer from '../submissionWebsite';
-import * as submissionWebsiteUrlActions
-         from '../../actions/submissionWebsiteUrl';
+import websiteSubmitReducer from '../submit';
+import * as submitUrlActions from '../../actions/submitUrl';
 
 
-describe('submissionWebsiteReducer', () => {
+describe('websiteSubmitReducer', () => {
   it('sets URL', () => {
-    const state = submissionWebsiteReducer({}, {
-      type: submissionWebsiteUrlActions.SUBMIT_URL_OK,
+    const state = websiteSubmitReducer({}, {
+      type: submitUrlActions.SUBMIT_URL_OK,
       payload: {
         metadata: {},
         url: 'http://ngokevin.com/photography'
@@ -16,8 +15,8 @@ describe('submissionWebsiteReducer', () => {
   });
 
   it('sets canonical URL', () => {
-    const state = submissionWebsiteReducer({}, {
-      type: submissionWebsiteUrlActions.SUBMIT_URL_OK,
+    const state = websiteSubmitReducer({}, {
+      type: submitUrlActions.SUBMIT_URL_OK,
       payload: {
         metadata: {
           canonical_url: 'http://ngokevin.com'

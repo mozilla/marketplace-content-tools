@@ -21,7 +21,7 @@ const initialState = {
 };
 
 
-export default function submissionWebsite(state=initialState, action) {
+export default function websiteSubmitReducer(state=initialState, action) {
   switch (action.type) {
     case submitUrlActions.SUBMIT_URL_OK: {
       const data = action.payload;

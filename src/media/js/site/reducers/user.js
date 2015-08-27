@@ -1,7 +1,7 @@
 import * as loginActions from '../actions/login';
 
 
-const initialState = {
+export const initialState = {
   __persist: true,
   settings: {}
 };

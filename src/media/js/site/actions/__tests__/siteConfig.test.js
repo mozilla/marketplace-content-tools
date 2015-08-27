@@ -1,4 +1,5 @@
-import req from '../../request';
+import req from 'request';
+
 import * as siteConfig from '../siteConfig';
 
 

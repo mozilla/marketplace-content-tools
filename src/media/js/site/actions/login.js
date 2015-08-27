@@ -53,16 +53,15 @@ export function login(authResponse, authState, clientId) {
 export function logout() {
   // Asynchronous logout action creator.
   // Tells Zamboni we are logged out.
-  const url = urlJoin(process.env.MKT_API_ROOT, 'account/logout/')
-
   return (dispatch, getState) => {
     dispatch(logoutBegin());
 
-    const apiArgs = getState().apiArgs || {};
+    const logoutUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'account/logout/')
+    ).q(getState().apiArgs || {});
 
     // Post logout data to server to clear session.
     dispatch(logoutOk());
-    req
-      .del(Url(url).q(apiArgs));
+    req.del(logoutUrl);
   };
 }

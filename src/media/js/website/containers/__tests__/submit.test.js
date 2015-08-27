@@ -1,7 +1,7 @@
-import SubmissonWebsite from '../submissionWebsite';
+import WebsiteSubmit from '../submit';
 
 
-describe('SubmissonWebsite', () => {
+describe('WebsiteSubmit', () => {
   jsdom();
 
   function setup(_props) {
@@ -10,7 +10,7 @@ describe('SubmissonWebsite', () => {
       submissionWebsite: {},
       submissionWebsiteUrl: {},
     }, _props);
-    return ReactDOMHelper.render(<SubmissionWebsite {...props}/>);
+    return ReactDOMHelper.render(<WebsiteSubmit {...props}/>);
   }
 
   it('renders forms', () => {
@@ -21,7 +21,7 @@ describe('SubmissonWebsite', () => {
   });
 
   it('fires submit URL action', done => {
-    const testSubmissionWebsite = setup({
+    const testWebsiteSubmit = setup({
       submitUrl(url) {
         assert.equal(url, 'http://google.com');
         done();

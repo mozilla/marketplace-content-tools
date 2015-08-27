@@ -3,8 +3,10 @@ import Url from 'urlgray';
 import * as siteConfigActions from '../actions/siteConfig';
 
 
-const initialState = {
+export const initialState = {
   __persist: true,
+  authState: '',
+  authUrl: '',
   clientId: getLocalDevClientId(),
   switches: []
 }
