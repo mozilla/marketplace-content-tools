@@ -28,6 +28,10 @@ export default class LoginOAuthRedirectHandler extends React.Component {
     }
   }
   render() {
-    return <h2>Processing Firefox Accounts authorization...</h2>
+    return (
+      <div className="fullscreen">
+        <h2>Logging you in...</h2>
+      </div>
+    );
   }
 }
