@@ -44,7 +44,6 @@ def deploy_jenkins():
                           domain=settings.DOMAIN,
                           root=ROOT)
 
-    r.local_install()
     r.remote_install(['web'])
 
     # disable deploy_build_id
