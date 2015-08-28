@@ -43,7 +43,7 @@ function transform(filename) {
 
 require.extensions['.js'] = function(module, filename) {
   // Install the compiler.
-  if (filename.indexOf('node_modules/') >= 0) {
+  if (filename.indexOf('marketplace-content-tools/node_modules/') >= 0) {
     // Skip Node modules.
     return (origJs || require.extensions['.js'])(module, filename);
   }
