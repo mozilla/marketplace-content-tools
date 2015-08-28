@@ -5,6 +5,8 @@ import {bindActionCreators} from 'redux';
 
 import {fetch, publish, reject} from '../actions/review';
 import {Addon} from '../components/addon';
+import AddonSubnav from '../components/addonSubnav';
+import PageHeader from '../../site/components/pageHeader';
 
 
 export class AddonReviewDetail extends React.Component {
@@ -22,7 +24,7 @@ export class AddonReviewDetail extends React.Component {
     const addon = this.props.addons[this.props.slug];
     return (
       <section>
-        <h1>{`Reviewing Firefox OS Add-on: ${addon.name}`}</h1>
+        <PageHeader title={`Reviewing Firefox OS Add-on: ${addon.name}`} subnav={<AddonSubnav/>}/>
         <Addon {...addon}
                isReview={true}
                publish={this.props.publish}

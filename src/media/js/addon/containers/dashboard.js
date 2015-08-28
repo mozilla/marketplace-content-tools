@@ -5,7 +5,9 @@ import {bindActionCreators} from 'redux';
 
 import {fetch} from '../actions/dashboard';
 import {AddonListing} from '../components/addon';
+import AddonSubnav from '../components/addonSubnav';
 import listify from '../selectors/listify';
+import PageHeader from '../../site/components/pageHeader';
 
 
 export class AddonDashboard extends React.Component {
@@ -20,7 +22,7 @@ export class AddonDashboard extends React.Component {
   render() {
     return (
       <section>
-        <h1>My Firefox OS Add-ons</h1>
+        <PageHeader title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}/>
         <AddonListing addons={this.props.addons}/>
       </section>
     );

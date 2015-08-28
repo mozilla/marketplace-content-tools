@@ -20,7 +20,7 @@ export default class Header extends React.Component {
   }
   render() {
     return (
-      <header>
+      <header className="header">
         <div className="header--wordmark">
           <h1><ReverseLink to="root">Content Tools</ReverseLink></h1>
         </div>

@@ -5,6 +5,8 @@ import FileReaderInput from 'react-file-reader-input';
 import {connect} from 'react-redux';
 
 import {validate as submit} from '../actions/submit';
+import AddonSubnav from '../components/addonSubnav';
+import PageHeader from '../../site/components/pageHeader';
 
 
 export class AddonSubmit extends React.Component {
@@ -58,7 +60,7 @@ export class AddonSubmit extends React.Component {
   render() {
     return (
       <section>
-        <h1>Submitting a Firefox OS Add-on</h1>
+        <PageHeader title="Submitting Firefox OS Add-ons" subnav={<AddonSubnav/>}/>
 
         <form className="form-inline" onSubmit={this.handleSubmit}>
           <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
