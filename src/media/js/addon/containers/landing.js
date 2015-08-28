@@ -14,3 +14,4 @@ export default class AddonLanding extends React.Component {
     );
   }
 }
+export {AddonLanding};

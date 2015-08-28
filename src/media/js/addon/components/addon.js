@@ -67,7 +67,7 @@ export class Addon extends React.Component {
     const disabled = this.props.isPublishing || this.props.isRejecting;
 
     return (
-      <div>
+      <div className="addon">
         <div>
           {this.renderName()}
         </div>

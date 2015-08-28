@@ -11,21 +11,24 @@ import PageHeader from '../../site/components/pageHeader';
 
 export class AddonReviewDetail extends React.Component {
   static propTypes = {
-    addons: React.PropTypes.array.isRequired,
+    addon: React.PropTypes.object.isRequired,
     // fetch: React.PropTypes.func,
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
   };
+
   constructor(props) {
     super(props);
     // this.props.fetch();
   }
+
   render() {
-    const addon = this.props.addons[this.props.slug];
     return (
       <section>
-        <PageHeader title={`Reviewing Firefox OS Add-on: ${addon.name}`} subnav={<AddonSubnav/>}/>
-        <Addon {...addon}
+        <PageHeader
+          title={`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}
+          subnav={<AddonSubnav/>}/>
+        <Addon {...this.props.addon}
                isReview={true}
                publish={this.props.publish}
                reject={this.props.reject}/>
@@ -37,8 +40,7 @@ export class AddonReviewDetail extends React.Component {
 
 export default connect(
   state => ({
-    addons: state.addonReview,
-    slug: state.router.params.slug,
+    addon: state.addonReview[state.router.params.slug],
   }),
   dispatch => bindActionCreators({
     // fetch,

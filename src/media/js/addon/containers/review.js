@@ -17,10 +17,17 @@ export class AddonReview extends React.Component {
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
   };
+
+  static defaultProps = {
+    addons: [],
+    fetch: () => {}
+  };
+
   constructor(props) {
     super(props);
     this.props.fetch();
   }
+
   render() {
     return (
       <section>

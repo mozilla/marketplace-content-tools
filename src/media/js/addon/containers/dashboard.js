@@ -15,10 +15,17 @@ export class AddonDashboard extends React.Component {
     addons: React.PropTypes.array,
     fetch: React.PropTypes.func,
   };
+
+  static defaultProps = {
+    addons: [],
+    fetch: () => {},
+  };
+
   constructor(props) {
     super(props);
     this.props.fetch();
   }
+
   render() {
     return (
       <section>

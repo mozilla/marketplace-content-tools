@@ -13,11 +13,13 @@ export class AddonSubmit extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   };
+
   static propTypes = {
     isSubmitting: React.PropTypes.bool,
     submit: React.PropTypes.func.isRequired,
     validationErrorMessage: React.PropTypes.string
   };
+
   constructor(props) {
     super(props);
 
@@ -45,6 +47,7 @@ export class AddonSubmit extends React.Component {
       this.context.router.transitionTo(path);
     }
   }
+
   handleChange = (e, results) => {
     const [result, file] = results[0];
     this.setState({
@@ -53,14 +56,17 @@ export class AddonSubmit extends React.Component {
       fileName: file.name
     });
   }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.submit(this.state.fileData);
   }
+
   render() {
     return (
       <section>
-        <PageHeader title="Submitting Firefox OS Add-ons" subnav={<AddonSubnav/>}/>
+        <PageHeader title="Submitting Firefox OS Add-ons"
+                    subnav={<AddonSubnav/>}/>
 
         <form className="form-inline" onSubmit={this.handleSubmit}>
           <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
@@ -79,9 +85,11 @@ export class AddonSubmit extends React.Component {
           </button>
         </form>
 
-        {this.props.validationErrorMessage && <p>
-          {this.props.validationErrorMessage}
-        </p>}
+        {this.props.validationErrorMessage &&
+          <p className="form-msg--error">
+            {this.props.validationErrorMessage}
+          </p>
+        }
       </section>
     );
   }
