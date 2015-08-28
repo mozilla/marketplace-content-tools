@@ -5,3 +5,5 @@ bundle.js
 bundle.js.map
 node_modules
 npm-debug.log
+.hot-update.json
+.hot-update.js

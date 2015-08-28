@@ -6,6 +6,9 @@
   "license": "MPL-2.0",
   "repository": "https://github.com/mozilla/marketplace-content-tools",
   "scripts": {
+    "build": "gulp css && NODE_ENV=production webpack --progress",
+    "serve": "gulp",
+    "serve-js": "webpack-dev-server --content-base src --progress --watch --history-api-fallback --inline --hot",
     "test": "NODE_ENV=test mocha --compilers .:mocha.js $(find src/media/js -name '*.test.js')"
   },
   "dependencies": {
@@ -16,7 +19,7 @@
     "react": "^0.13.3",
     "react-file-reader-input": "^0.1.1",
     "react-redux": "^0.9.0",
-    "react-router": "^1.0.0-beta3",
+    "react-router": "1.0.0-beta3",
     "react-router-reverse": "^0.2.1",
     "react-select": "^0.4.9",
     "redux": "^1.0.1",
@@ -34,20 +37,15 @@
     "urlgray": "^0.2.2"
   },
   "devDependencies": {
-    "babel": "^5.5.6",
+    "babel": "^5.8.23",
     "babel-core": "^5.8.23",
+    "babel-loader": "^5.3.2",
     "babel-runtime": "^5.4.7",
-    "babelify": "^6.1.2",
-    "browser-sync": "^2.7.6",
-    "browserify": "^10.2.3",
+    "browser-sync": "^2.8.2",
     "chai": "^3.0.0",
     "connect-history-api-fallback": "^1.1.0",
-    "envify": "^3.4.0",
-    "exorcist": "^0.4.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.0",
-    "gulp-babel": "^5.1.0",
-    "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.5.2",
     "gulp-css-img-cachebust": "^1.0.0",
     "gulp-if": "^1.2.5",
@@ -57,15 +55,15 @@
     "mocha": "^2.2.5",
     "mocha-jsdom": "^0.4.0",
     "nib": "^1.1.0",
+    "react-hot-loader": "^1.3.0",
     "react-stub-context": "^0.3.0",
     "react-tools": "^0.13.3",
-    "reactify": "^1.1.1",
+    "redux-devtools": "^1.1.2",
+    "redux-devtools-diff-monitor": "^0.2.2",
     "sherlocked": "^0.14.0",
     "sinon": "^1.14.1",
     "stylus": "^0.50.0",
-    "uglifyify": "^3.0.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "3.1.2"
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
   }
 }

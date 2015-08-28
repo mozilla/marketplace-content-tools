@@ -54,21 +54,28 @@ const reducer = combineReducers({
   websiteSubmitUrl,
 });
 
-const createPersistentStore = compose(
+
+let storeEnhancers = [
   persistState(null, {
+    // redux-localstorage
     slicer: persistSlicer()
   }),
-  createStore
-);
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware,
+    RavenMiddleware(
+      'https://89570b6cb9b6474aaf269716621836ee@sentry.prod.mozaws.net/44'),
+  ),
+]
+if (process.env.NODE_ENV !== 'production') {
+  // Apply dev tools locally.
+  storeEnhancers.push(require('redux-devtools').devTools());
+}
+storeEnhancers.push(createStore);
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware,
-  loggerMiddleware,
-  RavenMiddleware(
-    'https://89570b6cb9b6474aaf269716621836ee@sentry.prod.mozaws.net/44'),
-)(createPersistentStore);
 
-const store = createStoreWithMiddleware(reducer);
+const createFinalStore = compose.apply(this, storeEnhancers);
+const store = createFinalStore(reducer);
 
 
 function renderRoutes() {
@@ -129,10 +136,27 @@ function renderRoutes() {
 
 
 class ReduxApp extends React.Component {
+  renderDevTools() {
+    // Render dev tools locally.
+    if (process.env.NODE_ENV !== 'production') {
+      const reduxDevTools = require('redux-devtools/lib/react');
+      const DiffMonitor = require('redux-devtools-diff-monitor');
+      return (
+        <reduxDevTools.DebugPanel top right bottom>
+          <reduxDevTools.DevTools store={store} monitor={DiffMonitor}/>
+        </reduxDevTools.DebugPanel>
+      );
+    }
+  }
   render() {
-    return <Provider store={store}>
-      {renderRoutes.bind(null)}
-    </Provider>
+    return (
+      <div className="app-container">
+        <Provider store={store}>
+          {renderRoutes.bind(null)}
+        </Provider>
+        {this.renderDevTools()}
+      </div>
+    );
   }
 }
 

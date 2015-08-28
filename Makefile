@@ -1,6 +1,6 @@
 install:
 	@npm install
-	@node_modules/.bin/gulp build
+	@npm run build
 
 test: install
 	@npm test
