@@ -72,10 +72,6 @@ global.ReactDOMHelper = {
 };
 
 global.StubRouter = {
-  makeHref: () => {},
-  makePath: () => {},
-  transitionTo: () => {},
-  replaceWith: () => {},
   goBack: () => {},
   getCurrentPath: () => {},
   getCurrentRoutes: () => {},
@@ -83,4 +79,24 @@ global.StubRouter = {
   getCurrentParams: () => {},
   getCurrentQuery: () => {},
   isActive: () => {},
+  makeHref: () => {},
+  makePath: () => {},
+  replaceWith: () => {},
+  routes: {},
+  transitionTo: () => {},
 };
+
+class StubRouterProvider extends React.Component {
+  static childContextTypes = {
+    router: React.PropTypes.object
+  };
+  getChildContext() {
+    return {
+      router: StubRouter
+    };
+  }
+  render() {
+    return <this.props.Component {...this.props}/>
+  }
+}
+global.StubRouterProvider = StubRouterProvider;

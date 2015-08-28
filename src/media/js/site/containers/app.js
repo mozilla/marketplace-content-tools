@@ -6,6 +6,8 @@ import {fxaLoginBegin, login, loginOk, logout} from '../actions/login';
 import {fetch as siteConfigFetch} from '../actions/siteConfig';
 import Footer from '../components/footer';
 import Header from '../components/header';
+import {initialState as siteConfigInitialState} from '../reducers/siteConfig';
+import {initialState as userInitialState} from '../reducers/user';
 
 
 export class App extends React.Component {
@@ -19,6 +21,12 @@ export class App extends React.Component {
     siteConfigFetch: React.PropTypes.func.isRequired,
     user: React.PropTypes.object.isRequired,
   };
+
+  static defaultProps = {
+    siteConfig: siteConfigInitialState,
+    user: userInitialState,
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -30,11 +38,13 @@ export class App extends React.Component {
       this.props.loginOk(this.props.user);
     }
   }
+
   loginHandler = authCode => {
     // Call login, passing in some extra stuff from siteConfig.
     this.props.login(authCode, this.props.siteConfig.authState,
                      this.props.siteConfig.clientId);
   }
+
   render() {
     return (
       <div className="app">

@@ -1,27 +1,37 @@
 import {App} from '../app';
-import {initialState as
-        siteConfigInitialState} from '../../reducers/siteConfig';
 import {initialState as userInitialState}  from '../../reducers/user';
 
 
 describe('App', () => {
   jsdom();
 
+  const props = {
+    children: {},
+    fxaLoginBegin: () => {},
+    login: () => {},
+    loginBeginHandler: () => {},
+    loginOk: () => {},
+    logout: () => {},
+    logoutHandler: () => {},
+    siteConfigFetch: () => {},
+  };
+
   it('calls siteConfigFetch', done => {
     ReactDOMHelper.render(
-      <App siteConfig={siteConfigInitialState}
-           siteConfigFetch={done}
-           user={userInitialState}/>
+      <StubRouterProvider Component={App}
+                          {...props}
+                          siteConfigFetch={done}/>
     );
   });
 
-  it('does not dispatch login if not logged in', done => {
+  it('does not dispatch login if not logged in', () => {
     function fail() {
       assert.equal(1, 0);
-      done();
     }
     ReactDOMHelper.render(
-      <App loginOk={fail}/>
+      <StubRouterProvider Component={App}
+                          {...props}
+                          loginOk={fail}/>
     );
   });
 
@@ -31,10 +41,10 @@ describe('App', () => {
       done();
     }
     ReactDOMHelper.render(
-      <App siteConfig={siteConfigInitialState}
-           siteConfigFetch={() => {}}
-           loginOk={loginOk}
-           user={{...userInitialState, ...{token: 'abc'}}}/>
+      <StubRouterProvider Component={App}
+                          {...props}
+                          loginOk={loginOk}
+                          user={{...userInitialState, ...{token: 'abc'}}}/>
     );
   });
 });
