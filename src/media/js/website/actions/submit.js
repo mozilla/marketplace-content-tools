@@ -18,7 +18,7 @@ export const SUBMIT_WEBSITE_ERR = 'SUBMISSION_WEBSITE__SUBMIT_WEBSITE_ERR';
 const submitWebsiteErr = createAction(SUBMIT_WEBSITE_ERR);
 
 
-export function submitWebsite(data, apiArgs) {
+export function submitWebsite(data) {
   // Submit website.
   return (dispatch, getState) => {
     const apiArgs = getState().apiArgs || {};

@@ -24,8 +24,8 @@ export default function siteConfigReducer(state=initialState, action) {
       }
 
       return Object.assign({}, state, {
-        authUrl: authUrl.toString(),
         authState: action.payload.fxa.fxa_auth_state,
+        authUrl: authUrl.toString(),
         switches: action.payload.switches
       });
     }

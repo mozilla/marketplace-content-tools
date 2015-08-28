@@ -22,6 +22,6 @@ describe('submitActions.submitWebsite', () => {
         done();
       }
     }
-    submitActions.submitWebsite({name: 'Tanx'}, {})(dispatch);
+    submitActions.submitWebsite({name: 'Tanx'}, {})(dispatch, () => ({}));
   });
 });

@@ -1,7 +1,7 @@
 import * as submitUrlActions from '../actions/submitUrl';
 
 
-const initialState = {
+export const initialState = {
   __persist: true,
   activeStep: 0,
   highestStep: 0,

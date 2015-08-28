@@ -5,8 +5,8 @@ import * as loginActions from '../../actions/login';
 describe('login', () => {
   it('stores popup on FxA login start', () => {
     const state = loginReducer({}, {
-      type: loginActions.FXA_LOGIN_START,
-      payload: {popup: 'fxaPopup'}
+      type: loginActions.FXA_LOGIN_BEGIN,
+      payload: 'fxaPopup'
     });
     assert.equal(state.popup, 'fxaPopup');
   });

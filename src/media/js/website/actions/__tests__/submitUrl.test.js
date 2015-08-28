@@ -28,7 +28,7 @@ describe('submitUrlActions.submitUrl', () => {
         done();
       }
     }
-    submitUrlActions.submitUrl('http://ngokevin.com')(dispatch);
+    submitUrlActions.submitUrl('http://ngokevin.com')(dispatch, () => {});
   });
 });
 

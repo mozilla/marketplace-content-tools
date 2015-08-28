@@ -1,10 +1,10 @@
-import * as siteConfig from '../siteConfig';
+import siteConfigReducer from '../siteConfig';
 import * as siteConfigActions from '../../actions/siteConfig';
 
 
 describe('siteConfig reducer', () => {
   it('handles siteConfig fetch', () => {
-    const state = siteConfig.siteConfigReducer({}, {
+    const state = siteConfigReducer({}, {
       type: siteConfigActions.FETCH_OK,
       payload: {
         fxa: {
@@ -20,8 +20,8 @@ describe('siteConfig reducer', () => {
   });
 
   it('sets localDevClientId on siteConfig fetch', () => {
-    const state = siteConfig.siteConfigReducer({
-      localDevClientId: 'abc'
+    const state = siteConfigReducer({
+      clientId: 'abc'
     }, {
       type: siteConfigActions.FETCH_OK,
       payload: {
@@ -33,7 +33,6 @@ describe('siteConfig reducer', () => {
       }
     });
 
-    assert.equal(state.authUrl.toString(),
-                 'qux.baz?client_id=abc');
+    assert.equal(state.authUrl.toString(), 'qux.baz?client_id=abc');
   });
 });
