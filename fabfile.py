@@ -31,8 +31,7 @@ def pre_update(ref):
 def build():
     with lcd(PROJECT_NAME):
         local('npm install')
-        local('NODE_ENV=production MKT_ENV=%s node_modules/.bin/gulp build' %
-              (settings.ENV))
+        local('NODE_ENV=production MKT_ENV=%s npm run build' % (settings.ENV))
 
 
 @task

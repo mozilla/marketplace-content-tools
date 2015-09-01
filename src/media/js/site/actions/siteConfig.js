@@ -17,7 +17,9 @@ export function fetch() {
     req
       .get(url)
       .then(res => {
-        dispatch(fetchOk(res.body));
+        if (res.body) {
+          dispatch(fetchOk(res.body));
+        }
       });
   }
 }

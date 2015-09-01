@@ -5,7 +5,8 @@ Tools for submitting content to the Firefox Marketplace.
 ## Installation
 
     npm install
-    gulp
+    npm run serve-js
+    npm run serve
 
 ## Unit Testing
 
