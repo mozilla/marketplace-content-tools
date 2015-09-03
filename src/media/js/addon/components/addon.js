@@ -29,6 +29,7 @@ export class AddonListing extends React.Component {
 export class Addon extends React.Component {
   static PropTypes = {
     download_url: React.PropTypes.string.isRequired,
+    unsigned_download_url: React.PropTypes.string.isRequired,
     manifest_url: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
@@ -74,7 +75,7 @@ export class Addon extends React.Component {
         <dl>
           <dt>Files</dt>
           <dd>
-            <a href={this.props.download_url}>
+            <a href={this.props.unsigned_download_url}>
               Download {this.props.name} .zip
             </a>
           </dd>
