@@ -71,10 +71,9 @@ if (process.env.NODE_ENV !== 'production') {
   // Apply dev tools locally.
   storeEnhancers.push(require('redux-devtools').devTools());
 }
-storeEnhancers.push(createStore);
 
 
-const createFinalStore = compose.apply(this, storeEnhancers);
+const createFinalStore = compose.apply(this, storeEnhancers)(createStore);
 const store = createFinalStore(reducer);
 
 
@@ -140,10 +139,11 @@ class ReduxApp extends React.Component {
     // Render dev tools locally.
     if (process.env.NODE_ENV !== 'production') {
       const reduxDevTools = require('redux-devtools/lib/react');
-      const DiffMonitor = require('redux-devtools-diff-monitor');
       return (
         <reduxDevTools.DebugPanel top right bottom>
-          <reduxDevTools.DevTools store={store} monitor={DiffMonitor}/>
+          <reduxDevTools.DevTools store={store}
+                                  monitor={reduxDevTools.LogMonitor}
+                                  visibleOnLoad={false}/>
         </reduxDevTools.DebugPanel>
       );
     }

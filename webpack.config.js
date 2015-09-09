@@ -36,7 +36,7 @@ var ENTRY_POINTS = [
 if (!IS_PRODUCTION) {
   // Hot-reload locally.
   ENTRY_POINTS = [
-    'webpack-dev-server/client?http://localhost:8679',
+    'webpack-dev-server/client',
     'webpack/hot/only-dev-server',
   ].concat(ENTRY_POINTS);
 }
