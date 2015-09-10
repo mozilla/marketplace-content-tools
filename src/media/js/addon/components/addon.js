@@ -28,6 +28,7 @@ export class AddonListing extends React.Component {
 
 export class Addon extends React.Component {
   static PropTypes = {
+    description: React.PropTypes.string,
     latest_public_version: React.PropTypes.number,
     latest_version: React.PropTypes.number.isRequired,
     mini_manifest_url: React.PropTypes.string.isRequired,
@@ -70,6 +71,13 @@ export class Addon extends React.Component {
             </a>
           </dd>
         </dl>
+
+        {this.props.description &&
+          <di>
+            <dt>Description</dt>
+            <dd>{this.props.description}</dd>
+          </di>
+        }
 
         {!this.props.isListing &&
           <VersionListing publish={this.props.publish}
