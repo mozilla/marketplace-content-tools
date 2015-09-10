@@ -3,6 +3,8 @@
 */
 export function addonFactory(kwargs) {
   return Object.assign({}, {
+    latest_public_version: versionFactory(),
+    latest_version: versionFactory(),
     mini_manifest_url: 'http://testmanifest.com',
     name: 'Test Firefox OS Addon',
     slug: 'test-addon',
