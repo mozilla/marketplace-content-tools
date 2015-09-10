@@ -30,7 +30,9 @@ export class AddonDashboard extends React.Component {
     return (
       <section>
         <PageHeader title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}/>
-        <AddonListing addons={this.props.addons}/>
+        <AddonListing addons={this.props.addons}
+                      linkTo="addon-dashboard-detail"
+                      showVersions={false}/>
       </section>
     );
   }

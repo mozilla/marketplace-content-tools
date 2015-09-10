@@ -18,7 +18,12 @@ function desktop(client, path) {
 require('sherlocked')
 
 .investigate('Firefox OS Add-on Dashboard', function(client) {
-  return desktop(client, 'addon/')
+  return desktop(client, 'addon/dashboard/')
+    .waitForExist('main', 60000);
+})
+
+.investigate('Firefox OS Add-on Dashboard Detail', function(client) {
+  return desktop(client, 'addon/dashboard/test-addon')
     .waitForExist('main', 60000);
 })
 
