@@ -61,15 +61,39 @@ export class Addon extends React.Component {
           {this.renderName()}
         </div>
         <dl>
-          <dt>Slug</dt>
-          <dd>{this.props.slug}</dd>
+          <di>
+            <dt>Slug</dt>
+            <dd>{this.props.slug}</dd>
+          </di>
 
-          <dt>Manifest</dt>
-          <dd>
-            <a href={this.props.mini_manifest_url}>
-              Download manifest
-            </a>
-          </dd>
+          <di>
+            <dt>Manifest</dt>
+            <dd>
+              <a href={this.props.mini_manifest_url}>
+                Download manifest
+              </a>
+            </dd>
+          </di>
+
+          {this.props.description &&
+            <di>
+              <dt>Description</dt>
+              <dd>{this.props.description}</dd>
+            </di>
+          }
+
+          {this.props.latest_public_version &&
+            <di>
+              <dt>Latest Public Version</dt>
+              <dd>{this.props.latest_public_version.version}</dd>
+            </di>
+          }
+
+          <di>
+            <dt>Latest Submitted Version</dt>
+            <dd>{this.props.latest_version.version}</dd>
+          </di>
+
         </dl>
 
         {this.props.description &&
