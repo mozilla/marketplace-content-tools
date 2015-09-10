@@ -52,7 +52,7 @@ export class AddonReviewDetail extends React.Component {
 
 export default connect(
   state => ({
-    addon: state.addonReview.addons[state.router.params.slug],
+    addon: state.addonReviewDetail.addons[state.router.params.slug] || {},
     slug: state.router.params.slug
   }),
   dispatch => bindActionCreators({

@@ -72,18 +72,16 @@ export function publish(addonSlug, versionId) {
     }));
     req
       .post(publishUrl)
-      .then((res, err) => {
-        if (res.status >= 400) {
-          dispatch(publishError({
-            addonSlug,
-            versionId
-          }));
-        } else {
-          dispatch(publishOk({
-            addonSlug,
-            versionId
-          }));
-        }
+      .then(res => {
+        dispatch(publishOk({
+          addonSlug,
+          versionId
+        }));
+      }, err => {
+        dispatch(publishError({
+          addonSlug,
+          versionId
+        }));
       });
   };
 }
@@ -106,18 +104,16 @@ export function reject(addonSlug, versionId) {
     }));
     req
       .post(rejectUrl)
-      .then((res, err) => {
-        if (res.status >= 400) {
-          dispatch(rejectError({
-            addonSlug,
-            versionId
-          }));
-        } else {
-          dispatch(rejectOk({
-            addonSlug,
-            versionId
-          }));
-        }
+      .then(res => {
+        dispatch(rejectOk({
+          addonSlug,
+          versionId
+        }));
+      }, err => {
+        dispatch(rejectError({
+          addonSlug,
+          versionId
+        }));
       });
   };
 }
