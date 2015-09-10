@@ -5,13 +5,13 @@ import Url from 'urlgray';
 import urlJoin from 'url-join';
 
 
-export const FETCH_OK = 'ADDON_DASHBOARD__FETCH_OK';
+export const FETCH_OK = 'ADDON_VERSION__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
 
 
-export function fetch() {
+export function fetch(slug) {
   /*
-    Fetch user's add-ons.
+    Fetch versions of an add-on.
   */
   return (dispatch, getState) => {
     const apiArgs = getState().apiArgs || {};
@@ -19,20 +19,10 @@ export function fetch() {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/')
     ).q(apiArgs);
 
-    if (process.env.NODE_ENV === 'test') {
-      // Mock data.
-      const addonFactory = (
-        require('../../__tests__/factory.test').addonFactory
-      );
-      return dispatch(fetchOk([
-        addonFactory(),
-        addonFactory({slug: 'test-addon-2'})
-      ]));
-    }
-
     req
       .get(dashboardUrl)
       .then((res, err) => {
+        // Take further action by polling.
         dispatch(fetchOk(res.body.objects));
       });
   };
