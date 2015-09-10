@@ -5,7 +5,7 @@ describe('AddonReviewDetail', () => {
   jsdom();
 
   const props = {
-    addon: {name: 'Add-on', slug: 'add-on'},
+    addon: addonFactory(),
     fetchAddon: () => {},
     fetchVersions: () => {},
   };

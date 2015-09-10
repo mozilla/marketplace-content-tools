@@ -100,3 +100,7 @@ class StubRouterProvider extends React.Component {
   }
 }
 global.StubRouterProvider = StubRouterProvider;
+
+
+global.addonFactory = require('./factory.test').addonFactory;
+global.versionsFactory = require('./factory.test').versionsFactory;
