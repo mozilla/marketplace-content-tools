@@ -32,6 +32,11 @@ require('sherlocked')
     .waitForExist('main', 60000);
 })
 
+.investigate('Firefox OS Add-on Review Detail', function(client) {
+  return desktop(client, 'addon/review/test-addon')
+    .waitForExist('main', 60000);
+})
+
 .begin([
   {
     browserName: 'firefox',

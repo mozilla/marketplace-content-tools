@@ -22,6 +22,14 @@ export function fetch(addonSlug) {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/', addonSlug)
     ).q(apiArgs);
 
+    if (process.env.NODE_ENV === 'test') {
+      // Mock data.
+      const addonFactory = (
+        require('../../__tests__/factory.test').addonFactory
+      );
+      return dispatch(fetchOk(addonFactory()));
+    }
+
     req
       .get(addonUrl)
       .then((res, err) => {
@@ -41,6 +49,17 @@ export function fetchVersions(addonSlug) {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/', addonSlug,
               'versions/')
     ).q(apiArgs);
+
+    if (process.env.NODE_ENV === 'test') {
+      // Mock data.
+      const versionsFactory = (
+        require('../../__tests__/factory.test').versionsFactory
+      );
+      return dispatch(fetchVersionsOk({
+        addonSlug,
+        versions: versionsFactory()
+      }));
+    }
 
     req
       .get(versionsUrl)

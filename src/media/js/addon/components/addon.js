@@ -33,7 +33,6 @@ export class Addon extends React.Component {
     mini_manifest_url: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
-    status: React.PropTypes.string.isRequired,
 
     isListing: React.PropTypes.bool,
     publish: React.PropTypes.func,

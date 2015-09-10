@@ -19,6 +19,17 @@ export function fetch() {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/')
     ).q(apiArgs);
 
+    if (process.env.NODE_ENV === 'test') {
+      // Mock data.
+      const addonFactory = (
+        require('../../__tests__/factory.test').addonFactory
+      );
+      return dispatch(fetchOk([
+        addonFactory(),
+        addonFactory({slug: 'test-addon-2'})
+      ]));
+    }
+
     req
       .get(dashboardUrl)
       .then((res, err) => {
