@@ -77,6 +77,8 @@ export function pollValidator(validationId) {
               `extensions/validation/${validationId}/`)
     ).q(apiArgs);
 
+    let pollValidatorInterval;
+
     function poll(interval) {
       req
         .get(pollUrl)
@@ -95,7 +97,7 @@ export function pollValidator(validationId) {
     }
 
     // Poll the validator, poll() will clear interval when complete + dispatch.
-    const pollValidatorInterval = setInterval(() => {
+    pollValidatorInterval = setInterval(() => {
       poll(pollValidatorInterval);
     }, 500);
   };
@@ -118,7 +120,7 @@ export function create() {
       .then(res => {
         dispatch(submitOk(res.body));
       }, err => {
-        dispatch(submitError(res.body));
+        dispatch(submitError(err.response.body));
       });
   };
 }

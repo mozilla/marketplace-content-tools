@@ -49,8 +49,8 @@ export class Addon extends React.Component {
   };
 
   renderName() {
+    // If `linkTo`, have the header link to a more detailed page.
     if (this.props.linkTo) {
-      // If `linkTo`, have the header link to a more detailed page.
       return (
         <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
           <h2>{this.props.name}</h2>

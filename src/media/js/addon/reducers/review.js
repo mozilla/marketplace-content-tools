@@ -16,7 +16,11 @@ const initialState = {
 export default function addonReviewReducer(state=initialState, action) {
   switch (action.type) {
     case reviewActions.FETCH_OK: {
-      // Store add-ons from the review queue.
+      /*
+        Store add-ons from the review queue.
+
+        payload (array) -- add-ons.
+      */
       const newState = _.cloneDeep(state);
       newState.addons = {};  // Invalidate old queue.
 
@@ -27,7 +31,11 @@ export default function addonReviewReducer(state=initialState, action) {
     }
 
     case submitActions.SUBMIT_OK: {
-      // Add new submission to the review queue.
+      /*
+        Add new submission to the review queue.
+
+        payload (object) -- add-on.
+      */
       const newState = _.cloneDeep(state);
 
       newState.addons[action.payload.slug] = action.payload;

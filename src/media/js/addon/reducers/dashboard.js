@@ -17,7 +17,11 @@ const initialState = {
 export default function addonDashboardReducer(state=initialState, action) {
   switch (action.type) {
     case addonActions.FETCH_OK: {
-      /* Store single add-on. */
+      /*
+        Store single add-on.
+
+        payload (object) -- add-on.
+      */
       const newState = _.cloneDeep(state);
       newState.addons[action.payload.slug] = Object.assign(
         {}, newState.addons[action.payload.slug], action.payload
@@ -26,7 +30,13 @@ export default function addonDashboardReducer(state=initialState, action) {
     }
 
     case addonActions.FETCH_VERSIONS_OK: {
-      // Attach versions to their respective addon.
+      /*
+        Attach versions to their respective addon.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on the versions are related to.
+          versions (array): version objects.
+      */
       const newState = _.cloneDeep(state);
 
       // Create add-on if it doesn't exist, just in case.
@@ -44,7 +54,11 @@ export default function addonDashboardReducer(state=initialState, action) {
     }
 
     case dashboardActions.FETCH_OK: {
-      /* Set dashboards add-ons. */
+      /*
+        Set dashboards add-ons.
+
+        payload (array) -- add-ons.
+      */
       const newState = _.cloneDeep(state);
       newState.addons = {};  // Invalidate.
       // Set new add-ons.
@@ -55,7 +69,11 @@ export default function addonDashboardReducer(state=initialState, action) {
     }
 
     case submitActions.SUBMIT_OK: {
-      /* Add add-on to dashboard after submit. */
+      /*
+        Add add-on to dashboard after submit.
+
+        payload (object) -- add-on.
+      */
       const newState = _.cloneDeep(state);
       newState.addons[action.payload.slug] = action.payload;
       return newState;
