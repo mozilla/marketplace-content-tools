@@ -9,6 +9,7 @@ export class AddonListing extends React.Component {
   static propTypes = {
     addons: React.PropTypes.array.isRequired,
     showReviewActions: React.PropTypes.bool,
+    showVersions: React.PropTypes.bool,
   };
 
   render() {
@@ -16,7 +17,7 @@ export class AddonListing extends React.Component {
       <ul className="addon-listing">
         {this.props.addons.map(addon =>
           <li>
-            <Addon {...this.props} {...addon} isListing={true}/>
+            <Addon {...this.props} {...addon}/>
           </li>
         )}
         {this.props.addons.length === 0 && <p>No add-ons.</p>}
@@ -27,7 +28,7 @@ export class AddonListing extends React.Component {
 
 
 export class Addon extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     description: React.PropTypes.string,
     latest_public_version: React.PropTypes.number,
     latest_version: React.PropTypes.number.isRequired,
@@ -35,18 +36,23 @@ export class Addon extends React.Component {
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
 
-    isListing: React.PropTypes.bool,
+    linkTo: React.PropTypes.string,
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
     showReviewActions: React.PropTypes.bool,
+    showVersions: React.PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showReviewActions: false,
+    showVersions: true,
   };
 
   renderName() {
-    if (this.props.isListing && this.props.showReviewActions) {
-      // Render a link to review detail page if part of review queue.
+    if (this.props.linkTo) {
+      // If `linkTo`, have the header link to a more detailed page.
       return (
-        <ReverseLink to="addon-review-detail"
-                     params={{slug: this.props.slug}}>
+        <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
           <h2>{this.props.name}</h2>
         </ReverseLink>
       );
@@ -103,7 +109,7 @@ export class Addon extends React.Component {
           </di>
         }
 
-        {!this.props.isListing &&
+        {this.props.showVersions &&
           <VersionListing publish={this.props.publish}
                           reject={this.props.reject}
                           showReviewActions={this.props.showReviewActions}

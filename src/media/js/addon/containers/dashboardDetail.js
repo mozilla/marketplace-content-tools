@@ -1,7 +1,8 @@
 /*
-  Single review page for an add-on.
+  Dashboard page for a single add-on.
 
-  Lists the add-on's versions, each with their own approve and reject buttons.
+  Lists the add-on's versions.
+  Allows uploading new versions.
 */
 import React from 'react';
 import {connect} from 'react-redux';
@@ -9,20 +10,20 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch as fetchAddon, fetchVersions} from '../actions/addon';
-import {publish, reject} from '../actions/review';
+import {submitVersion} from '../actions/submitVersion';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
+import AddonUpload from '../components/upload';
 import PageHeader from '../../site/components/pageHeader';
 
 
-export class AddonReviewDetail extends React.Component {
+export class AddonDashboardDetail extends React.Component {
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
     fetchVersions: React.PropTypes.func.isRequired,
-    publish: React.PropTypes.func,
-    reject: React.PropTypes.func,
     slug: React.PropTypes.string.isRequired,
+    submitVersion: React.PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -43,12 +44,15 @@ export class AddonReviewDetail extends React.Component {
     return (
       <section>
         <PageHeader
-          title={`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}
+          title={`Viewing Firefox OS Add-on: ${this.props.addon.name}`}
           subnav={<AddonSubnav/>}/>
-        <Addon {...this.props.addon}
-               publish={this.props.publish}
-               reject={this.props.reject}
-               showReviewActions={true}/>
+
+        <Addon {...this.props.addon}/>
+
+        <h3>Upload a New Version</h3>
+        <AddonUpload {...this.props.addonSubmitVersion}
+                     slug={this.props.slug}
+                     submit={this.props.submitVersion}/>
       </section>
     );
   }
@@ -57,13 +61,13 @@ export class AddonReviewDetail extends React.Component {
 
 export default connect(
   state => ({
-    addon: state.addonReviewDetail.addons[state.router.params.slug],
-    slug: state.router.params.slug
+    addon: state.addonDashboard.addons[state.router.params.slug],
+    addonSubmitVersion: state.addonSubmitVersion,
+    slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({
     fetchAddon,
     fetchVersions,
-    publish,
-    reject,
+    submitVersion
   }, dispatch)
-)(AddonReviewDetail);
+)(AddonDashboardDetail);

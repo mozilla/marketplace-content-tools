@@ -59,7 +59,7 @@
     "react-stub-context": "^0.3.0",
     "react-tools": "^0.13.3",
     "redux-devtools": "^2.1.0",
-    "sherlocked": "^0.14.0",
+    "sherlocked": "^1.0.2",
     "sinon": "^1.14.1",
     "stylus": "^0.50.0",
     "webpack": "^1.12.0",

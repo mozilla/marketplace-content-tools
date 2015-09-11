@@ -34,9 +34,11 @@ export class AddonReview extends React.Component {
         <PageHeader title="Reviewing Firefox OS Add-ons"
                     subnav={<AddonSubnav/>}/>
         <AddonListing addons={this.props.addons}
+                      linkTo="addon-review-detail"
                       publish={this.props.publish}
                       reject={this.props.reject}
-                      showReviewActions={true}/>
+                      showReviewActions={true}
+                      showVersions={false}/>
       </section>
     );
   }
