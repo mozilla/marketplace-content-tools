@@ -24,8 +24,12 @@ export class AddonDashboardDetail extends React.Component {
     fetchAddon: React.PropTypes.func.isRequired,
     fetchThreads: React.PropTypes.func.isRequired,
     fetchVersions: React.PropTypes.func.isRequired,
+    isSubmitting: React.PropTypes.bool,
     slug: React.PropTypes.string.isRequired,
-    submitVersion: React.PropTypes.func.isRequired,
+    submit: React.PropTypes.func.isRequired,
+    uploadLoaded: React.PropTypes.number,
+    uploadTotal: React.PropTypes.number,
+    validationErrorMessage: React.PropTypes.string,
   };
 
   constructor(props) {
@@ -53,9 +57,7 @@ export class AddonDashboardDetail extends React.Component {
         <Addon {...this.props.addon}/>
 
         <h3>Upload a New Version</h3>
-        <AddonUpload {...this.props.addonSubmitVersion}
-                     slug={this.props.slug}
-                     submit={this.props.submitVersion}/>
+        <AddonUpload {...this.props}/>
       </section>
     );
   }
@@ -72,6 +74,6 @@ export default connect(
     fetchAddon,
     fetchThreads,
     fetchVersions,
-    submitVersion
+    submit: submitVersion
   }, dispatch)
 )(AddonDashboardDetail);

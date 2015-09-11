@@ -19,6 +19,9 @@ import urlJoin from 'url-join';
 export const VALIDATION_BEGIN = 'ADDON_SUBMIT_VERSION__VALIDATION_BEGIN';
 const validationBegin = createAction(VALIDATION_BEGIN);
 
+export const UPLOAD_PROGRESS = 'ADDON_SUBMIT_VERSION__UPLOAD_PROGRESS';
+const uploadProgress = createAction(UPLOAD_PROGRESS);
+
 // For when the add-on upload has started processing.
 export const VALIDATION_PENDING = 'ADDON_SUBMIT_VERSION__VALIDATION_PENDING';
 const validationPending = createAction(VALIDATION_PENDING);
@@ -58,6 +61,14 @@ export function submitVersion(fileData, addonSlug) {
       .set('Content-Disposition',
            'form-data; name="binary_data"; filename="extension.zip"')
       .send(fileData)
+      .on('progress', e => {
+        // Keep track of upload progress.
+        dispatch(uploadProgress({
+          // e.percent is also available, but we can math.
+          uploadLoaded: e.loaded,
+          uploadTotal: e.total
+        }))
+      })
       .then(res => {
         // Notify the reducers.
         dispatch(validationPending(res.body.id));

@@ -17,7 +17,9 @@ export class AddonSubmit extends React.Component {
   static propTypes = {
     isSubmitting: React.PropTypes.bool,
     submit: React.PropTypes.func.isRequired,
-    validationErrorMessage: React.PropTypes.string
+    uploadLoaded: React.PropTypes.number,
+    uploadTotal: React.PropTypes.number,
+    validationErrorMessage: React.PropTypes.string,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -47,10 +49,7 @@ export class AddonSubmit extends React.Component {
 
 
 export default connect(
-  state => ({
-    isSubmitting: !!state.addonSubmit.isSubmitting,
-    validationErrorMessage: state.addonSubmit.validationErrorMessage,
-  }),
+  state => ({...state.addonSubmit}),
   dispatch => bindActionCreators({
     submit
   }, dispatch)

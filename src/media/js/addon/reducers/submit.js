@@ -12,6 +12,8 @@ import * as submitVersionActions from '../actions/submitVersion';
 
 const initialState = {
   isSubmitting: false,
+  uploadLoaded: null,
+  uploadTotal: null,
   validationErrorMessage: '',
   validationId: '',
 };
@@ -27,6 +29,17 @@ function createAddonSubmitReducer(actions) {
         return Object.assign({}, initialState, {
           isSubmitting: true
         });
+      }
+
+      case actions.UPLOAD_PROGRESS: {
+        /*
+          Add-on upload progress.
+
+          payload (object) --
+            uploadLoaded (number) -- bytes loaded.
+            uploadTotal (number) -- total bytes to load.
+        */
+        return Object.assign({}, state, action.payload);
       }
 
       case actions.VALIDATION_PENDING: {
