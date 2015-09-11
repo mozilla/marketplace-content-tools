@@ -1,3 +1,4 @@
+require('babel/polyfill');
 import React from 'react';
 import {Provider} from 'react-redux';
 import {Redirect, Route, Router} from 'react-router';
@@ -31,7 +32,10 @@ import WebsiteSubmit from './website/containers/submit';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
 import addonReviewDetail from './addon/reducers/reviewDetail';
-import addonSubmit from './addon/reducers/submit';
+import {addonSubmitReducer as
+        addonSubmit,
+        addonSubmitVersionReducer as
+        addonSubmitVersion} from './addon/reducers/submit';
 import apiArgs from './site/reducers/apiArgs';
 import login from './site/reducers/login';
 import siteConfig from './site/reducers/siteConfig';
@@ -47,6 +51,7 @@ const reducer = combineReducers({
   addonReview,
   addonReviewDetail,
   addonSubmit,
+  addonSubmitVersion,
   apiArgs,
   login,
   router,

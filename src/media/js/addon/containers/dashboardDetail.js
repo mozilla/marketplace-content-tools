@@ -10,8 +10,10 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch as fetchAddon, fetchVersions} from '../actions/addon';
+import {submitVersion} from '../actions/submitVersion';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
+import AddonUpload from '../components/upload';
 import PageHeader from '../../site/components/pageHeader';
 
 
@@ -21,18 +23,24 @@ export class AddonDashboardDetail extends React.Component {
     fetchAddon: React.PropTypes.func.isRequired,
     fetchVersions: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string.isRequired,
+    submitVersion: React.PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-
-    if (!this.props.addon) {
-      this.props.fetchAddon(this.props.slug);
-    }
+    this.props.fetchAddon(this.props.slug);
     this.props.fetchVersions(this.props.slug);
   }
 
   render() {
+    if (!this.props.addon || !this.props.addon.slug) {
+      return (
+        <section>
+          <PageHeader title="Loading Firefox OS Add-on..."
+                      subnav={<AddonSubnav/>}/>
+        </section>
+      );
+    }
     return (
       <section>
         <PageHeader
@@ -40,6 +48,11 @@ export class AddonDashboardDetail extends React.Component {
           subnav={<AddonSubnav/>}/>
 
         <Addon {...this.props.addon}/>
+
+        <h3>Upload a New Version</h3>
+        <AddonUpload {...this.props.addonSubmitVersion}
+                     slug={this.props.slug}
+                     submit={this.props.submitVersion}/>
       </section>
     );
   }
@@ -48,11 +61,13 @@ export class AddonDashboardDetail extends React.Component {
 
 export default connect(
   state => ({
-    addon: state.addonDashboard.addons[state.router.params.slug] || {},
-    slug: state.router.params.slug
+    addon: state.addonDashboard.addons[state.router.params.slug],
+    addonSubmitVersion: state.addonSubmitVersion,
+    slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({
     fetchAddon,
     fetchVersions,
+    submitVersion
   }, dispatch)
 )(AddonDashboardDetail);

@@ -27,14 +27,19 @@ export class AddonReviewDetail extends React.Component {
 
   constructor(props) {
     super(props);
-
-    if (!this.props.addon) {
-      this.props.fetchAddon(this.props.slug);
-    }
+    this.props.fetchAddon(this.props.slug);
     this.props.fetchVersions(this.props.slug);
   }
 
   render() {
+    if (!this.props.addon || !this.props.addon.slug) {
+      return (
+        <section>
+          <PageHeader title="Loading Firefox OS Add-on..."
+                      subnav={<AddonSubnav/>}/>
+        </section>
+      );
+    }
     return (
       <section>
         <PageHeader
@@ -52,7 +57,7 @@ export class AddonReviewDetail extends React.Component {
 
 export default connect(
   state => ({
-    addon: state.addonReviewDetail.addons[state.router.params.slug] || {},
+    addon: state.addonReviewDetail.addons[state.router.params.slug],
     slug: state.router.params.slug
   }),
   dispatch => bindActionCreators({
