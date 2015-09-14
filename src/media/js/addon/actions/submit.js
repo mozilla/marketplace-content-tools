@@ -34,7 +34,7 @@ export const SUBMIT_ERROR = 'SUBMISSION_ADDON__SUBMIT_ERROR';
 const submitError = createAction(SUBMIT_ERROR);
 
 
-export function validate(fileData) {
+export function submit(fileData) {
   /*
     Upload add-on .zip file for validation.
   */
