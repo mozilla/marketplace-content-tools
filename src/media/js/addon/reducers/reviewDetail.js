@@ -26,7 +26,9 @@ export default function addonReviewDetailReducer(state=initialState, action) {
       // Store single add-on.
       const newState = _.cloneDeep(state);
 
-      newState.addons[action.payload.slug] = action.payload;
+      newState.addons[action.payload.slug] = Object.assign(
+        {}, newState.addons[action.payload.slug], action.payload
+      );
       return newState;
     }
 

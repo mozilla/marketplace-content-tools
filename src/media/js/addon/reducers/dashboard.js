@@ -19,7 +19,9 @@ export default function addonDashboardReducer(state=initialState, action) {
     case addonActions.FETCH_OK: {
       /* Store single add-on. */
       const newState = _.cloneDeep(state);
-      newState.addons[action.payload.slug] = action.payload;
+      newState.addons[action.payload.slug] = Object.assign(
+        {}, newState.addons[action.payload.slug], action.payload
+      );
       return newState;
     }
 

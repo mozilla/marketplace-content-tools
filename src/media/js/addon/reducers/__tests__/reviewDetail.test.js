@@ -88,6 +88,27 @@ describe('addonReviewDetailReducer', () => {
     assert.equal(newState.addons.slugly.versions[5].status, 'public');
   });
 
+  it('handles fetch add-on', () => {
+    const newState = addonReviewDetailReducer(
+      {
+        addons: {
+          sluggy: {
+            versions: 'keepme'
+          }
+        },
+      },
+      {
+        type: addonActions.FETCH_OK,
+        payload: {
+          slug: 'sluggy',
+          name: 'Sluggy',
+        }
+      }
+    );
+    assert.equal(newState.addons.sluggy.versions, 'keepme');
+    assert.equal(newState.addons.sluggy.name, 'Sluggy');
+  });
+
   it('handles reject ok', () => {
     const newState = addonReviewDetailReducer(
       {
