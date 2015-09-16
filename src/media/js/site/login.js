@@ -2,7 +2,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 
-export function loginRequired(Component, LoginHandler, group) {
+export class DefaultUnauthorizedHandler extends React.Component {
+  render() {
+    return (
+      <section>
+        <img src="http://i.imgur.com/X9Vgo96.gif"
+             alt="Permission denied."/>
+      </section>
+    );
+  }
+};
+
+
+export function loginRequired(Component, LoginHandler, group,
+                              UnauthorizedHandler=DefaultUnauthorizedHandler) {
   /* Wraps a handler component to require login.
      Subscribes to the user store such that it will automatically
      "redirect" to the page after successful login. */
@@ -11,11 +24,19 @@ export function loginRequired(Component, LoginHandler, group) {
   )
   class AuthenticatedComponent extends React.Component {
     render() {
-      if (process.env.NODE_ENV === 'test' ||
-          _checkPermissions(this.props.user, group)) {
-        return <Component/>
+      const isLoggedIn = !!this.props.user.token;
+      const hasPermission = (process.env.NODE_ENV === 'test' ||
+                             _checkPermissions(this.props.user, group));
+
+      if (isLoggedIn && hasPermission) {
+        return <Component/>;
+
+      // Redirect to UnauthorizedHandler if logged in but lacking permission.
+      } else if (isLoggedIn) {
+        return <UnauthorizedHandler/>;
+
+      // Redirect to LoginHandler if not logged in.
       } else {
-        // Redirect to LoginHandler if not logged in or no permission.
         return <LoginHandler/>
       }
     }
