@@ -1,12 +1,13 @@
-import addonReviewDetailReducer from '../reviewDetail';
+import addonReducer from '../addon';
 import * as addonActions from '../../actions/addon';
+import * as commActions from '../../actions/comm';
 import * as reviewActions from '../../actions/review';
 import * as constants from '../../constants';
 
 
-describe('addonReviewDetailReducer', () => {
+describe('addonReducer', () => {
   it('handles fetch version without add-on in queue', () => {
-    const newState = addonReviewDetailReducer(
+    const newState = addonReducer(
       {
         addons: {},
       },
@@ -24,7 +25,7 @@ describe('addonReviewDetailReducer', () => {
   });
 
   it('handles fetch version with add-on in queue', () => {
-    const newState = addonReviewDetailReducer(
+    const newState = addonReducer(
       {
         addons: {
           bananaslug: {name: 'Banana Slug'},
@@ -48,7 +49,7 @@ describe('addonReviewDetailReducer', () => {
   });
 
   it('handles fetch queue', () => {
-    const newState = addonReviewDetailReducer(
+    const newState = addonReducer(
       {
         addons: {},
       },
@@ -63,7 +64,7 @@ describe('addonReviewDetailReducer', () => {
   });
 
   it('handles publish ok', () => {
-    const newState = addonReviewDetailReducer(
+    const newState = addonReducer(
       {
         addons: {
           slugly: {
@@ -88,29 +89,8 @@ describe('addonReviewDetailReducer', () => {
     assert.equal(newState.addons.slugly.versions[5].status, 'public');
   });
 
-  it('handles fetch add-on', () => {
-    const newState = addonReviewDetailReducer(
-      {
-        addons: {
-          sluggy: {
-            versions: 'keepme'
-          }
-        },
-      },
-      {
-        type: addonActions.FETCH_OK,
-        payload: {
-          slug: 'sluggy',
-          name: 'Sluggy',
-        }
-      }
-    );
-    assert.equal(newState.addons.sluggy.versions, 'keepme');
-    assert.equal(newState.addons.sluggy.name, 'Sluggy');
-  });
-
   it('handles reject ok', () => {
-    const newState = addonReviewDetailReducer(
+    const newState = addonReducer(
       {
         addons: {
           slugly: {
@@ -133,5 +113,23 @@ describe('addonReviewDetailReducer', () => {
     );
     assert.notOk(newState.addons.slugly.versions[5].isRejecting);
     assert.equal(newState.addons.slugly.versions[5].status, 'rejected');
+  });
+
+  it('handles fetch thread', () => {
+    const newState = addonReducer(
+      {
+        addons: {}
+      },
+      {
+        type: commActions.FETCH_THREAD_OK,
+        payload: {
+          addonSlug: 'slugly',
+          notes: [{note_type: 'approval'}],
+          versionId: 5
+        }
+      }
+    );
+    assert.ok(newState.addons.slugly.versions[5].notes[0].note_type,
+              'approval');
   });
 });

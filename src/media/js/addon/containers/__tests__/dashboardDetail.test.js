@@ -8,6 +8,7 @@ describe('AddonDashboardDetail', () => {
     addon: addonFactory(),
     slug: 'test-addon',
     fetchAddon: () => {},
+    fetchThreads: () => {},
     fetchVersions: () => {},
   };
 

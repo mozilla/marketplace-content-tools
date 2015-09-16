@@ -1,14 +1,11 @@
 /*
-  Add-ons for review, keyed by slug.
-  Versions are attached separately to each add-on, keyed by ID.
-
-  Not to be conflated with the addonReviewReducer, which represents the
-  review queue as a dumb listing. addonReviewDetailReducer will have extra
-  state for review actions and versions.
+  Stores Firefox OS Add-ons, keyed by slug.
 */
 import _ from 'lodash';
 
 import * as addonActions from '../actions/addon';
+import * as commActions from '../actions/comm';
+import * as dashboardActions from '../actions/dashboard';
 import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
 import * as constants from '../constants';
@@ -20,7 +17,7 @@ const initialState = {
 };
 
 
-export default function addonReviewDetailReducer(state=initialState, action) {
+export default function addonReducer(state=initialState, action) {
   switch (action.type) {
     case addonActions.FETCH_OK: {
       /*
@@ -60,16 +57,60 @@ export default function addonReviewDetailReducer(state=initialState, action) {
       return newState;
     }
 
-    case reviewActions.FETCH_OK: {
+    case commActions.FETCH_THREAD_OK: {
       /*
-        Store add-ons from the review queue.
+        Attach communication notes to version.
+
+        payload (object) --
+          notes (array): list of notes.
+          versionId (number): version ID.
+      */
+      const {addonSlug, notes, versionId} = action.payload;
+      const newState = _.cloneDeep(state);
+
+      // Set add-on if necessary.
+      if (!newState.addons[addonSlug]) {
+        newState.addons[addonSlug] = {versions: {}};
+      }
+
+      // Add notes to version.
+      newState.addons[addonSlug].versions[versionId] = Object.assign(
+        {},
+        newState.addons[addonSlug].versions[versionId] || {},
+        {notes: notes}
+      );
+
+      return newState;
+    }
+
+    case dashboardActions.FETCH_OK: {
+      /*
+        Get add-ons from dashboard.
 
         payload (array) -- add-ons.
       */
       const newState = _.cloneDeep(state);
 
       action.payload.forEach(addon => {
-        newState.addons[addon.slug] = addon;
+        newState.addons[addon.slug] = Object.assign(
+          {}, newState.addons[addon.slug] || {}, addon
+        );
+      });
+      return newState;
+    }
+
+    case reviewActions.FETCH_OK: {
+      /*
+        Get add-ons from review queue.
+
+        payload (array) -- add-ons.
+      */
+      const newState = _.cloneDeep(state);
+
+      action.payload.forEach(addon => {
+        newState.addons[addon.slug] = Object.assign(
+          {}, newState.addons[addon.slug] || {}, addon
+        );
       });
       return newState;
     }

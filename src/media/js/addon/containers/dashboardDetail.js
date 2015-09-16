@@ -10,6 +10,7 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch as fetchAddon, fetchVersions} from '../actions/addon';
+import {fetchThreads} from '../actions/comm';
 import {submitVersion} from '../actions/submitVersion';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
@@ -21,6 +22,7 @@ export class AddonDashboardDetail extends React.Component {
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
+    fetchThreads: React.PropTypes.func.isRequired,
     fetchVersions: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string.isRequired,
     submitVersion: React.PropTypes.func.isRequired,
@@ -29,6 +31,7 @@ export class AddonDashboardDetail extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchAddon(this.props.slug);
+    this.props.fetchThreads(this.props.slug);
     this.props.fetchVersions(this.props.slug);
   }
 
@@ -61,12 +64,13 @@ export class AddonDashboardDetail extends React.Component {
 
 export default connect(
   state => ({
-    addon: state.addonDashboard.addons[state.router.params.slug],
+    addon: state.addon.addons[state.router.params.slug],
     addonSubmitVersion: state.addonSubmitVersion,
     slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({
     fetchAddon,
+    fetchThreads,
     fetchVersions,
     submitVersion
   }, dispatch)

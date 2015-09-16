@@ -29,9 +29,9 @@ import WebsiteReview from './website/containers/review';
 import WebsiteReviewForm from './website/containers/reviewForm';
 import WebsiteSubmit from './website/containers/submit';
 
+import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
-import addonReviewDetail from './addon/reducers/reviewDetail';
 import {addonSubmitReducer as
         addonSubmit,
         addonSubmitVersionReducer as
@@ -47,9 +47,9 @@ import websiteSubmitUrl from './website/reducers/submitUrl';
 
 const reducer = combineReducers({
   // The name of the reducers, as imported, will be the keys of state tree.
+  addon,
   addonDashboard,
   addonReview,
-  addonReviewDetail,
   addonSubmit,
   addonSubmitVersion,
   apiArgs,
