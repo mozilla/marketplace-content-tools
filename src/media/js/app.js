@@ -84,6 +84,10 @@ if (process.env.NODE_ENV !== 'production') {
 const createFinalStore = compose.apply(this, storeEnhancers)(createStore);
 const store = createFinalStore(reducer);
 
+const LOGIN = 'content_tools_login';
+const ADDON_REVIEW = [LOGIN, 'content_tools_addon_review'];
+const ADDON_SUBMIT = [LOGIN, 'content_tools_addon_submit'];
+
 
 function renderRoutes() {
   return (
@@ -98,31 +102,29 @@ function renderRoutes() {
                  component={LoginOAuthRedirect}/>
 
           <Route name="root" path="/content/"
-                 component={loginRequired(Landing, Login,
-                                          ['reviewer', 'website_submitter'])}/>
+                 component={loginRequired(Landing, Login, LOGIN)}/>
 
 
           <Route path="/content">
             <Route name="login" path="/login" component={Login}/>
 
             <Route name="addon" path="/addon/"
-                   component={loginRequired(AddonLanding, Login,
-                                            ['reviewer',
-                                             'website_submitter'])}/>
+                   component={loginRequired(AddonLanding, Login, LOGIN)}/>
             <Route name="addon-dashboard" path="/addon/dashboard/"
-                   component={loginRequired(AddonDashboard, Login)}/>
+                   component={loginRequired(AddonDashboard, Login,
+                                            ADDON_SUBMIT)}/>
             <Route name="addon-dashboard-detail" path="/addon/dashboard/:slug"
-                   component={loginRequired(AddonDashboardDetail, Login)}/>
+                   component={loginRequired(AddonDashboardDetail, Login,
+                                            ADDON_SUBMIT)}/>
             <Route name="addon-review" path="/addon/review/"
                    component={loginRequired(AddonReview, Login,
-                                            ['reviewer'])}/>
+                                            ADDON_REVIEW)}/>
             <Route name="addon-review-detail" path="/addon/review/:slug"
                    component={loginRequired(AddonReviewDetail, Login,
-                                            ['reviewer'])}/>
+                                            ADDON_REVIEW)}/>
             <Route name="addon-submit" path="/addon/submit/"
                    component={loginRequired(AddonSubmit, Login,
-                                            ['reviewer',
-                                             'website_submitter'])}/>
+                                            ADDON_SUBMIT)}/>
 
             <Route name="website" path="/website/"
                    component={loginRequired(WebsiteLanding, Login,
