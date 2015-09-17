@@ -16,7 +16,6 @@ import {loginRequired} from './site/login';
 
 import AddonDashboard from './addon/containers/dashboard';
 import AddonDashboardDetail from './addon/containers/dashboardDetail';
-import AddonLanding from './addon/containers/landing';
 import AddonReview from './addon/containers/review';
 import AddonReviewDetail from './addon/containers/reviewDetail';
 import AddonSubmit from './addon/containers/submit';
@@ -109,7 +108,8 @@ function renderRoutes() {
             <Route name="login" path="/login" component={Login}/>
 
             <Route name="addon" path="/addon/"
-                   component={loginRequired(AddonLanding, Login, LOGIN)}/>
+                   component={loginRequired(AddonDashboard, Login,
+                                            ADDON_SUBMIT)}/>
             <Route name="addon-dashboard" path="/addon/dashboard/"
                    component={loginRequired(AddonDashboard, Login,
                                             ADDON_SUBMIT)}/>

@@ -27,12 +27,26 @@ export class AddonDashboard extends React.Component {
   }
 
   render() {
+    const mdnLink =
+      'https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons';
+
     return (
       <section>
         <PageHeader title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}/>
-        <AddonListing addons={this.props.addons}
-                      linkTo="addon-dashboard-detail"
-                      showVersions={false}/>
+        {this.props.addons.length &&
+          <AddonListing addons={this.props.addons}
+                        linkTo="addon-dashboard-detail"
+                        showVersions={false}/>
+        || ''}
+        {!this.props.addons.length &&
+          <div>
+            <h2>You haven't submitted any add-ons yet.</h2>
+            <a href={mdnLink}>Get started now!</a>
+            <ReverseLink className="button" to="addon-submit">
+              Submit an Add-on
+            </ReverseLink>
+          </div>
+        || ''}
       </section>
     );
   }
@@ -41,7 +55,7 @@ export class AddonDashboard extends React.Component {
 
 export default connect(
   state => ({
-    addons: addonListSelector(state.addonDashboard.addons)
+    addons: addonListSelector(state.addon.addons)
   }),
   dispatch => bindActionCreators({
     fetch

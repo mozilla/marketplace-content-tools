@@ -1,8 +1,16 @@
 export function addonListSelector(addons={}) {
   return Object
     .keys(addons)
-    .sort()
-    .map(slug => addons[slug]);
+    .map(slug => addons[slug])
+    .sort((a, b) => {
+      // Order by newest top.
+      if (a.id < b.id) {
+        return 1;
+      } else if (a.id > b.id) {
+        return -1;
+      }
+      return 0;
+    })
 }
 
 
