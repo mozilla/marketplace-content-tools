@@ -1,6 +1,7 @@
 import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
 
+import Note from './note';
 import {versionListSelector} from '../selectors/addon';
 import * as constants from '../constants';
 
@@ -153,6 +154,7 @@ class Version extends React.Component {
   static PropTypes = {
     id: React.PropTypes.number.isRequired,
     download_url: React.PropTypes.string.isRequired,
+    notes: React.PropTypes.array,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired,
     version: React.PropTypes.string.isRequired,
@@ -190,6 +192,13 @@ class Version extends React.Component {
           <dt>Status</dt>
           <dd>{this.props.status}</dd>
         </dl>
+
+        <h3>Notes</h3>
+        <ul class="version-notes">
+          {(this.props.notes || []).map(note =>
+            <Note {...note} author={note.author_meta.name}/>
+          )}
+        </ul>
 
         {this.props.showReviewActions &&
           <div>
