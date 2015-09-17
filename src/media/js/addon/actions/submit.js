@@ -13,24 +13,27 @@ import Url from 'urlgray';
 import urlJoin from 'url-join';
 
 
-export const VALIDATION_BEGIN = 'SUBMISSION_ADDON__VALIDATION_BEGIN';
+export const VALIDATION_BEGIN = 'ADDON_SUBMIT__VALIDATION_BEGIN';
 const validationBegin = createAction(VALIDATION_BEGIN);
 
+export const UPLOAD_PROGRESS = 'ADDON_SUBMIT__UPLOAD_PROGRESS';
+const uploadProgress = createAction(UPLOAD_PROGRESS);
+
 // For when the add-on upload has started processing.
-export const VALIDATION_PENDING = 'SUBMISSION_ADDON__VALIDATION_PENDING';
+export const VALIDATION_PENDING = 'ADDON_SUBMIT__VALIDATION_PENDING';
 const validationPending = createAction(VALIDATION_PENDING);
 
 // For when the add-on upload has finished validation.
-export const VALIDATION_PASS = 'SUBMISSION_ADDON__VALIDATION_PASS';
+export const VALIDATION_PASS = 'ADDON_SUBMIT__VALIDATION_PASS';
 const validationPassed = createAction(VALIDATION_PASS);
 
-export const VALIDATION_FAIL = 'SUBMISSION_ADDON__VALIDATION_FAIL';
+export const VALIDATION_FAIL = 'ADDON_SUBMIT__VALIDATION_FAIL';
 const validationFail = createAction(VALIDATION_FAIL);
 
-export const SUBMIT_OK = 'SUBMISSION_ADDON__SUBMIT_OK';
+export const SUBMIT_OK = 'ADDON_SUBMIT__SUBMIT_OK';
 const submitOk = createAction(SUBMIT_OK);
 
-export const SUBMIT_ERROR = 'SUBMISSION_ADDON__SUBMIT_ERROR';
+export const SUBMIT_ERROR = 'ADDON_SUBMIT__SUBMIT_ERROR';
 const submitError = createAction(SUBMIT_ERROR);
 
 
@@ -52,6 +55,14 @@ export function submit(fileData) {
       .set('Content-Disposition',
            'form-data; name="binary_data"; filename="extension.zip"')
       .send(fileData)
+      .on('progress', e => {
+        // Keep track of upload progress.
+        dispatch(uploadProgress({
+          // e.percent is also available, but we can math.
+          uploadLoaded: e.loaded,
+          uploadTotal: e.total
+        }))
+      })
       .then(res => {
         // Notify the reducers.
         dispatch(validationPending(res.body.id));

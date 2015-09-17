@@ -5,6 +5,8 @@
 import React from 'react';
 import FileReaderInput from 'react-file-reader-input';
 
+import ProgressBar from './progressBar';
+
 
 export default class AddonUpload extends React.Component {
   /*
@@ -18,6 +20,8 @@ export default class AddonUpload extends React.Component {
     isSubmitting: React.PropTypes.bool,
     slug: React.PropTypes.string,
     submit: React.PropTypes.func.isRequired,
+    uploadLoaded: React.PropTypes.number,
+    uploadTotal: React.PropTypes.number,
     validationErrorMessage: React.PropTypes.string
   };
 
@@ -53,24 +57,48 @@ export default class AddonUpload extends React.Component {
   }
 
   render() {
+    const KB_DIVISOR = 1024;
+    const MB_DIVISOR = 1048576;
+
+    let divisor = MB_DIVISOR;
+    let unit = 'MB'
+    if (this.state.fileSize < 1000 * KB_DIVISOR) {
+      // Show KBs if less than 1MB.
+      divisor = KB_DIVISOR;
+      unit = 'KB';
+    }
+    const fileSize = toFixedDown(this.state.fileSize / divisor, 2);
+
     return (
       <div>
         <form className="form-inline" onSubmit={this.handleSubmit}>
           <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
+
           <FileReaderInput as="buffer" accept=".zip"
                            id="submission-addon--zip"
                            onChange={this.handleChange}>
             <div className="form-inline--file-input"
                  data-file-input--has-data={!!this.state.fileName}>
               {this.state.fileName ?
-               `${this.state.fileName} (${this.state.fileSize}KB)` :
+               `${this.state.fileName} (${fileSize}${unit})` :
                'Select a File...'}
             </div>
-          </FileReaderInput>
+         </FileReaderInput>
+
           <button type="submit" disabled={this.props.isSubmitting}>
             {this.props.isSubmitting ? 'Processing...' : 'Submit'}
           </button>
         </form>
+
+        {this.props.uploadLoaded &&
+         this.props.uploadLoaded < this.props.uploadTotal &&
+          <div>
+            <h3>Uploading your Firefox OS Add-on</h3>
+            <ProgressBar loadedSize={this.props.uploadLoaded / divisor}
+                         totalSize={this.props.uploadTotal / divisor}
+                         unit={unit}/>
+          </div>
+        }
 
         {this.props.validationErrorMessage &&
           <p className="form-msg--error">
@@ -80,4 +108,11 @@ export default class AddonUpload extends React.Component {
       </div>
     );
   }
+}
+
+
+function toFixedDown(number, digits) {
+  const re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)");
+  const m = number.toString().match(re);
+  return m ? parseFloat(m[1]) : number.valueOf();
 }
