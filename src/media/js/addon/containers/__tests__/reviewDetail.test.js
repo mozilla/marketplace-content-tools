@@ -7,6 +7,7 @@ describe('AddonReviewDetail', () => {
   const props = {
     addon: addonFactory(),
     fetchAddon: () => {},
+    fetchThreads: () => {},
     fetchVersions: () => {},
   };
 

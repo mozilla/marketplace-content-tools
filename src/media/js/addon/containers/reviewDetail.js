@@ -9,6 +9,7 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch as fetchAddon, fetchVersions} from '../actions/addon';
+import {fetchThreads} from '../actions/comm';
 import {publish, reject} from '../actions/review';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
@@ -19,6 +20,7 @@ export class AddonReviewDetail extends React.Component {
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
+    fetchThreads: React.PropTypes.func.isRequired,
     fetchVersions: React.PropTypes.func.isRequired,
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
@@ -28,6 +30,7 @@ export class AddonReviewDetail extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchAddon(this.props.slug);
+    this.props.fetchThreads(this.props.slug);
     this.props.fetchVersions(this.props.slug);
   }
 
@@ -62,6 +65,7 @@ export default connect(
   }),
   dispatch => bindActionCreators({
     fetchAddon,
+    fetchThreads,
     fetchVersions,
     publish,
     reject,
