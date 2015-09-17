@@ -31,8 +31,8 @@ export class AddonListing extends React.Component {
 export class Addon extends React.Component {
   static propTypes = {
     description: React.PropTypes.string,
-    latest_public_version: React.PropTypes.number,
-    latest_version: React.PropTypes.number.isRequired,
+    latest_public_version: React.PropTypes.object,
+    latest_version: React.PropTypes.object.isRequired,
     mini_manifest_url: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
@@ -93,6 +93,9 @@ export class Addon extends React.Component {
             <di>
               <dt>Latest Public Version</dt>
               <dd>{this.props.latest_public_version.version}</dd>
+
+              <dt>Size</dt>
+              <dd>{this.props.latest_public_version.size}</dd>
             </di>
           }
 
@@ -155,6 +158,7 @@ class Version extends React.Component {
     id: React.PropTypes.number.isRequired,
     download_url: React.PropTypes.string.isRequired,
     notes: React.PropTypes.array,
+    size: React.PropTypes.number.isRequired,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired,
     version: React.PropTypes.string.isRequired,
@@ -188,6 +192,9 @@ class Version extends React.Component {
               Download v{this.props.version} .zip
             </a>
           </dd>
+
+          <dt>Size</dt>
+          <dd>{this.props.size}KB</dd>
 
           <dt>Status</dt>
           <dd>{this.props.status}</dd>
