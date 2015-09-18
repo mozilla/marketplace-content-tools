@@ -66,8 +66,8 @@ export class AddonDashboardDetail extends React.Component {
 
 export default connect(
   state => ({
+    ...state.addonSubmitVersion,
     addon: state.addon.addons[state.router.params.slug],
-    addonSubmitVersion: state.addonSubmitVersion,
     slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({

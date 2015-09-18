@@ -131,7 +131,7 @@ export function create() {
       .then(res => {
         dispatch(submitOk(res.body));
       }, err => {
-        dispatch(submitError(err.response.body));
+        dispatch(validationFail(JSON.parse(err.response.text).detail));
       });
   };
 }
