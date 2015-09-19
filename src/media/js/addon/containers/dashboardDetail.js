@@ -5,12 +5,12 @@
   Allows uploading new versions.
 */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect, Provider} from 'react-redux';
 import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
-import {fetch as fetchAddon, fetchVersions} from '../actions/addon';
-import {fetchThreads} from '../actions/comm';
+import AddonVersionListingContainer from './versionListing';
+import {fetch as fetchAddon} from '../actions/addon';
 import {submitVersion} from '../actions/submitVersion';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
@@ -19,11 +19,12 @@ import PageHeader from '../../site/components/pageHeader';
 
 
 export class AddonDashboardDetail extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object
+  };
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
-    fetchThreads: React.PropTypes.func.isRequired,
-    fetchVersions: React.PropTypes.func.isRequired,
     isSubmitting: React.PropTypes.bool,
     slug: React.PropTypes.string.isRequired,
     submit: React.PropTypes.func.isRequired,
@@ -35,8 +36,6 @@ export class AddonDashboardDetail extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchAddon(this.props.slug);
-    this.props.fetchThreads(this.props.slug);
-    this.props.fetchVersions(this.props.slug);
   }
 
   render() {
@@ -56,6 +55,10 @@ export class AddonDashboardDetail extends React.Component {
 
         <Addon {...this.props.addon}/>
 
+        <Provider store={this.context.store}>
+          {() => <AddonVersionListingContainer/>}
+        </Provider>
+
         <h3>Upload a New Version</h3>
         <AddonUpload {...this.props}/>
       </section>
@@ -72,8 +75,6 @@ export default connect(
   }),
   dispatch => bindActionCreators({
     fetchAddon,
-    fetchThreads,
-    fetchVersions,
     submit: submitVersion
   }, dispatch)
 )(AddonDashboardDetail);

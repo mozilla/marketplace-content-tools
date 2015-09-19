@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
-import {fetch, publish, reject} from '../actions/review';
+import {fetch} from '../actions/review';
 import {AddonListing} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
 import {addonListSelector} from '../selectors/addon';
@@ -34,11 +34,7 @@ export class AddonReview extends React.Component {
         <PageHeader title="Reviewing Firefox OS Add-ons"
                     subnav={<AddonSubnav/>}/>
         <AddonListing addons={this.props.addons}
-                      linkTo="addon-review-detail"
-                      publish={this.props.publish}
-                      reject={this.props.reject}
-                      showReviewActions={true}
-                      showVersions={false}/>
+                      linkTo="addon-review-detail"/>
       </section>
     );
   }
@@ -50,8 +46,6 @@ export default connect(
     addons: addonListSelector(state.addonReview.addons)
   }),
   dispatch => bindActionCreators({
-    fetch,
-    publish,
-    reject,
+    fetch
   }, dispatch)
 )(AddonReview);

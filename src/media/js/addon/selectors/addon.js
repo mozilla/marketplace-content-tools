@@ -12,12 +12,3 @@ export function addonListSelector(addons={}, reverse=false) {
     });
   return reverse ? addonList.reverse() : addonList;
 }
-
-
-export function versionListSelector(versions={}) {
-  return Object
-    .keys(versions)
-    .sort()
-    .reverse()
-    .map(id => versions[id]);
-}

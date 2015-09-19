@@ -12,9 +12,16 @@ describe('AddonReviewDetail', () => {
   };
 
   it('renders', () => {
+    const StubProvider = getStubProvider({
+      addon: {
+        addons: {}
+      },
+      router: {
+        params: {}
+      }
+    });
     const component = ReactDOMHelper.render(
-      <StubRouterProvider Component={AddonReviewDetail}
-                          {...props}/>
+      <StubProvider Component={AddonReviewDetail} {...props}/>
     );
     assert.equal(ReactDOMHelper.queryClassAll(component, 'addon').length, 1);
   });

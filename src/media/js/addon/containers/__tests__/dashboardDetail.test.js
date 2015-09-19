@@ -7,14 +7,24 @@ describe('AddonDashboardDetail', () => {
   const props = {
     addon: addonFactory(),
     slug: 'test-addon',
-    fetchAddon: () => {},
-    fetchThreads: () => {},
-    fetchVersions: () => {},
+    fetchAddon: () => {}
   };
 
   it('renders', () => {
+    const StubProvider = getStubProvider({
+      addon: {
+        addons: {},
+      },
+      thread: {
+        threads: {}
+      },
+      router: {
+        params: {}
+      }
+    });
+
     const component = ReactDOMHelper.render(
-      <StubRouterProvider Component={AddonDashboardDetail} {...props}/>
+      <StubProvider Component={AddonDashboardDetail} {...props}/>
     );
     assert.equal(ReactDOMHelper.queryClassAll(component, 'addon').length, 1);
   });

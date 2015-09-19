@@ -31,6 +31,7 @@ import WebsiteSubmit from './website/containers/submit';
 import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
+import addonThread from './addon/reducers/thread';
 import {addonSubmitReducer as
         addonSubmit,
         addonSubmitVersionReducer as
@@ -51,6 +52,7 @@ const reducer = combineReducers({
   addonReview,
   addonSubmit,
   addonSubmitVersion,
+  addonThread,
   apiArgs,
   login,
   router,
