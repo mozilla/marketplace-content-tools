@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+import * as tosActions from './actions/tos';
+import TOSSignatureHandler from './containers/tos';
+
 
 export class DefaultUnauthorizedHandler extends React.Component {
   render() {
@@ -24,15 +27,23 @@ export function loginRequired(Component, LoginHandler, group,
   )
   class AuthenticatedComponent extends React.Component {
     render() {
-      const isLoggedIn = !!this.props.user.token;
-      const hasPermission = _checkPermissions(this.props.user, group);
+      if (!!this.props.user.token) {
+        const hasPermission = (process.env.NODE_ENV === 'test' ||
+                               _checkPermissions(this.props.user, group));
+        const hasSignedTOS = ('tos' in this.props.user &&
+                              this.props.user.tos.has_signed);
 
-      if (process.env.NODE_ENV === 'test' || isLoggedIn && hasPermission) {
-        return <Component/>;
+        if (hasPermission && hasSignedTOS) {
+          return <Component/>;
 
-      // Redirect to UnauthorizedHandler if logged in but lacking permission.
-      } else if (isLoggedIn) {
-        return <UnauthorizedHandler/>;
+        // Redirect to UnauthorizedHandler if logged in but lacking permission.
+        } else if (!hasPermission) {
+          return <UnauthorizedHandler/>;
+
+        // Redirect to TOSSignatureHandler if the user hasn't signed the TOS.
+        } else if (!hasSignedTOS) {
+          return <TOSSignatureHandler/>;
+        }
 
       // Redirect to LoginHandler if not logged in.
       } else {

@@ -10,22 +10,27 @@ var ENVS = {
   'altdev': {
     apiRoot: "'https://marketplace-altdev.allizom.org/api/v2/'",
     mediaRoot: "'https://marketplace-altdev-cdn.allizom.org/media/'",
+    mktRoot: "'https://marketplace-altdev.allizom.org/'",
   },
   dev: {
     apiRoot: "'https://marketplace-dev.allizom.org/api/v2/'",
     mediaRoot: "'https://marketplace-dev.mozflare.net/media/'",
+    mktRoot: "'https://marketplace-dev.allizom.org/'",
   },
   local: {
     apiRoot: "'http://localhost:2600/api/v2/'",
     mediaRoot: "'https://marketplace-dev.mozflare.net/media/'",
+    mktRoot: "'https://marketplace-dev.allizom.org/'",
   },
   stage: {
     apiRoot: "'https://marketplace.allizom.org/api/v2/'",
     mediaRoot: "'https://marketplace-stage.cdn.mozilla.net/media/'",
+    mktRoot: "'https://marketplace.allizom.org/'",
   },
   prod: {
     apiRoot: "'https://marketplace.firefox.com/api/v2/'",
     mediaRoot: "'https://marketplace.cdn.mozilla.net/media/'",
+    mktRoot: "'https://marketplace.firefox.com/'",
   },
 };
 
@@ -57,6 +62,7 @@ var PLUGINS = [
     'process.env': {
       MKT_API_ROOT: ENVS[process.env.MKT_ENV || 'dev'].apiRoot,
       MKT_MEDIA_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mediaRoot,
+      MKT_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mktRoot,
       NODE_ENV: '"' + process.env.NODE_ENV + '"',
     }
   }),
