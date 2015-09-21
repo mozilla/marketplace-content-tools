@@ -16,6 +16,9 @@ describe('AddonReviewDetail', () => {
       addon: {
         addons: {}
       },
+      addonThread: {
+        threads: {}
+      },
       router: {
         params: {}
       }

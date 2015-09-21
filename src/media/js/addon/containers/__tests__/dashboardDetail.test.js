@@ -15,7 +15,7 @@ describe('AddonDashboardDetail', () => {
       addon: {
         addons: {},
       },
-      thread: {
+      addonThread: {
         threads: {}
       },
       router: {
