@@ -35,8 +35,7 @@ export class AddonDashboard extends React.Component {
         <PageHeader title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}/>
         {this.props.addons.length &&
           <AddonListing addons={this.props.addons}
-                        linkTo="addon-dashboard-detail"
-                        showVersions={false}/>
+                        linkTo="addon-dashboard-detail"/>
         || ''}
         {!this.props.addons.length &&
           <div>

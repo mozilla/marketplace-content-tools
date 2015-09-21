@@ -1,6 +1,5 @@
 import addonReducer from '../addon';
 import * as addonActions from '../../actions/addon';
-import * as commActions from '../../actions/comm';
 import * as reviewActions from '../../actions/review';
 import * as constants from '../../constants';
 
@@ -113,23 +112,5 @@ describe('addonReducer', () => {
     );
     assert.notOk(newState.addons.slugly.versions[5].isRejecting);
     assert.equal(newState.addons.slugly.versions[5].status, 'rejected');
-  });
-
-  it('handles fetch thread', () => {
-    const newState = addonReducer(
-      {
-        addons: {}
-      },
-      {
-        type: commActions.FETCH_THREAD_OK,
-        payload: {
-          addonSlug: 'slugly',
-          notes: [{note_type: 'approval'}],
-          versionId: 5
-        }
-      }
-    );
-    assert.ok(newState.addons.slugly.versions[5].notes[0].note_type,
-              'approval');
   });
 });

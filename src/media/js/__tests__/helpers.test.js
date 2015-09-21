@@ -86,20 +86,29 @@ global.StubRouter = {
   transitionTo: () => {},
 };
 
-class StubRouterProvider extends React.Component {
-  static childContextTypes = {
-    router: React.PropTypes.object
-  };
-  getChildContext() {
-    return {
-      router: StubRouter
+function getStubProvider(state={}) {
+  return class StubRouterProvider extends React.Component {
+    static childContextTypes = {
+      router: React.PropTypes.object,
+      store: React.PropTypes.object,
     };
-  }
-  render() {
-    return <this.props.Component {...this.props}/>
+    getChildContext() {
+      return {
+        router: StubRouter,
+        store: {
+          dispatch: () => {},
+          getState: () => state,
+          subscribe: () => {},
+        },
+      };
+    }
+    render() {
+      return <this.props.Component {...this.props}/>
+    }
   }
 }
-global.StubRouterProvider = StubRouterProvider;
+global.getStubProvider= getStubProvider;
+global.StubRouterProvider = getStubProvider();
 
 
 global.addonFactory = require('./factory.test').addonFactory;

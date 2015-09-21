@@ -1,16 +1,10 @@
 import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
 
-import Note from './note';
-import {versionListSelector} from '../selectors/addon';
-import * as constants from '../constants';
-
 
 export class AddonListing extends React.Component {
   static propTypes = {
-    addons: React.PropTypes.array.isRequired,
-    showReviewActions: React.PropTypes.bool,
-    showVersions: React.PropTypes.bool,
+    addons: React.PropTypes.array.isRequired
   };
 
   render() {
@@ -33,20 +27,10 @@ export class Addon extends React.Component {
     description: React.PropTypes.string,
     latest_public_version: React.PropTypes.object,
     latest_version: React.PropTypes.object.isRequired,
+    linkTo: React.PropTypes.string,
     mini_manifest_url: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
-
-    linkTo: React.PropTypes.string,
-    publish: React.PropTypes.func,
-    reject: React.PropTypes.func,
-    showReviewActions: React.PropTypes.bool,
-    showVersions: React.PropTypes.bool,
-  };
-
-  static defaultProps = {
-    showReviewActions: false,
-    showVersions: true,
   };
 
   renderName() {
@@ -111,115 +95,6 @@ export class Addon extends React.Component {
             <dt>Description</dt>
             <dd>{this.props.description}</dd>
           </di>
-        }
-
-        {this.props.showVersions &&
-          <VersionListing publish={this.props.publish}
-                          reject={this.props.reject}
-                          showReviewActions={this.props.showReviewActions}
-                          slug={this.props.slug}
-                          versions={versionListSelector(this.props.versions)}/>
-        }
-      </div>
-    );
-  }
-}
-
-
-class VersionListing extends React.Component {
-  static propTypes = {
-    versions: React.PropTypes.array.isRequired,
-
-    publish: React.PropTypes.func,
-    reject: React.PropTypes.func,
-    showReviewActions: React.PropTypes.bool,
-  };
-
-  render() {
-    return (
-      <div className="version-listing">
-        <h3>Versions</h3>
-
-        <ul>
-          {this.props.versions.map(version =>
-            <li>
-              <Version {...this.props} {...version}/>
-            </li>
-          )}
-        </ul>
-      </div>
-    );
-  }
-}
-
-
-class Version extends React.Component {
-  static PropTypes = {
-    id: React.PropTypes.number.isRequired,
-    download_url: React.PropTypes.string.isRequired,
-    notes: React.PropTypes.array,
-    size: React.PropTypes.number.isRequired,
-    slug: React.PropTypes.string.isRequired,
-    status: React.PropTypes.string.isRequired,
-    version: React.PropTypes.string.isRequired,
-    unsigned_download_url: React.PropTypes.string.isRequired,
-
-    publish: React.PropTypes.func,
-    reject: React.PropTypes.func,
-    showReviewActions: React.PropTypes.bool,
-  };
-
-  publish = () => {
-    this.props.publish(this.props.slug, this.props.id);
-  }
-
-  reject = () => {
-    this.props.reject(this.props.slug, this.props.id);
-  }
-
-  render() {
-    const disabled = this.props.isPublishing || this.props.isRejecting;
-
-    return (
-      <div className="version">
-        <dl>
-          <dt>Version</dt>
-          <dd>{this.props.version}</dd>
-
-          <dt>Files</dt>
-          <dd>
-            <a href={this.props.unsigned_download_url}>
-              Download v{this.props.version} .zip
-            </a>
-          </dd>
-
-          <dt>Size</dt>
-          <dd>{this.props.size}KB</dd>
-
-          <dt>Status</dt>
-          <dd>{this.props.status}</dd>
-        </dl>
-
-        <h3>Notes</h3>
-        <ul class="version-notes">
-          {(this.props.notes || []).map(note =>
-            <Note {...note} author={note.author_meta.name}/>
-          )}
-        </ul>
-
-        {this.props.showReviewActions &&
-          <div>
-            {this.props.status !== constants.STATUS_REJECTED &&
-              <button onClick={this.reject} disabled={disabled}>
-                {this.props.isRejecting ? 'Rejecting...' : 'Reject'}
-              </button>
-            }
-            {this.props.status !== constants.STATUS_PUBLIC &&
-              <button onClick={this.publish} disabled={disabled}>
-                {this.props.isPublishing ? 'Publishing...' : 'Publish'}
-              </button>
-            }
-          </div>
         }
       </div>
     );

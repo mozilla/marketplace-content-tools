@@ -4,7 +4,6 @@
 import _ from 'lodash';
 
 import * as addonActions from '../actions/addon';
-import * as commActions from '../actions/comm';
 import * as dashboardActions from '../actions/dashboard';
 import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
@@ -54,32 +53,6 @@ export default function addonReducer(state=initialState, action) {
       action.payload.versions.forEach(version => {
         addon.versions[version.id] = version;
       });
-      return newState;
-    }
-
-    case commActions.FETCH_THREAD_OK: {
-      /*
-        Attach communication notes to version.
-
-        payload (object) --
-          notes (array): list of notes.
-          versionId (number): version ID.
-      */
-      const {addonSlug, notes, versionId} = action.payload;
-      const newState = _.cloneDeep(state);
-
-      // Set add-on if necessary.
-      if (!newState.addons[addonSlug]) {
-        newState.addons[addonSlug] = {versions: {}};
-      }
-
-      // Add notes to version.
-      newState.addons[addonSlug].versions[versionId] = Object.assign(
-        {},
-        newState.addons[addonSlug].versions[versionId] || {},
-        {notes: notes}
-      );
-
       return newState;
     }
 
