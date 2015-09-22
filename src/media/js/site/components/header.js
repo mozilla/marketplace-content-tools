@@ -13,7 +13,6 @@ export default class Header extends React.Component {
       <nav>
         <li>
           <ReverseLink to="addon">Firefox OS Add-ons</ReverseLink>
-          <ReverseLink to="website">Websites</ReverseLink>
         </li>
       </nav>
     );

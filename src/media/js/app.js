@@ -23,10 +23,6 @@ import App from './site/containers/app';
 import Landing from './site/containers/landing';
 import Login from './site/containers/login'
 import LoginOAuthRedirect from './site/containers/loginOAuthRedirect';
-import WebsiteLanding from './website/containers/landing';
-import WebsiteReview from './website/containers/review';
-import WebsiteReviewForm from './website/containers/reviewForm';
-import WebsiteSubmit from './website/containers/submit';
 
 import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
@@ -40,9 +36,6 @@ import apiArgs from './site/reducers/apiArgs';
 import login from './site/reducers/login';
 import siteConfig from './site/reducers/siteConfig';
 import user from './site/reducers/user';
-import websiteReview from './website/reducers/review';
-import websiteSubmit from './website/reducers/submit';
-import websiteSubmitUrl from './website/reducers/submitUrl';
 
 
 const reducer = combineReducers({
@@ -58,9 +51,6 @@ const reducer = combineReducers({
   router,
   siteConfig,
   user,
-  websiteReview,
-  websiteSubmit,
-  websiteSubmitUrl,
 });
 
 
@@ -127,19 +117,6 @@ function renderRoutes() {
             <Route name="addon-submit" path="/addon/submit/"
                    component={loginRequired(AddonSubmit, Login,
                                             ADDON_SUBMIT)}/>
-
-            <Route name="website" path="/website/"
-                   component={loginRequired(WebsiteLanding, Login,
-                                            'reviewer')}/>
-            <Route name="website-review" path="/website/review/"
-                   component={loginRequired(WebsiteReview, Login,
-                                            'reviewer')}/>
-            <Route name="website-review-form" path="/website/review/:id"
-                   component={loginRequired(WebsiteReviewForm, Login,
-                                            'reviewer')}/>
-            <Route name="website-submit" path="/website/submit/"
-                   component={loginRequired(WebsiteSubmit, Login,
-                                            'reviewer')}/>
           </Route>
         </Route>
       </Route>

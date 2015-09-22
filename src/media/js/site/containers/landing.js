@@ -9,7 +9,6 @@ export default class Landing extends React.Component {
         <h1>Develop HTML5 content for an open marketplace.</h1>
         <ul>
           <li><ReverseLink to="addon">Firefox OS Add-ons</ReverseLink></li>
-          <li><ReverseLink to="website">Websites</ReverseLink></li>
         </ul>
       </section>
     );
