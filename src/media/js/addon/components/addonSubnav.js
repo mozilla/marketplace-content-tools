@@ -8,9 +8,9 @@ export default class AddonSubnav extends React.Component {
   render() {
     return (
       <Subnav>
-        <ReverseLink to="addon-dashboard">My Firefox OS Add-ons</ReverseLink>
-        <ReverseLink to="addon-submit">Submit a Firefox OS Add-on</ReverseLink>
-        <ReverseLink to="addon-review">Review Firefox OS Add-ons</ReverseLink>
+        <ReverseLink to="addon-dashboard">My Add-ons</ReverseLink>
+        <ReverseLink to="addon-submit">Submit an Add-on</ReverseLink>
+        <ReverseLink to="addon-review">Review Add-ons</ReverseLink>
       </Subnav>
     );
   }

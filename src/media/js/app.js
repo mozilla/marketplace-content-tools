@@ -96,28 +96,34 @@ function renderRoutes() {
           <Route name="root" path="/content/"
                  component={loginRequired(Landing, Login, LOGIN)}/>
 
+          {/* This appears to be the only way to have a parent item in the IA
+              that defaults to viewing one of the children without having to
+              actually replicate a route. */}
+          <Redirect from="/content/addon" to="/content/addon/dashboard/"/>
+
           <Route path="/content">
             <Route name="login" path="/login" component={Login}/>
 
-            <Route name="addon" path="/addon/"
-                   component={loginRequired(AddonDashboard, Login,
-                                            ADDON_SUBMIT)}/>
-            <Route name="addon-dashboard" path="/addon/dashboard/"
-                   component={loginRequired(AddonDashboard, Login,
-                                            ADDON_SUBMIT)}/>
-            <Route name="addon-dashboard-detail" path="/addon/dashboard/:slug"
-                   component={loginRequired(AddonDashboardDetail, Login,
-                                            ADDON_SUBMIT)}/>
-            <Route name="addon-review" path="/addon/review/"
-                   component={loginRequired(AddonReview, Login,
-                                            ADDON_REVIEW)}/>
-            <Route name="addon-review-detail" path="/addon/review/:slug"
-                   component={loginRequired(AddonReviewDetail, Login,
-                                            ADDON_REVIEW)}/>
-            <Route name="addon-submit" path="/addon/submit/"
-                   component={loginRequired(AddonSubmit, Login,
-                                            ADDON_SUBMIT)}/>
+            <Route name="addon" path="/addon">
+              <Route name="addon-dashboard" path="/dashboard/"
+                     component={loginRequired(AddonDashboard, Login,
+                                             ADDON_SUBMIT)}/>
+              <Route name="addon-dashboard-detail" path="/dashboard/:slug"
+                     component={loginRequired(AddonDashboardDetail, Login,
+                                              ADDON_SUBMIT)}/>
+              <Route name="addon-review" path="/review/"
+                     component={loginRequired(AddonReview, Login,
+                                              ADDON_REVIEW)}/>
+              <Route name="addon-review-detail" path="/review/:slug"
+                     component={loginRequired(AddonReviewDetail, Login,
+                                              ADDON_REVIEW)}/>
+              <Route name="addon-submit" path="/submit/"
+                     component={loginRequired(AddonSubmit, Login,
+                                              ADDON_SUBMIT)}/>
+            </Route>
+
           </Route>
+
         </Route>
       </Route>
     </Router>

@@ -12,10 +12,12 @@ export default class PageHeader extends React.Component {
 
   render() {
     return (
-      <header className="pageheader">
-        <h1>{this.props.title}</h1>
+      <main>
         {this.props.subnav}
-      </header>
+        <header className="pageheader">
+          <h1>{this.props.title}</h1>
+        </header>
+      </main>
     );
   }
 }

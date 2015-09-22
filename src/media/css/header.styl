@@ -1,50 +1,167 @@
 @import 'lib';
 
+/* Because the shopping bag logo is a bit visually imbalanced on the x-axis, we
+   need a bit of offset to visually even out the vertical centering. */
+$header--vertical-offset = 2px
+
 
 .header
   align-items center
   background $color--white
-  border-bottom $color--grey solid 1px
   display flex
+  font-size 14px
+  font-weight 400
   height 60px
-  padding 0 60px
+  padding $header--vertical-offset 35px 0
   justify-content space-between
 
-  h1 a
-    color $color--highlight
-    font-size 24px
-    text-decoration none
-    
-    &:hover
-      color $color--highlight
-      text-decoration underline
+  h1
+    align-items center
+    display flex
+    font-weight 300
 
-  nav
-    list-style none
 
-    a
-      margin 0 10px
-      padding 10px
-      text-decoration none
+.header--title
+  color $color--black
+  font-size 20px
+  margin-left 20px
+  text-decoration none
 
-      &.active
-        border 1px solid $color--primary
-        border-radius 5px
+  &:hover
+    color $color--black
+    text-decoration underline
 
-.header--login
+
+.header--wordmark
+  background url('../img/header-wordmark.svg') no-repeat
+  background-size 34px 42px
+  display inline-block
+  height 33px
+  overflow hidden
+  position relative
+  text-indent -999em
+  top -1 * $header--vertical-offset
+  width 34px
+
+
+.header--nav
   align-items center
   display flex
-  flex-wrap nowrap
+  justify-content space-between
+  position relative
 
-  button
-    background $color--white
-    border-radius 5px
-    border 2px solid $color--universal
-    color $color--universal
-    height 40px
+  ul
+    display flex
+    list-style none
+    margin 0
+    padding 0
+
+  li
     margin 0 10px
-    padding 0 10px
+
+  a
+    background transparent
+    border-radius 5px
+    color $color--black
+    padding 10px
+    text-decoration none
+    transition background-color 0.05s linear, color 0.05s linear
 
     &:hover
-      background $color--universal
+      background $color--blue-light
       color $color--white
+
+    &.active
+      background $color--blue
+      color $color--white
+
+  button
+    background-color transparent
+    border 2px solid $color--blue-light
+    color $color--blue-light
+    font-family $font--primary
+    font-size 14px
+    margin 0
+    padding 11px 10px 9px
+
+    &:hover
+      background-color $color--blue-light
+      color $color--white
+
+  p
+    font-size 14px
+    margin 0 20px 0 0
+
+
+button.header--nav--user
+  background transparent url('../img/user.svg')
+  background-size 40px 140px
+  border 0
+  display inline-block
+  height 40px
+  overflow hidden
+  text-indent -999em
+  transition none
+  width 40px
+
+  &:hover
+    background-color transparent
+    background-position 0px -50px
+
+  .header--nav--showing-user-dropdown &
+  .header--nav--showing-user-dropdown &:hover
+    background-color transparent
+    background-position 0px -100px
+
+
+.header--nav--user-dropdown
+  background $color--blue
+  border-radius 5px 0 5px 5px
+  display none
+  line-height 1
+  overflow hidden
+  position absolute
+  right 0
+  top 35px
+  width 250px
+
+  .header--nav--showing-user-dropdown &
+    display block
+
+  p
+    color $color--white
+    font-size 13px
+    margin 0
+    padding 10px 15px 8px
+
+  ul
+    border-top 1px solid alpha($color--white, 0.4)
+    flex-direction column
+
+  li
+    border-top 1px solid alpha($color--white, 0.2)
+    margin 0
+    padding 0
+
+    &:first-child
+      border-top: 0
+
+  a
+  button
+    nested-reset()
+    border 0
+    border-radius 0
+    color $color--white
+    display block
+    font-size 13px
+    font-weight 300
+    padding 10px 15px
+    text-align left
+    width 100%
+
+    &:hover
+      background-color alpha($color--white, 0.2)
+      color $color--white
+
+  button
+    text-indent -4px

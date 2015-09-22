@@ -1,0 +1,35 @@
+@import 'lib';
+
+
+.subnav
+  background $color--blue-dark
+  display flex
+  font-weight 300
+  justify-content center
+  height 50px
+
+  ul
+    align-items center
+    display flex
+    justify-content center
+    margin 0
+    padding 0
+
+  li
+    margin 0 10px
+
+  a
+    border-radius 5px
+    color $color--white
+    font-size 13px
+    padding 8px 8px 6px
+    text-decoration none
+    transition background-color 0.05s linear, color 0.05s linear
+
+    &:hover
+      background alpha($color--white, 0.15)
+      color $color--white
+
+    &.active
+      background $color--white
+      color $color--blue-dark

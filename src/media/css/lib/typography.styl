@@ -1,1 +1,32 @@
-$font--primary = "Fira Sans OT", "Fira Sans", FiraSansWeb, sans-serif;
+$font--primary = 'Fira Sans OT', 'Fira Sans', 'FiraSansWeb', sans-serif;
+
+FiraSans($name, $weight)
+  @font-face
+    font-family 'Fira Sans'
+    src url('../fonts/fira/eot/FiraSans-' + $name + '.eot')
+    src local('Fira Sans ' + $name),
+         url('../fonts/fira/eot/FiraSans-' + $name + '.eot') format('embedded-opentype'),
+         url('../fonts/fira/woff/FiraSans-' + $name + '.woff') format('woff'),
+         url('../fonts/fira/ttf/FiraSans-' + $name + '.ttf') format('truetype')
+    font-weight $weight
+    font-style normal
+
+  @font-face
+    font-family 'Fira Sans'
+    src url('../fonts/fira/eot/FiraSans-' + $name + 'Italic.eot')
+    src local('Fira Sans ' + $name + ' Italic'),
+         url('../fonts/fira/eot/FiraSans-' + $name + 'Italic.eot') format('embedded-opentype'),
+         url('../fonts/fira/woff/FiraSans-' + $name + 'Italic.woff') format('woff'),
+         url('../fonts/fira/ttf/FiraSans-' + $name + 'Italic.ttf') format('truetype')
+    font-weight $weight
+    font-style italic
+
+
+FiraSans('Hair', 100)
+FiraSans('UltraLight', 200)
+FiraSans('Light', 300)
+FiraSans('Regular', 400)
+FiraSans('Medium', 500)
+FiraSans('SemiBold', 600)
+FiraSans('ExtraBold', 800)
+FiraSans('Heavy', 900)
