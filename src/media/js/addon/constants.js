@@ -15,4 +15,5 @@ export const NOTE_TYPES = {
 };
 
 export const STATUS_PUBLIC = 'public';
+export const STATUS_OBSOLETE = 'obsolete';
 export const STATUS_REJECTED = 'rejected';

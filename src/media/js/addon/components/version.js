@@ -54,6 +54,7 @@ export default class AddonVersion extends React.Component {
         </dl>
 
         {this.props.showReviewActions &&
+         this.props.status !== constants.STATUS_OBSOLETE &&
           <div>
             {this.props.status !== constants.STATUS_REJECTED &&
               <button onClick={this.reject} disabled={disabled}>
