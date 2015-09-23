@@ -54,7 +54,7 @@ export class AddonDashboard extends React.Component {
 
 export default connect(
   state => ({
-    addons: addonListSelector(state.addon.addons, true)
+    addons: addonListSelector(state.addonDashboard.addons, true)
   }),
   dispatch => bindActionCreators({
     fetch
