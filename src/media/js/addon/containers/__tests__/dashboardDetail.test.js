@@ -7,7 +7,8 @@ describe('AddonDashboardDetail', () => {
   const props = {
     addon: addonFactory(),
     slug: 'test-addon',
-    fetchAddon: () => {}
+    fetchAddon: () => {},
+    deleteAddon: () => {},
   };
 
   it('renders', () => {

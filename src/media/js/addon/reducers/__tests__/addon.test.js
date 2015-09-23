@@ -1,5 +1,6 @@
 import addonReducer from '../addon';
 import * as addonActions from '../../actions/addon';
+import * as dashboardActions from '../../actions/dashboard';
 import * as reviewActions from '../../actions/review';
 import * as submitVersionActions from '../../actions/submitVersion';
 import * as constants from '../../constants';
@@ -138,5 +139,20 @@ describe('addonReducer', () => {
       }
     );
     assert.equal(newState.addons.slugly.versions[10].id, 10);
+  });
+
+  it('marks add-on as deleted', () => {
+    const newState = addonReducer(
+      {
+        addons: {
+          slugly: {}
+        },
+      },
+      {
+        type: dashboardActions.DELETE_OK,
+        payload: 'slugly'
+      }
+    );
+    assert.ok(newState.addons.slugly.deleted);
   });
 });

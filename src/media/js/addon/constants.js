@@ -18,6 +18,7 @@ export const NOTE_TYPES = {
                                   color: 'gray'},
 };
 
+export const STATUS_PENDING = 'pending';
 export const STATUS_PUBLIC = 'public';
 export const STATUS_OBSOLETE = 'obsolete';
 export const STATUS_REJECTED = 'rejected';
