@@ -4,8 +4,6 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
-import {NOTE_TYPE__MESSAGE} from '../constants';
-
 
 export const FETCH_THREAD_OK = 'ADDON_COMM__FETCH_THREAD_OK';
 const fetchThreadOk = createAction(FETCH_THREAD_OK);
@@ -49,7 +47,7 @@ export function fetchThreads(addonSlug) {
 }
 
 
-export function submitNote(threadId, versionId, body) {
+export function submitNote(threadId, versionId, body, noteType) {
   /*
     Submit note to thread.
   */
@@ -63,7 +61,7 @@ export function submitNote(threadId, versionId, body) {
       .post(noteCreateUrl)
       .send({
         body: body,
-        note_type: NOTE_TYPE__MESSAGE,
+        note_type: noteType,
       })
       .then(res => {
         dispatch(submitNoteOk({

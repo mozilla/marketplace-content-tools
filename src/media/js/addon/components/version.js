@@ -76,7 +76,8 @@ export default class AddonVersion extends React.Component {
               <Note {...note} author={note.author_meta.name}/>
             )}
           </ul>
-          <NoteSubmit submitNote={this.props.submitNote}
+          <NoteSubmit showReviewActions={this.props.showReviewActions}
+                      submitNote={this.props.submitNote}
                       threadId={this.props.threadId}
                       versionId={this.props.id}/>
         </div>
