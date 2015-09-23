@@ -3,7 +3,10 @@
 */
 import React from 'react';
 
-import {NOTE_TYPES} from '../constants';
+import {NOTE_TYPES,
+        NOTE_TYPE__DEVELOPER_MESSAGE,
+        NOTE_TYPE__REVIEWER_MESSAGE,
+        NOTE_TYPE__INTERNAL_REVIEWER_MESSAGE} from '../constants';
 
 
 export class Note extends React.Component {
@@ -18,7 +21,7 @@ export class Note extends React.Component {
     const noteType = NOTE_TYPES[this.props.note_type];
 
     return (
-      <li class="note">
+      <li className="note">
         <dl>
           <dt>Type</dt>
           <dd style={{color: noteType.color}}>
@@ -46,6 +49,7 @@ export class Note extends React.Component {
 
 export class NoteSubmit extends React.Component {
   static propTypes = {
+    showReviewActions: React.PropTypes.bool,
     submitNote: React.PropTypes.func.isRequired,
     threadId: React.PropTypes.number.isRequired,
     versionId: React.PropTypes.number.isRequired,
@@ -54,9 +58,16 @@ export class NoteSubmit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isInternalReviewerNoteType: false,
       isVisible: false,
       text: ''
     };
+  }
+
+  handleInternalReviewerNoteTypeChange = e => {
+    this.setState({
+      isInternalReviewerNoteType: !this.state.isInternalReviewerNoteType
+    });
   }
 
   handleTextChange = e => {
@@ -69,13 +80,25 @@ export class NoteSubmit extends React.Component {
 
   submitNote = e => {
     e.preventDefault();
+
+    let noteType;
+    if (this.props.showReviewActions) {
+      if (this.state.isInternalReviewerNoteType) {
+        noteType = NOTE_TYPE__INTERNAL_REVIEWER_MESSAGE;
+      } else {
+        noteType = NOTE_TYPE__REVIEWER_MESSAGE;
+      }
+    } else {
+      noteType = NOTE_TYPE__DEVELOPER_MESSAGE;
+    }
+
     this.props.submitNote(this.props.threadId, this.props.versionId,
-                          this.state.text);
+                          this.state.text, noteType);
   }
 
   render() {
     return (
-      <div class="note-submit">
+      <div className="note-submit">
         <button onClick={this.toggle}>
           {this.state.isVisible ? 'Cancel Reply' : 'Reply'}
         </button>
@@ -87,6 +110,18 @@ export class NoteSubmit extends React.Component {
             <button disabled={!this.state.text} onClick={this.submitNote}>
               Submit
             </button>
+
+            {this.props.showReviewActions &&
+              <div>
+                <label htmlFor="internalReviewerNoteType">
+                  Message internal reviewers only
+                </label>
+                <input id="internalReviewerNoteType"
+                       onChange={this.handleInternalReviewerNoteTypeChange}
+                       type="checkbox"
+                       value={this.state.isInternalReviewerNoteType}/>
+              </div>
+            }
           </form>
         }
       </div>
