@@ -7,6 +7,7 @@ import * as addonActions from '../actions/addon';
 import * as dashboardActions from '../actions/dashboard';
 import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
+import * as submitVersionActions from '../actions/submitVersion';
 import * as constants from '../constants';
 
 
@@ -193,6 +194,21 @@ export default function addonReducer(state=initialState, action) {
 
       newState.addons[action.payload.slug] = action.payload;
       newState.addons[action.payload.slug].versions = {};
+      return newState;
+    }
+
+    case submitVersionActions.SUBMIT_OK: {
+      /*
+        Add new version upload to add-on versions.
+
+        payload (object) --
+          addonSlug (string) - slug of version's add-on.
+          version (object) - add-on version.
+      */
+      const newState = _.cloneDeep(state);
+      const {addonSlug, version} = action.payload;
+
+      newState.addons[addonSlug].versions[version.id] = version;
       return newState;
     }
 

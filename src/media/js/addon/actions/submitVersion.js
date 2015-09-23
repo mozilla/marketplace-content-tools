@@ -136,7 +136,10 @@ export function createVersion(addonSlug) {
       .post(createVersionUrl)
       .send({validation_id: getState().addonSubmitVersion.validationId})
       .then(res => {
-        dispatch(submitOk(res.body));
+        dispatch(submitOk({
+          addonSlug,
+          version: res.body
+        }));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
       });

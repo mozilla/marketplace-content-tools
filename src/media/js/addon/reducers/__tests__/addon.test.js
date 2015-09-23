@@ -1,6 +1,7 @@
 import addonReducer from '../addon';
 import * as addonActions from '../../actions/addon';
 import * as reviewActions from '../../actions/review';
+import * as submitVersionActions from '../../actions/submitVersion';
 import * as constants from '../../constants';
 
 
@@ -112,5 +113,30 @@ describe('addonReducer', () => {
     );
     assert.notOk(newState.addons.slugly.versions[5].isRejecting);
     assert.equal(newState.addons.slugly.versions[5].status, 'rejected');
+  });
+
+  it('adds version upon version submit', () => {
+    const newState = addonReducer(
+      {
+        addons: {
+          slugly: {
+            versions: {
+              5: {
+                isRejecting: true,
+                status: 'public',
+              }
+            }
+          }
+        },
+      },
+      {
+        type: submitVersionActions.SUBMIT_OK,
+        payload: {
+          addonSlug: 'slugly',
+          version: {id: 10}
+        }
+      }
+    );
+    assert.equal(newState.addons.slugly.versions[10].id, 10);
   });
 });
