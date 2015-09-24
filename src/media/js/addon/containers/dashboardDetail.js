@@ -42,8 +42,8 @@ export class AddonDashboardDetail extends React.Component {
     if (!this.props.addon || !this.props.addon.slug) {
       return (
         <section>
-          <PageHeader title="Loading Firefox OS Add-on..."
-                      subnav={<AddonSubnav/>}/>
+          <AddonSubnav/>
+          <PageHeader title="Loading Firefox OS Add-on..."/>
         </section>
       );
     }

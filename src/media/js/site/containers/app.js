@@ -4,8 +4,10 @@ import {connect} from 'react-redux';
 
 import {fxaLoginBegin, login, loginOk, logout} from '../actions/login';
 import {fetch as siteConfigFetch} from '../actions/siteConfig';
+
 import Footer from '../components/footer';
 import Header from '../components/header';
+
 import {initialState as siteConfigInitialState} from '../reducers/siteConfig';
 import {initialState as userInitialState} from '../reducers/user';
 
@@ -49,11 +51,12 @@ export class App extends React.Component {
     return (
       <div className="app">
         <Header authUrl={this.props.siteConfig.authUrl}
-                displayName={this.props.user.settings.display_name}
+                email={this.props.user.settings.email}
+                isLoggedIn={!!this.props.user.token}
                 loginBeginHandler={this.props.fxaLoginBegin}
                 loginHandler={this.loginHandler}
                 logoutHandler={this.props.logout}
-                isLoggedIn={!!this.props.user.token}/>
+                permissions={this.props.user.permissions}/>
         <main>
           {this.props.children}
         </main>
@@ -67,6 +70,7 @@ export class App extends React.Component {
 export default connect(
   state => ({
     siteConfig: state.siteConfig,
+    ui: state.ui,
     user: state.user,
   }),
   dispatch => bindActionCreators({
@@ -74,6 +78,6 @@ export default connect(
     login,
     loginOk,
     logout,
-    siteConfigFetch
+    siteConfigFetch,
   }, dispatch)
 )(App);

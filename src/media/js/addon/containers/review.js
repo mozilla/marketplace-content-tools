@@ -31,8 +31,8 @@ export class AddonReview extends React.Component {
   render() {
     return (
       <section>
-        <PageHeader title="Reviewing Firefox OS Add-ons"
-                    subnav={<AddonSubnav/>}/>
+        <AddonSubnav/>
+        <PageHeader title="Reviewing Firefox OS Add-ons"/>
         <AddonListing addons={this.props.addons}
                       linkTo="addon-review-detail"/>
       </section>
