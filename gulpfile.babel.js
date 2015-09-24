@@ -7,7 +7,6 @@ import concat from 'gulp-concat';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import imgUrlCachebust from 'gulp-css-img-cachebust';
-import minifyCss from 'gulp-minify-css';
 import nib from 'nib';
 import stylus from 'gulp-stylus';
 
@@ -22,7 +21,6 @@ gulp.task('css', () => {
     .pipe(stylus({compress: true, use: [nib()]}))
     .pipe(autoprefixer())
     .pipe(concat('bundle.css'))
-    .pipe(minifyCss())
     .pipe(gulpIf(process.env.NODE_ENV === 'production', imgUrlCachebust()))
     .pipe(gulp.dest(CSS))
     .pipe(browserSync.stream());
