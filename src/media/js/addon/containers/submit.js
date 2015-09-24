@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {submit} from '../actions/submit';
 import AddonSubnav from '../components/addonSubnav';
 import AddonUpload from '../components/upload';
-import PageHeader from '../../site/components/pageHeader';
+import {Page} from '../../site/components/page';
 
 
 export class AddonSubmit extends React.Component {
@@ -36,12 +36,10 @@ export class AddonSubmit extends React.Component {
 
   render() {
     return (
-      <section>
-        <AddonSubnav/>
-        <PageHeader title="Submitting Firefox OS Add-ons"/>
+      <Page title="Submitting Firefox OS Add-ons" subnav={<AddonSubnav/>}>
         <h3>Upload a Firefox OS Add-on</h3>
         <AddonUpload {...this.props}/>
-      </section>
+      </Page>
     );
   }
 }

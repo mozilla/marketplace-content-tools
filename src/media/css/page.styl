@@ -1,12 +1,29 @@
 @import 'lib';
 
+$page--spacing = 35px
 
-.subnav
+
+.page
+  padding $page--spacing
+
+
+.page--header
+  align-items flex-end
+  justify-content space-between
+
+  h1
+    font-size 28px
+    font-weight 400
+    margin 0
+
+
+.page--subnav
   background $color--blue-dark
   display flex
   font-weight 300
   justify-content center
   height 50px
+  margin (-1 * $page--spacing) (-1 * $page--spacing) $page--spacing
 
   ul
     align-items center

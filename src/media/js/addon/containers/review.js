@@ -7,7 +7,7 @@ import {fetch} from '../actions/review';
 import {AddonListing} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
 import {addonListSelector} from '../selectors/addon';
-import PageHeader from '../../site/components/pageHeader';
+import {Page} from '../../site/components/page';
 
 
 export class AddonReview extends React.Component {
@@ -30,12 +30,10 @@ export class AddonReview extends React.Component {
 
   render() {
     return (
-      <section>
-        <AddonSubnav/>
-        <PageHeader title="Reviewing Firefox OS Add-ons"/>
+      <Page title="Reviewing Firefox OS Add-ons" subnav={<AddonSubnav/>}>
         <AddonListing addons={this.props.addons}
                       linkTo="addon-review-detail"/>
-      </section>
+      </Page>
     );
   }
 };
