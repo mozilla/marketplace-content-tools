@@ -12,7 +12,7 @@ import AddonVersionListingContainer from './versionListing';
 import {fetch as fetchAddon} from '../actions/addon';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
-import PageHeader from '../../site/components/pageHeader';
+import {Page} from '../../site/components/page';
 
 
 export class AddonReviewDetail extends React.Component {
@@ -33,24 +33,17 @@ export class AddonReviewDetail extends React.Component {
   render() {
     if (!this.props.addon || !this.props.addon.slug) {
       return (
-        <section>
-          <AddonSubnav/>
-          <PageHeader title="Loading Firefox OS Add-on..."/>
-        </section>
+        <Page title="Loading Firefox OS Add-on..." subnav={<AddonSubnav/>}/>
       );
     }
     return (
-      <section>
-        <AddonSubnav/>
-        <PageHeader
-          title={`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}/>
-
+      <Page title={`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}
+            subnav={<AddonSubnav/>}>
         <Addon {...this.props.addon}/>
-
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer showReviewActions={true}/>}
         </Provider>
-      </section>
+      </Page>
     );
   }
 };

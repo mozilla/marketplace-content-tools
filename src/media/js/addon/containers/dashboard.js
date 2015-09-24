@@ -7,7 +7,7 @@ import {fetch} from '../actions/dashboard';
 import {AddonListing} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
 import {addonListSelector} from '../selectors/addon';
-import PageHeader from '../../site/components/pageHeader';
+import {Page} from '../../site/components/page';
 
 
 export class AddonDashboard extends React.Component {
@@ -31,23 +31,21 @@ export class AddonDashboard extends React.Component {
       'https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons';
 
     return (
-      <section>
-        <AddonSubnav/>
-        <PageHeader title="My Firefox OS Add-ons"/>
+      <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}>
         {this.props.addons.length &&
           <AddonListing addons={this.props.addons}
                         linkTo="addon-dashboard-detail"/>
         || ''}
         {!this.props.addons.length &&
           <div>
-            <h2>You haven't submitted any add-ons yet.</h2>
+            <h2>You have not submitted any add-ons yet.</h2>
             <a href={mdnLink}>Get started now!</a>
             <ReverseLink className="button" to="addon-submit">
               Submit an Add-on
             </ReverseLink>
           </div>
         || ''}
-      </section>
+      </Page>
     );
   }
 };

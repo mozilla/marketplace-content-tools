@@ -7,7 +7,7 @@ import {reverse, ReverseLink} from 'react-router-reverse';
 export class Subnav extends React.Component {
   render() {
     return (
-      <nav className="subnav">
+      <nav className="page--subnav">
         <ul>
           {this.props.children.map(item => <li>{item}</li>)}
         </ul>

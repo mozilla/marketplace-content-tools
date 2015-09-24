@@ -15,7 +15,7 @@ import {submitVersion} from '../actions/submitVersion';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
 import AddonUpload from '../components/upload';
-import PageHeader from '../../site/components/pageHeader';
+import {Page} from '../../site/components/page';
 
 
 export class AddonDashboardDetail extends React.Component {
@@ -41,27 +41,19 @@ export class AddonDashboardDetail extends React.Component {
   render() {
     if (!this.props.addon || !this.props.addon.slug) {
       return (
-        <section>
-          <AddonSubnav/>
-          <PageHeader title="Loading Firefox OS Add-on..."/>
-        </section>
+        <Page title="Loading Firefox OS Add-on..." subnav={<AddonSubnav/>}/>
       );
     }
     return (
-      <section>
-        <PageHeader
-          title={`Viewing Firefox OS Add-on: ${this.props.addon.name}`}
-          subnav={<AddonSubnav/>}/>
-
+      <Page title={`Viewing Firefox OS Add-on: ${this.props.addon.name}`}
+            subnav={<AddonSubnav/>}>
         <Addon {...this.props.addon}/>
-
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer/>}
         </Provider>
-
         <h3>Upload a New Version</h3>
         <AddonUpload {...this.props}/>
-      </section>
+      </Page>
     );
   }
 };
