@@ -106,6 +106,7 @@ export class NoteSubmit extends React.Component {
         {this.state.isVisible &&
           <form>
             <textarea onChange={this.handleTextChange}
+                      placeholder='Send a message...'
                       value={this.state.text}/>
             <button disabled={!this.state.text} onClick={this.submitNote}>
               Submit

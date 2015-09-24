@@ -2,6 +2,7 @@ import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
 
 import {Note, NoteSubmit} from './comm';
+import ReviewActions from './reviewActions';
 import * as constants from '../constants';
 import ConfirmButton from '../../site/components/confirmButton';
 
@@ -29,12 +30,12 @@ export default class AddonVersion extends React.Component {
     this.props.deleteVersion(this.props.slug, this.props.id);
   }
 
-  publish = () => {
-    this.props.publish(this.props.slug, this.props.id);
+  publish = message => {
+    this.props.publish(this.props.slug, this.props.id, message);
   }
 
-  reject = () => {
-    this.props.reject(this.props.slug, this.props.id);
+  reject = message => {
+    this.props.reject(this.props.slug, this.props.id, message);
   }
 
   render() {
@@ -63,21 +64,14 @@ export default class AddonVersion extends React.Component {
 
         {this.props.showReviewActions &&
          this.props.status !== constants.STATUS_OBSOLETE &&
-          <div className="addon-version-review-actions">
-            {this.props.status !== constants.STATUS_REJECTED &&
-              <button onClick={this.reject} disabled={reviewActionsDisabled}>
-                {this.props.isRejecting ? 'Rejecting...' : 'Reject'}
-              </button>
-            }
-            {this.props.status !== constants.STATUS_PUBLIC &&
-              <button onClick={this.publish} disabled={reviewActionsDisabled}>
-                {this.props.isPublishing ? 'Publishing...' : 'Publish'}
-              </button>
-            }
-          </div>
+          <ReviewActions isProcessing={this.props.isPublishing ||
+                                       this.props.isRejecting}
+                         publish={this.publish}
+                         reject={this.reject}
+                         status={this.props.status}/>
         }
 
-        {this.props.notes.length &&
+        {this.props.notes && this.props.notes.length &&
           <div className="addon-version-notes">
             <h3>Notes</h3>
             <ul>

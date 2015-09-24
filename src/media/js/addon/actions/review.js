@@ -55,7 +55,7 @@ export function fetch() {
 }
 
 
-export function publish(addonSlug, versionId) {
+export function publish(addonSlug, versionId, message) {
   /* Publish version of an add-on. */
   return (dispatch, getState) => {
     const apiArgs = getState().apiArgs || {};
@@ -72,6 +72,8 @@ export function publish(addonSlug, versionId) {
     }));
     req
       .post(publishUrl)
+      .send({message: message})
+      .set('Accept', 'application/json')
       .then(res => {
         dispatch(publishOk({
           addonSlug,
@@ -87,7 +89,7 @@ export function publish(addonSlug, versionId) {
 }
 
 
-export function reject(addonSlug, versionId) {
+export function reject(addonSlug, versionId, message) {
   /* Reject version of an add-on. */
   return (dispatch, getState) => {
     const apiArgs = getState().apiArgs || {};
@@ -104,6 +106,8 @@ export function reject(addonSlug, versionId) {
     }));
     req
       .post(rejectUrl)
+      .send({message: message})
+      .set('Accept', 'application/json')
       .then(res => {
         dispatch(rejectOk({
           addonSlug,
