@@ -8,6 +8,9 @@ import urlJoin from 'url-join';
 export const FETCH_OK = 'ADDON_DASHBOARD__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
 
+export const DELETE_OK = 'ADDON_DASHBOARD__DELETE_OK';
+const deleteOk = createAction(DELETE_OK);
+
 
 export function fetch() {
   /*
@@ -32,8 +35,28 @@ export function fetch() {
 
     req
       .get(dashboardUrl)
-      .then((res, err) => {
+      .then(res => {
         dispatch(fetchOk(res.body.objects));
+      });
+  };
+}
+
+
+export function del(addonSlug) {
+  /*
+    Delete an add-on.
+  */
+  return (dispatch, getState) => {
+    const apiArgs = getState().apiArgs || {};
+    const addonUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/', addonSlug,
+              '/')
+    ).q(apiArgs);
+
+    req
+      .del(addonUrl)
+      .then(res => {
+        dispatch(deleteOk(addonSlug));
       });
   };
 }

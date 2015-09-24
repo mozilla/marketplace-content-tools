@@ -3,15 +3,18 @@ import {ReverseLink} from 'react-router-reverse';
 
 import {Note, NoteSubmit} from './comm';
 import * as constants from '../constants';
+import ConfirmButton from '../../site/components/confirmButton';
 
 
 export default class AddonVersion extends React.Component {
   static PropTypes = {
     id: React.PropTypes.number.isRequired,
+    deleteVersion: React.PropTypes.func,
     download_url: React.PropTypes.string.isRequired,
     notes: React.PropTypes.array,
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
+    showDeveloperActions: React.PropTypes.bool,
     showReviewActions: React.PropTypes.bool,
     size: React.PropTypes.number.isRequired,
     slug: React.PropTypes.string.isRequired,
@@ -22,6 +25,10 @@ export default class AddonVersion extends React.Component {
     version: React.PropTypes.string.isRequired,
   };
 
+  deleteVersion = () => {
+    this.props.deleteVersion(this.props.slug, this.props.id);
+  }
+
   publish = () => {
     this.props.publish(this.props.slug, this.props.id);
   }
@@ -31,7 +38,8 @@ export default class AddonVersion extends React.Component {
   }
 
   render() {
-    const disabled = this.props.isPublishing || this.props.isRejecting;
+    const reviewActionsDisabled = this.props.isPublishing ||
+                                  this.props.isRejecting;
 
     return (
       <div className="version">
@@ -55,32 +63,45 @@ export default class AddonVersion extends React.Component {
 
         {this.props.showReviewActions &&
          this.props.status !== constants.STATUS_OBSOLETE &&
-          <div>
+          <div className="addon-version-review-actions">
             {this.props.status !== constants.STATUS_REJECTED &&
-              <button onClick={this.reject} disabled={disabled}>
+              <button onClick={this.reject} disabled={reviewActionsDisabled}>
                 {this.props.isRejecting ? 'Rejecting...' : 'Reject'}
               </button>
             }
             {this.props.status !== constants.STATUS_PUBLIC &&
-              <button onClick={this.publish} disabled={disabled}>
+              <button onClick={this.publish} disabled={reviewActionsDisabled}>
                 {this.props.isPublishing ? 'Publishing...' : 'Publish'}
               </button>
             }
           </div>
         }
 
-        <div class="addon-version-notes">
-          <h3>Notes</h3>
-          <ul>
-            {(this.props.notes || []).map(note =>
-              <Note {...note} author={note.author_meta.name}/>
-            )}
-          </ul>
-          <NoteSubmit showReviewActions={this.props.showReviewActions}
-                      submitNote={this.props.submitNote}
-                      threadId={this.props.threadId}
-                      versionId={this.props.id}/>
-        </div>
+        {this.props.notes.length &&
+          <div className="addon-version-notes">
+            <h3>Notes</h3>
+            <ul>
+              {(this.props.notes || []).map(note =>
+                <Note {...note} author={note.author_meta.name}/>
+              )}
+            </ul>
+            <NoteSubmit showReviewActions={this.props.showReviewActions}
+                        submitNote={this.props.submitNote}
+                        threadId={this.props.threadId}
+                        versionId={this.props.id}/>
+          </div>
+        }
+
+        {this.props.showDeveloperActions &&
+         this.props.status === constants.STATUS_PENDING &&
+          <div className="addon-version-delete">
+            <h3>Delete Version</h3>
+            <ConfirmButton initialText='Delete'
+                           onClick={this.deleteVersion}
+                           processingText='Deleting...'/>
+            <p>This is permanent.</p>
+          </div>
+        }
       </div>
     );
   }

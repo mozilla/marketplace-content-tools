@@ -8,6 +8,7 @@ import * as dashboardActions from '../actions/dashboard';
 import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
 import * as submitVersionActions from '../actions/submitVersion';
+import * as versionActions from '../actions/version';
 import * as constants from '../constants';
 
 
@@ -70,6 +71,17 @@ export default function addonReducer(state=initialState, action) {
           {}, newState.addons[addon.slug] || {}, addon
         );
       });
+      return newState;
+    }
+
+    case dashboardActions.DELETE_OK: {
+      /*
+        Mark add-on as deleted.
+
+        payload (string) -- addonSlug
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].deleted = true;
       return newState;
     }
 
@@ -209,6 +221,21 @@ export default function addonReducer(state=initialState, action) {
       const {addonSlug, version} = action.payload;
 
       newState.addons[addonSlug].versions[version.id] = version;
+      return newState;
+    }
+
+    case versionActions.DELETE_OK: {
+      /*
+        Add new version upload to add-on versions.
+
+        payload (object) --
+          addonSlug (string) - slug of add-on of version deleted.
+          versionId (number) - ID of version deleted.
+      */
+      const newState = _.cloneDeep(state);
+      const {addonSlug, versionId} = action.payload;
+
+      delete newState.addons[addonSlug].versions[versionId]
       return newState;
     }
 

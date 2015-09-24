@@ -15,6 +15,17 @@ const initialState = {
 
 export default function addonDashboardReducer(state=initialState, action) {
   switch (action.type) {
+    case dashboardActions.DELETE_OK: {
+      /*
+        Remove deleted add-on from listing.
+
+        payload (string) -- addonSlug
+      */
+      const newState = _.cloneDeep(state);
+      delete newState.addons[action.payload]
+      return newState;
+    }
+
     case dashboardActions.FETCH_OK: {
       /*
         Set dashboards add-ons.
