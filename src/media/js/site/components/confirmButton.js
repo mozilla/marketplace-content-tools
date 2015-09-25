@@ -5,7 +5,9 @@ export default class ConfirmButton extends React.Component {
   static propTypes = {
     initialText: React.PropTypes.string.isRequired,
     confirmText: React.PropTypes.string,
+    isProcessing: React.PropTypes.bool,
     onClick: React.PropTypes.func.isRequired,
+    onInitialClick: React.PropTypes.func,
     processingText: React.PropTypes.string
   };
 
@@ -13,12 +15,13 @@ export default class ConfirmButton extends React.Component {
     super(props);
 
     this.state = {
-      isClicked: false
+      isClicked: false,
+      isProcessing: false,
     };
   }
 
   getButtonText() {
-    if (this.state.isProcessing) {
+    if (this.props.isProcessing || this.state.isProcessing) {
       return this.props.processingText || 'Processing...';
     } else {
       if (this.state.isClicked) {
@@ -32,15 +35,26 @@ export default class ConfirmButton extends React.Component {
   handleClick = e => {
     if (this.state.isClicked) {
       this.props.onClick();
-      this.setState({isProcessing: true});
+
+      // Reset.
+      this.setState({
+        isClicked: false
+      });
+
+      if (!('isProcessing' in this.props)) {
+        // Defer to props.isProcessing if it was passed in.
+        this.setState({isProcessing: true});
+      }
     } else {
+      this.props.onInitialClick();
       this.setState({isClicked: true});
     }
   }
 
   render() {
     return (
-      <button disabled={this.state.isProcessing} onClick={this.handleClick}>
+      <button disabled={this.props.isProcessing || this.state.isProcessing}
+              onClick={this.handleClick}>
         {this.getButtonText()}
       </button>
     );
