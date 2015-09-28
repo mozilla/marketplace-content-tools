@@ -11,6 +11,15 @@ const fetchOk = createAction(FETCH_OK);
 export const FETCH_VERSIONS_OK = 'ADDON_ADDON__FETCH_VERSIONS_OK';
 const fetchVersionsOk = createAction(FETCH_VERSIONS_OK);
 
+export const INSTALL_BEGIN = 'ADDON_INSTALL__INSTALL_BEGIN';
+const installBegin = createAction(INSTALL_BEGIN);
+
+export const INSTALL_ERROR = 'ADDON_INSTALL__INSTALL_ERROR';
+const installError = createAction(INSTALL_ERROR);
+
+export const INSTALL_OK = 'ADDON_INSTALL__INSTALL_OK';
+const installOk = createAction(INSTALL_OK);
+
 
 export function fetch(addonSlug) {
   /*
@@ -69,5 +78,30 @@ export function fetchVersions(addonSlug) {
           versions: res.body.objects
         }));
       });
+  };
+}
+
+
+export function install(addonSlug, manifestUrl) {
+  /*
+    Install add-on.
+  */
+  return (dispatch, getState) => {
+    const apiArgs = getState().apiArgs || {};
+    manifestUrl = Url(manifestUrl).q(apiArgs);
+
+    const req = window.navigator.mozApps.installPackage(manifestUrl);
+    dispatch(installBegin(addonSlug));
+
+    req.onsuccess = err => {
+      dispatch(installOk(addonSlug));
+    }
+
+    req.onerror = err => {
+      dispatch(installError({
+        addonSlug,
+        errorMessage: err.target.error.name
+      }));
+    }
   };
 }

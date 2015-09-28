@@ -149,12 +149,11 @@ export function createVersion(addonSlug) {
           addonSlug,
           version: res.body
         }));
-
         // Fetch versions.
         dispatch(fetchVersions(addonSlug));
+
         // Fetch threads for new version.
         dispatch(fetchThreads(addonSlug));
-
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
       });

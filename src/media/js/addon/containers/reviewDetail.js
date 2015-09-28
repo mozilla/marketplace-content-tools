@@ -9,8 +9,9 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import AddonVersionListingContainer from './versionListing';
-import {fetch as fetchAddon} from '../actions/addon';
+import {fetch as fetchAddon, install as installAddon} from '../actions/addon';
 import {Addon} from '../components/addon';
+import AddonInstall from '../components/install';
 import AddonSubnav from '../components/addonSubnav';
 import {Page} from '../../site/components/page';
 
@@ -22,6 +23,7 @@ export class AddonReviewDetail extends React.Component {
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
+    installAddon: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string.isRequired,
   };
 
@@ -31,15 +33,26 @@ export class AddonReviewDetail extends React.Component {
   }
 
   render() {
-    if (!this.props.addon || !this.props.addon.slug) {
+    const addon = this.props.addon;
+
+    if (!addon || !addon.slug) {
       return (
         <Page title="Loading Firefox OS Add-on..." subnav={<AddonSubnav/>}/>
       );
     }
     return (
-      <Page title={`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}
+      <Page title={`Reviewing Firefox OS Add-on: ${addon.name}`}
             subnav={<AddonSubnav/>}>
-        <Addon {...this.props.addon} showWaitingTime={true}/>
+        <Addon {...addon} showWaitingTime={true}/>
+
+        <AddonInstall
+          install={this.props.installAddon}
+          installErrorMessage={addon.installErrorMessage}
+          isInstalled={addon.isInstalled}
+          isInstalling={addon.isInstalling}
+          manifestUrl={addon.latest_version.reviewer_mini_manifest_url}
+          slug={addon.slug}/>
+
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer showReviewActions={true}/>}
         </Provider>
@@ -55,6 +68,7 @@ export default connect(
     slug: state.router.params.slug
   }),
   dispatch => bindActionCreators({
-    fetchAddon
+    fetchAddon,
+    installAddon,
   }, dispatch)
 )(AddonReviewDetail);

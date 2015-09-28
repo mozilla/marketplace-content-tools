@@ -58,6 +58,44 @@ export default function addonReducer(state=initialState, action) {
       return newState;
     }
 
+    case addonActions.INSTALL_BEGIN: {
+      /*
+        Add-on installation begin.
+
+        payload (string) -- slug of add-on being installed.
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isInstalling = true;
+      return newState;
+    }
+
+    case addonActions.INSTALL_ERROR: {
+      /*
+        Add-on installation error.
+
+        payload (object) --
+          addonSlug (string) -- slug of add-on that failed to install.
+          errorMessage (string) -- error message from browser.
+      */
+      const newState = _.cloneDeep(state);
+      const {addonSlug, errorMessage} = action.payload;
+      newState.addons[addonSlug].installErrorMessage = errorMessage;
+      newState.addons[addonSlug].isInstalling = false;
+      return newState;
+    }
+
+    case addonActions.INSTALL_OK: {
+      /*
+        Add-on installation success.
+
+        payload (string) -- slug of add-on installed.
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isInstalling = false;
+      newState.addons[action.payload].isInstalled = true;
+      return newState;
+    }
+
     case dashboardActions.FETCH_OK: {
       /*
         Get add-ons from dashboard.
