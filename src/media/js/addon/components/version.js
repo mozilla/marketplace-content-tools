@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
 
@@ -26,6 +27,13 @@ export default class AddonVersion extends React.Component {
     version: React.PropTypes.string.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isCollapsed: false
+    };
+  }
+
   deleteVersion = () => {
     this.props.deleteVersion(this.props.slug, this.props.id);
   }
@@ -38,64 +46,74 @@ export default class AddonVersion extends React.Component {
     this.props.reject(this.props.slug, this.props.id, message);
   }
 
+  toggleCollapse = () => {
+    this.setState({isCollapsed: !this.state.isCollapsed});
+  }
+
   render() {
+    const versionBodyStyle = {
+      display: this.state.isCollapsed ? 'none' : 'block'
+    };
     const reviewActionsDisabled = this.props.isPublishing ||
                                   this.props.isRejecting;
 
     return (
-      <div className="version">
-        <dl>
-          <dt>Version</dt>
-          <dd>{this.props.version}</dd>
+      <div className="version" data-version-status={this.props.status}>
+        <div className="version-header" onClick={this.toggleCollapse}>
+          <h3>
+            Version {this.props.version} &mdash;&nbsp;
+            <span className="version-status">{this.props.status}</span>
+          </h3>
+        </div>
 
-          <dt>Files</dt>
-          <dd>
-            <a href={this.props.unsigned_download_url}>
-              Download v{this.props.version} .zip
-            </a>
-          </dd>
+        <div className="version-body" style={versionBodyStyle}>
+          <dl>
+            <dt>Files</dt>
+            <dd>
+              <a href={this.props.unsigned_download_url}>
+                Download v{this.props.version} .zip
+              </a>
+            </dd>
 
-          <dt>Size</dt>
-          <dd>{this.props.size}KB</dd>
+            <dt>Size</dt>
+            <dd>{this.props.size}KB</dd>
+          </dl>
 
-          <dt>Status</dt>
-          <dd>{this.props.status}</dd>
-        </dl>
+          {this.props.showReviewActions &&
+           this.props.status !== constants.STATUS_OBSOLETE &&
+            <ReviewActions isProcessing={this.props.isPublishing ||
+                                         this.props.isRejecting}
+                           publish={this.publish}
+                           reject={this.reject}
+                           status={this.props.status}/>
+          }
 
-        {this.props.showReviewActions &&
-         this.props.status !== constants.STATUS_OBSOLETE &&
-          <ReviewActions isProcessing={this.props.isPublishing ||
-                                       this.props.isRejecting}
-                         publish={this.publish}
-                         reject={this.reject}
-                         status={this.props.status}/>
-        }
+          {this.props.notes && this.props.notes.length &&
+            <div className="addon-version-notes">
+              <h3>Notes</h3>
+              <ul>
+                {(this.props.notes || []).map(note =>
+                  <Note {...note} author={note.author_meta.name}/>
+                )}
+              </ul>
+              <NoteSubmit showReviewActions={this.props.showReviewActions}
+                          submitNote={this.props.submitNote}
+                          threadId={this.props.threadId}
+                          versionId={this.props.id}/>
+            </div>
+          }
 
-        {this.props.notes && this.props.notes.length &&
-          <div className="addon-version-notes">
-            <h3>Notes</h3>
-            <ul>
-              {(this.props.notes || []).map(note =>
-                <Note {...note} author={note.author_meta.name}/>
-              )}
-            </ul>
-            <NoteSubmit showReviewActions={this.props.showReviewActions}
-                        submitNote={this.props.submitNote}
-                        threadId={this.props.threadId}
-                        versionId={this.props.id}/>
-          </div>
-        }
-
-        {this.props.showDeveloperActions &&
-         this.props.status === constants.STATUS_PENDING &&
-          <div className="addon-version-delete">
-            <h3>Delete Version</h3>
-            <ConfirmButton initialText='Delete'
-                           onClick={this.deleteVersion}
-                           processingText='Deleting...'/>
-            <p>This is permanent.</p>
-          </div>
-        }
+          {this.props.showDeveloperActions &&
+           this.props.status === constants.STATUS_PENDING &&
+            <div className="addon-version-delete">
+              <h3>Delete Version</h3>
+              <ConfirmButton initialText='Delete'
+                             onClick={this.deleteVersion}
+                             processingText='Deleting...'/>
+              <p>This is permanent.</p>
+            </div>
+          }
+        </div>
       </div>
     );
   }

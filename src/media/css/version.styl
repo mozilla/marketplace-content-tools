@@ -5,4 +5,36 @@
   border 1px solid $color--grey
   border-radius 2px
   margin 10px 0
+
+
+.version-header
+  background $color--grey-dark
+  color $color--white
+  padding 10px
+  transition background .1s
+  width 100%
+
+  &:hover
+    background $color--grey
+    cursor pointer
+  h3
+    margin 0
+
+
+[data-version-status="public"] .version-header
+  background $color--success
+  &:hover
+    background $color--success-hover
+
+[data-version-status="rejected"] .version-header
+  background $color--assertive
+  &:hover
+    background $color--assertive-hover
+
+
+.version-status
+  text-transform capitalize
+
+
+.version-body
   padding 10px

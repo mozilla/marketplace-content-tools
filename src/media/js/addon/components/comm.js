@@ -21,26 +21,18 @@ export class Note extends React.Component {
     const noteType = NOTE_TYPES[this.props.note_type];
 
     return (
-      <li className="note">
-        <dl>
-          <dt>Type</dt>
-          <dd style={{color: noteType.color}}>
-            {noteType.msg}
-          </dd>
-
-          <dt>Author</dt>
-          <dd>{this.props.author}</dd>
-
-          <dt>Created</dt>
-          <dd>{this.props.created}</dd>
-
-          {this.props.body &&
-            <di>
-              <dt>Body</dt>
-              <dd>{this.props.body}</dd>
-            </di>
-          }
-        </dl>
+      <li className="comm-note">
+        <div className="comm-note-metadata">
+          <span className="comm-note-type" style={{color: noteType.color}}>
+            {noteType.msg}</span>
+          <span>{this.props.author}</span>
+          <span>{this.props.created}</span>
+        </div>
+        {this.props.body &&
+          <div className="comm-note-body">
+            <p>{this.props.body}</p>
+          </div>
+        }
       </li>
     );
   }
@@ -98,7 +90,7 @@ export class NoteSubmit extends React.Component {
 
   render() {
     return (
-      <div className="note-submit">
+      <div className="comm-note-submit">
         <button onClick={this.toggle}>
           {this.state.isVisible ? 'Cancel Reply' : 'Reply'}
         </button>
