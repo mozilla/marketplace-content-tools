@@ -11,6 +11,7 @@ export default class Header extends React.Component {
   };
 
   render() {
+    const showNav = this.props.isLoggedIn && this.props.hasSignedTOS;
     return (
       <header className="header">
         <h1>
@@ -19,10 +20,10 @@ export default class Header extends React.Component {
             Content Tools
           </ReverseLink>
         </h1>
-        {this.props.isLoggedIn && <nav className="header--nav">
+        {showNav && <nav className="header--nav">
           <ul>
             <li><ReverseLink to="addon">Firefox OS Add-ons</ReverseLink></li>
-            <li><a href="#" title="This won't be a stub for long, Kevin.">Developer Agreement</a></li>
+            <li><ReverseLink to="dev-agreement">Developer Agreement</ReverseLink></li>
           </ul>
         </nav>}
         <HeaderUserNav {...this.props}/>

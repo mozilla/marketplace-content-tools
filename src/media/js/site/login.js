@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import * as tosActions from './actions/tos';
-import TOSSignatureHandler from './containers/tos';
+import TOSSignatureContainer from './containers/tos';
 
 
 export class DefaultUnauthorizedHandler extends React.Component {
@@ -40,9 +40,9 @@ export function loginRequired(Component, LoginHandler, group,
         } else if (!hasPermission) {
           return <UnauthorizedHandler/>;
 
-        // Redirect to TOSSignatureHandler if the user hasn't signed the TOS.
+        // Redirect to TOSSignatureContainer if the user hasn't signed the TOS.
         } else if (!hasSignedTOS) {
-          return <TOSSignatureHandler/>;
+          return <TOSSignatureContainer/>;
         }
 
       // Redirect to LoginHandler if not logged in.

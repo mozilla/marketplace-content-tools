@@ -1,12 +1,16 @@
+/*
+  Container that roadblocks any actions until the user has signed the TOS.
+*/
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import urlJoin from 'url-join';
 
 import {signTOS} from '../actions/tos';
+import {Page} from '../components/page';
+import TOSIframe from '../components/tos';
 
 
-export default class TOSSignatureHandler extends React.Component {
+export default class TOSSignatureContainer extends React.Component {
   static contextTypes = {
     store: React.PropTypes.object
   };
@@ -17,26 +21,26 @@ export default class TOSSignatureHandler extends React.Component {
   };
 
   render() {
-    const tosUrl = urlJoin(process.env.MKT_ROOT, 'developers/terms/standalone');
     return (
-      <section class="form form--tos">
-        <h1>Marketplace Developer Program</h1>
+      <Page title="Marketplace Developer Program" className="tos--sign-agreement">
         <p>
-          First, you will need to join the Marketplace Developer Program. To
-          begin, please read and accept our Developer Agreement:
+          To submit or review Firefox OS Add-ons, you first need to read and
+          accept our Developer Agreement:
         </p>
-        <iframe src={tosUrl} width="500" height="300"></iframe>
-        <nav>
-          <ul>
-            <li><a href="/developers/docs/policies/agreement">Printable Version</a></li>
-            <li><a href="https://developer.mozilla.org/docs/Apps/Marketplace_Review">Additional Marketplace Policies</a></li>
-          </ul>
-        </nav>
-        <button disabled={this.props.user.tos.signing}
-                onClick={this.props.signTOS}>
-          {this.props.user.tos.signing ? 'Agreeing...' : 'Agree'}
-        </button>
-      </section>
+        <TOSIframe/>
+        <div className="sign">
+          <nav>
+            <ul>
+              <li><a href="/developers/docs/policies/agreement" target="_blank">Printable Version</a></li>
+              <li><a href="https://developer.mozilla.org/docs/Apps/Marketplace_Review" target="_blank">Additional Marketplace Policies</a></li>
+            </ul>
+          </nav>
+          <button disabled={this.props.user.tos.signing}
+                  onClick={this.props.signTOS}>
+            {this.props.user.tos.signing ? 'Agreeing...' : 'Agree'}
+          </button>
+        </div>
+      </Page>
     );
   }
 };
@@ -49,4 +53,4 @@ export default connect(
   dispatch => bindActionCreators({
     signTOS
   }, dispatch)
-)(TOSSignatureHandler);
+)(TOSSignatureContainer);

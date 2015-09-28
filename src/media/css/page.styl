@@ -1,10 +1,16 @@
 @import 'lib';
 
+$page--max-width = 1024px
 $page--spacing = 35px
 
 
 .page
   padding $page--spacing
+
+
+.page--main
+  margin 0 auto
+  max-width $page--max-width
 
 
 .page--header
@@ -13,8 +19,9 @@ $page--spacing = 35px
 
   h1
     font-size 28px
-    font-weight 400
-    margin 0
+    font-weight 300
+    margin 0 auto 15px
+    max-width $page--max-width
 
 
 .page--subnav

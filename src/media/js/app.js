@@ -20,6 +20,7 @@ import AddonReview from './addon/containers/review';
 import AddonReviewDetail from './addon/containers/reviewDetail';
 import AddonSubmit from './addon/containers/submit';
 import App from './site/containers/app';
+import DeveloperAgreement from './site/containers/devAgreement';
 import Landing from './site/containers/landing';
 import Login from './site/containers/login'
 import LoginOAuthRedirect from './site/containers/loginOAuthRedirect';
@@ -103,6 +104,8 @@ function renderRoutes() {
 
           <Route path="/content">
             <Route name="login" path="/login" component={Login}/>
+            <Route name="dev-agreement" path="/dev-agreement"
+                   component={DeveloperAgreement}/>
 
             <Route name="addon" path="/addon">
               <Route name="addon-dashboard" path="/dashboard/"

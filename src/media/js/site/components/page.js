@@ -6,15 +6,18 @@ import {reverse, ReverseLink} from 'react-router-reverse';
 
 export class Page extends React.Component {
   static propTypes = {
+    className: React.PropTypes.string,
     title: React.PropTypes.string.isRequired,
     subnav: React.PropTypes.element,
   };
 
   render() {
     return (
-      <section className="page">
+      <section className={classnames(this.props.className, 'page')}>
         <PageHeader {...this.props}/>
-        {this.props.children}
+        <main className="page--main">
+          {this.props.children}
+        </main>
       </section>
     );
   }
