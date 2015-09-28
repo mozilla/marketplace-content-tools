@@ -39,6 +39,9 @@ const submitOk = createAction(SUBMIT_OK);
 export const SUBMIT_ERROR = 'ADDON_SUBMIT_VERSION__SUBMIT_ERROR';
 const submitError = createAction(SUBMIT_ERROR);
 
+export const MESSAGE_CHANGE = 'ADDON_SUBMIT_VERSION__MESSAGE_CHANGE';
+export const messageChange = createAction(MESSAGE_CHANGE);
+
 
 export function submitVersion(fileData, addonSlug) {
   /*
@@ -134,7 +137,10 @@ export function createVersion(addonSlug) {
 
     req
       .post(createVersionUrl)
-      .send({validation_id: getState().addonSubmitVersion.validationId})
+      .send({
+        message: getState().addonSubmitVersion.message,
+        validation_id: getState().addonSubmitVersion.validationId
+      })
       .then(res => {
         dispatch(submitOk({
           addonSlug,

@@ -10,7 +10,7 @@ import ProgressBar from './progressBar';
 
 export default class AddonUpload extends React.Component {
   /*
-    slug -- only used in new version submissions.
+    slug (string) -- only used in new version submissions.
   */
   static contextTypes = {
     router: React.PropTypes.object
@@ -18,6 +18,7 @@ export default class AddonUpload extends React.Component {
 
   static propTypes = {
     isSubmitting: React.PropTypes.bool,
+    messageChange: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string,
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
@@ -38,7 +39,9 @@ export default class AddonUpload extends React.Component {
     this.state = {
       fileData: null,
       fileSize: null,
-      fileName: null
+      fileName: null,
+      isShowingMessageBox: false,
+      message: null,
     };
   }
 
@@ -47,8 +50,13 @@ export default class AddonUpload extends React.Component {
     this.setState({
       fileData: result.target.result,
       fileSize: result.loaded,
-      fileName: file.name
+      fileName: file.name,
+      isShowingMessageBox: true
     });
+  }
+
+  handleMessageChange = e => {
+    this.props.messageChange(e.target.value);
   }
 
   handleSubmit = e => {
@@ -88,6 +96,13 @@ export default class AddonUpload extends React.Component {
           <button type="submit" disabled={this.props.isSubmitting}>
             {this.props.isSubmitting ? 'Processing...' : 'Submit'}
           </button>
+
+          {this.state.isShowingMessageBox &&
+            <textarea
+              onChange={this.handleMessageChange}
+              placeholder="Attach submission notes for reviewers..."
+              rows="10" value={this.state.message}/>
+          }
         </form>
 
         {this.props.uploadLoaded &&

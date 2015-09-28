@@ -12,6 +12,7 @@ import * as submitVersionActions from '../actions/submitVersion';
 
 const initialState = {
   isSubmitting: false,
+  message: '',
   uploadLoaded: null,
   uploadTotal: null,
   validationErrorMessage: '',
@@ -22,11 +23,22 @@ const initialState = {
 function createAddonSubmitReducer(actions) {
   return function(state=initialState, action) {
     switch (action.type) {
+      case actions.MESSAGE_CHANGE: {
+        /*
+          Reviewer note message change.
+
+          payload (string) -- message.
+        */
+        return Object.assign({}, state, {
+          message: action.payload
+        });
+      }
+
       case actions.VALIDATION_BEGIN: {
         /*
           Validation and submission process begin.
         */
-        return Object.assign({}, initialState, {
+        return Object.assign({}, state, {
           isSubmitting: true
         });
       }

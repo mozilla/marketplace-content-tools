@@ -36,6 +36,9 @@ const submitOk = createAction(SUBMIT_OK);
 export const SUBMIT_ERROR = 'ADDON_SUBMIT__SUBMIT_ERROR';
 const submitError = createAction(SUBMIT_ERROR);
 
+export const MESSAGE_CHANGE = 'ADDON_SUBMIT__MESSAGE_CHANGE';
+export const messageChange = createAction(MESSAGE_CHANGE);
+
 
 export function submit(fileData) {
   /*
@@ -127,7 +130,10 @@ export function create() {
 
     req
       .post(createUrl)
-      .send({validation_id: getState().addonSubmit.validationId})
+      .send({
+        message: getState().addonSubmit.message,
+        validation_id: getState().addonSubmit.validationId
+      })
       .then(res => {
         dispatch(submitOk(res.body));
       }, err => {

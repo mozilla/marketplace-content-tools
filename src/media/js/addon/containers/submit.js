@@ -3,7 +3,7 @@ import {reverse} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {submit} from '../actions/submit';
+import {messageChange, submit} from '../actions/submit';
 import AddonSubnav from '../components/addonSubnav';
 import AddonUpload from '../components/upload';
 import {Page} from '../../site/components/page';
@@ -16,6 +16,7 @@ export class AddonSubmit extends React.Component {
 
   static propTypes = {
     isSubmitting: React.PropTypes.bool,
+    messageChange: React.PropTypes.func.isRequired,
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
     uploadTotal: React.PropTypes.number,
@@ -48,6 +49,7 @@ export class AddonSubmit extends React.Component {
 export default connect(
   state => ({...state.addonSubmit}),
   dispatch => bindActionCreators({
-    submit
+    messageChange,
+    submit,
   }, dispatch)
 )(AddonSubmit);
