@@ -48,10 +48,13 @@ export class App extends React.Component {
   }
 
   render() {
+    const hasSignedTOS = (this.props.user.tos &&
+                          this.props.user.tos.has_signed);
     return (
       <div className="app">
         <Header authUrl={this.props.siteConfig.authUrl}
                 email={this.props.user.settings.email}
+                hasSignedTOS={hasSignedTOS}
                 isLoggedIn={!!this.props.user.token}
                 loginBeginHandler={this.props.fxaLoginBegin}
                 loginHandler={this.loginHandler}
