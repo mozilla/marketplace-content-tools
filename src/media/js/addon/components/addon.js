@@ -1,5 +1,8 @@
+import moment from 'moment';
 import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
+
+import * as constants from '../constants';
 
 
 export class AddonListing extends React.Component {
@@ -29,9 +32,23 @@ export class Addon extends React.Component {
     latest_version: React.PropTypes.object.isRequired,
     linkTo: React.PropTypes.string,
     mini_manifest_url: React.PropTypes.string.isRequired,
+    showWaitingTime: React.PropTypes.bool,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
   };
+
+  renderWaitingTime() {
+    if (this.props.latest_version.status == constants.STATUS_PENDING) {
+      return (
+        <di>
+          <dt>Time in Queue</dt>
+          <dd>
+            {moment().diff(this.props.latest_version.created, 'days')} Days
+          </dd>
+        </di>
+      );
+    }
+  }
 
   renderName() {
     // If `linkTo`, have the header link to a more detailed page.
@@ -56,6 +73,8 @@ export class Addon extends React.Component {
             <dt>Slug</dt>
             <dd>{this.props.slug}</dd>
           </di>
+
+          {this.props.showWaitingTime && this.renderWaitingTime()}
 
           <di>
             <dt>Manifest</dt>

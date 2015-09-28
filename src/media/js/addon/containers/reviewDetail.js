@@ -39,7 +39,7 @@ export class AddonReviewDetail extends React.Component {
     return (
       <Page title={`Reviewing Firefox OS Add-on: ${this.props.addon.name}`}
             subnav={<AddonSubnav/>}>
-        <Addon {...this.props.addon}/>
+        <Addon {...this.props.addon} showWaitingTime={true}/>
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer showReviewActions={true}/>}
         </Provider>

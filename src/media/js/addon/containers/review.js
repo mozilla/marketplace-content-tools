@@ -32,6 +32,7 @@ export class AddonReview extends React.Component {
     return (
       <Page title="Reviewing Firefox OS Add-ons" subnav={<AddonSubnav/>}>
         <AddonListing addons={this.props.addons}
+                      showWaitingTime={true}
                       linkTo="addon-review-detail"/>
       </Page>
     );

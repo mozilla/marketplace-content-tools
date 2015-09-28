@@ -1,6 +1,7 @@
 /*
   Note-related components for communication.
 */
+import moment from 'moment';
 import React from 'react';
 
 import {NOTE_TYPES,
@@ -26,7 +27,9 @@ export class Note extends React.Component {
           <span className="comm-note-type" style={{color: noteType.color}}>
             {noteType.msg}</span>
           <span>{this.props.author}</span>
-          <span>{this.props.created}</span>
+          <span>
+            {moment(this.props.created).format('MMM Do YYYY, h:mm a')}
+          </span>
         </div>
         {this.props.body &&
           <div className="comm-note-body">

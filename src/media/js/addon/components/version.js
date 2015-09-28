@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import moment from 'moment';
 import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
 
@@ -11,6 +12,7 @@ import ConfirmButton from '../../site/components/confirmButton';
 export default class AddonVersion extends React.Component {
   static PropTypes = {
     id: React.PropTypes.number.isRequired,
+    created: React.PropTypes.string,
     deleteVersion: React.PropTypes.func,
     download_url: React.PropTypes.string.isRequired,
     notes: React.PropTypes.array,
@@ -68,6 +70,9 @@ export default class AddonVersion extends React.Component {
 
         <div className="version-body" style={versionBodyStyle}>
           <dl>
+            <dt>Created</dt>
+            <dd>{moment(this.props.created).format('MMM Do YYYY, h:mm a')}</dd>
+
             <dt>Files</dt>
             <dd>
               <a href={this.props.unsigned_download_url}>
