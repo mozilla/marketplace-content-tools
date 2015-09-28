@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import AddonVersionListingContainer from './versionListing';
 import {fetch as fetchAddon} from '../actions/addon';
 import {del as deleteAddon} from '../actions/dashboard';
-import {submitVersion} from '../actions/submitVersion';
+import {messageChange, submitVersion} from '../actions/submitVersion';
 import {Addon} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
 import AddonUpload from '../components/upload';
@@ -26,6 +26,7 @@ export class AddonDashboardDetail extends React.Component {
     fetchAddon: React.PropTypes.func.isRequired,
     deleteAddon: React.PropTypes.func.isRequired,
     isSubmitting: React.PropTypes.bool,
+    messageChange: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string.isRequired,
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
@@ -103,6 +104,7 @@ export default connect(
   dispatch => bindActionCreators({
     fetchAddon,
     deleteAddon,
+    messageChange,
     submit: submitVersion
   }, dispatch)
 )(AddonDashboardDetail);
