@@ -94,8 +94,7 @@ function renderRoutes() {
           <Route name="login-oauth-redirect" path="/fxa-authorize"
                  component={LoginOAuthRedirect}/>
 
-          <Route name="root" path="/content/"
-                 component={loginRequired(Landing, Login, LOGIN)}/>
+          <Route name="root" path="/content/" component={Landing}/>
 
           {/* This appears to be the only way to have a parent item in the IA
               that defaults to viewing one of the children without having to
