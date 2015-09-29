@@ -24,6 +24,7 @@ export class Landing extends React.Component {
   }
 
   render() {
+    const isLoggedOut = !this.props.user || !this.props.user.token;
     return (
       <Page className="landing">
         <div className="landing--header">
@@ -43,7 +44,7 @@ export class Landing extends React.Component {
               Submit a Firefox OS Add-On &rsaquo;
             </ReverseLink>
           </section>
-          {!this.props.user.token &&
+          {isLoggedOut &&
             <section className="landing--register">
               <p>Don't have an account?</p>
               <LoginButton authUrl={this.props.siteConfig.authUrl}
