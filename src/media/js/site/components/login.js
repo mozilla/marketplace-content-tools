@@ -77,7 +77,7 @@ export class LoginButton extends React.Component {
     });
     return (
       <button className={btnClasses} onClick={this.startLogin}>
-        {this.props.content || this.props.isSignup ? 'Register' : 'Login'}
+        {this.props.content || (this.props.isSignup ? 'Register' : 'Login')}
       </button>
     );
   }
