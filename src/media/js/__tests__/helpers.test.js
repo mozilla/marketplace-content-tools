@@ -112,4 +112,5 @@ global.StubRouterProvider = getStubProvider();
 
 
 global.addonFactory = require('./factory.test').addonFactory;
+global.versionFactory = require('./factory.test').versionFactory;
 global.versionsFactory = require('./factory.test').versionsFactory;

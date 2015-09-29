@@ -46,7 +46,9 @@ export default class ConfirmButton extends React.Component {
         this.setState({isProcessing: true});
       }
     } else {
-      this.props.onInitialClick();
+      if (this.props.onInitialClick) {
+        this.props.onInitialClick();
+      }
       this.setState({isClicked: true});
     }
   }

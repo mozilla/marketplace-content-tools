@@ -15,6 +15,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import {fetchThreads} from './comm';
+
 
 export const VALIDATION_BEGIN = 'ADDON_SUBMIT_VERSION__VALIDATION_BEGIN';
 const validationBegin = createAction(VALIDATION_BEGIN);
@@ -146,6 +148,8 @@ export function createVersion(addonSlug) {
           addonSlug,
           version: res.body
         }));
+        // Fetch threads for new version.
+        dispatch(fetchThreads(addonSlug));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
       });

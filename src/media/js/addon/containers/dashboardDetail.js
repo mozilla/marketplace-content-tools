@@ -80,7 +80,7 @@ export class AddonDashboardDetail extends React.Component {
               <AddonUpload {...this.props}/>
             </div>
 
-            <div>
+            <div className="addon-delete">
               <h3>Delete this Firefox OS Add-on</h3>
               <ConfirmButton initialText='Delete'
                              onClick={this.handleDelete}
