@@ -102,11 +102,12 @@ export class Addon extends React.Component {
             </di>
           }
 
-          <di>
-            <dt>Latest Submitted Version</dt>
-            <dd>{this.props.latest_version.version}</dd>
-          </di>
-
+          {this.props.latest_version &&
+            <di>
+              <dt>Latest Submitted Version</dt>
+              <dd>{this.props.latest_version.version}</dd>
+            </di>
+          }
         </dl>
 
         {this.props.description &&
