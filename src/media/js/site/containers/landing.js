@@ -24,8 +24,7 @@ export class Landing extends React.Component {
   }
 
   render() {
-    const isLoggedOut = !this.props.user || (this.props.user &&
-                                             !this.props.user.token);
+    const isLoggedOut = !this.props.user || !this.props.user.token;
     return (
       <Page className="landing">
         <div className="landing--header">

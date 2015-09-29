@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 
 import {fxaLoginBegin, login} from '../actions/login';
 import {LoginButton} from '../components/login';
+import {Page} from '../components/page';
 
 
 export class Login extends React.Component {
@@ -21,16 +22,18 @@ export class Login extends React.Component {
                      this.props.siteConfig.clientId);
   }
   render() {
-    return <section>
-      <h2>You must be logged in to access these tools.</h2>
-      <LoginButton isSignup={true}
-                   authUrl={this.props.siteConfig.authUrl}
-                   loginBeginHandler={this.props.fxaLoginBegin}
-                   loginHandler={this.loginHandler}/>
-      <LoginButton authUrl={this.props.siteConfig.authUrl}
-                   loginBeginHandler={this.props.fxaLoginBegin}
-                   loginHandler={this.loginHandler}/>
-    </section>
+    return (
+      <Page className="login-form">
+        <p>First, would you mind logging in?</p>
+        <LoginButton isSignup={true}
+                     authUrl={this.props.siteConfig.authUrl}
+                     loginBeginHandler={this.props.fxaLoginBegin}
+                     loginHandler={this.loginHandler}/>
+        <LoginButton authUrl={this.props.siteConfig.authUrl}
+                     loginBeginHandler={this.props.fxaLoginBegin}
+                     loginHandler={this.loginHandler}/>
+      </Page>
+    );
   }
 }
 
