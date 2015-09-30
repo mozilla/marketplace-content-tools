@@ -38,7 +38,8 @@ export class Addon extends React.Component {
   };
 
   renderWaitingTime() {
-    if (this.props.latest_version.status == constants.STATUS_PENDING) {
+    if (this.props.latest_version &&
+        this.props.latest_version.status == constants.STATUS_PENDING) {
       return (
         <di>
           <dt>Time in Queue</dt>
