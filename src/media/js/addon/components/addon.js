@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import {ReverseLink} from 'react-router-reverse';
+import urlJoin from 'url-join';
 
 import * as constants from '../constants';
 
@@ -28,6 +29,7 @@ export class AddonListing extends React.Component {
 export class Addon extends React.Component {
   static propTypes = {
     description: React.PropTypes.string,
+    isDisabled: React.PropTypes.bool.isRequired,
     latest_public_version: React.PropTypes.object,
     latest_version: React.PropTypes.object.isRequired,
     linkTo: React.PropTypes.string,
@@ -35,7 +37,15 @@ export class Addon extends React.Component {
     showWaitingTime: React.PropTypes.bool,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
+    status: React.PropTypes.string,
   };
+
+  getMarketplaceUrl() {
+    // FIXME: this is bad, mmkay?
+    if (this.props.status === constants.STATUS_PUBLIC) {
+      return urlJoin(process.env.MKT_ROOT, 'addon/', this.props.slug);
+    }
+  }
 
   renderWaitingTime() {
     if (this.props.latest_version &&
@@ -64,6 +74,7 @@ export class Addon extends React.Component {
   }
 
   render() {
+    const marketplaceURL = this.getMarketplaceUrl();
     return (
       <div className="addon">
         <div>
@@ -109,15 +120,110 @@ export class Addon extends React.Component {
               <dd>{this.props.latest_version.version}</dd>
             </di>
           }
-        </dl>
 
-        {this.props.description &&
-          <di>
-            <dt>Description</dt>
-            <dd>{this.props.description}</dd>
-          </di>
-        }
+          {this.props.description &&
+            <di>
+              <dt>Description</dt>
+              <dd>{this.props.description}</dd>
+            </di>
+          }
+
+          {this.props.status &&
+            <di>
+              <dt>Status</dt>
+              <dd>
+                {constants.humanizeAddonStatus(this.props.status,
+                                               this.props.disabled)}
+              </dd>
+            </di>
+          }
+
+          {this.props.latest_version &&
+            <di>
+              <dt>Last version uploaded</dt>
+              <dd>{this.props.latest_version.created}</dd>
+            </di>
+          }
+
+          {marketplaceURL &&
+            <di>
+              <dt>View on Marketplace</dt>
+              <dd>
+                <a href={marketplaceURL}>{marketplaceURL}</a>
+              </dd>
+            </di>
+          }
+        </dl>
       </div>
+    );
+  }
+}
+
+
+export class AddonListingForDashboard extends AddonListing {
+  render() {
+    return (
+      <ul className="addon-listing--dashboard">
+        {this.props.addons.map(addon =>
+          <AddonForDashboard {...this.props} {...addon}/>
+        )}
+      </ul>
+    );
+  }
+}
+
+
+export class AddonForDashboard extends Addon {
+  renderLastUpdated() {
+    if (this.props.latest_version) {
+      return (
+        <di>
+          <dt>Updated</dt>
+          <dd>
+            {moment(this.props.latest_version.created).format('MMMM Do, YYYY')}
+          </dd>
+        </di>
+      );
+    }
+  }
+
+  render() {
+    const marketplaceURL = this.getMarketplaceUrl();
+    return (
+      <li className="addon--dashboard">
+        <h2>
+          <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
+            {this.props.name}
+          </ReverseLink>
+        </h2>
+        <dl className="addon--dashboard--meta">
+          <di className={`addon--status-${this.props.status}`}>
+            <dt>Status</dt>
+            <dd>
+              {constants.humanizeAddonStatus(this.props.status,
+                                             this.props.disabled)}
+            </dd>
+          </di>
+          {this.renderLastUpdated()}
+        </dl>
+        <nav className="addon--dashboard--links">
+          <ul>
+            <li>
+              <ReverseLink to={this.props.linkTo}
+                           params={{slug: this.props.slug}}>
+                Edit this Add-on &raquo;
+              </ReverseLink>
+            </li>
+            {marketplaceURL &&
+              <li>
+                <a href={marketplaceURL} target="_blank">
+                  View on Marketplace &raquo;
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </li>
     );
   }
 }

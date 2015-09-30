@@ -13,7 +13,10 @@ describe('AddonDashboard', () => {
       <StubRouterProvider Component={AddonDashboard}
                           {...props}/>
     );
-    assert.equal(ReactDOMHelper.queryClassAll(component, 'addon-listing')
-                               .length, 1);
+    assert.equal(
+      ReactDOMHelper.queryClassAll(component,
+                                   'addon-listing--dashboard').length,
+      1
+    );
   });
 });
