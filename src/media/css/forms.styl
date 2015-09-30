@@ -1,5 +1,8 @@
 @import 'lib';
 
+$field--label-width = 125px;
+$field--label-margin = 15px;
+
 
 .form-block
   display flex
@@ -37,25 +40,62 @@
 .form-msg--success p
   margin-top 0
 
-.form-msg--error
-  color $color--assertive
-
 .Select .Select-option.is-focused
   background $color--primary
   color $color--white
 
 .form-inline--file-input
   background $color--primary
-  border 2px dotted $color--grey;
   border-radius 5px
   color $color--white
   cursor pointer
   margin-right 10px
-  padding 10px
+  padding 10px 15px
   transition background .2s
-  width 300px
 
   &:hover
     background $color--primary-hover
-  &[data-file-input--has-data="true"]
-    border-style solid
+
+
+.field
+  align-items flex-start
+  display flex
+  flex-wrap wrap
+  margin-bottom 20px
+
+  label
+    display inline-block
+    font-size 14px
+    margin-right 15px
+    padding 11px 0
+    text-align right
+    width $field--label-width
+
+  textarea
+    font-family $font--primary
+    font-size 14px
+    height 200px
+    width 450px
+
+  &:last-child
+    margin-bottom 0
+
+
+.field--buttons
+  padding-left $field--label-width + $field--label-margin
+
+
+.form-msg
+  font-size 13px
+  margin 5px 0 0
+  padding-left $field--label-width + $field--label-margin
+  width 100%
+
+
+.form-msg--help
+  color $color--help-text
+
+
+.form-msg--error
+.field--error label
+  color $color--error

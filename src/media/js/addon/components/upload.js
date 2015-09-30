@@ -2,6 +2,7 @@
   Dumb component for add-on uploads to share between add-on submission and
   add-on version submission.
 */
+import classnames from 'classnames';
 import React from 'react';
 import FileReaderInput from 'react-file-reader-input';
 
@@ -40,7 +41,6 @@ export default class AddonUpload extends React.Component {
       fileData: null,
       fileSize: null,
       fileName: null,
-      isShowingMessageBox: false,
       message: null,
     };
   }
@@ -51,7 +51,6 @@ export default class AddonUpload extends React.Component {
       fileData: result.target.result,
       fileSize: result.loaded,
       fileName: file.name,
-      isShowingMessageBox: true
     });
   }
 
@@ -77,49 +76,64 @@ export default class AddonUpload extends React.Component {
     }
     const fileSize = toFixedDown(this.state.fileSize / divisor, 2);
 
+    const showProgressBar = (this.props.uploadLoaded &&
+                             this.props.uploadLoaded < this.props.uploadTotal);
+
     return (
-      <div>
+      <div className="addon-upload">
         <form className="form-inline" onSubmit={this.handleSubmit}>
-          <label htmlFor="submission-addon--zip">Add-on ZIP File:</label>
 
-          <FileReaderInput as="buffer" accept=".zip"
-                           id="submission-addon--zip"
-                           onChange={this.handleChange}>
-            <div className="form-inline--file-input"
-                 data-file-input--has-data={!!this.state.fileName}>
-              {this.state.fileName ?
-               `${this.state.fileName} (${fileSize}${unit})` :
-               'Select a File...'}
-            </div>
-         </FileReaderInput>
-
-          <button type="submit" disabled={this.props.isSubmitting}>
-            {this.props.isSubmitting ? 'Processing...' : 'Submit'}
-          </button>
-
-          {this.state.isShowingMessageBox &&
-            <textarea
-              onChange={this.handleMessageChange}
-              placeholder="Attach submission notes for reviewers..."
-              rows="10" value={this.state.message}/>
-          }
-        </form>
-
-        {this.props.uploadLoaded &&
-         this.props.uploadLoaded < this.props.uploadTotal &&
-          <div>
-            <h3>Uploading your Firefox OS Add-on</h3>
-            <ProgressBar loadedSize={this.props.uploadLoaded / divisor}
-                         totalSize={this.props.uploadTotal / divisor}
-                         unit={unit}/>
+          <div className={classnames({
+            'field': true,
+            'field--error': !!this.props.validationErrorMessage
+          })}>
+            <label htmlFor="submission-addon--zip">Add-on:</label>
+            <FileReaderInput as="buffer" accept=".zip"
+                             id="submission-addon--zip"
+                             onChange={this.handleChange}>
+              <div className="form-inline--file-input"
+                   data-file-input--has-data={!!this.state.fileName}>
+                {this.state.fileName ?
+                 `${this.state.fileName} (${fileSize}${unit})` :
+                 'Select file...'}
+              </div>
+            </FileReaderInput>
+            <p className="form-msg form-msg--help">
+              Must be packaged as a .zip file. Learn more about <a
+              href="https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons#The_anatomy_of_a_Firefox_OS_add-on">
+                packaging Firefox OS add-ons
+              </a>.
+            </p>
+            {this.props.validationErrorMessage &&
+              <p className="form-msg form-msg--error">
+                {this.props.validationErrorMessage}
+              </p>
+            }
           </div>
-        }
 
-        {this.props.validationErrorMessage &&
-          <p className="form-msg--error">
-            {this.props.validationErrorMessage}
-          </p>
-        }
+          <div className="field">
+            <label htmlFor="note">Reviewer note:</label>
+            <textarea onChange={this.handleMessageChange} id="note">
+              {this.state.message}
+            </textarea>
+            <p className="form-msg form-msg--help">
+              Include any information that might be helpful for add-on
+              reviewers while they look at your add-on.
+            </p>
+          </div>
+
+          <div className="field field--buttons">
+            <button type="submit"
+                    disabled={!this.state.fileName || this.props.isSubmitting}>
+              {this.props.isSubmitting ? 'Uploading...' : 'Submit'}
+            </button>
+            {showProgressBar &&
+                <ProgressBar loadedSize={this.props.uploadLoaded / divisor}
+                             totalSize={this.props.uploadTotal / divisor}
+                             unit={unit}/>
+            }
+          </div>
+        </form>
       </div>
     );
   }

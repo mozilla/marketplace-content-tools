@@ -39,8 +39,7 @@ export default class ProgressBar extends React.Component {
         </div>
 
         <span className="progress-bar-text">
-          {loadedSize}{this.props.unit} /
-          {totalSize}{this.props.unit}
+          {loadedSize} {this.props.unit} / {totalSize} {this.props.unit}
         </span>
       </div>
     );
