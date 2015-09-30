@@ -1,0 +1,79 @@
+@import '../lib'
+
+
+.addon-dashboard .page--main
+.addon-dashboard h1
+  max-width 800px
+
+.addon-listing--dashboard
+  margin 0
+
+
+.addon--dashboard
+  align-items flex-start
+  border-bottom 1px solid $color--border
+  display flex
+  flex-wrap wrap
+  justify-content space-between
+  margin 0
+  padding $layout--list-padding 0
+
+  &:first-child
+    padding-top 0
+
+  &:last-child
+    border none
+    padding-bottom 0
+
+  h2
+    font-size 24px
+    font-weight 300
+    margin 0 0 5px
+    width 100%
+
+  di
+  li
+    font-size 13px
+    font-weight 300
+    margin-top 3px
+
+
+.addon--dashboard--meta
+  width 70%
+
+  di
+    display flex
+
+  dt
+    font-weight 500
+    &:after
+      content ':\a0'
+
+  dd
+    margin 0
+
+  .addon--status-obsolete dd
+    color $color--status-netural
+
+  .addon--status-incomplete dd
+  .addon--status-rejected dd
+    color $color--status-problem
+
+  .addon--status-pending dd
+    color $color--status-waiting
+
+  .addon--status-public dd
+    color $color--status-public
+
+
+.addon--dashboard--links
+  text-align right
+  width 25%
+
+
+.addon-dashboard--notice
+  border-bottom 1px solid $color--border
+  font-size 13px
+  margin 0 0 $layout--list-padding
+  padding 0 0 $layout--list-padding
+  text-align right
