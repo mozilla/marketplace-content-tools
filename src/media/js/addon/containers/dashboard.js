@@ -26,27 +26,35 @@ export class AddonDashboard extends React.Component {
     this.props.fetch();
   }
 
-  render() {
+  renderEmpty() {
     const mdnLink =
       'https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons';
-
     return (
-      <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}>
-        {this.props.addons.length &&
-          <AddonListing addons={this.props.addons}
-                        linkTo="addon-dashboard-detail"/>
-        || ''}
-        {!this.props.addons.length &&
-          <div>
-            <h2>You have not submitted any add-ons yet.</h2>
-            <a href={mdnLink}>Get started now!</a>
-            <ReverseLink className="button" to="addon-submit">
-              Submit an Add-on
-            </ReverseLink>
-          </div>
-        || ''}
+      <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}
+            className="addon-dashboard addon-dashboard--empty">
+          <p>You have not submitted any add-ons yet.</p>
+          <a href={mdnLink} className="button" target="_blank">
+            Get started now!
+          </a>
+          <ReverseLink className="button" to="addon-submit">
+            Submit an Add-on
+          </ReverseLink>
       </Page>
     );
+  }
+
+  renderFull() {
+    return (
+      <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}
+            className="addon-dashboard">
+        <AddonListing addons={this.props.addons}
+                      linkTo="addon-dashboard-detail"/>
+      </Page>
+    );
+  }
+
+  render() {
+    return this.props.addons.length ? this.renderFull() : this.renderEmpty();
   }
 };
 
