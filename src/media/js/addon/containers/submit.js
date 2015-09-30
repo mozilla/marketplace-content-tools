@@ -37,8 +37,8 @@ export class AddonSubmit extends React.Component {
 
   render() {
     return (
-      <Page title="Submitting Firefox OS Add-ons" subnav={<AddonSubnav/>}>
-        <h3>Upload a Firefox OS Add-on</h3>
+      <Page title="Submit a Firefox OS Add-on" subnav={<AddonSubnav/>}
+            className="addon-submit">
         <AddonUpload {...this.props}/>
       </Page>
     );
