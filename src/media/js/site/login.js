@@ -2,16 +2,24 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import * as tosActions from './actions/tos';
+import {Page, PageSection} from './components/page';
 import TOSSignatureContainer from './containers/tos';
 
 
 export class DefaultUnauthorizedHandler extends React.Component {
   render() {
     return (
-      <section>
-        <img src="http://i.imgur.com/X9Vgo96.gif"
-             alt="Permission denied."/>
-      </section>
+      <Page className="no-permissions" title="Missing Permissions">
+        <PageSection>
+          <p>
+            For now, Firefox OS add-on submission is restricted to beta testers.
+          </p>
+          <p>
+            Were you recently granted access? Try logging out and then logging
+            back in.
+          </p>
+        </PageSection>
+      </Page>
     );
   }
 };
