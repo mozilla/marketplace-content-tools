@@ -7,6 +7,9 @@
   max-width $layout--page-medium
 
 
+.addon-dashboard-detail h1
+  margin-bottom $layout--island-padding
+
 .addon-dashboard-detail--versions .page-section--main
   padding 0
 
@@ -52,3 +55,43 @@
 
     &:last-child
       border 0
+
+
+.addon-dashboard-detail--status
+  .addon-dashboard-detail--addon-status
+    color $color--grey-dark
+    font-size 14px
+    font-weight 300
+
+    p
+      margin 0
+
+    p:first-child
+      color $color--black
+      font-size 16px
+      font-weight 400
+
+  ul
+    border-top 1px solid $color--border
+    font-size 14px
+    margin 15px 0 0
+    padding 15px 0 0
+
+  li
+    margin-top 5px
+
+    &:first-child
+      margin 0
+
+  .addon--status-obsolete
+    color $color--status-netural
+
+  .addon--status-incomplete
+  .addon--status-rejected
+    color $color--status-problem
+
+  .addon--status-pending
+    color $color--status-waiting
+
+  .addon--status-public
+    color $color--status-public

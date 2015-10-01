@@ -233,12 +233,70 @@ export class AddonForDashboard extends Addon {
 
 
 export class AddonForDashboardDetail extends Addon {
+  renderAddonStatus() {
+    return (
+      <div className="addon-dashboard-detail--addon-status">
+        {this.props.status === constants.STATUS_PUBLIC &&
+          <p>
+            Your add-on
+            is <span className="version--status-public">published</span>.
+          </p>
+        }
+        {this.props.status === constants.STATUS_PENDING &&
+          <div>
+            <p>
+              Your add-on is currently <span className="version--status-pending">
+              pending approval</span>.
+            </p>
+            <p>
+              You will receive an email when it has been reviewed.
+            </p>
+          </div>
+        }
+        {this.props.status === constants.STATUS_INCOMPLETE &&
+          <div>
+            <p>
+              Your add-on has been <span className="version--status-incomplete">
+              rejected</span>.
+            </p>
+            <p>
+              You will receive an email with further instructions.
+            </p>
+          </div>
+        }
+      </div>
+    );
+  }
+
+  renderVersionStatuses() {
+    return (
+      <ul>
+        {this.props.latest_version.status === constants.STATUS_PENDING &&
+          <li>
+            Version {this.props.latest_version.version} of your add-on
+            is <span className="version--status-pending">pending approval</span>.
+          </li>
+        }
+        {this.props.latest_version.status === constants.STATUS_REJECTED &&
+          <li>
+            Version {this.props.latest_version.version} of your add-on
+            has been <span className="version--status-rejected">rejected</span>.
+          </li>
+        }        <li>
+          Version {this.props.latest_public_version.version} of your add-on
+          is <span className="version--status-public">public</span>.
+        </li>
+      </ul>
+    );
+  }
+
   render() {
     return (
-      <PageSection>
-        <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
-          {this.props.name}
-        </ReverseLink>
+      <PageSection className="addon-dashboard-detail--status">
+        {this.renderAddonStatus()}
+        {this.props.status === constants.STATUS_PUBLIC &&
+          this.renderVersionStatuses()
+        }
       </PageSection>
     );
   }
