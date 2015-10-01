@@ -1,0 +1,54 @@
+@import '../lib'
+
+
+.addon-dashboard-detail .page--main
+.addon-dashboard-detail h1
+.addon-dashboard-detail .page--breadcrumb
+  max-width $layout--page-medium
+
+
+.addon-dashboard-detail--versions .page-section--main
+  padding 0
+
+  .version
+    padding 0 $layout--island-padding
+
+  > ul > li
+    &:first-child .version
+      padding-top ($layout--island-padding / 3)
+
+    &:last-child .version
+      padding-bottom ($layout--island-padding / 3)
+
+
+.addon-dashboard-detail--actions
+  p
+    font-weight 300
+    font-size 15px
+    margin 0
+
+  ul
+    margin 0
+
+  li
+    align-items center
+    display flex
+    margin-top 15px
+
+    p
+      font-size 13px
+      font-weight 400
+
+    button
+      margin-right 15px
+
+
+.addon-dashboard-detail--versions
+  ul
+    margin 0
+
+  li
+    border-bottom 1px solid $color--border
+
+    &:last-child
+      border 0

@@ -32,11 +32,12 @@ export default class AddonVersion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false
+      isCollapsed: true
     };
   }
 
-  deleteVersion = () => {
+  deleteVersion = evt => {
+    evt && evt.stopPropagation();
     this.props.deleteVersion(this.props.slug, this.props.id);
   }
 
@@ -53,37 +54,38 @@ export default class AddonVersion extends React.Component {
   }
 
   render() {
-    const versionBodyStyle = {
-      display: this.state.isCollapsed ? 'none' : 'block'
-    };
+    const versionClasses = classnames(
+      'version',
+      {'version--collapsed': this.state.isCollapsed}
+    );
+    const statusClasses = classnames('version--header--status',
+                                     `version--status-${this.props.status}`);
+
     const reviewActionsDisabled = this.props.isPublishing ||
                                   this.props.isRejecting;
 
     return (
-      <div className="version" data-version-status={this.props.status}>
-        <div className="version-header" onClick={this.toggleCollapse}>
-          <h3>
-            Version {this.props.version} &mdash;&nbsp;
-            <span className="version-status">{this.props.status}</span>
-          </h3>
+      <div className={versionClasses} data-version-status={this.props.status}>
+        <div className="version--header" onClick={this.toggleCollapse}>
+          <h3>Version {this.props.version}</h3>
+          <span className={statusClasses}>
+            {constants.humanizeVersionStatus(this.props.status)}
+          </span>
+          <span className="version--header--date">
+            {moment(this.props.created).format('MMM Do YYYY')}
+          </span>
+          <span className="version--header--buttons">
+            <a className="button" href={this.props.unsigned_download_url}>
+              Download
+            </a>
+            <ConfirmButton className="button--delete"
+                           initialText='Delete'
+                           onClick={this.deleteVersion}
+                           processingText='Deleting...'/>
+          </span>
         </div>
 
-        <div className="version-body" style={versionBodyStyle}>
-          <dl>
-            <dt>Created</dt>
-            <dd>{moment(this.props.created).format('MMM Do YYYY, h:mm a')}</dd>
-
-            <dt>Files</dt>
-            <dd>
-              <a href={this.props.unsigned_download_url}>
-                Download v{this.props.version} .zip
-              </a>
-            </dd>
-
-            <dt>Size</dt>
-            <dd>{this.props.size}KB</dd>
-          </dl>
-
+        <div className="version--body">
           {this.props.showReviewActions &&
            this.props.status !== constants.STATUS_OBSOLETE &&
             <ReviewActions isProcessing={this.props.isPublishing ||
@@ -94,8 +96,7 @@ export default class AddonVersion extends React.Component {
           }
 
           {this.props.notes && this.props.notes.length &&
-            <div className="addon-version-notes">
-              <h3>Notes</h3>
+            <div className="version--notes">
               <ul>
                 {(this.props.notes || []).map(note =>
                   <Note {...note} author={note.author_meta.name}/>
@@ -105,17 +106,6 @@ export default class AddonVersion extends React.Component {
                           submitNote={this.props.submitNote}
                           threadId={this.props.threadId}
                           versionId={this.props.id}/>
-            </div>
-          }
-
-          {this.props.showDeveloperActions &&
-           this.props.status === constants.STATUS_PENDING &&
-            <div className="addon-version-delete">
-              <h3>Delete Version</h3>
-              <ConfirmButton initialText='Delete'
-                             onClick={this.deleteVersion}
-                             processingText='Deleting...'/>
-              <p>This is permanent.</p>
             </div>
           }
         </div>

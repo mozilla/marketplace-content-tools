@@ -5,6 +5,8 @@ import urlJoin from 'url-join';
 
 import * as constants from '../constants';
 
+import {PageSection} from '../../site/components/page';
+
 
 export class AddonListing extends React.Component {
   static propTypes = {
@@ -224,6 +226,20 @@ export class AddonForDashboard extends Addon {
           </ul>
         </nav>
       </li>
+    );
+  }
+}
+
+
+
+export class AddonForDashboardDetail extends Addon {
+  render() {
+    return (
+      <PageSection>
+        <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
+          {this.props.name}
+        </ReverseLink>
+      </PageSection>
     );
   }
 }

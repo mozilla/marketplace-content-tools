@@ -27,7 +27,10 @@ describe('AddonDashboardDetail', () => {
     const component = ReactDOMHelper.render(
       <StubProvider Component={AddonDashboardDetail} {...props}/>
     );
-    assert.equal(ReactDOMHelper.queryClassAll(component, 'addon').length, 1);
+    assert.equal(
+      ReactDOMHelper.queryClassAll(component, 'addon-dashboard-detail').length,
+      1
+    );
   });
 
   it('can handle delete', done => {
@@ -53,7 +56,8 @@ describe('AddonDashboardDetail', () => {
                     deleteAddon={deleteAddon}
       />
     );
-    const deleteDiv = ReactDOMHelper.queryClass(component, 'addon-delete');
+    const deleteDiv = ReactDOMHelper.queryClass(component,
+                                                'addon-dashboard-detail--actions');
     const deleteBtn = ReactDOMHelper.queryTag(deleteDiv, 'button');
 
     ReactDOMHelper.click(deleteBtn.getDOMNode());

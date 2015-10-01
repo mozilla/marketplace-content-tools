@@ -2,6 +2,7 @@
   Version listing as a smart component since it involves binding a lot of
   actions.
 */
+import classnames from 'classnames';
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -13,10 +14,12 @@ import {fetchThreads, submitNote} from '../actions/comm';
 
 import AddonVersion from '../components/version';
 import {versionListSelector} from '../selectors/version';
+import {PageSection} from '../../site/components/page';
 
 
 export class AddonVersionListing extends React.Component {
   static propTypes = {
+    className: React.PropTypes.string,
     deleteVersion: React.PropTypes.func,
     fetchThreads: React.PropTypes.func.isRequired,
     fetchVersions: React.PropTypes.func.isRequired,
@@ -45,11 +48,9 @@ export class AddonVersionListing extends React.Component {
 
   render() {
     return (
-      <section className="version-listing">
-        <h2>Versions</h2>
-
+      <PageSection className={this.props.className} title="Versions">
         <ul>{this.props.versions.map(this.renderVersion)}</ul>
-      </section>
+      </PageSection>
     );
   }
 }

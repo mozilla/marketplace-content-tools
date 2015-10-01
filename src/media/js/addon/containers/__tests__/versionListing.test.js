@@ -59,8 +59,8 @@ describe('AddonVersionListing', () => {
                     showDeveloperActions={true}/>
     );
     const deleteDiv = ReactDOMHelper.queryClass(component,
-                                                'addon-version-delete');
-    const deleteBtn = ReactDOMHelper.queryTag(deleteDiv, 'button');
+                                                'version--header--buttons');
+    const deleteBtn = ReactDOMHelper.queryClass(deleteDiv, 'button--delete');
 
     ReactDOMHelper.click(deleteBtn.getDOMNode());
     ReactDOMHelper.click(deleteBtn.getDOMNode());
