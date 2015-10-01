@@ -1,0 +1,73 @@
+@import '../lib';
+
+$version--col-width = 19%
+
+
+.version
+  background background alpha($color--grey-light, 0.3)
+
+.version--collapsed
+  background transparent
+
+  &:hover
+    background alpha($color--grey-light, 0.3)
+    transition background-color 0.05s linear
+
+  .version--body
+    display none
+
+
+
+.version--header
+  align-items center
+  cursor pointer
+  display flex
+  justify-content space-between
+  padding 5px 0
+
+  h3
+  span
+    font-size 14px
+
+  h3
+    color $color--link
+    font-weight 400
+    margin 0
+    text-decoration underline
+    width $version--col-width
+
+
+.version--header--date
+.version--header--status
+  width $version--col-width
+
+
+.version--header--buttons
+  text-align right
+  width 100 - (3 * $version--col-width)
+
+  button
+  .button
+    margin-left 10px
+
+    &:first-child
+      margin-left 0
+
+
+.version--notes
+  border-top 1px solid $color--border
+  margin-left $version--col-width
+
+
+.version--status-obsolete
+  color $color--status-netural
+
+.version--status-incomplete
+.version--status-rejected
+  color $color--status-problem
+
+.version--status-pending
+  color $color--status-waiting
+
+.version--status-public
+  color $color--status-public

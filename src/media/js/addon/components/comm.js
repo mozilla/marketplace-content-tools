@@ -20,14 +20,14 @@ export class Note extends React.Component {
 
   render() {
     const noteType = NOTE_TYPES[this.props.note_type];
-
     return (
       <li className="comm-note">
-        <div className="comm-note-metadata">
-          <span className="comm-note-type" style={{color: noteType.color}}>
-            {noteType.msg}</span>
-          <span>{this.props.author}</span>
-          <span>
+        <div className="comm-note--metadata">
+          <span className={`comm-note-type ${noteType.className}`}>
+            {noteType.msg}
+          </span>
+          <span> by {this.props.author}</span>
+          <span className="comm-note--date">
             {moment(this.props.created).format('MMM Do YYYY, h:mm a')}
           </span>
         </div>
@@ -69,10 +69,6 @@ export class NoteSubmit extends React.Component {
     this.setState({text: e.target.value});
   }
 
-  toggle = () => {
-    this.setState({isVisible: !this.state.isVisible});
-  }
-
   submitNote = e => {
     e.preventDefault();
 
@@ -93,33 +89,27 @@ export class NoteSubmit extends React.Component {
 
   render() {
     return (
-      <div className="comm-note-submit">
-        <button onClick={this.toggle}>
-          {this.state.isVisible ? 'Cancel Reply' : 'Reply'}
-        </button>
+      <div className="comm-note--submit">
+        <form>
+          <textarea onChange={this.handleTextChange}
+                    placeholder='Send a message...'
+                    value={this.state.text}/>
+          <button disabled={!this.state.text} onClick={this.submitNote}>
+            Submit
+          </button>
 
-        {this.state.isVisible &&
-          <form>
-            <textarea onChange={this.handleTextChange}
-                      placeholder='Send a message...'
-                      value={this.state.text}/>
-            <button disabled={!this.state.text} onClick={this.submitNote}>
-              Submit
-            </button>
-
-            {this.props.showReviewActions &&
-              <div>
-                <label htmlFor="internalReviewerNoteType">
-                  Message internal reviewers only
-                </label>
-                <input id="internalReviewerNoteType"
-                       onChange={this.handleInternalReviewerNoteTypeChange}
-                       type="checkbox"
-                       value={this.state.isInternalReviewerNoteType}/>
-              </div>
-            }
-          </form>
-        }
+          {this.props.showReviewActions &&
+            <div>
+              <label htmlFor="internalReviewerNoteType">
+                Message internal reviewers only
+              </label>
+              <input id="internalReviewerNoteType"
+                     onChange={this.handleInternalReviewerNoteTypeChange}
+                     type="checkbox"
+                     value={this.state.isInternalReviewerNoteType}/>
+            </div>
+          }
+        </form>
       </div>
     );
   }

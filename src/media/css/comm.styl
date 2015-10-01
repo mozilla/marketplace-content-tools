@@ -5,19 +5,50 @@
   display flex
   flex-direction column
 
+
 .comm-note
-  background $color--white
-  border 1px solid $color--grey
-  border-radius 2px
-  margin 10px 0
-  padding 10px
+  padding 15px 0
 
-.comm-note-metadata
-  display flex
 
-  span
-    display inline-block
-    padding-right 10px
+.comm-note-body
+  font-size 14px
+  margin-top 10px
 
-.comm-note-type
-  font-weight 500
+  > :first-child
+    margin-top 0
+
+  > :last-child
+    margin-bottom 0
+
+
+.comm-note--metadata
+  font-size 13px
+  font-weight 400
+
+
+.comm-note--date
+  color $color--grey-dark
+  display block
+  font-size 12px
+  font-weight 300
+
+
+.comm-note--submit
+  border 1px solid $color--border
+  border-width 1px 0 0
+  padding 15px 0
+
+  textarea
+    display block
+    margin-bottom 10px
+    width 75%
+
+
+.comm-note--neutral
+  color $color--grey-dark
+.comm-note--okay
+  color $color--green
+.comm-note--problem
+  color $color--red
+.comm-note--waiting
+  color $color--yellow

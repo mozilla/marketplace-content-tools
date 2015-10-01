@@ -3,6 +3,7 @@ import React from 'react';
 
 export default class ConfirmButton extends React.Component {
   static propTypes = {
+    className: React.PropTypes.string,
     initialText: React.PropTypes.string.isRequired,
     confirmText: React.PropTypes.string,
     isProcessing: React.PropTypes.bool,
@@ -55,7 +56,8 @@ export default class ConfirmButton extends React.Component {
 
   render() {
     return (
-      <button disabled={this.props.isProcessing || this.state.isProcessing}
+      <button className={this.props.className}
+              disabled={this.props.isProcessing || this.state.isProcessing}
               onClick={this.handleClick}>
         {this.getButtonText()}
       </button>

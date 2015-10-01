@@ -1,6 +1,5 @@
 @import 'lib';
 
-$page--max-width = 1024px
 $page--spacing = 35px
 
 
@@ -10,7 +9,7 @@ $page--spacing = 35px
 
 .page--main
   margin 0 auto
-  max-width $page--max-width
+  max-width $layout--page-large
 
 
 .page--header
@@ -21,7 +20,7 @@ $page--spacing = 35px
     font-size 28px
     font-weight 300
     margin 0 auto 15px
-    max-width $page--max-width
+    max-width $layout--page-large
 
 
 .page--subnav
@@ -57,3 +56,27 @@ $page--spacing = 35px
     &.active
       background $color--white
       color $color--blue-dark
+
+
+.page-section
+  margin-bottom $page--spacing
+
+  &:last-child
+    margin-bottom 0
+
+
+.page-section--header
+  h3
+    font-size 20px
+    margin 0 0 10px
+
+
+.page-section--main
+  background $color--white
+  border-radius 5px
+  padding $layout--island-padding
+
+.page--breadcrumb
+  font-size 13px
+  margin 0 auto 5px
+  max-width $layout--page-large

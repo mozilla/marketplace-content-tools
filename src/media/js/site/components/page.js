@@ -6,9 +6,11 @@ import {reverse, ReverseLink} from 'react-router-reverse';
 
 export class Page extends React.Component {
   static propTypes = {
+    breadcrumbText: React.PropTypes.string,
+    breadcrumbTo: React.PropTypes.string,
     className: React.PropTypes.string,
-    title: React.PropTypes.string,
     subnav: React.PropTypes.element,
+    title: React.PropTypes.string,
   };
 
   render() {
@@ -27,16 +29,62 @@ export class Page extends React.Component {
 
 export class PageHeader extends React.Component {
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
+    breadcrumbText: React.PropTypes.string,
+    breadcrumbTo: React.PropTypes.string,
     subnav: React.PropTypes.element,
+    title: React.PropTypes.string.isRequired,
+  };
+
+  render() {
+    const showBreadcrumb = (this.props.breadcrumbText &&
+                            this.props.breadcrumbTo);
+    return (
+      <header className="page--header">
+        {this.props.subnav}
+        {showBreadcrumb &&
+          <div className="page--breadcrumb">
+            <ReverseLink to={this.props.breadcrumbTo}>
+              &laquo; {this.props.breadcrumbText}
+            </ReverseLink>
+          </div>
+        }
+        <h1>{this.props.title}</h1>
+      </header>
+    );
+  }
+}
+
+
+export class PageSection extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string,
+    title: React.PropTypes.string,
   };
 
   render() {
     return (
-      <header className="page--header">
-        {this.props.subnav}
-        <h1>{this.props.title}</h1>
-      </header>
+      <section className={classnames(this.props.className, 'page-section')}>
+        {this.props.title && <PageSectionHeader {...this.props}/>}
+        <div className="page-section--main">
+          {this.props.children}
+        </div>
+      </section>
+    );
+  }
+}
+
+
+export class PageSectionHeader extends React.Component {
+  static propTypes = {
+    title: React.PropTypes.string.isRequired,
+  };
+
+  render() {
+    return (
+      <div className="page-section--header">
+        <h3>{this.props.title}</h3>
+      </div>
     );
   }
 }

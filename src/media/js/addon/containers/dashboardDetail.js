@@ -10,11 +10,11 @@ import AddonVersionListingContainer from './versionListing';
 import {fetch as fetchAddon} from '../actions/addon';
 import {del as deleteAddon} from '../actions/dashboard';
 import {messageChange, submitVersion} from '../actions/submitVersion';
-import {Addon} from '../components/addon';
+import {Addon, AddonForDashboardDetail} from '../components/addon';
 import AddonSubnav from '../components/addonSubnav';
 import AddonUpload from '../components/upload';
 import ConfirmButton from '../../site/components/confirmButton';
-import {Page} from '../../site/components/page';
+import {Page, PageSection} from '../../site/components/page';
 
 
 export class AddonDashboardDetail extends React.Component {
@@ -45,12 +45,12 @@ export class AddonDashboardDetail extends React.Component {
 
   renderDeleted() {
     return (
-      <div>
-        <h2>This Firefox OS add-on has been deleted.</h2>
-        <ReverseLink to="addon-dashboard">
-          Return to My Firefox OS Add-ons
-        </ReverseLink>
-      </div>
+      <PageSection>
+        <p>
+          This add-on has been deleted. <ReverseLink to="addon-dashboard">
+          Return to My Add-ons</ReverseLink>
+        </p>
+      </PageSection>
     );
   }
 
@@ -61,32 +61,44 @@ export class AddonDashboardDetail extends React.Component {
       );
     }
     return (
-      <Page title={`Viewing Firefox OS Add-on: ${this.props.addon.name}`}
-            subnav={<AddonSubnav/>}>
+      <Page className="addon-dashboard-detail"
+            breadcrumbText="My Add-ons"
+            breadcrumbTo="addon-dashboard"
+            subnav={<AddonSubnav/>}
+            title={this.props.addon.name}>
 
         {this.props.addon.deleted && this.renderDeleted()}
 
         {!this.props.addon.deleted &&
           <div>
-            <Addon {...this.props.addon}/>
+            <AddonForDashboardDetail {...this.props.addon}/>
 
             <Provider store={this.context.store}>
               {() => <AddonVersionListingContainer
+                       className="addon-dashboard-detail--versions"
                        showDeveloperActions={true}/>}
             </Provider>
 
-            <div>
-              <h3>Upload a New Version</h3>
+            <PageSection title="Upload a New Version">
               <AddonUpload {...this.props}/>
-            </div>
+            </PageSection>
 
-            <div className="addon-delete">
-              <h3>Delete this Firefox OS Add-on</h3>
-              <ConfirmButton initialText='Delete'
-                             onClick={this.handleDelete}
-                             processingText='Deleting...'/>
-              <p>This is permanent.</p>
-            </div>
+            <PageSection title="Available Actions"
+                         className="addon-dashboard-detail--actions">
+              <p>You can perform the following actions on this add-on:</p>
+              <ul>
+                <li>
+                  <ConfirmButton className="button--delete"
+                                 initialText="Delete add-on"
+                                 onClick={this.handleDelete}
+                                 processingText="Deleting add-on&hellip;"/>
+                  <p>
+                    Deleting your add-on will permanently delete it from
+                    Marketplace. There is no going back.
+                  </p>
+                </li>
+              </ul>
+            </PageSection>
           </div>
         }
       </Page>
