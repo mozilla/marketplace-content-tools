@@ -99,7 +99,9 @@ export default class AddonUpload extends React.Component {
               </div>
             </FileReaderInput>
             <p className="form-msg form-msg--help">
-              Must be packaged as a .zip file. Learn more about <a
+              Must be packaged as a .zip file. All metadata&mdash;such as
+              add-on name and description are configured via the add-on&apos;s
+              manifest file. Learn more about <a
               href="https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons#The_anatomy_of_a_Firefox_OS_add-on">
                 packaging Firefox OS add-ons
               </a>.
