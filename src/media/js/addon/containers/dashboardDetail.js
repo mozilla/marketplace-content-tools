@@ -71,7 +71,10 @@ export class AddonDashboardDetail extends React.Component {
 
         {!this.props.addon.deleted &&
           <div>
-            <AddonForDashboardDetail {...this.props.addon}/>
+            <AddonForDashboardDetail
+              className="addon-dashboard-detail--versions"
+              showDeveloperActions={true}
+              {...this.props.addon}/>
 
             <Provider store={this.context.store}>
               {() => <AddonVersionListingContainer
