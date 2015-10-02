@@ -99,13 +99,6 @@ export class Addon extends React.Component {
             </dd>
           </di>
 
-          {this.props.description &&
-            <di>
-              <dt>Description</dt>
-              <dd>{this.props.description}</dd>
-            </di>
-          }
-
           {this.props.latest_public_version &&
             <di>
               <dt>Latest Public Version</dt>
