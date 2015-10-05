@@ -232,7 +232,8 @@ export class AddonForDashboardDetail extends Addon {
         {this.props.status === constants.STATUS_PUBLIC &&
           <p>
             Your add-on
-            is <span className="version--status-public">published</span>.
+            is <span className="version--status-public">published</span> and is
+            currently available on Marketplace.
           </p>
         }
         {this.props.status === constants.STATUS_PENDING &&
@@ -242,18 +243,32 @@ export class AddonForDashboardDetail extends Addon {
               pending approval</span>.
             </p>
             <p>
-              You will receive an email when it has been reviewed.
+              It is not currently available in Marketplace. You will receive an
+              email when it has been reviewed.
             </p>
           </div>
         }
         {this.props.status === constants.STATUS_INCOMPLETE &&
           <div>
             <p>
+              Your add-on is currently
+              <span className="version--status-incomplete"> incomplete</span>.
+            </p>
+            <p>
+              This means that there are no public versions. It is not currently
+              available in Marketplace. Please submit a new version for review.
+            </p>
+          </div>
+        }
+        {this.props.status === constants.STATUS_REJECTED &&
+          <div>
+            <p>
               Your add-on has been <span className="version--status-incomplete">
               rejected</span>.
             </p>
             <p>
-              You will receive an email with further instructions.
+              It is not currently available in Marketplace. You have been sent
+              an email with further instructions.
             </p>
           </div>
         }
