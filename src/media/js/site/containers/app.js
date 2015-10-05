@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 
 import {fxaLoginBegin, login, loginOk, logout} from '../actions/login';
 import {fetch as siteConfigFetch} from '../actions/siteConfig';
-
 import Footer from '../components/footer';
+import Notification from '../components/notification';
 import Header from '../components/header';
-
 import {initialState as siteConfigInitialState} from '../reducers/siteConfig';
 import {initialState as userInitialState} from '../reducers/user';
 
@@ -19,6 +18,7 @@ export class App extends React.Component {
     login: React.PropTypes.func.isRequired,
     loginOk: React.PropTypes.func.isRequired,
     logout: React.PropTypes.func.isRequired,
+    notification: React.PropTypes.any,
     siteConfig: React.PropTypes.object.isRequired,
     siteConfigFetch: React.PropTypes.func.isRequired,
     user: React.PropTypes.object.isRequired,
@@ -64,6 +64,8 @@ export class App extends React.Component {
           {this.props.children}
         </main>
         <Footer/>
+
+        <Notification notification={this.props.notification}/>
       </div>
     );
   }
@@ -72,8 +74,8 @@ export class App extends React.Component {
 
 export default connect(
   state => ({
+    notification: state.notification.notification,
     siteConfig: state.siteConfig,
-    ui: state.ui,
     user: state.user,
   }),
   dispatch => bindActionCreators({

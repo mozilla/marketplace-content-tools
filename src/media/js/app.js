@@ -35,6 +35,7 @@ import {addonSubmitReducer as
         addonSubmitVersion} from './addon/reducers/submit';
 import apiArgs from './site/reducers/apiArgs';
 import login from './site/reducers/login';
+import notification from './site/reducers/notification';
 import siteConfig from './site/reducers/siteConfig';
 import user from './site/reducers/user';
 
@@ -49,6 +50,7 @@ const reducer = combineReducers({
   addonThread,
   apiArgs,
   login,
+  notification,
   router,
   siteConfig,
   user,

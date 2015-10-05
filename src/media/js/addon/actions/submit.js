@@ -12,6 +12,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as notificationActions from '../../site/actions/notification';
+
 
 export const VALIDATION_BEGIN = 'ADDON_SUBMIT__VALIDATION_BEGIN';
 const validationBegin = createAction(VALIDATION_BEGIN);
@@ -74,6 +76,7 @@ export function submit(fileData) {
         dispatch(pollValidator(res.body.id));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
+        _validationErrorNotification(dispatch);
       });
   };
 }
@@ -136,8 +139,18 @@ export function create() {
       })
       .then(res => {
         dispatch(submitOk(res.body));
+        dispatch(notificationActions.queue(
+          'Your Firefox OS Add-on has been successfully submitted!',
+          'success'));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
+        _validationErrorNotification(dispatch);
       });
   };
+}
+
+
+function _validationErrorNotification(dispatch) {
+  dispatch(notificationActions.queue(
+    'Sorry, we found an error with your Firefox OS Add-on.', 'error'));
 }

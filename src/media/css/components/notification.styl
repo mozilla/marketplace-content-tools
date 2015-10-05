@@ -1,0 +1,21 @@
+@import '../lib';
+
+
+.notification
+  background $color--black
+  border-top 1px solid $color--grey
+  bottom 0
+  color $color--white
+  font-size 20px
+  display flex
+  padding 30px 0
+  position fixed
+  transition transform .4s
+  transform translateY(100px)
+  justify-content center
+  width 100%
+
+  &[data-notification--is-visible="true"] {
+    transform translateY(0)
+    transition transform .4s
+  }
