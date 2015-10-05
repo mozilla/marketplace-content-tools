@@ -109,7 +109,10 @@ function renderRoutes() {
             <Route name="addon" path="/addon">
               <Route name="addon-dashboard" path="/dashboard/"
                      component={loginRequired(AddonDashboard, Login,
-                                             ADDON_SUBMIT)}/>
+                                              ADDON_SUBMIT)}/>
+              <Route name="addon-dashboard-page" path="/dashboard/page/:page"
+                     component={loginRequired(AddonDashboard, Login,
+                                              ADDON_SUBMIT)}/>
               <Route name="addon-dashboard-detail" path="/dashboard/:slug"
                      component={loginRequired(AddonDashboardDetail, Login,
                                               ADDON_SUBMIT)}/>

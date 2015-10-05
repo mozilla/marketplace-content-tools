@@ -100,11 +100,12 @@ export default function addonReducer(state=initialState, action) {
       /*
         Get add-ons from dashboard.
 
-        payload (array) -- add-ons.
+        payload (object) --
+          addons (array) -- add-ons.
       */
       const newState = _.cloneDeep(state);
 
-      action.payload.forEach(addon => {
+      action.payload.addons.forEach(addon => {
         newState.addons[addon.slug] = Object.assign(
           {}, newState.addons[addon.slug] || {}, addon
         );

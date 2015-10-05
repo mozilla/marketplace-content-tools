@@ -5,16 +5,20 @@ import {bindActionCreators} from 'redux';
 import urlJoin from 'url-join';
 
 import {fetch} from '../actions/dashboard';
-import {AddonListingForDashboard} from '../components/addon';
+import {AddonListingForDashboard} from '../components/addonListing';
 import AddonSubnav from '../components/addonSubnav';
 import {addonListSelector} from '../selectors/addon';
 import {Page} from '../../site/components/page';
+import Paginator from '../../site/components/paginator';
 
 
 export class AddonDashboard extends React.Component {
   static PropTypes = {
     addons: React.PropTypes.array,
     fetch: React.PropTypes.func,
+    hasNextPage: React.PropTypes.bool,
+    hasPrevPage: React.PropTypes.bool,
+    page: React.PropTypes.number
   };
 
   static defaultProps = {
@@ -24,7 +28,7 @@ export class AddonDashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.fetch();
+    this.props.fetch(this.props.page);
   }
 
   renderEmpty() {
@@ -49,10 +53,18 @@ export class AddonDashboard extends React.Component {
     return (
       <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}
             className="addon-dashboard">
-        <p className="addon-dashboard--notice">
-          Looking for your <a href={devhubLink} target="_blank">
-          webapp submissions</a>?
-        </p>
+
+        <div className="addon-dashboard-header">
+          <p className="addon-dashboard--notice">
+            Looking for your <a href={devhubLink} target="_blank">
+            webapp submissions</a>?
+          </p>
+          <Paginator hasNextPage={this.props.hasNextPage}
+                     hasPrevPage={this.props.hasPrevPage}
+                     page={this.props.page}
+                     to="addon-dashboard-page"/>
+        </div>
+
         <AddonListingForDashboard addons={this.props.addons}
                       linkTo="addon-dashboard-detail"/>
       </Page>
@@ -67,9 +79,17 @@ export class AddonDashboard extends React.Component {
 
 
 export default connect(
-  state => ({
-    addons: addonListSelector(state.addonDashboard.addons, true)
-  }),
+  state => {
+    const pageNum = parseInt(state.router.params.page, 10) || 1;
+    const page = state.addonDashboard.pages[pageNum] ||
+                 state.addonDashboard.pages[1];
+    return {
+      addons: page.addons,
+      hasNextPage: page.hasNextPage,
+      hasPrevPage: page.hasPrevPage,
+      page: pageNum
+    };
+  },
   dispatch => bindActionCreators({
     fetch
   }, dispatch)
