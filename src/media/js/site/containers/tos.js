@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {signTOS} from '../actions/tos';
+import {getTOS, signTOS} from '../actions/tos';
 import {Page} from '../components/page';
 import TOSIframe from '../components/tos';
 
@@ -16,9 +16,24 @@ export default class TOSSignatureContainer extends React.Component {
   };
 
   static propTypes = {
-    user: React.PropTypes.object,
+    getTOS: React.PropTypes.func.isRequired,
     signTOS: React.PropTypes.func.isRequired,
+    user: React.PropTypes.object,
   };
+
+  constructor(props) {
+    super(props);
+    this.props.getTOS();
+  }
+
+  renderTOS() {
+    if (this.props.user.tos.url) {
+      return <TOSIframe url={this.props.user.tos.url}/>;
+    }
+    return (
+      <div className="tos tos--loading">Loading&hellip;</div>
+    );
+  }
 
   render() {
     return (
@@ -27,7 +42,7 @@ export default class TOSSignatureContainer extends React.Component {
           To submit or review Firefox OS Add-ons, you first need to read and
           accept our Developer Agreement:
         </p>
-        <TOSIframe/>
+        {this.renderTOS()}
         <div className="sign">
           <nav>
             <ul>
@@ -35,10 +50,12 @@ export default class TOSSignatureContainer extends React.Component {
               <li><a href="https://developer.mozilla.org/docs/Apps/Marketplace_Review" target="_blank">Additional Marketplace Policies</a></li>
             </ul>
           </nav>
-          <button disabled={this.props.user.tos.signing}
-                  onClick={this.props.signTOS}>
-            {this.props.user.tos.signing ? 'Agreeing...' : 'Agree'}
-          </button>
+          {this.props.user.tos.url &&
+            <button disabled={this.props.user.tos.signing}
+                    onClick={this.props.signTOS}>
+              {this.props.user.tos.signing ? 'Agreeing...' : 'Agree'}
+            </button>
+          }
         </div>
       </Page>
     );
@@ -51,6 +68,7 @@ export default connect(
     user: state.user,
   }),
   dispatch => bindActionCreators({
-    signTOS
+    getTOS,
+    signTOS,
   }, dispatch)
 )(TOSSignatureContainer);

@@ -2,15 +2,19 @@ import React from 'react';
 import urlJoin from 'url-join';
 
 
-export const tosUrl = urlJoin(process.env.MKT_ROOT,
-                              'developers/terms/standalone');
-
-
 export default class TOSIframe extends React.Component {
+  static propTypes = {
+    url: React.PropTypes.string.isRequired,
+  };
+
+  getUrl() {
+    return urlJoin(process.env.MKT_ROOT, this.props.url);
+  }
+
   render() {
     return (
       <div className="tos">
-        <iframe src={tosUrl}></iframe>
+        <iframe src={this.getUrl()}></iframe>
       </div>
     );
   }
