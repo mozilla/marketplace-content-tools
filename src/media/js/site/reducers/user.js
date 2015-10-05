@@ -4,7 +4,8 @@ import * as tosActions from '../actions/tos';
 
 export const initialState = {
   __persist: true,
-  settings: {}
+  settings: {},
+  tos: {},
 };
 
 
@@ -18,13 +19,19 @@ export default function userReducer(state=initialState, action) {
       return initialState;
     }
 
-    case tosActions.TOS_BEGIN: {
+    case tosActions.TOS_GET_OK: {
+      let newState = Object.assign({}, state);
+      newState.tos.url = action.payload.url;
+      return newState;
+    }
+
+    case tosActions.TOS_SIGN_BEGIN: {
       let newState = Object.assign({}, state);
       newState.tos.signing = true;
       return newState;
     }
 
-    case tosActions.TOS_OK: {
+    case tosActions.TOS_SIGN_OK: {
       let newState = Object.assign({}, state);
       newState.tos.signing = false;
       newState.tos.has_signed = true;
