@@ -77,7 +77,7 @@ export default class AddonUpload extends React.Component {
     }
     const fileSize = toFixedDown(this.state.fileSize / divisor, 2);
 
-    const hasValidationError = !!this.props.validationError;
+    const hasValidationError = !!this.props.validationError.key;
     const showProgressBar = (this.props.uploadLoaded &&
                              this.props.uploadLoaded < this.props.uploadTotal);
 

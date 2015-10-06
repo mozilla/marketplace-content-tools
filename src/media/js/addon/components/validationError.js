@@ -7,7 +7,8 @@ export default class ValidationError extends React.Component {
   };
 
   errorMap = {
-    'NO_MANIFEST': this.renderErrorNoManifest,
+    NO_MANIFEST: this.renderErrorNoManifest,
+    VERSION_INVALID: this.renderErrorVersionInvalid,
   };
 
   renderDefault() {
@@ -36,6 +37,19 @@ export default class ValidationError extends React.Component {
         <p>
           Learn more about <a href={mdnLink} target="_blank">packaging
           Firefox OS Add-ons</a>.
+        </p>
+      </div>
+    );
+  }
+
+  renderErrorVersionInvalid() {
+    const helpLink = 'https://developer.chrome.com/extensions/manifest/version';
+    return (
+      <div className="form-msg form-msg--error">
+        <p>
+          The <a href={helpLink} target="_blank"><code>version</code> property
+          </a> must be a string containing 1-4 dot-separated integers between 0
+          and 65525.
         </p>
       </div>
     );
