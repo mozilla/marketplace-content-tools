@@ -1,5 +1,5 @@
 /*
-  Add-ons in the user dashboard, keyed by slug.
+  Add-ons in the user dashboard, paginated, and keyed by slug.
 */
 import _ from 'lodash';
 
@@ -9,46 +9,34 @@ import * as submitActions from '../actions/submit';
 
 const initialState = {
   __persist: true,
-  addons: {}
+  pages: {
+    1: {
+      addons: [],
+      hasNextPage: false,
+    }
+  }
 };
 
 
 export default function addonDashboardReducer(state=initialState, action) {
   switch (action.type) {
-    case dashboardActions.DELETE_OK: {
-      /*
-        Remove deleted add-on from listing.
-
-        payload (string) -- addonSlug
-      */
-      const newState = _.cloneDeep(state);
-      delete newState.addons[action.payload]
-      return newState;
-    }
-
     case dashboardActions.FETCH_OK: {
       /*
         Set dashboards add-ons.
 
-        payload (array) -- add-ons.
+        payload (object) --
+          addons - list of add-ons.
+          hasNextPage - whether there's a next page.
+          page - page number.
       */
       const newState = _.cloneDeep(state);
-      newState.addons = {};  // Invalidate.
-      // Set new add-ons.
-      action.payload.forEach(addon => {
-        newState.addons[addon.slug] = addon;
-      });
-      return newState;
-    }
 
-    case submitActions.SUBMIT_OK: {
-      /*
-        Add add-on to dashboard after submit.
+      newState.pages[action.payload.page] = {
+        addons: action.payload.addons,
+        hasNextPage: action.payload.hasNextPage,
+        hasPrevPage: action.payload.hasPrevPage
+      };
 
-        payload (object) -- add-on.
-      */
-      const newState = _.cloneDeep(state);
-      newState.addons[action.payload.slug] = action.payload;
       return newState;
     }
 

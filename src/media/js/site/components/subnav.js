@@ -1,7 +1,4 @@
-import classnames from 'classnames';
-import {connect} from 'react-redux';
 import React from 'react';
-import {reverse, ReverseLink} from 'react-router-reverse';
 
 
 export class Subnav extends React.Component {

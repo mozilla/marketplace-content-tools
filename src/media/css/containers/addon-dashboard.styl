@@ -1,11 +1,24 @@
 @import '../lib'
 
 
+.addon-dashboard .page--main
+.addon-dashboard h1
+  max-width $layout--page-medium
+
+
 .addon-dashboard
   .page--main
     background $color--white
     border-radius 5px
     padding $layout--island-padding
+
+
+.addon-dashboard-header
+  border-bottom 1px solid $color--border
+  display flex
+  justify-content space-between
+  margin-bottom 25px
+
 
 .addon-dashboard--empty
   .page--main
@@ -23,3 +36,14 @@
   a
     display inline-block
     margin 0 10px
+
+
+.addon-dashboard--notice
+  font-size 13px
+  margin 0 0 $layout--list-padding
+  padding 0 0 ($layout--list-padding / 2)
+  text-align right
+
+
+.addon-listing--dashboard
+  margin 0

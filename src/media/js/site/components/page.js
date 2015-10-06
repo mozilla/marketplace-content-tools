@@ -39,7 +39,7 @@ export class PageHeader extends React.Component {
     const showBreadcrumb = (this.props.breadcrumbText &&
                             this.props.breadcrumbTo);
     return (
-      <header className="page--header">
+      <div className="page--header">
         {this.props.subnav}
         {showBreadcrumb &&
           <div className="page--breadcrumb">
@@ -49,7 +49,7 @@ export class PageHeader extends React.Component {
           </div>
         }
         <h1>{this.props.title}</h1>
-      </header>
+      </div>
     );
   }
 }

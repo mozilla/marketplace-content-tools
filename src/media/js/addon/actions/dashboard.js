@@ -12,7 +12,7 @@ export const DELETE_OK = 'ADDON_DASHBOARD__DELETE_OK';
 const deleteOk = createAction(DELETE_OK);
 
 
-export function fetch() {
+export function fetch(page=1) {
   /*
     Fetch user's add-ons.
   */
@@ -20,7 +20,7 @@ export function fetch() {
     const apiArgs = getState().apiArgs || {};
     const dashboardUrl = Url(
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/')
-    ).q(apiArgs);
+    ).q(apiArgs).q({page});
 
     if (process.env.NODE_ENV === 'test') {
       // Mock data.
@@ -36,7 +36,12 @@ export function fetch() {
     req
       .get(dashboardUrl)
       .then(res => {
-        dispatch(fetchOk(res.body.objects));
+        dispatch(fetchOk({
+          addons: res.body.objects,
+          hasPrevPage: !!res.body.meta.previous,
+          hasNextPage: !!res.body.meta.next,
+          page
+        }));
       });
   };
 }

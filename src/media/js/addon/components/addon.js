@@ -8,26 +8,6 @@ import * as constants from '../constants';
 import {PageSection} from '../../site/components/page';
 
 
-export class AddonListing extends React.Component {
-  static propTypes = {
-    addons: React.PropTypes.array.isRequired
-  };
-
-  render() {
-    return (
-      <ul className="addon-listing">
-        {this.props.addons.map(addon =>
-          <li>
-            <Addon {...this.props} {...addon}/>
-          </li>
-        )}
-        {this.props.addons.length === 0 && <p>No add-ons.</p>}
-      </ul>
-    );
-  }
-}
-
-
 export class Addon extends React.Component {
   static propTypes = {
     description: React.PropTypes.string,
@@ -76,7 +56,7 @@ export class Addon extends React.Component {
   }
 
   render() {
-    const marketplaceURL = this.getMarketplaceUrl();
+    const marketplaceUrl = this.getMarketplaceUrl();
     return (
       <div className="addon">
         <div>
@@ -140,29 +120,16 @@ export class Addon extends React.Component {
             </di>
           }
 
-          {marketplaceURL &&
+          {marketplaceUrl &&
             <di>
               <dt>View on Marketplace</dt>
               <dd>
-                <a href={marketplaceURL}>{marketplaceURL}</a>
+                <a href={marketplaceUrl}>{marketplaceUrl}</a>
               </dd>
             </di>
           }
         </dl>
       </div>
-    );
-  }
-}
-
-
-export class AddonListingForDashboard extends AddonListing {
-  render() {
-    return (
-      <ul className="addon-listing--dashboard">
-        {this.props.addons.map(addon =>
-          <AddonForDashboard {...this.props} {...addon}/>
-        )}
-      </ul>
     );
   }
 }
@@ -183,15 +150,15 @@ export class AddonForDashboard extends Addon {
   }
 
   render() {
-    const marketplaceURL = this.getMarketplaceUrl();
+    const marketplaceUrl = this.getMarketplaceUrl();
     return (
-      <li className="addon--dashboard">
+      <li className="addon-for-dashboard">
         <h2>
           <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
             {this.props.name}
           </ReverseLink>
         </h2>
-        <dl className="addon--dashboard--meta">
+        <dl className="addon-for-dashboard--meta">
           <di className={`addon--status-${this.props.status}`}>
             <dt>Status</dt>
             <dd>
@@ -201,7 +168,7 @@ export class AddonForDashboard extends Addon {
           </di>
           {this.renderLastUpdated()}
         </dl>
-        <nav className="addon--dashboard--links">
+        <nav className="addon-for-dashboard--links">
           <ul>
             <li>
               <ReverseLink to={this.props.linkTo}
@@ -209,9 +176,9 @@ export class AddonForDashboard extends Addon {
                 Edit this Add-on &raquo;
               </ReverseLink>
             </li>
-            {marketplaceURL &&
+            {marketplaceUrl &&
               <li>
-                <a href={marketplaceURL} target="_blank">
+                <a href={marketplaceUrl} target="_blank">
                   View on Marketplace &raquo;
                 </a>
               </li>
@@ -222,7 +189,6 @@ export class AddonForDashboard extends Addon {
     );
   }
 }
-
 
 
 export class AddonForDashboardDetail extends Addon {
