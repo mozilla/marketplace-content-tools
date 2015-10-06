@@ -7,6 +7,7 @@ import React from 'react';
 import FileReaderInput from 'react-file-reader-input';
 
 import ProgressBar from './progressBar';
+import ValidationError from './validationError';
 
 
 export default class AddonUpload extends React.Component {
@@ -24,7 +25,7 @@ export default class AddonUpload extends React.Component {
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
     uploadTotal: React.PropTypes.number,
-    validationErrorMessage: React.PropTypes.string
+    validationError: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -76,6 +77,7 @@ export default class AddonUpload extends React.Component {
     }
     const fileSize = toFixedDown(this.state.fileSize / divisor, 2);
 
+    const hasValidationError = !!this.props.validationError;
     const showProgressBar = (this.props.uploadLoaded &&
                              this.props.uploadLoaded < this.props.uploadTotal);
 
@@ -85,7 +87,7 @@ export default class AddonUpload extends React.Component {
 
           <div className={classnames({
             'field': true,
-            'field--error': !!this.props.validationErrorMessage
+            'field--error': hasValidationError,
           })}>
             <label htmlFor="submission-addon--zip">Add-on:</label>
             <FileReaderInput as="buffer" accept=".zip"
@@ -106,10 +108,8 @@ export default class AddonUpload extends React.Component {
                 packaging Firefox OS add-ons
               </a>.
             </p>
-            {this.props.validationErrorMessage &&
-              <p className="form-msg form-msg--error">
-                {this.props.validationErrorMessage}
-              </p>
+            {hasValidationError &&
+              <ValidationError error={this.props.validationError}/>
             }
           </div>
 

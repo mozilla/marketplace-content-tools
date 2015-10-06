@@ -9,6 +9,7 @@ describe('AddonDashboardDetail', () => {
     slug: 'test-addon',
     fetchAddon: () => {},
     deleteAddon: () => {},
+    validationError: {},
   };
 
   it('renders', () => {

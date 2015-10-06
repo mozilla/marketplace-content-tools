@@ -20,7 +20,7 @@ export class AddonSubmit extends React.Component {
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
     uploadTotal: React.PropTypes.number,
-    validationErrorMessage: React.PropTypes.string,
+    validationError: React.PropTypes.string,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +29,7 @@ export class AddonSubmit extends React.Component {
 
     // Redirect to dashboard once submission is complete.
     if (this.props.isSubmitting && !nextProps.isSubmitting &&
-        !nextProps.validationErrorMessage) {
+        !nextProps.validationError) {
       const path = reverse(this.context.router.routes, 'addon-dashboard');
       this.context.router.transitionTo(path);
     }

@@ -32,7 +32,7 @@ describe('AddonSubmit', () => {
     const component = ReactDOMHelper.render(
       <StubRouterProvider Component={AddonSubmit}
                           {...props}
-                          validationErrorMessage="No file found."/>
+                          validationError="No file found."/>
     );
     assert.ok(ReactDOMHelper.queryClassAll(component,
                                            'form-msg--error').length);
