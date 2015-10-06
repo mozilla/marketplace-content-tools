@@ -15,7 +15,7 @@ const initialState = {
   message: '',
   uploadLoaded: null,
   uploadTotal: null,
-  validationErrorMessage: '',
+  validationError: {},
   validationId: '',
 };
 
@@ -73,7 +73,7 @@ function createAddonSubmitReducer(actions) {
         */
         return Object.assign({}, state, {
           isSubmitting: false,
-          validationErrorMessage: action.payload,
+          validationError: action.payload,
         });
       }
 
@@ -85,7 +85,7 @@ function createAddonSubmitReducer(actions) {
         */
         return Object.assign({}, state, {
           isSubmitting: false,
-          validationErrorMessage: action.payload,
+          validationError: action.payload,
         });
       }
 

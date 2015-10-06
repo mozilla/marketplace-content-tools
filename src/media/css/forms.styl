@@ -87,10 +87,24 @@ $field--label-margin = 15px;
 
 .form-msg
   font-size 13px
-  margin 5px 0 0
+  font-weight 300
+  line-height 17px
+  margin 10px 0 0
   padding-left $field--label-width + $field--label-margin
   width 100%
 
+  > :first-child
+    margin-top 0
+
+  > :last-child
+    margin-bottom 0
+
+  p
+    margin 5px 0
+
+  ul
+    list-style disc inside
+    margin 5px 0 5px 10px
 
 .form-msg--help
   color $color--help-text
@@ -99,3 +113,8 @@ $field--label-margin = 15px;
 .form-msg--error
 .field--error label
   color $color--error
+
+.form-msg--error a
+.form-msg--error a:hover
+  color $color--error
+  font-weight 400

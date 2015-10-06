@@ -31,7 +31,7 @@ export class AddonDashboardDetail extends React.Component {
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
     uploadTotal: React.PropTypes.number,
-    validationErrorMessage: React.PropTypes.string,
+    validationError: React.PropTypes.string,
   };
 
   constructor(props) {
