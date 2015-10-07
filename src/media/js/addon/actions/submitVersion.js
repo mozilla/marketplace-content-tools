@@ -17,6 +17,7 @@ import urlJoin from 'url-join';
 
 import {fetchThreads} from './comm';
 import {fetchVersions} from './addon';
+import * as notificationActions from '../../site/actions/notification';
 
 
 export const VALIDATION_BEGIN = 'ADDON_SUBMIT_VERSION__VALIDATION_BEGIN';
@@ -83,6 +84,7 @@ export function submitVersion(fileData, addonSlug) {
         dispatch(pollValidator(res.body.id, addonSlug));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
+        _validationErrorNotification(dispatch);
       });
   };
 }
@@ -114,6 +116,7 @@ export function pollValidator(validationId, addonSlug) {
               dispatch(createVersion(addonSlug));
             } else {
               dispatch(validationFail(res.body.validation));
+              _validationErrorNotification(dispatch);
             }
           }
         });
@@ -149,6 +152,12 @@ export function createVersion(addonSlug) {
           addonSlug,
           version: res.body
         }));
+
+        // Success message.
+        dispatch(notificationActions.queue(
+          'Your Firefox OS Add-on version has been successfully submitted!',
+          'success'));
+
         // Fetch versions.
         dispatch(fetchVersions(addonSlug));
 
@@ -156,6 +165,13 @@ export function createVersion(addonSlug) {
         dispatch(fetchThreads(addonSlug));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
+        _validationErrorNotification(dispatch);
       });
   };
+}
+
+
+function _validationErrorNotification(dispatch) {
+  dispatch(notificationActions.queue(
+    'Sorry, we found an error with your Firefox OS Add-on version.', 'error'));
 }
