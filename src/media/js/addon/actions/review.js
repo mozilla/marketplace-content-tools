@@ -4,6 +4,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as notificationActions from '../../site/actions/notification';
+
 
 export const FETCH_OK = 'ADDON_REVIEW__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
@@ -79,11 +81,15 @@ export function publish(addonSlug, versionId, message) {
           addonSlug,
           versionId
         }));
+        dispatch(notificationActions.queue(
+          `${addonSlug} has been successfully approved.`));
       }, err => {
         dispatch(publishError({
           addonSlug,
           versionId
         }));
+        dispatch(notificationActions.queue(
+          `Sorry, there was an error publishing ${addonSlug}.`, 'error'));
       });
   };
 }
@@ -113,11 +119,15 @@ export function reject(addonSlug, versionId, message) {
           addonSlug,
           versionId
         }));
+        dispatch(notificationActions.queue(
+          `${addonSlug} has been successfully rejected.`));
       }, err => {
         dispatch(rejectError({
           addonSlug,
           versionId
         }));
+        dispatch(notificationActions.queue(
+          `Sorry, there was an error rejecting ${addonSlug}.`, 'error'));
       });
   };
 }
