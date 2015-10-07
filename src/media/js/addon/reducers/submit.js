@@ -15,7 +15,7 @@ const initialState = {
   message: '',
   uploadLoaded: null,
   uploadTotal: null,
-  validationError: {},
+  validationError: null,
   validationId: '',
 };
 
@@ -39,7 +39,9 @@ function createAddonSubmitReducer(actions) {
           Validation and submission process begin.
         */
         return Object.assign({}, state, {
-          isSubmitting: true
+          isSubmitting: true,
+          validationError: null,
+          validationId: null
         });
       }
 

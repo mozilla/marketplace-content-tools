@@ -23,12 +23,12 @@ export default class Notification extends React.Component {
       notification: true
     };
     if (this.props.notification && this.props.notification.className) {
-      notificationClasses[this.props.notificationClassName] = true;
+      notificationClasses[this.props.notification.className] = true;
     }
     notificationClasses = classnames(notificationClasses);
 
     return (
-      <div className="notification"
+      <div className={notificationClasses}
            data-notification--is-visible={this.state.isVisible}>
         {this.props.notification && this.props.notification.message &&
          this.props.notification.message
