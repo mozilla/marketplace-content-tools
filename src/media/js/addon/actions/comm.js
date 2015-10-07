@@ -4,6 +4,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as notificationActions from '../../site/actions/notification';
+
 
 export const FETCH_THREAD_OK = 'ADDON_COMM__FETCH_THREAD_OK';
 const fetchThreadOk = createAction(FETCH_THREAD_OK);
@@ -68,6 +70,8 @@ export function submitNote(threadId, versionId, body, noteType) {
           note: res.body,
           versionId
         }));
+        dispatch(notificationActions.queue(
+          'Your message has been successfully submitted!'), 'success');
       });
   };
 }

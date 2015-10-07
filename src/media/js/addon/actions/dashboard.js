@@ -4,6 +4,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as notificationActions from '../../site/actions/notification';
+
 
 export const FETCH_OK = 'ADDON_DASHBOARD__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
@@ -62,6 +64,8 @@ export function del(addonSlug) {
       .del(addonUrl)
       .then(res => {
         dispatch(deleteOk(addonSlug));
+        dispatch(notificationActions.queue(
+          'Your Firefox OS Add-on has been successfully deleted.'));
       });
   };
 }
