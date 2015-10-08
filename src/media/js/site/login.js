@@ -4,9 +4,10 @@ import {connect} from 'react-redux';
 import * as tosActions from './actions/tos';
 import {Page, PageSection} from './components/page';
 import TOSSignatureContainer from './containers/tos';
+import LoginHandler from './containers/login'
 
 
-export class DefaultUnauthorizedHandler extends React.Component {
+export class UnauthorizedHandler extends React.Component {
   render() {
     return (
       <Page className="no-permissions" title="Missing Permissions">
@@ -25,8 +26,7 @@ export class DefaultUnauthorizedHandler extends React.Component {
 };
 
 
-export function loginRequired(Component, LoginHandler, group,
-                              UnauthorizedHandler=DefaultUnauthorizedHandler) {
+export function loginRequired(Component, group) {
   /* Wraps a handler component to require login.
      Subscribes to the user store such that it will automatically
      "redirect" to the page after successful login. */
