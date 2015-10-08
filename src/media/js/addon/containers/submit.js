@@ -20,6 +20,7 @@ export class AddonSubmit extends React.Component {
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
     uploadTotal: React.PropTypes.number,
+    user: React.PropTypes.object,
     validationError: React.PropTypes.string,
   };
 
@@ -37,8 +38,9 @@ export class AddonSubmit extends React.Component {
 
   render() {
     return (
-      <Page title="Submit a Firefox OS Add-on" subnav={<AddonSubnav/>}
-            className="addon-submit">
+      <Page className="addon-submit"
+            subnav={<AddonSubnav user={this.props.user}/>}
+            title="Submit a Firefox OS Add-on">
         <AddonUpload {...this.props}/>
       </Page>
     );

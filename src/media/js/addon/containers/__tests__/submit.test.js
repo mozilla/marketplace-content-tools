@@ -5,7 +5,8 @@ describe('AddonSubmit', () => {
   jsdom();
 
   const props = {
-    submit: () => {}
+    submit: () => {},
+    user: {},
   };
 
   it('renders', () => {

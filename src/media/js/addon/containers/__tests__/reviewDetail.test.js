@@ -9,6 +9,7 @@ describe('AddonReviewDetail', () => {
     fetchAddon: () => {},
     fetchThreads: () => {},
     fetchVersions: () => {},
+    user: {},
   };
 
   it('renders', () => {

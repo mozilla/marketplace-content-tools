@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 
 import * as tosActions from './actions/tos';
 import {Page, PageSection} from './components/page';
-import TOSSignatureContainer from './containers/tos';
 import LoginHandler from './containers/login'
+import TOSSignatureContainer from './containers/tos';
 
 
 export class UnauthorizedHandler extends React.Component {
@@ -36,13 +36,13 @@ export function loginRequired(Component, group) {
   class AuthenticatedComponent extends React.Component {
     render() {
       if (!!this.props.user.token) {
-        const hasPermission = _checkPermissions(this.props.user, group);
+        const hasPermission = checkPermissions(this.props.user, group);
         const hasSignedTOS = ('tos' in this.props.user &&
                               this.props.user.tos.has_signed);
 
         if (process.env.NODE_ENV === 'test' ||
             (hasPermission && hasSignedTOS)) {
-          return <Component/>;
+          return <Component user={this.props.user}/>;
 
         // Redirect to UnauthorizedHandler if logged in but lacking permission.
         } else if (!hasPermission) {
@@ -63,7 +63,7 @@ export function loginRequired(Component, group) {
 }
 
 
-function _checkPermissions(user, group) {
+export function checkPermissions(user, group) {
   if (!user.token) {
     return false;
   }
@@ -75,10 +75,10 @@ function _checkPermissions(user, group) {
     // Check if the user has the group permission.
     return true;
   } else if (group.constructor === Array) {
-    // Check if the user has ANY of the group permissions.
+    // Check if the user has ALL of the group permissions.
     for (let i = 0; i < group.length; i++) {
       if (!user.permissions[group[i]]) {
-        return dalse;
+        return false;
       }
     }
     return true;

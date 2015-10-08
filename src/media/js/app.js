@@ -77,8 +77,9 @@ const createFinalStore = compose.apply(this, storeEnhancers)(createStore);
 const store = createFinalStore(reducer);
 
 const LOGIN = 'content_tools_login';
-const ADDON_REVIEW = [LOGIN, 'content_tools_addon_review'];
-const ADDON_SUBMIT = [LOGIN, 'content_tools_addon_submit'];
+export const ADDON_REVIEW = [LOGIN, 'content_tools_addon_review'];
+export const ADDON_SUBMIT = [LOGIN, 'content_tools_addon_submit'];
+export const CONTENT_TOOLS_LOGIN = [LOGIN];
 
 
 function renderRoutes() {
