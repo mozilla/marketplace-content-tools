@@ -77,9 +77,10 @@ function _checkPermissions(user, group) {
   } else if (group.constructor === Array) {
     // Check if the user has ANY of the group permissions.
     for (let i = 0; i < group.length; i++) {
-      if (user.permissions[group[i]]) {
-        return true;
+      if (!user.permissions[group[i]]) {
+        return dalse;
       }
     }
+    return true;
   }
 }
