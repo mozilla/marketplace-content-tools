@@ -6,7 +6,7 @@ export class Subnav extends React.Component {
     return (
       <nav className="page--subnav">
         <ul>
-          {this.props.children.map(item => <li>{item}</li>)}
+          {this.props.children}
         </ul>
       </nav>
     );

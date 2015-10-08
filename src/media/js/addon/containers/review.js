@@ -16,6 +16,7 @@ export class AddonReview extends React.Component {
     fetch: React.PropTypes.func,
     publish: React.PropTypes.func,
     reject: React.PropTypes.func,
+    user: React.PropTypes.object,
   };
 
   static defaultProps = {
@@ -30,7 +31,8 @@ export class AddonReview extends React.Component {
 
   render() {
     return (
-      <Page title="Reviewing Firefox OS Add-ons" subnav={<AddonSubnav/>}>
+      <Page subnav={<AddonSubnav user={this.props.user}/>}
+            title="Reviewing Firefox OS Add-ons">
         <AddonListing addons={this.props.addons}
                       showWaitingTime={true}
                       linkTo="addon-review-detail"/>

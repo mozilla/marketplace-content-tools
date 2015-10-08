@@ -6,6 +6,7 @@ describe('AddonDashboard', () => {
 
   const props = {
     addons: [addonFactory()],
+    user: {},
   };
 
   it('renders', () => {

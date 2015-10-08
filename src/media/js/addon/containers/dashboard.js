@@ -18,7 +18,8 @@ export class AddonDashboard extends React.Component {
     fetch: React.PropTypes.func,
     hasNextPage: React.PropTypes.bool,
     hasPrevPage: React.PropTypes.bool,
-    page: React.PropTypes.number
+    page: React.PropTypes.number,
+    user: React.PropTypes.object,
   };
 
   static defaultProps = {
@@ -35,8 +36,9 @@ export class AddonDashboard extends React.Component {
     const mdnLink =
       'https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons';
     return (
-      <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}
-            className="addon-dashboard addon-dashboard--empty">
+      <Page className="addon-dashboard addon-dashboard--empty"
+            subnav={<AddonSubnav {...this.props}/>}
+            title="My Firefox OS Add-ons">
           <p>You have not submitted any add-ons yet.</p>
           <a href={mdnLink} className="button" target="_blank">
             Get started now!
@@ -51,9 +53,9 @@ export class AddonDashboard extends React.Component {
   renderFull() {
     const devhubLink = urlJoin(process.env.MKT_ROOT, '/developers');
     return (
-      <Page title="My Firefox OS Add-ons" subnav={<AddonSubnav/>}
-            className="addon-dashboard">
-
+      <Page className="addon-dashboard"
+            subnav={<AddonSubnav {...this.props}/>}
+            title="My Firefox OS Add-ons">
         <div className="addon-dashboard-header">
           <p className="addon-dashboard--notice">
             Looking for your <a href={devhubLink} target="_blank">

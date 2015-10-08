@@ -10,6 +10,7 @@ describe('AddonDashboardDetail', () => {
     fetchAddon: () => {},
     deleteAddon: () => {},
     validationError: {},
+    user: {},
   };
 
   it('renders', () => {

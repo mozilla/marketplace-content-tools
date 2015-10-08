@@ -25,6 +25,7 @@ export class AddonReviewDetail extends React.Component {
     fetchAddon: React.PropTypes.func.isRequired,
     installAddon: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string.isRequired,
+    user: React.PropTypes.object,
   };
 
   constructor(props) {
@@ -37,12 +38,13 @@ export class AddonReviewDetail extends React.Component {
 
     if (!addon || !addon.slug) {
       return (
-        <Page title="Loading Firefox OS Add-on..." subnav={<AddonSubnav/>}/>
+        <Page subnav={<AddonSubnav user={this.props.user}/>}
+              title="Loading Firefox OS Add-on..."/>
       );
     }
     return (
       <Page title={`Reviewing Firefox OS Add-on: ${addon.name}`}
-            subnav={<AddonSubnav/>}>
+            subnav={<AddonSubnav user={this.props.user}/>}>
         <Addon {...addon} showWaitingTime={true}/>
 
         <AddonInstall

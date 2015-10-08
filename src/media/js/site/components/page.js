@@ -23,7 +23,6 @@ export class Page extends React.Component {
       </section>
     );
   }
-
 }
 
 

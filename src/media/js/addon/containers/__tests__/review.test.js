@@ -5,7 +5,8 @@ describe('AddonReview', () => {
   jsdom();
 
   const props = {
-    addons: [addonFactory()]
+    addons: [addonFactory()],
+    user: {},
   };
 
   it('renders', () => {

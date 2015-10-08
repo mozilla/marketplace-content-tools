@@ -31,6 +31,7 @@ export class AddonDashboardDetail extends React.Component {
     submit: React.PropTypes.func.isRequired,
     uploadLoaded: React.PropTypes.number,
     uploadTotal: React.PropTypes.number,
+    user: React.PropTypes.object,
     validationError: React.PropTypes.string,
   };
 
@@ -57,14 +58,15 @@ export class AddonDashboardDetail extends React.Component {
   render() {
     if (!this.props.addon || !this.props.addon.slug) {
       return (
-        <Page title="Loading Firefox OS Add-on..." subnav={<AddonSubnav/>}/>
+        <Page subnav={<AddonSubnav user={this.props.user}/>}
+              title="Loading Firefox OS Add-on..."/>
       );
     }
     return (
       <Page className="addon-dashboard-detail"
             breadcrumbText="My Add-ons"
             breadcrumbTo="addon-dashboard"
-            subnav={<AddonSubnav/>}
+            subnav={<AddonSubnav user={this.props.user}/>}
             title={this.props.addon.name}>
 
         {this.props.addon.deleted && this.renderDeleted()}

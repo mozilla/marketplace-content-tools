@@ -79,8 +79,9 @@ const createFinalStore = compose.apply(this, storeEnhancers)(createStore);
 const store = createFinalStore(reducer);
 
 const LOGIN = 'content_tools_login';
-const ADDON_REVIEW = [LOGIN, 'content_tools_addon_review'];
-const ADDON_SUBMIT = [LOGIN, 'content_tools_addon_submit'];
+export const ADDON_REVIEW = [LOGIN, 'content_tools_addon_review'];
+export const ADDON_SUBMIT = [LOGIN, 'content_tools_addon_submit'];
+export const CONTENT_TOOLS_LOGIN = [LOGIN];
 
 
 function renderRoutes() {
@@ -110,23 +111,19 @@ function renderRoutes() {
 
             <Route name="addon" path="/addon">
               <Route name="addon-dashboard" path="/dashboard/"
-                     component={loginRequired(AddonDashboard, Login,
-                                              ADDON_SUBMIT)}/>
+                     component={loginRequired(AddonDashboard, ADDON_SUBMIT)}/>
               <Route name="addon-dashboard-page" path="/dashboard/page/:page"
-                     component={loginRequired(AddonDashboard, Login,
-                                              ADDON_SUBMIT)}/>
+                     component={loginRequired(AddonDashboard, ADDON_SUBMIT)}/>
               <Route name="addon-dashboard-detail" path="/dashboard/:slug"
-                     component={loginRequired(AddonDashboardDetail, Login,
+                     component={loginRequired(AddonDashboardDetail,
                                               ADDON_SUBMIT)}/>
               <Route name="addon-review" path="/review/"
-                     component={loginRequired(AddonReview, Login,
-                                              ADDON_REVIEW)}/>
+                     component={loginRequired(AddonReview, ADDON_REVIEW)}/>
               <Route name="addon-review-detail" path="/review/:slug"
-                     component={loginRequired(AddonReviewDetail, Login,
+                     component={loginRequired(AddonReviewDetail,
                                               ADDON_REVIEW)}/>
               <Route name="addon-submit" path="/submit/"
-                     component={loginRequired(AddonSubmit, Login,
-                                              ADDON_SUBMIT)}/>
+                     component={loginRequired(AddonSubmit, ADDON_SUBMIT)}/>
             </Route>
 
           </Route>
