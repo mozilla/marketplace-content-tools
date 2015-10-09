@@ -14,7 +14,7 @@ export default class ValidationError extends React.Component {
   renderDefault() {
     return (
       <div className="form-msg form-msg--error">
-        <p>{this.props.error.message}</p>
+        <p>{this.props.error.message || this.props.error}</p>
       </div>
     );
   }
