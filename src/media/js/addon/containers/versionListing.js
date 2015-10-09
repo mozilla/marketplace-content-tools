@@ -40,7 +40,7 @@ export class AddonVersionListing extends React.Component {
   renderVersion = version => {
     return (
       <li>
-        <AddonVersion {...this.props} {...version}
+        <AddonVersion key={version.id} {...this.props} {...version}
                       {...this.props.threads[version.id]}/>
       </li>
     );
