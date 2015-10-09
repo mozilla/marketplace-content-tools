@@ -78,10 +78,12 @@ export default class AddonVersion extends React.Component {
             <a className="button" href={this.props.unsigned_download_url}>
               Download
             </a>
-            <ConfirmButton className="button--delete"
-                           initialText='Delete'
-                           onClick={this.deleteVersion}
-                           processingText='Deleting...'/>
+            {this.props.showDeveloperActions &&
+              <ConfirmButton className="button--delete"
+                             initialText='Delete'
+                             onClick={this.deleteVersion}
+                             processingText='Deleting...'/>
+            }
           </span>
         </div>
 
