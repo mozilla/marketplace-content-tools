@@ -4,6 +4,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as notificationActions from '../../site/actions/notification';
+
 
 export const FETCH_OK = 'ADDON_VERSION__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
@@ -49,6 +51,8 @@ export function del(addonSlug, versionId) {
           addonSlug,
           versionId,
         }));
+        dispatch(notificationActions.queue(
+          'Firefox OS Add-on version successfully deleted.'));
       });
   };
 }
