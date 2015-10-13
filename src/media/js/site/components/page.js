@@ -59,11 +59,13 @@ export class PageSection extends React.Component {
     children: React.PropTypes.object.isRequired,
     className: React.PropTypes.string,
     title: React.PropTypes.string,
+    style: React.PropTypes.object
   };
 
   render() {
     return (
-      <section className={classnames(this.props.className, 'page-section')}>
+      <section className={classnames(this.props.className, 'page-section')}
+               style={this.props.style || {}}>
         {this.props.title && <PageSectionHeader {...this.props}/>}
         <div className="page-section--main">
           {this.props.children}

@@ -9,6 +9,8 @@ describe('AddonReviewDetail', () => {
     fetchAddon: () => {},
     fetchThreads: () => {},
     fetchVersions: () => {},
+    getInstalledAddons: () => {},
+    installAddon: () => {},
     user: {},
   };
 

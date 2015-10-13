@@ -47,8 +47,12 @@ export class AddonVersionListing extends React.Component {
   }
 
   render() {
+    const pageStyle = {
+      display: this.props.versions.length ? 'block' : 'none'
+    };
     return (
-      <PageSection className={this.props.className} title="Versions">
+      <PageSection className={this.props.className} title="Versions"
+                   style={pageStyle}>
         <ul>{this.props.versions.map(this.renderVersion)}</ul>
       </PageSection>
     );

@@ -11,8 +11,7 @@ describe('AddonDashboard', () => {
 
   it('renders', () => {
     const component = ReactDOMHelper.render(
-      <StubRouterProvider Component={AddonDashboard}
-                          {...props}/>
+      <StubRouterProvider Component={AddonDashboard} {...props}/>
     );
     assert.equal(
       ReactDOMHelper.queryClassAll(component,

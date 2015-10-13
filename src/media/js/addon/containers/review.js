@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {fetch} from '../actions/review';
 import {AddonListing} from '../components/addonListing';
-import AddonSubnav from '../components/addonSubnav';
+import AddonSubnav from '../components/subnav';
 import {addonListSelector} from '../selectors/addon';
 import {Page} from '../../site/components/page';
 

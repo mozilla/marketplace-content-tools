@@ -1,6 +1,7 @@
 import addonReducer from '../addon';
 import * as addonActions from '../../actions/addon';
 import * as dashboardActions from '../../actions/dashboard';
+import * as mozAppsActions from '../../actions/mozApps';
 import * as reviewActions from '../../actions/review';
 import * as submitVersionActions from '../../actions/submitVersion';
 import * as constants from '../../constants';
@@ -154,5 +155,40 @@ describe('addonReducer', () => {
       }
     );
     assert.ok(newState.addons.slugly.deleted);
+  });
+
+  it('updates installed states of add-ons', () => {
+    const newState = addonReducer(
+      {
+        addons: {
+          wasInstalled: {
+            latest_version: {reviewer_mini_manifest_url: 'was.installed'},
+            isInstalled: true,
+          },
+          stillInstalled: {
+            latest_version: {reviewer_mini_manifest_url: 'still.installed'},
+            isInstalled: true
+          },
+          nowInstalled: {
+            latest_version: {reviewer_mini_manifest_url: 'now.installed'},
+            isInstalled: false
+          },
+          noLatestVersion: {},
+        },
+      },
+      {
+        type: mozAppsActions.GET_INSTALLED_OK,
+        payload: ['still.installed', 'now.installed']
+      }
+    );
+
+    assert.notOk(newState.addons.wasInstalled.isInstalled,
+                 'wasInstalled should no longer be installed');
+    assert.ok(newState.addons.stillInstalled.isInstalled,
+              'stillInstalled should still be installed');
+    assert.ok(newState.addons.nowInstalled.isInstalled,
+              'nowInstalled should now be installed');
+    assert.notOk(newState.addons.noLatestVersion.isInstalled,
+                 'apps fetched as a non-reviewer should not be installed');
   });
 });

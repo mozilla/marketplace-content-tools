@@ -12,19 +12,12 @@ import persistState from 'redux-localstorage'
 import persistSlicer from 'redux-localstorage-slicer';
 import thunkMiddleware from 'redux-thunk';
 
-import {loginRequired} from './site/login';
-
+import * as mozAppsActions from './addon/actions/mozApps';
 import AddonDashboard from './addon/containers/dashboard';
 import AddonDashboardDetail from './addon/containers/dashboardDetail';
 import AddonReview from './addon/containers/review';
 import AddonReviewDetail from './addon/containers/reviewDetail';
 import AddonSubmit from './addon/containers/submit';
-import App from './site/containers/app';
-import DeveloperAgreement from './site/containers/devAgreement';
-import Landing from './site/containers/landing';
-import Login from './site/containers/login'
-import LoginOAuthRedirect from './site/containers/loginOAuthRedirect';
-
 import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
@@ -33,6 +26,13 @@ import {addonSubmitReducer as
         addonSubmit,
         addonSubmitVersionReducer as
         addonSubmitVersion} from './addon/reducers/submit';
+import {ADDON_REVIEW, ADDON_SUBMIT} from './site/constants/login';
+import App from './site/containers/app';
+import DeveloperAgreement from './site/containers/devAgreement';
+import Landing from './site/containers/landing';
+import Login from './site/containers/login'
+import LoginOAuthRedirect from './site/containers/loginOAuthRedirect';
+import {loginRequired} from './site/login';
 import apiArgs from './site/reducers/apiArgs';
 import login from './site/reducers/login';
 import notification from './site/reducers/notification';
@@ -78,10 +78,13 @@ if (process.env.NODE_ENV !== 'production') {
 const createFinalStore = compose.apply(this, storeEnhancers)(createStore);
 const store = createFinalStore(reducer);
 
-const LOGIN = 'content_tools_login';
-export const ADDON_REVIEW = [LOGIN, 'content_tools_addon_review'];
-export const ADDON_SUBMIT = [LOGIN, 'content_tools_addon_submit'];
-export const CONTENT_TOOLS_LOGIN = [LOGIN];
+
+document.addEventListener('visibilitychange', () => {
+  // Refresh installed add-ons on visibility change.
+  if (!document.hidden) {
+    store.dispatch(mozAppsActions.getInstalled());
+  }
+});
 
 
 function renderRoutes() {

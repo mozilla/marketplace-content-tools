@@ -9,10 +9,12 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import AddonVersionListingContainer from './versionListing';
-import {fetch as fetchAddon, install as installAddon} from '../actions/addon';
+import {fetch as fetchAddon} from '../actions/addon';
+import {getInstalled as getInstalledAddons,
+        install as installAddon} from '../actions/mozApps';
 import {Addon} from '../components/addon';
 import AddonInstall from '../components/install';
-import AddonSubnav from '../components/addonSubnav';
+import AddonSubnav from '../components/subnav';
 import {Page} from '../../site/components/page';
 
 
@@ -23,6 +25,7 @@ export class AddonReviewDetail extends React.Component {
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
+    getInstalledAddons: React.PropTypes.func.isRequired,
     installAddon: React.PropTypes.func.isRequired,
     slug: React.PropTypes.string.isRequired,
     user: React.PropTypes.object,
@@ -31,6 +34,7 @@ export class AddonReviewDetail extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchAddon(this.props.slug);
+    this.props.getInstalledAddons();
   }
 
   render() {
@@ -47,13 +51,15 @@ export class AddonReviewDetail extends React.Component {
             subnav={<AddonSubnav user={this.props.user}/>}>
         <Addon {...addon} showWaitingTime={true}/>
 
-        <AddonInstall
-          install={this.props.installAddon}
-          installErrorMessage={addon.installErrorMessage}
-          isInstalled={addon.isInstalled}
-          isInstalling={addon.isInstalling}
-          manifestUrl={addon.latest_version.reviewer_mini_manifest_url}
-          slug={addon.slug}/>
+        {addon.latest_version &&
+          <AddonInstall
+            install={this.props.installAddon}
+            installErrorMessage={addon.installErrorMessage}
+            isInstalled={addon.isInstalled}
+            isInstalling={addon.isInstalling}
+            manifestUrl={addon.latest_version.reviewer_mini_manifest_url}
+            slug={addon.slug}/>
+        }
 
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer showReviewActions={true}/>}
@@ -71,6 +77,7 @@ export default connect(
   }),
   dispatch => bindActionCreators({
     fetchAddon,
+    getInstalledAddons,
     installAddon,
   }, dispatch)
 )(AddonReviewDetail);
