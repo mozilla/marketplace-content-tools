@@ -59,7 +59,7 @@ export class PageSection extends React.Component {
     children: React.PropTypes.object.isRequired,
     className: React.PropTypes.string,
     title: React.PropTypes.string,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
   };
 
   render() {

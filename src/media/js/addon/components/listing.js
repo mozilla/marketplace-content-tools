@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Addon, AddonForDashboard} from './addon';
+import {Addon, AddonForDashboard, AddonForReview} from './addon';
 
 
 export class AddonListing extends React.Component {
@@ -26,9 +26,22 @@ export class AddonListing extends React.Component {
 export class AddonListingForDashboard extends AddonListing {
   render() {
     return (
-      <ul className="addon-listing--dashboard">
+      <ul className="addon-listing-dashboard">
         {this.props.addons.map(addon =>
           <AddonForDashboard {...this.props} {...addon}/>
+        )}
+      </ul>
+    );
+  }
+}
+
+
+export class AddonListingForReview extends AddonListing {
+  render() {
+    return (
+      <ul className="addon-listing-for-review">
+        {this.props.addons.map(addon =>
+          <AddonForReview {...this.props} {...addon}/>
         )}
       </ul>
     );

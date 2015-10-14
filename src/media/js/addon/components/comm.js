@@ -90,7 +90,7 @@ export class NoteSubmit extends React.Component {
   render() {
     return (
       <div className="comm-note--submit">
-        <form>
+        <form className="comm-note-form">
           <textarea onChange={this.handleTextChange}
                     placeholder='Send a message...'
                     value={this.state.text}/>
@@ -99,7 +99,7 @@ export class NoteSubmit extends React.Component {
           </button>
 
           {this.props.showReviewActions &&
-            <div>
+            <div className="comm-internal-reviewer-option">
               <label htmlFor="internalReviewerNoteType">
                 Message internal reviewers only
               </label>

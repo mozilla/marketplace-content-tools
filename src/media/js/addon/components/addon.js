@@ -8,6 +8,9 @@ import * as constants from '../constants';
 import {PageSection} from '../../site/components/page';
 
 
+/*
+ * Add-on component to extend from.
+ */
 export class Addon extends React.Component {
   static propTypes = {
     description: React.PropTypes.string,
@@ -16,7 +19,6 @@ export class Addon extends React.Component {
     latest_version: React.PropTypes.object.isRequired,
     linkTo: React.PropTypes.string,
     mini_manifest_url: React.PropTypes.string.isRequired,
-    showWaitingTime: React.PropTypes.bool,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string,
@@ -29,170 +31,7 @@ export class Addon extends React.Component {
     }
   }
 
-  renderWaitingTime() {
-    if (this.props.latest_version &&
-        this.props.latest_version.status == constants.STATUS_PENDING) {
-      return (
-        <di>
-          <dt>Time in Queue</dt>
-          <dd>
-            {moment().diff(this.props.latest_version.created, 'days')} Days
-          </dd>
-        </di>
-      );
-    }
-  }
-
-  renderName() {
-    // If `linkTo`, have the header link to a more detailed page.
-    if (this.props.linkTo) {
-      return (
-        <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
-          <h2>{this.props.name}</h2>
-        </ReverseLink>
-      );
-    }
-    return <h2>{this.props.name}</h2>
-  }
-
-  render() {
-    const marketplaceUrl = this.getMarketplaceUrl();
-    return (
-      <div className="addon">
-        <div>
-          {this.renderName()}
-        </div>
-        <dl>
-          <di>
-            <dt>Slug</dt>
-            <dd>{this.props.slug}</dd>
-          </di>
-
-          {this.props.showWaitingTime && this.renderWaitingTime()}
-
-          <di>
-            <dt>Manifest</dt>
-            <dd>
-              <a href={this.props.mini_manifest_url}>
-                Download manifest
-              </a>
-            </dd>
-          </di>
-
-          {this.props.latest_public_version &&
-            <di>
-              <dt>Latest Public Version</dt>
-              <dd>{this.props.latest_public_version.version}</dd>
-
-              <dt>Size</dt>
-              <dd>{this.props.latest_public_version.size}</dd>
-            </di>
-          }
-
-          {this.props.latest_version &&
-            <di>
-              <dt>Latest Submitted Version</dt>
-              <dd>{this.props.latest_version.version}</dd>
-            </di>
-          }
-
-          {this.props.description &&
-            <di>
-              <dt>Description</dt>
-              <dd>{this.props.description}</dd>
-            </di>
-          }
-
-          {this.props.status &&
-            <di>
-              <dt>Status</dt>
-              <dd>
-                {constants.humanizeAddonStatus(this.props.status,
-                                               this.props.disabled)}
-              </dd>
-            </di>
-          }
-
-          {this.props.latest_version &&
-            <di>
-              <dt>Last version uploaded</dt>
-              <dd>{this.props.latest_version.created}</dd>
-            </di>
-          }
-
-          {marketplaceUrl &&
-            <di>
-              <dt>View on Marketplace</dt>
-              <dd>
-                <a href={marketplaceUrl}>{marketplaceUrl}</a>
-              </dd>
-            </di>
-          }
-        </dl>
-      </div>
-    );
-  }
-}
-
-
-export class AddonForDashboard extends Addon {
-  renderLastUpdated() {
-    if (this.props.latest_version) {
-      return (
-        <di>
-          <dt>Updated</dt>
-          <dd>
-            {moment(this.props.latest_version.created).format('MMMM Do, YYYY')}
-          </dd>
-        </di>
-      );
-    }
-  }
-
-  render() {
-    const marketplaceUrl = this.getMarketplaceUrl();
-    return (
-      <li className="addon-for-dashboard">
-        <h2>
-          <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
-            {this.props.name}
-          </ReverseLink>
-        </h2>
-        <dl className="addon-for-dashboard--meta">
-          <di className={`addon--status-${this.props.status}`}>
-            <dt>Status</dt>
-            <dd>
-              {constants.humanizeAddonStatus(this.props.status,
-                                             this.props.disabled)}
-            </dd>
-          </di>
-          {this.renderLastUpdated()}
-        </dl>
-        <nav className="addon-for-dashboard--links">
-          <ul>
-            <li>
-              <ReverseLink to={this.props.linkTo}
-                           params={{slug: this.props.slug}}>
-                Edit this Add-on &raquo;
-              </ReverseLink>
-            </li>
-            {marketplaceUrl &&
-              <li>
-                <a href={marketplaceUrl} target="_blank">
-                  View on Marketplace &raquo;
-                </a>
-              </li>
-            }
-          </ul>
-        </nav>
-      </li>
-    );
-  }
-}
-
-
-export class AddonForDashboardDetail extends Addon {
-  renderAddonStatus() {
+  renderAddonStatusForDashboard() {
     return (
       <div className="addon-dashboard-detail--addon-status">
         {this.props.status === constants.STATUS_PUBLIC &&
@@ -242,7 +81,58 @@ export class AddonForDashboardDetail extends Addon {
     );
   }
 
-  renderVersionStatuses() {
+  renderAddonStatusForReview() {
+    return (
+      <div className="addon-dashboard-detail--addon-status">
+        {this.props.status === constants.STATUS_PUBLIC &&
+          <p>
+            This add-on
+            is <span className="version--status-public">published</span> and is
+            currently available on Marketplace.
+          </p>
+        }
+        {this.props.status === constants.STATUS_PENDING &&
+          <div>
+            <p>
+              This add-on is currently <span className="version--status-pending">
+              pending approval</span>.
+            </p>
+          </div>
+        }
+        {this.props.status === constants.STATUS_INCOMPLETE &&
+          <div>
+            <p>
+              This add-on is currently
+              <span className="version--status-incomplete"> incomplete</span>.
+            </p>
+          </div>
+        }
+        {this.props.status === constants.STATUS_REJECTED &&
+          <div>
+            <p>
+              This add-on has been <span className="version--status-incomplete">
+              rejected</span>.
+            </p>
+          </div>
+        }
+      </div>
+    );
+  }
+
+  renderLastUpdated() {
+    if (this.props.latest_version) {
+      return (
+        <di>
+          <dt>Updated</dt>
+          <dd>
+            {moment(this.props.latest_version.created).format('MMMM Do, YYYY')}
+          </dd>
+        </di>
+      );
+    }
+  }
+
+  renderVersionStatusesForDashboard() {
     return (
       <ul>
         {this.props.latest_version.status === constants.STATUS_PENDING &&
@@ -256,21 +146,201 @@ export class AddonForDashboardDetail extends Addon {
             Version {this.props.latest_version.version} of your add-on
             has been <span className="version--status-rejected">rejected</span>.
           </li>
-        }        <li>
-          Version {this.props.latest_public_version.version} of your add-on
-          is <span className="version--status-public">public</span>.
-        </li>
+        }
+        {this.props.latest_public_version &&
+          <li>
+            Version {this.props.latest_public_version.version} of your add-on
+            is <span className="version--status-public">public</span>.
+          </li>
+        }
       </ul>
     );
   }
 
+  renderVersionStatusesForReview() {
+    return (
+      <ul>
+        {this.props.latest_version.status === constants.STATUS_PENDING &&
+          <li>
+            Version {this.props.latest_version.version} of this add-on
+            is <span className="version--status-pending">pending approval</span>.
+          </li>
+        }
+        {this.props.latest_version.status === constants.STATUS_REJECTED &&
+          <li>
+            Version {this.props.latest_version.version} of this add-on
+            has been <span className="version--status-rejected">rejected</span>.
+          </li>
+        }
+        {this.props.latest_public_version &&
+          <li>
+            Version {this.props.latest_public_version.version} of this add-on
+            is <span className="version--status-public">public</span>.
+          </li>
+        }
+      </ul>
+    );
+  }
+
+  renderWaitingTime() {
+    if (this.props.latest_version &&
+        this.props.latest_version.status == constants.STATUS_PENDING) {
+      return (
+        <di>
+          <dt>Time in Queue</dt>
+          <dd>
+            {moment().diff(this.props.latest_version.created, 'days')} Days
+          </dd>
+        </di>
+      );
+    }
+  }
+
+  render() {
+    return (
+      <p>{this.props.name}</p>
+    );
+  }
+}
+
+
+/*
+ * Add-on for dashboard listing.
+ */
+export class AddonForDashboard extends Addon {
+  render() {
+    const marketplaceUrl = this.getMarketplaceUrl();
+    return (
+      <li className="addon-for-listing addon-for-dashboard">
+        <h2>
+          <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
+            {this.props.name}
+          </ReverseLink>
+        </h2>
+        <dl className="addon-for-listing-meta">
+          <di className={`addon--status-${this.props.status}`}>
+            <dt>Status</dt>
+            <dd>
+              {constants.humanizeAddonStatus(this.props.status,
+                                             this.props.disabled)}
+            </dd>
+          </di>
+          {this.renderLastUpdated()}
+        </dl>
+        <nav className="addon-for-listing-links">
+          <ul>
+            <li>
+              <ReverseLink to={this.props.linkTo}
+                           params={{slug: this.props.slug}}>
+                Edit this Add-on &raquo;
+              </ReverseLink>
+            </li>
+            {marketplaceUrl &&
+              <li>
+                <a href={marketplaceUrl} target="_blank">
+                  View on Marketplace &raquo;
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </li>
+    );
+  }
+}
+
+
+/*
+ * Add-on for dashboard detail.
+ */
+export class AddonForDashboardDetail extends Addon {
   render() {
     return (
       <PageSection className="addon-dashboard-detail--status">
-        {this.renderAddonStatus()}
-        {this.props.status === constants.STATUS_PUBLIC &&
-          this.renderVersionStatuses()
-        }
+        {this.renderAddonStatusForDashboard()}
+        {this.props.latest_version && this.renderVersionStatusesForDashboard()}
+      </PageSection>
+    );
+  }
+}
+
+
+/*
+ * Add-on for review listing.
+ */
+export class AddonForReview extends Addon {
+  render() {
+    const marketplaceUrl = this.getMarketplaceUrl();
+    return (
+      <li className="addon-for-listing">
+        <h2>
+          <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
+            {this.props.name}
+          </ReverseLink>
+        </h2>
+        <dl className="addon-for-listing-meta">
+          <di className={`addon--status-${this.props.status}`}>
+            <dt>Status</dt>
+            <dd>
+              {constants.humanizeAddonStatus(this.props.status,
+                                             this.props.disabled)}
+            </dd>
+          </di>
+          {this.renderWaitingTime()}
+        </dl>
+        <nav className="addon-for-listing-links">
+          <ul>
+            <li>
+              <ReverseLink to={this.props.linkTo}
+                           params={{slug: this.props.slug}}>
+                Review this Add-on &raquo;
+              </ReverseLink>
+            </li>
+            {marketplaceUrl &&
+              <li>
+                <a href={marketplaceUrl} target="_blank">
+                  View on Marketplace &raquo;
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </li>
+    );
+  }
+}
+
+
+/*
+ * Add-on for review detail.
+ */
+export class AddonForReviewDetail extends Addon {
+  render() {
+    return (
+      <PageSection className="addon-review-detail-addon">
+        <div className="addon-review-detail-details">
+          <dl>
+            {this.props.latest_version &&
+              <di>
+                <dt>Last Version Uploaded</dt>
+                <dd>{moment(this.props.latest_version.created)
+                     .format('MMMM Do, YYYY')}</dd>
+              </di>
+            }
+
+            <dt>Description</dt>
+            <dd>{this.props.description}</dd>
+
+            <dt>Mini Manifest URL</dt>
+            <dd>
+              <a href={this.props.mini_manifest_url} target="_blank">View</a>
+            </dd>
+          </dl>
+        </div>
+        <div className="addon-review-detail-status">
+          {this.renderAddonStatusForReview()}
+          {this.props.latest_version && this.renderVersionStatusesForReview()}
+        </div>
       </PageSection>
     );
   }

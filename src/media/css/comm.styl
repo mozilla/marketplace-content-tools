@@ -9,6 +9,9 @@
 .comm-note
   padding 15px 0
 
+  &:not(:last-child)
+    border-bottom 1px solid $color--border
+
 
 .comm-note-body
   font-size 14px
@@ -34,8 +37,6 @@
 
 
 .comm-note--submit
-  border 1px solid $color--border
-  border-width 1px 0 0
   padding 15px 0
 
   textarea
@@ -52,3 +53,17 @@
   color $color--red
 .comm-note--waiting
   color $color--yellow
+
+
+.comm-note-form
+  display flex
+  flex-wrap wrap
+
+  textarea
+    width 100%
+
+
+.comm-internal-reviewer-option
+  margin-left 20px
+  position relative
+  top 10px

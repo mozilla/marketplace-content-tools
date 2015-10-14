@@ -4,7 +4,7 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import {fetch} from '../actions/review';
-import {AddonListing} from '../components/addonListing';
+import {AddonListingForReview} from '../components/listing';
 import AddonSubnav from '../components/subnav';
 import {addonListSelector} from '../selectors/addon';
 import {Page} from '../../site/components/page';
@@ -31,11 +31,12 @@ export class AddonReview extends React.Component {
 
   render() {
     return (
-      <Page subnav={<AddonSubnav user={this.props.user}/>}
+      <Page className="addon-review"
+            subnav={<AddonSubnav user={this.props.user}/>}
             title="Reviewing Firefox OS Add-ons">
-        <AddonListing addons={this.props.addons}
-                      showWaitingTime={true}
-                      linkTo="addon-review-detail"/>
+        <AddonListingForReview addons={this.props.addons}
+                               showWaitingTime={true}
+                               linkTo="addon-review-detail"/>
       </Page>
     );
   }
