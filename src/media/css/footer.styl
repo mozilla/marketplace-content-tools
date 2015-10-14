@@ -5,11 +5,14 @@ footer
   align-items center
   background $color--white
   color $color--grey-dark
-  display flex
+  display none
   font-size 14px
   justify-content center
   padding 20px
   width 100%
+
+  +media--desktop()
+    display flex
 
   p
     background url('../img/footzilla.svg') no-repeat left
