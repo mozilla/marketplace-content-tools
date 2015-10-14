@@ -35,7 +35,7 @@ export function loginRequired(Component, group) {
   )
   class AuthenticatedComponent extends React.Component {
     render() {
-      if (!!this.props.user.token || process.env.MOCK_DATA) {
+      if (!!this.props.user.token) {
         const hasPermission = checkPermissions(this.props.user, group);
         const hasSignedTOS = ('tos' in this.props.user &&
                               this.props.user.tos.has_signed);

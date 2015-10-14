@@ -5,7 +5,10 @@ import * as tosActions from '../actions/tos';
 export const initialState = {
   __persist: true,
   settings: {},
-  tos: {},
+  token: process.env.MOCK_DATA ? 'mocktoken' : null,
+  tos: {
+    has_signed: process.env.MOCK_DATA
+  },
 };
 
 
