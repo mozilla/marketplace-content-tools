@@ -16,8 +16,15 @@
 .addon-dashboard-header
   border-bottom 1px solid $color--border
   display flex
-  justify-content space-between
+  align-items flex-end
+  flex-direction column
   margin-bottom 25px
+  padding-bottom 30px
+
+  +media--desktop()
+    flex-direction row
+    justify-content space-between
+    padding 0
 
 
 .addon-dashboard--empty
