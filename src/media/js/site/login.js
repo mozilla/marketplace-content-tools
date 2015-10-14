@@ -35,13 +35,12 @@ export function loginRequired(Component, group) {
   )
   class AuthenticatedComponent extends React.Component {
     render() {
-      if (!!this.props.user.token) {
+      if (!!this.props.user.token || process.env.MOCK_DATA) {
         const hasPermission = checkPermissions(this.props.user, group);
         const hasSignedTOS = ('tos' in this.props.user &&
                               this.props.user.tos.has_signed);
 
-        if (process.env.NODE_ENV === 'test' ||
-            (hasPermission && hasSignedTOS)) {
+        if ((hasPermission && hasSignedTOS) || process.env.MOCK_DATA) {
           return <Component user={this.props.user}/>;
 
         // Redirect to UnauthorizedHandler if logged in but lacking permission.

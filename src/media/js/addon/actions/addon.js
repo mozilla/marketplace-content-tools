@@ -22,7 +22,7 @@ export function fetch(addonSlug) {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/', addonSlug)
     ).q(apiArgs);
 
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.MOCK_DATA) {
       // Mock data.
       const addonFactory = (
         require('../../__tests__/factory.test').addonFactory
@@ -50,8 +50,7 @@ export function fetchVersions(addonSlug) {
               'versions/')
     ).q(apiArgs);
 
-    if (process.env.NODE_ENV === 'test') {
-      // Mock data.
+    if (process.env.MOCK_DATA) {
       const versionsFactory = (
         require('../../__tests__/factory.test').versionsFactory
       );

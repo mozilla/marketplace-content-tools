@@ -37,7 +37,7 @@ export function fetch() {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/queue/')
     ).q(apiArgs);
 
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.MOCK_DATA) {
       // Mock data.
       const addonFactory = (
         require('../../__tests__/factory.test').addonFactory
