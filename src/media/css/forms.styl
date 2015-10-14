@@ -4,6 +4,17 @@ $field--label-width = 125px;
 $field--label-margin = 15px;
 
 
+input[type="text"],
+textarea
+  border 1px solid $color--grey
+  border-radius 5px
+  font-family $font--primary
+  font-size 14px
+  height 200px
+  padding 10px
+  width 450px
+
+
 .form-block
   display flex
   flex-direction column
@@ -11,6 +22,7 @@ $field--label-margin = 15px;
   button
     margin 10px 0 0
     width 502px
+
 
 .form-block--group
   margin-bottom 30px
@@ -23,11 +35,13 @@ $field--label-margin = 15px;
   textarea
     width 480px
 
+
 .form-block--radio > label
   display inline-block
   font-weight 300
   margin-bottom 0
   padding: 5px 50px 5px 10px
+
 
 .form-inline
   label
@@ -40,9 +54,11 @@ $field--label-margin = 15px;
 .form-msg--success p
   margin-top 0
 
+
 .Select .Select-option.is-focused
   background $color--primary
   color $color--white
+
 
 .form-inline--file-input
   background $color--primary
@@ -106,6 +122,7 @@ $field--label-margin = 15px;
     list-style disc inside
     margin 5px 0 5px 10px
 
+
 .form-msg--help
   color $color--help-text
 
@@ -113,6 +130,7 @@ $field--label-margin = 15px;
 .form-msg--error
 .field--error label
   color $color--error
+
 
 .form-msg--error a
 .form-msg--error a:hover

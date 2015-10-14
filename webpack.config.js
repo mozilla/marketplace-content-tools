@@ -63,10 +63,11 @@ var PLUGINS = [
       MKT_API_ROOT: ENVS[process.env.MKT_ENV || 'dev'].apiRoot,
       MKT_MEDIA_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mediaRoot,
       MKT_ROOT: ENVS[process.env.MKT_ENV || 'dev'].mktRoot,
+      MOCK_DATA: process.env.MOCK_DATA,
       NODE_ENV: '"' + process.env.NODE_ENV + '"',
     }
   }),
-]
+];
 if (IS_PRODUCTION && process.env.MKT_ENV !== 'dev') {
   // Uglify in production, but not -dev.
   PLUGINS.push(

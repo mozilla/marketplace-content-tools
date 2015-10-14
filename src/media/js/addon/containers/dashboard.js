@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import urlJoin from 'url-join';
 
 import {fetch} from '../actions/dashboard';
-import {AddonListingForDashboard} from '../components/addonListing';
+import {AddonListingForDashboard} from '../components/listing';
 import AddonSubnav from '../components/subnav';
 import {addonListSelector} from '../selectors/addon';
 import {Page} from '../../site/components/page';

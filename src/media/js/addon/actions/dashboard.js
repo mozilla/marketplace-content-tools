@@ -24,15 +24,16 @@ export function fetch(page=1) {
       urlJoin(process.env.MKT_API_ROOT, 'extensions/extension/')
     ).q(apiArgs).q({page});
 
-    if (process.env.NODE_ENV === 'test') {
-      // Mock data.
+    if (process.env.MOCK_DATA) {
       const addonFactory = (
         require('../../__tests__/factory.test').addonFactory
       );
-      return dispatch(fetchOk([
-        addonFactory(),
-        addonFactory({slug: 'test-addon-2'})
-      ]));
+      return dispatch(fetchOk({
+        addons: [addonFactory(), addonFactory({slug: 'test-addon-2'})],
+        hasPrevPage: false,
+        hasNextPage: false,
+        page
+      }));
     }
 
     req

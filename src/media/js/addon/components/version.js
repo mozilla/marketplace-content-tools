@@ -68,14 +68,18 @@ export default class AddonVersion extends React.Component {
       <div className={versionClasses} data-version-status={this.props.status}>
         <div className="version--header" onClick={this.toggleCollapse}>
           <h3>Version {this.props.version}</h3>
+
           <span className={statusClasses}>
             {constants.humanizeVersionStatus(this.props.status)}
           </span>
+
           <span className="version--header--date">
             {moment(this.props.created).format('MMM Do YYYY')}
           </span>
+
           <span className="version--header--buttons">
-            <a className="button" href={this.props.unsigned_download_url}>
+            <a className="button version-download-button"
+               href={this.props.unsigned_download_url} target="_blank">
               Download
             </a>
             {this.props.showDeveloperActions &&
@@ -84,19 +88,18 @@ export default class AddonVersion extends React.Component {
                              onClick={this.deleteVersion}
                              processingText='Deleting...'/>
             }
+            {this.props.showReviewActions &&
+             this.props.status !== constants.STATUS_OBSOLETE &&
+              <ReviewActions isProcessing={this.props.isPublishing ||
+                                           this.props.isRejecting}
+                             publish={this.publish}
+                             reject={this.reject}
+                             status={this.props.status}/>
+            }
           </span>
         </div>
 
         <div className="version--body">
-          {this.props.showReviewActions &&
-           this.props.status !== constants.STATUS_OBSOLETE &&
-            <ReviewActions isProcessing={this.props.isPublishing ||
-                                         this.props.isRejecting}
-                           publish={this.publish}
-                           reject={this.reject}
-                           status={this.props.status}/>
-          }
-
           {this.props.notes && this.props.notes.length &&
             <div className="version--notes">
               <ul>
