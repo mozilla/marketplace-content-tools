@@ -47,7 +47,10 @@ export class AddonReviewDetail extends React.Component {
       );
     }
     return (
-      <Page title={`Reviewing Firefox OS Add-on: ${addon.name}`}
+      <Page breadcrumbText="Review Add-ons"
+            breadcrumbTo="addon-review"
+            className="addon-review-detail"
+            title={`Reviewing Firefox OS Add-on: ${addon.name}`}
             subnav={<AddonSubnav user={this.props.user}/>}>
         <AddonForReviewDetail {...addon}/>
 

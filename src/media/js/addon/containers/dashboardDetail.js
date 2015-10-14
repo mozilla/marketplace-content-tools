@@ -63,9 +63,9 @@ export class AddonDashboardDetail extends React.Component {
       );
     }
     return (
-      <Page className="addon-dashboard-detail"
-            breadcrumbText="My Add-ons"
+      <Page breadcrumbText="My Add-ons"
             breadcrumbTo="addon-dashboard"
+            className="addon-dashboard-detail"
             subnav={<AddonSubnav user={this.props.user}/>}
             title={this.props.addon.name}>
 
