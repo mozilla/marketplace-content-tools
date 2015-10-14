@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {messageChange, submit} from '../actions/submit';
-import AddonSubnav from '../components/addonSubnav';
+import AddonSubnav from '../components/subnav';
 import AddonUpload from '../components/upload';
 import {Page} from '../../site/components/page';
 

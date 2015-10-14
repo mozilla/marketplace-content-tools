@@ -11,7 +11,7 @@ import {fetch as fetchAddon} from '../actions/addon';
 import {del as deleteAddon} from '../actions/dashboard';
 import {messageChange, submitVersion} from '../actions/submitVersion';
 import {Addon, AddonForDashboardDetail} from '../components/addon';
-import AddonSubnav from '../components/addonSubnav';
+import AddonSubnav from '../components/subnav';
 import AddonUpload from '../components/upload';
 import ConfirmButton from '../../site/components/confirmButton';
 import {Page, PageSection} from '../../site/components/page';

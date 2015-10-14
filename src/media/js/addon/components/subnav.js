@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {ADDON_REVIEW, ADDON_SUBMIT} from '../../app';
 import {Subnav} from '../../site/components/subnav';
 import {SubnavItem} from '../../site/components/subnavItem';
+import {ADDON_REVIEW, ADDON_SUBMIT} from '../../site/constants/login';
 
 
 export default class AddonSubnav extends React.Component {

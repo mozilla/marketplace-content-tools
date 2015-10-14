@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import * as addonActions from '../actions/addon';
 import * as dashboardActions from '../actions/dashboard';
+import * as mozAppsActions from '../actions/mozApps';
 import * as reviewActions from '../actions/review';
 import * as submitActions from '../actions/submit';
 import * as submitVersionActions from '../actions/submitVersion';
@@ -58,44 +59,6 @@ export default function addonReducer(state=initialState, action) {
       return newState;
     }
 
-    case addonActions.INSTALL_BEGIN: {
-      /*
-        Add-on installation begin.
-
-        payload (string) -- slug of add-on being installed.
-      */
-      const newState = _.cloneDeep(state);
-      newState.addons[action.payload].isInstalling = true;
-      return newState;
-    }
-
-    case addonActions.INSTALL_ERROR: {
-      /*
-        Add-on installation error.
-
-        payload (object) --
-          addonSlug (string) -- slug of add-on that failed to install.
-          errorMessage (string) -- error message from browser.
-      */
-      const newState = _.cloneDeep(state);
-      const {addonSlug, errorMessage} = action.payload;
-      newState.addons[addonSlug].installErrorMessage = errorMessage;
-      newState.addons[addonSlug].isInstalling = false;
-      return newState;
-    }
-
-    case addonActions.INSTALL_OK: {
-      /*
-        Add-on installation success.
-
-        payload (string) -- slug of add-on installed.
-      */
-      const newState = _.cloneDeep(state);
-      newState.addons[action.payload].isInstalling = false;
-      newState.addons[action.payload].isInstalled = true;
-      return newState;
-    }
-
     case dashboardActions.FETCH_OK: {
       /*
         Get add-ons from dashboard.
@@ -121,6 +84,71 @@ export default function addonReducer(state=initialState, action) {
       */
       const newState = _.cloneDeep(state);
       newState.addons[action.payload].deleted = true;
+      return newState;
+    }
+
+    case mozAppsActions.GET_INSTALLED_OK: {
+      /*
+        Queried for installed add-ons.
+
+        payload (array) - array of manifestURL strings.
+      */
+      const newState = _.cloneDeep(state);
+
+      Object.keys(newState.addons).forEach(slug => {
+        let addon = newState.addons[slug];
+
+        if (!addon.latest_version) {
+          addon.isInstalled = false;
+          return;
+        }
+
+        const manifestUrl = addon.latest_version.reviewer_mini_manifest_url;
+        if (!manifestUrl || action.payload.indexOf(manifestUrl) === -1) {
+          addon.isInstalled = false;
+          return;
+        }
+
+        addon.isInstalled = true;
+      });
+      return newState;
+    }
+
+    case mozAppsActions.INSTALL_BEGIN: {
+      /*
+        Add-on installation begin.
+
+        payload (string) -- slug of add-on being installed.
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isInstalling = true;
+      return newState;
+    }
+
+    case mozAppsActions.INSTALL_ERROR: {
+      /*
+        Add-on installation error.
+
+        payload (object) --
+          addonSlug (string) -- slug of add-on that failed to install.
+          errorMessage (string) -- error message from browser.
+      */
+      const newState = _.cloneDeep(state);
+      const {addonSlug, errorMessage} = action.payload;
+      newState.addons[addonSlug].installErrorMessage = errorMessage;
+      newState.addons[addonSlug].isInstalling = false;
+      return newState;
+    }
+
+    case mozAppsActions.INSTALL_OK: {
+      /*
+        Add-on installation success.
+
+        payload (string) -- slug of add-on installed.
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isInstalling = false;
+      newState.addons[action.payload].isInstalled = true;
       return newState;
     }
 

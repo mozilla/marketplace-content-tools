@@ -6,7 +6,7 @@ import urlJoin from 'url-join';
 
 import {fetch} from '../actions/dashboard';
 import {AddonListingForDashboard} from '../components/addonListing';
-import AddonSubnav from '../components/addonSubnav';
+import AddonSubnav from '../components/subnav';
 import {addonListSelector} from '../selectors/addon';
 import {Page} from '../../site/components/page';
 import Paginator from '../../site/components/paginator';
