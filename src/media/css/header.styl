@@ -1,5 +1,6 @@
 @import 'lib';
 
+
 /* Because the shopping bag logo is a bit visually imbalanced on the x-axis, we
    need a bit of offset to visually even out the vertical centering. */
 $header--vertical-offset = 2px
@@ -9,16 +10,24 @@ $header--vertical-offset = 2px
   align-items center
   background $color--white
   display flex
+  flex-direction column
   font-size 14px
   font-weight 400
-  height 60px
-  padding $header--vertical-offset 35px 0
   justify-content space-between
+
+  +media--desktop()
+    flex-direction row
+    height 60px
+    padding $header--vertical-offset 35px 0
 
   h1
     align-items center
     display flex
     font-weight 300
+    margin 10px 0 5px
+
+    +media--desktop()
+      margin 10px 0
 
 
 .header--title
@@ -47,25 +56,49 @@ $header--vertical-offset = 2px
 .header--nav
   align-items center
   display flex
-  justify-content space-between
+  justify-content center
   position relative
+  width 100%
+
+  +media--desktop()
+    justify-content space-between
+    width auto
 
   ul
+    align-items center
     display flex
+    flex-direction column
     list-style none
     margin 0
     padding 0
+    width 100%
+
+    +media--desktop()
+      flex-direction row
+      width auto
 
   li
-    margin 0 10px
+    display flex
+    justify-content center
+    width 100%
+
+    +media--desktop()
+      display inline-block
+      margin 0 10px
+      width auto
 
   a
     background transparent
-    border-radius 5px
     color $color--black
-    padding 10px
+    padding 10px 10px 10px 15px
     text-decoration none
     transition background-color 0.05s linear, color 0.05s linear
+    width 100%
+
+    +media--desktop()
+      border-radius 5px
+      padding 10px
+      width auto
 
     &:hover
       background $color--blue-light
@@ -97,12 +130,15 @@ button.header--nav--user
   background transparent url('../img/user.svg')
   background-size 40px 140px
   border 0
-  display inline-block
+  display none
   height 40px
   overflow hidden
   text-indent -999em
   transition none
   width 40px
+
+  +media--desktop()
+    display inline-block
 
   &:hover
     background-color transparent
@@ -165,3 +201,15 @@ button.header--nav--user
 
   button
     text-indent -4px
+
+
+[data-header-show-nav="false"] .header--nav
+  display none
+
+  +media--desktop()
+    display block
+
+
+.header-user-nav--mobile.header-user-nav--mobile
+  +media--desktop()
+    display none
