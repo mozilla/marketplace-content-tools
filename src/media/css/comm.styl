@@ -37,7 +37,8 @@
 
 
 .comm-note--submit
-  padding 15px 0
+  +media--desktop()
+    padding 15px 0
 
   textarea
     display block
@@ -64,6 +65,8 @@
 
 
 .comm-internal-reviewer-option
-  margin-left 20px
   position relative
   top 10px
+
+  +media--desktop()
+    margin-left 20px

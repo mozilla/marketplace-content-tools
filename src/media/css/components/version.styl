@@ -22,8 +22,12 @@ $version--col-width = 19%
   align-items center
   cursor pointer
   display flex
+  flex-wrap wrap
   justify-content space-between
   padding 5px 0
+
+  +media--desktop()
+    flex-wrap nowrap
 
   h3
   span
@@ -34,17 +38,28 @@ $version--col-width = 19%
     font-weight 400
     margin 0
     text-decoration underline
-    width $version--col-width
+
+    +media--desktop()
+      width $version--col-width
 
 
 .version--header--date
 .version--header--status
-  width $version--col-width
+  +media--desktop()
+    width $version--col-width
 
 
 .version--header--buttons
+  display flex
+  justify-content center
+  margin-top 20px
   text-align right
-  width 100 - (3 * $version--col-width)
+  width 100%
+
+  +media--desktop()
+    display block
+    margin 0
+    width 100 - (3 * $version--col-width)
 
   button
   .button
@@ -63,7 +78,8 @@ $version--col-width = 19%
 
 
 .version--notes
-  margin-left $version--col-width
+  +media--desktop()
+    margin-left $version--col-width
 
 
 .version--status-obsolete

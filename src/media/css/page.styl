@@ -1,10 +1,14 @@
 @import 'lib';
 
 $page--spacing = 35px
+$page--spacing--mobile = 10px
 
 
 .page
-  padding $page--spacing
+  padding $page--spacing--mobile
+
+  +media--desktop()
+    padding $page--spacing
 
 
 .page--main
@@ -17,10 +21,13 @@ $page--spacing = 35px
   justify-content space-between
 
   h1
-    font-size 28px
     font-weight 300
     margin 0 auto 15px
-    max-width $layout--page-large
+    max-width $layout--page-medium
+
+    +media--desktop()
+      font-size 28px
+      max-width $layout--page-large
 
 
 .page--subnav
@@ -28,10 +35,11 @@ $page--spacing = 35px
   display flex
   font-weight 300
   justify-content center
-  margin (-1 * $page--spacing) (-1 * $page--spacing) $page--spacing
+  margin (-1 * $page--spacing--mobile) (-1 * $page--spacing--mobile) 15px
 
   +media--desktop()
     height 50px
+    margin (-1 * $page--spacing) (-1 * $page--spacing) $page--spacing
 
   ul
     align-items center
@@ -96,8 +104,11 @@ $page--spacing = 35px
 
 .page-section--main
   background $color--white
-  border-radius 5px
-  padding $layout--island-padding
+  padding $layout--island-padding--mobile
+
+  +media--desktop()
+    border-radius 5px
+    padding $layout--island-padding
 
 
 .page--breadcrumb

@@ -101,7 +101,7 @@ export class NoteSubmit extends React.Component {
           {this.props.showReviewActions &&
             <div className="comm-internal-reviewer-option">
               <label htmlFor="internalReviewerNoteType">
-                Message internal reviewers only
+                Check to send message to internal reviewers only
               </label>
               <input id="internalReviewerNoteType"
                      onChange={this.handleInternalReviewerNoteTypeChange}

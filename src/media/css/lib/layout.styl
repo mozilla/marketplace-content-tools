@@ -1,4 +1,5 @@
 $layout--island-padding = 25px
+$layout--island-padding--mobile = 15px
 $layout--list-padding = $layout--island-padding
 
 $layout--page-small = 480px
@@ -8,7 +9,7 @@ $layout--page-large = 1024px
 
 
 media--desktop() {
-    @media (min-width: 768px) {
+    @media (min-width: $layout--page-medium) {
         {block}
     }
 }
