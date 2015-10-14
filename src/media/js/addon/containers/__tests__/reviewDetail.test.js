@@ -29,6 +29,8 @@ describe('AddonReviewDetail', () => {
     const component = ReactDOMHelper.render(
       <StubProvider Component={AddonReviewDetail} {...props}/>
     );
-    assert.equal(ReactDOMHelper.queryClassAll(component, 'addon').length, 1);
+    assert.equal(
+      ReactDOMHelper.queryClassAll(component,
+                                   'addon-review-detail-addon').length, 1);
   });
 });

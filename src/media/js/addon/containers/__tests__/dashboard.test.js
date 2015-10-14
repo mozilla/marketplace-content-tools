@@ -15,7 +15,7 @@ describe('AddonDashboard', () => {
     );
     assert.equal(
       ReactDOMHelper.queryClassAll(component,
-                                   'addon-listing--dashboard').length,
+                                   'addon-listing-dashboard').length,
       1
     );
   });

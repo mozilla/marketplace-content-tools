@@ -14,6 +14,8 @@ describe('AddonReview', () => {
       <StubRouterProvider Component={AddonReview}
                           {...props}/>
     );
-    assert.equal(ReactDOMHelper.queryClassAll(component, 'addon').length, 1);
+    assert.equal(
+      ReactDOMHelper.queryClassAll(component,
+                                   'addon-listing-for-review').length, 1);
   });
 });
