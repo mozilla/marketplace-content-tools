@@ -28,34 +28,57 @@ $page--spacing = 35px
   display flex
   font-weight 300
   justify-content center
-  height 50px
   margin (-1 * $page--spacing) (-1 * $page--spacing) $page--spacing
+
+  +media--desktop()
+    height 50px
 
   ul
     align-items center
     display flex
+    flex-direction column
     justify-content center
     margin 0
     padding 0
+    width 100%
+
+    +media--desktop()
+      flex-direction row
+      width auto
 
   li
+    display flex
+    justify-content center
     margin 0 10px
+    width 100%
+
+    +media--desktop()
+      width auto
 
   a
-    border-radius 5px
     color $color--white
     font-size 13px
-    padding 8px 8px 6px
+    padding 10px 15px
     text-decoration none
     transition background-color 0.05s linear, color 0.05s linear
+    width 100%
+
+    +media--desktop()
+      border-radius 5px
+      padding 8px 8px 6px
+      width auto
+
+      &.active.active
+        background $color--white
+        color $color--blue-dark
+
+    &.active
+      background alpha($color--white, 0.15)
+      color $color--white
 
     &:hover
       background alpha($color--white, 0.15)
       color $color--white
-
-    &.active
-      background $color--white
-      color $color--blue-dark
 
 
 .page-section
@@ -75,6 +98,7 @@ $page--spacing = 35px
   background $color--white
   border-radius 5px
   padding $layout--island-padding
+
 
 .page--breadcrumb
   font-size 13px
