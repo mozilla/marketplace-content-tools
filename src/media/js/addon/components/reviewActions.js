@@ -46,14 +46,16 @@ export default class ReviewActions extends React.Component {
     return (
       <div className="review-actions">
         {this.props.status !== constants.STATUS_REJECTED &&
-          <ConfirmButton initialText='Reject'
+          <ConfirmButton className="review-actions-reject"
+                         initialText='Reject'
                          onInitialClick={this.toggleMessageBox}
                          isProcessing={this.props.isProcessing}
                          onClick={this.reject}
                          processingText='Rejecting...'/>
         }
         {this.props.status !== constants.STATUS_PUBLIC &&
-          <ConfirmButton initialText='Publish'
+          <ConfirmButton className="review-actions-publish"
+                         initialText='Publish'
                          onInitialClick={this.toggleMessageBox}
                          isProcessing={this.props.isProcessing}
                          onClick={this.publish}
