@@ -1,13 +1,24 @@
 @import '../lib'
 
 
-.landing .page--main
-  align-items flex-start
+.landing
   display flex
-  flex-wrap wrap
-  justify-content space-between
-  max-width $layout--page-landing
-  text-align center
+  justify-content center
+
+  .page--main
+    align-items center
+    display flex
+    flex-wrap wrap
+    flex-direction column
+    justify-content space-between
+    margin-top 20px
+    max-width $layout--page-landing
+    text-align center
+
+    +media--desktop()
+      align-items flex-start
+      flex-direction row
+      margin 0
 
 
 .landing--header
@@ -31,8 +42,13 @@
 .landing--content
   background $color--white
   border-radius 5px
+  margin-bottom 20px
   padding 25px
-  width 47.5%
+  width: 100%
+
+  +media--desktop()
+    margin 0
+    width 47.5%
 
   section
     border-bottom 1px solid $color--grey
