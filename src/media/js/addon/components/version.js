@@ -106,7 +106,8 @@ export default class AddonVersion extends React.Component {
 
         <div className="version--body">
           {this.props.notes && this.props.notes.length &&
-            <div className="version--notes">
+            <div className="version-notes">
+              <h4>Messages</h4>
               <ul>
                 {(this.props.notes || []).map(note =>
                   <Note {...note} author={note.author_meta.name}/>
