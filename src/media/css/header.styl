@@ -30,7 +30,7 @@ $header--vertical-offset = 2px
       margin 10px 0
 
 
-.header--title
+.header-title
   color $color--black
   font-size 20px
   margin-left 20px
@@ -41,7 +41,7 @@ $header--vertical-offset = 2px
     text-decoration underline
 
 
-.header--wordmark
+.header-wordmark
   background url('../img/header-wordmark.svg') no-repeat
   background-size 34px 42px
   display inline-block
@@ -53,7 +53,8 @@ $header--vertical-offset = 2px
   width 34px
 
 
-.header--nav
+.header-nav,
+.header-user
   align-items center
   display flex
   justify-content center
@@ -126,7 +127,14 @@ $header--vertical-offset = 2px
     margin 0 20px 0 0
 
 
-button.header--nav--user
+.header-user
+  display none
+
+  +media--desktop()
+    display flex
+
+
+button.header-user-dropdown-toggle
   background transparent url('../img/user.svg')
   background-size 40px 140px
   border 0
@@ -144,13 +152,13 @@ button.header--nav--user
     background-color transparent
     background-position 0px -50px
 
-  .header--nav--showing-user-dropdown &
-  .header--nav--showing-user-dropdown &:hover
+  .header-user--is-showing-dropdown &
+  .header-user--is-showing-dropdown &:hover
     background-color transparent
     background-position 0px -100px
 
 
-.header--nav--user-dropdown
+.header-user-dropdown
   background $color--blue
   border-radius 5px 0 5px 5px
   display none
@@ -161,7 +169,7 @@ button.header--nav--user
   top 35px
   width 250px
 
-  .header--nav--showing-user-dropdown &
+  .header-user--is-showing-dropdown &
     display block
 
   p
@@ -203,13 +211,23 @@ button.header--nav--user
     text-indent -4px
 
 
-[data-header-show-nav="false"] .header--nav
+[data-header-user-ok="false"] .header-nav
   display none
 
   +media--desktop()
     display block
 
 
-.header-user-nav--mobile.header-user-nav--mobile
+.header-login--mobile
+  display flex
+  justify-content space-between
+  padding 5px 0 15px
+  width 160px
+
+  +media--desktop()
+    display none
+
+
+li.header-logout--mobile
   +media--desktop()
     display none

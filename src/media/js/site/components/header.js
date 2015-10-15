@@ -17,17 +17,17 @@ export default class Header extends React.Component {
   };
 
   render() {
-    const showNav = this.props.isLoggedIn && this.props.hasSignedTOS;
+    const userOk = this.props.isLoggedIn && this.props.hasSignedTOS;
     return (
-      <header className="header" data-header-show-nav={showNav}>
+      <header className="header" data-header-user-ok={userOk}>
         <h1>
-          <a className="header--wordmark" href="/">Firefox Marketplace</a>
-          <ReverseLink to="root" className="header--title">
+          <a className="header-wordmark" href="/">Firefox Marketplace</a>
+          <ReverseLink to="root" className="header-title">
             Content Tools
           </ReverseLink>
         </h1>
-        {showNav &&
-          <nav className="header--nav">
+        {userOk &&
+          <nav className="header-nav">
             <ul>
               <li><ReverseLink to="addon">Firefox OS Add-ons</ReverseLink></li>
               <li>
@@ -39,18 +39,23 @@ export default class Header extends React.Component {
                   Review Criteria
                 </a>
               </li>
-              <HeaderUserNavMobile {...this.props}/>
+              {userOk &&
+                <HeaderLogoutMobile {...this.props}/>
+              }
             </ul>
           </nav>
         }
-        <HeaderUserNav {...this.props}/>
+        <HeaderUser {...this.props}/>
+        {!userOk &&
+          <HeaderLoginMobile {...this.props}/>
+        }
       </header>
     );
   }
 }
 
 
-class HeaderUserNav extends React.Component {
+class HeaderUser extends React.Component {
   static propTypes = {
     authUrl: React.PropTypes.string,
     email: React.PropTypes.string,
@@ -61,11 +66,11 @@ class HeaderUserNav extends React.Component {
   }
 
   state = {
-    isShowingUserDropdown: false
+    isShowingDropdown: false
   }
 
   toggleUserDropdown() {
-    this.setState({isShowingUserDropdown: !this.state.isShowingUserDropdown});
+    this.setState({isShowingDropdown: !this.state.isShowingDropdown});
   }
 
   handleLogoutClick(evt) {
@@ -75,30 +80,30 @@ class HeaderUserNav extends React.Component {
 
   renderAnonNav() {
     return (
-      <nav className="header--nav">
+      <div className="header-user">
         <ul>
           <li><LoginButton isSignup={true} {...this.props}/></li>
           <li><LoginButton {...this.props}/></li>
         </ul>
-      </nav>
+      </div>
     );
   }
 
   renderUserNav() {
     let dropdownClasses = classNames({
-      'header--nav': true,
-      'header--nav--showing-user-dropdown': this.state.isShowingUserDropdown
+      'header-user': true,
+      'header-user--is-showing-dropdown': this.state.isShowingDropdown
     });
 
     let toggleUserDropdown = this.toggleUserDropdown.bind(this);
 
     return (
-      <nav className={dropdownClasses}>
-        <button className="header--nav--user"
+      <div className={dropdownClasses}>
+        <button className="header-user-dropdown-toggle"
                 onClick={toggleUserDropdown}>
           User
         </button>
-        <section className="header--nav--user-dropdown">
+        <section className="header-user-dropdown">
           <p>{this.props.email}</p>
           <ul>
             <li>
@@ -108,7 +113,7 @@ class HeaderUserNav extends React.Component {
             </li>
           </ul>
         </section>
-      </nav>
+      </div>
     );
   }
 
@@ -118,19 +123,22 @@ class HeaderUserNav extends React.Component {
 }
 
 
-class HeaderUserNavMobile extends HeaderUserNav {
-  renderAnonNav() {
+class HeaderLoginMobile extends React.Component {
+  render() {
     return (
-      <noop className="header-user-nav--mobile">
-        <li><LoginButton isSignup={true} {...this.props}/></li>
-        <li><LoginButton {...this.props}/></li>
-      </noop>
+      <div className="header-login--mobile">
+        <LoginButton isSignup={true} {...this.props}/>
+        <LoginButton {...this.props}/>
+      </div>
     );
   }
+}
 
-  renderUserNav() {
+
+class HeaderLogoutMobile extends HeaderUser {
+  render() {
     return (
-      <li className="header-user-nav--mobile"
+      <li className="header-logout--mobile"
           onClick={this.handleLogoutClick.bind(this)}>
         <a>Logout from {this.props.email}</a>
       </li>
