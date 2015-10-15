@@ -320,6 +320,9 @@ export class AddonForReviewDetail extends Addon {
       <PageSection className="addon-review-detail-addon">
         <div className="addon-review-detail-details">
           <dl>
+            <dt>Slug</dt>
+            <dd>{this.props.slug}</dd>
+
             {this.props.latest_version &&
               <di>
                 <dt>Last Version Uploaded</dt>
