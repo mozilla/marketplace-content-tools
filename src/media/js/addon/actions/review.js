@@ -4,6 +4,8 @@ import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as addonActions from './addon';
+import * as commActions from './comm';
 import * as notificationActions from '../../site/actions/notification';
 
 
@@ -77,13 +79,20 @@ export function publish(addonSlug, versionId, message) {
       .send({message: message})
       .set('Accept', 'application/json')
       .then(res => {
+        // Successfully published.
         dispatch(publishOk({
           addonSlug,
           versionId
         }));
         dispatch(notificationActions.queue(
           `${addonSlug} has been successfully approved.`, 'success'));
+
+        // Update.
+        dispatch(addonActions.fetch(addonSlug));
+        dispatch(addonActions.fetchVersions(addonSlug));
+        dispatch(commActions.fetchThreads(addonSlug));
       }, err => {
+        // Error publishing.
         dispatch(publishError({
           addonSlug,
           versionId
@@ -115,13 +124,20 @@ export function reject(addonSlug, versionId, message) {
       .send({message: message})
       .set('Accept', 'application/json')
       .then(res => {
+        // Successfully rejected.
         dispatch(rejectOk({
           addonSlug,
           versionId
         }));
         dispatch(notificationActions.queue(
           `${addonSlug} has been successfully rejected.`));
+
+        // Update.
+        dispatch(addonActions.fetch(addonSlug));
+        dispatch(addonActions.fetchVersions(addonSlug));
+        dispatch(commActions.fetchThreads(addonSlug));
       }, err => {
+        // Error rejecting.
         dispatch(rejectError({
           addonSlug,
           versionId
