@@ -24,10 +24,12 @@ $page--spacing--mobile = 10px
     font-weight 300
     margin 0 auto 15px
     max-width $layout--page-medium
+    padding-top 10px
 
     +media--desktop()
       font-size 28px
       max-width $layout--page-large
+      padding 0
 
 
 .page--subnav
@@ -113,5 +115,9 @@ $page--spacing--mobile = 10px
 
 .page--breadcrumb
   font-size 13px
+  display none
   margin 0 auto 5px
   max-width $layout--page-large
+
+  +media--desktop()
+    display block
