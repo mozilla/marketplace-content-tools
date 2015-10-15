@@ -82,7 +82,7 @@ export function publish(addonSlug, versionId, message) {
           versionId
         }));
         dispatch(notificationActions.queue(
-          `${addonSlug} has been successfully approved.`));
+          `${addonSlug} has been successfully approved.`, 'success'));
       }, err => {
         dispatch(publishError({
           addonSlug,

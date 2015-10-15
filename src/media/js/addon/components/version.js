@@ -49,7 +49,12 @@ export default class AddonVersion extends React.Component {
     this.props.reject(this.props.slug, this.props.id, message);
   }
 
-  toggleCollapse = () => {
+  toggleCollapse = e => {
+    if (['button',
+         'textarea'].indexOf(e.target.tagName.toLowerCase()) !== -1) {
+      // Don't toggle when clicking interactive stuff.
+      return;
+    }
     this.setState({isCollapsed: !this.state.isCollapsed});
   }
 

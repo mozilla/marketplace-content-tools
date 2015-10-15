@@ -1,9 +1,39 @@
 @import '../lib';
 
 
-.review-actions-reject
+.review-actions
+  display inline-flex
+  position relative
+
+  div:first-child
+    margin-right 10px
+
+
+.review-actions-textarea
+  position relative
+
+  &:after
+    border-left 8px solid transparent
+    border-right 8px solid transparent
+    border-bottom 10px solid rgba($color--highlight, .8)
+    content ''
+    display block
+    height 0
+    position absolute
+    right 2px
+    width 0
+
+  textarea
+    box-shadow 0 0 1px 0 $color--highlight
+    position absolute
+    top 9px
+    right 0
+    width 240px
+
+
+.review-actions-reject button
   background $color--assertive
 
 
-.review-actions-publish
+.review-actions-publish button
   background $color--success
