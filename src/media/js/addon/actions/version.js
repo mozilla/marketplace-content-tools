@@ -10,6 +10,12 @@ import * as notificationActions from '../../site/actions/notification';
 export const FETCH_OK = 'ADDON_VERSION__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
 
+export const DELETE_BEGIN = 'ADDON_VERSION__DELETE_BEGIN';
+const deleteBegin = createAction(DELETE_BEGIN);
+
+export const DELETE_ERROR = 'ADDON_VERSION__DELETE_ERROR';
+const deleteError  = createAction(DELETE_ERROR);
+
 export const DELETE_OK = 'ADDON_VERSION__DELETE_OK';
 const deleteOk = createAction(DELETE_OK);
 
@@ -44,6 +50,11 @@ export function del(addonSlug, versionId) {
               'versions', versionId, '/')
     ).q(apiArgs);
 
+    dispatch(deleteBegin({
+      addonSlug,
+      versionId,
+    }));
+
     req
       .del(versionUrl)
       .then(res => {
@@ -53,6 +64,16 @@ export function del(addonSlug, versionId) {
         }));
         dispatch(notificationActions.queue(
           'Firefox OS Add-on version successfully deleted.'));
+      }, err => {
+        dispatch(deleteError({
+          addonSlug,
+          versionId,
+        }));
+        if (err.forbidden) {
+          dispatch(notificationActions.queue(
+            'Sorry, you do not have permission to delete this version'),
+            'error');
+        }
       });
   };
 }

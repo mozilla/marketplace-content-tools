@@ -291,9 +291,39 @@ export default function addonReducer(state=initialState, action) {
       return newState;
     }
 
+    case versionActions.DELETE_BEGIN: {
+      /*
+        Begin version delete.
+
+        payload (object) --
+          addonSlug (string) - slug of add-on of version deleted.
+          versionId (number) - ID of version deleted.
+      */
+      const newState = _.cloneDeep(state);
+      const {addonSlug, versionId} = action.payload;
+
+      newState.addons[addonSlug].versions[versionId].isDeleting = true;
+      return newState;
+    }
+
+    case versionActions.DELETE_ERROR: {
+      /*
+        Error deleting version.
+
+        payload (object) --
+          addonSlug (string) - slug of add-on of version deleted.
+          versionId (number) - ID of version deleted.
+      */
+      const newState = _.cloneDeep(state);
+      const {addonSlug, versionId} = action.payload;
+
+      newState.addons[addonSlug].versions[versionId].isDeleting = false
+      return newState;
+    }
+
     case versionActions.DELETE_OK: {
       /*
-        Add new version upload to add-on versions.
+        Version deleted.
 
         payload (object) --
           addonSlug (string) - slug of add-on of version deleted.

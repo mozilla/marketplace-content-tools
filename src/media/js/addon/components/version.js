@@ -90,6 +90,7 @@ export default class AddonVersion extends React.Component {
             {this.props.showDeveloperActions &&
               <ConfirmButton className="button--delete"
                              initialText='Delete'
+                             isProcessing={this.props.isDeleting}
                              onClick={this.deleteVersion}
                              processingText='Deleting...'/>
             }
