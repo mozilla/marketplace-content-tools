@@ -5,6 +5,11 @@ export default class Footer extends React.Component {
   render() {
     return (
       <footer>
+        <a className="logo"
+           href="https://www.mozilla.org"
+           target="_blank">
+          Mozilla
+        </a>
         <p>
           Except where otherwise <a href="http://www.mozilla.org/about/legal.html#site">
           noted</a>, content on this site is licensed under
