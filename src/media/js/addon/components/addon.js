@@ -18,7 +18,6 @@ export class Addon extends React.Component {
     latest_public_version: React.PropTypes.object,
     latest_version: React.PropTypes.object.isRequired,
     linkTo: React.PropTypes.string,
-    mini_manifest_url: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string,
@@ -334,11 +333,6 @@ export class AddonForReviewDetail extends Addon {
 
             <dt>Description</dt>
             <dd>{this.props.description}</dd>
-
-            <dt>Mini Manifest URL</dt>
-            <dd>
-              <a href={this.props.mini_manifest_url} target="_blank">View</a>
-            </dd>
 
             {marketplaceUrl && this.props.status === constants.STATUS_PUBLIC &&
               <di>
