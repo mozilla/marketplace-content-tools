@@ -84,7 +84,7 @@ export default class AddonVersion extends React.Component {
 
           <span className="version--header--buttons">
             <a className="button version-download-button"
-               href={this.props.unsigned_download_url} target="_blank">
+               href={this.props.unsigned_download_url}>
               Download
             </a>
             {this.props.showDeveloperActions &&
