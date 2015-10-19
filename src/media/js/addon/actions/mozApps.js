@@ -45,9 +45,6 @@ export function install(addonSlug, manifestUrl) {
       return;
     }
 
-    const apiArgs = getState().apiArgs || {};
-    manifestUrl = Url(manifestUrl).q(apiArgs);
-
     const req = window.navigator.mozApps.installPackage(manifestUrl);
     dispatch(installBegin(addonSlug));
 
