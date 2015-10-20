@@ -5,7 +5,7 @@
 */
 import React from 'react';
 import {connect, Provider} from 'react-redux';
-import {ReverseLink} from 'react-router-reverse';
+import {reverse, ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import AddonVersionListingContainer from './versionListing';
@@ -21,7 +21,9 @@ import {Page, PageSection} from '../../site/components/page';
 export class AddonReviewDetail extends React.Component {
   static contextTypes = {
     store: React.PropTypes.object,
+    router: React.PropTypes.object
   };
+
   static propTypes = {
     addon: React.PropTypes.object,
     fetchAddon: React.PropTypes.func.isRequired,
@@ -35,6 +37,14 @@ export class AddonReviewDetail extends React.Component {
     super(props);
     this.props.fetchAddon(this.props.slug);
     this.props.getInstalledAddons();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Add-on was reviewed, redirect back to reviewer queue.
+    if (prevProps.addon.status !== this.props.addon.status) {
+      const path = reverse(this.context.router.routes, 'addon-review');
+      this.context.router.transitionTo(path);
+    }
   }
 
   render() {
