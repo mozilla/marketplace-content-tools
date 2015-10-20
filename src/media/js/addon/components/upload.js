@@ -83,7 +83,7 @@ export default class AddonUpload extends React.Component {
 
     return (
       <div className="addon-upload">
-        {this.props.addon.latest_version &&
+        {this.props.addon && this.props.addon.latest_version &&
          this.props.addon.latest_version.status ===
          constants.STATUS_PENDING &&
           <p className="addon-upload-note">
