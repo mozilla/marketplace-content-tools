@@ -8,6 +8,7 @@ import FileReaderInput from 'react-file-reader-input';
 
 import ProgressBar from './progressBar';
 import ValidationError from './validationError';
+import * as constants from '../constants';
 
 
 export default class AddonUpload extends React.Component {
@@ -82,8 +83,19 @@ export default class AddonUpload extends React.Component {
 
     return (
       <div className="addon-upload">
-        <form className="form-inline" onSubmit={this.handleSubmit}>
+        {this.props.addon.latest_version &&
+         this.props.addon.latest_version.status ===
+         constants.STATUS_PENDING &&
+          <p className="addon-upload-note">
+            <b>Note:</b> there is currently a pending version awaiting review.
+            Uploading a new version will permanently change the currently
+            pending version to an obsolete status. An obsolete version
+            can no longer be reviewed. However, the newly pending version
+            can be reviewed.
+          </p>
+        }
 
+        <form className="form-inline" onSubmit={this.handleSubmit}>
           <div className={classnames({
             'field': true,
             'field--error': !!this.props.validationError,

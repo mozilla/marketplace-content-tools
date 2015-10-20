@@ -62,6 +62,7 @@ export class AddonDashboardDetail extends React.Component {
               title="Loading Firefox OS Add-on..."/>
       );
     }
+
     return (
       <Page breadcrumbText="My Add-ons"
             breadcrumbTo="addon-dashboard"
