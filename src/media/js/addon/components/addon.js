@@ -316,6 +316,7 @@ export class AddonForReview extends Addon {
  */
 export class AddonForReviewDetail extends Addon {
   render() {
+    const marketplaceUrl = this.getMarketplaceUrl();
     return (
       <PageSection className="addon-review-detail-addon">
         <div className="addon-review-detail-details">
@@ -338,6 +339,17 @@ export class AddonForReviewDetail extends Addon {
             <dd>
               <a href={this.props.mini_manifest_url} target="_blank">View</a>
             </dd>
+
+            {marketplaceUrl && this.props.status === constants.STATUS_PUBLIC &&
+              <di>
+                <dt>Listing Page</dt>
+                <dd>
+                  <a href={marketplaceUrl} target="_blank">
+                    View on Marketplace
+                  </a>
+                </dd>
+              </di>
+            }
           </dl>
         </div>
         <div className="addon-review-detail-status">
