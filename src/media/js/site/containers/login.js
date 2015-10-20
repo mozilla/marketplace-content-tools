@@ -25,10 +25,6 @@ export class Login extends React.Component {
     return (
       <Page className="login-form">
         <p>First, would you mind logging in?</p>
-        <LoginButton isSignup={true}
-                     authUrl={this.props.siteConfig.authUrl}
-                     loginBeginHandler={this.props.fxaLoginBegin}
-                     loginHandler={this.loginHandler}/>
         <LoginButton authUrl={this.props.siteConfig.authUrl}
                      loginBeginHandler={this.props.fxaLoginBegin}
                      loginHandler={this.loginHandler}/>
