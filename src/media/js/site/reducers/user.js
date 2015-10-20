@@ -15,10 +15,31 @@ export const initialState = {
 export default function userReducer(state=initialState, action) {
   switch (action.type) {
     case loginActions.LOGIN_OK: {
+      /*
+        Log in.
+
+        payload (object) --
+          apps (object)
+          permissions (object)
+          settings (object)
+          token (string)
+      */
+      // Sync with Fireplace.
+      localStorage.setItem('0::permissions',
+                           JSON.stringify(action.payload.permissions));
+      localStorage.setItem('0::settings',
+                           JSON.stringify(action.payload.settings));
+      localStorage.setItem('0::user', action.payload.token);
+      localStorage.setItem('0::user_apps',
+                           JSON.stringify(action.payload.apps));
+
       return Object.assign({}, state, action.payload);
     }
 
     case loginActions.LOGOUT_OK: {
+      // Sync with Fireplace.
+      localStorage.removeItem('0::user');
+
       return initialState;
     }
 
