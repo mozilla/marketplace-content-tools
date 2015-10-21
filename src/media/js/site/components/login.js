@@ -11,6 +11,7 @@ export class LoginButton extends React.Component {
   static propTypes = {
     authUrl: React.PropTypes.string,
     content: React.PropTypes.any,
+    isSignup: React.PropTypes.bool,
     loginBeginHandler: React.PropTypes.func,
     loginHandler: React.PropTypes.func.isRequired,
   };
@@ -27,6 +28,10 @@ export class LoginButton extends React.Component {
   openPopup() {
     window.addEventListener('message', this.handlePostMessage);
 
+    const authUrl = this.props.isSignup ?
+                    Url(this.props.authUrl).q({signup: true}) :
+                    this.props.authUrl;
+
     const w = 320;
     const h = 600;
     const x = window.screenX +
@@ -35,7 +40,7 @@ export class LoginButton extends React.Component {
           Math.max(0, Math.floor((window.innerHeight - h) / 2));
 
     const popup = window.open(
-      this.props.authUrl, 'fxa',
+      authUrl, 'fxa',
       `scrollbars=yes,width=${w},height=${h},left=${x},top=${y}`);
 
     return new Promise((resolve, reject) => {
@@ -66,9 +71,13 @@ export class LoginButton extends React.Component {
     });
   }
   render() {
+    const btnClasses = classnames({
+      login: true,
+      ['login--register']: this.props.signup,
+    });
     return (
-      <button className="login" onClick={this.startLogin}>
-        {this.props.children || 'Login'}
+      <button className={btnClasses} onClick={this.startLogin}>
+        {this.props.content || (this.props.isSignup ? 'Register' : 'Login')}
       </button>
     );
   }

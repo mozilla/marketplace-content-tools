@@ -82,6 +82,7 @@ class HeaderUser extends React.Component {
     return (
       <div className="header-user">
         <ul>
+          <li><LoginButton isSignup={true} {...this.props}/></li>
           <li><LoginButton {...this.props}/></li>
         </ul>
       </div>
@@ -126,6 +127,7 @@ class HeaderLoginMobile extends React.Component {
   render() {
     return (
       <div className="header-login--mobile">
+        <LoginButton isSignup={true} {...this.props}/>
         <LoginButton {...this.props}/>
       </div>
     );
