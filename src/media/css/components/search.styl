@@ -1,0 +1,33 @@
+@import '../lib';
+
+
+.search,
+.search input
+  display flex
+  flex-wrap wrap
+  width 100%
+
+  input
+    height 48px
+    width 100%
+
+
+.search-results
+  display flex
+  flex-direction column
+  width 100%
+
+
+.search-result
+  border-bottom 1px solid $color--border
+
+  a
+    text-decoration none
+
+
+.search-result
+.search-result a
+  padding 20px 0
+
+  +media--desktop()
+    padding 5px 0

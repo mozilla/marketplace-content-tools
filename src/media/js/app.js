@@ -21,11 +21,12 @@ import AddonSubmit from './addon/containers/submit';
 import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
-import addonThread from './addon/reducers/thread';
+import addonSearch from './addon/reducers/search';
 import {addonSubmitReducer as
         addonSubmit,
         addonSubmitVersionReducer as
         addonSubmitVersion} from './addon/reducers/submit';
+import addonThread from './addon/reducers/thread';
 import {ADDON_REVIEW, ADDON_SUBMIT} from './site/constants/login';
 import App from './site/containers/app';
 import DeveloperAgreement from './site/containers/devAgreement';
@@ -45,6 +46,7 @@ const reducer = combineReducers({
   addon,
   addonDashboard,
   addonReview,
+  addonSearch,
   addonSubmit,
   addonSubmitVersion,
   addonThread,
