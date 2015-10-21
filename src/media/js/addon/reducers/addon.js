@@ -7,6 +7,7 @@ import * as addonActions from '../actions/addon';
 import * as dashboardActions from '../actions/dashboard';
 import * as mozAppsActions from '../actions/mozApps';
 import * as reviewActions from '../actions/review';
+import * as reviewUpdatesActions from '../actions/reviewUpdates';
 import * as submitActions from '../actions/submit';
 import * as submitVersionActions from '../actions/submitVersion';
 import * as versionActions from '../actions/version';
@@ -154,13 +155,25 @@ export default function addonReducer(state=initialState, action) {
 
     case reviewActions.FETCH_OK: {
       /*
-        Get add-ons from review queue.
-
-        payload (array) -- add-ons.
+        Get add-ons from pending queue.
       */
       const newState = _.cloneDeep(state);
 
-      action.payload.forEach(addon => {
+      action.payload.addons.forEach(addon => {
+        newState.addons[addon.slug] = Object.assign(
+          {}, newState.addons[addon.slug] || {}, addon
+        );
+      });
+      return newState;
+    }
+
+    case reviewUpdatesActions.FETCH_OK: {
+      /*
+        Get add-ons from updates queue.
+      */
+      const newState = _.cloneDeep(state);
+
+      action.payload.addons.forEach(addon => {
         newState.addons[addon.slug] = Object.assign(
           {}, newState.addons[addon.slug] || {}, addon
         );

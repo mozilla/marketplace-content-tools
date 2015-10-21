@@ -7,7 +7,7 @@ import urlJoin from 'url-join';
 import {fetch} from '../actions/dashboard';
 import {AddonListingForDashboard} from '../components/listing';
 import AddonSubnav from '../components/subnav';
-import {addonListSelector} from '../selectors/addon';
+import {addonPageSelector} from '../selectors/addon';
 import {Page} from '../../site/components/page';
 import Paginator from '../../site/components/paginator';
 
@@ -16,6 +16,7 @@ export class AddonDashboard extends React.Component {
   static PropTypes = {
     addons: React.PropTypes.array,
     fetch: React.PropTypes.func,
+    isFetching: React.PropTypes.bool,
     hasNextPage: React.PropTypes.bool,
     hasPrevPage: React.PropTypes.bool,
     page: React.PropTypes.number,
@@ -30,6 +31,12 @@ export class AddonDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetch(this.props.page);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.page !== this.props.page) {
+      this.props.fetch(this.props.page);
+    }
   }
 
   renderEmpty() {
@@ -74,24 +81,18 @@ export class AddonDashboard extends React.Component {
   }
 
   render() {
-    return (this.props.addons && this.props.addons.length ?
-            this.renderFull() : this.renderEmpty());
+    if (this.props.addons && this.props.addons.length ||
+        this.props.isFetching) {
+      return this.renderFull();
+    } else {
+      return this.renderEmpty();
+    }
   }
 };
 
 
 export default connect(
-  state => {
-    const pageNum = parseInt(state.router.params.page, 10) || 1;
-    const page = state.addonDashboard.pages[pageNum] ||
-                 state.addonDashboard.pages[1];
-    return {
-      addons: page.addons,
-      hasNextPage: page.hasNextPage,
-      hasPrevPage: page.hasPrevPage,
-      page: pageNum
-    };
-  },
+  state => addonPageSelector(state.addonDashboard, state.router),
   dispatch => bindActionCreators({
     fetch
   }, dispatch)

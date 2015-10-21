@@ -57,9 +57,9 @@ describe('addonReducer', () => {
       },
       {
         type: reviewActions.FETCH_OK,
-        payload: [
-          {slug: 'slugly', name: 'Slugly'}
-        ]
+        payload: {
+          addons: [{slug: 'slugly', name: 'Slugly'}]
+        }
       }
     );
     assert.equal(newState.addons.slugly.name, 'Slugly');
