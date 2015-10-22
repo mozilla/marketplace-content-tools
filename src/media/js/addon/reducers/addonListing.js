@@ -23,14 +23,14 @@ export default function createAddonListingReducer(actions) {
     switch (action.type) {
       case actions.FETCH_BEGIN: {
         const newState = _.cloneDeep(state);
+        const page = action.payload.page;
 
-        newState.pages[action.payload.page] = {
+        newState.pages[page] = Object.assign({}, {
           addons: [],
           hasNextPage: false,
           hasPrevPage: false,
-          isFetching: true,
-          page: action.payload.page,
-        };
+          page: page
+        }, newState.pages[page], {isFetching: true});
 
         return newState;
       }
