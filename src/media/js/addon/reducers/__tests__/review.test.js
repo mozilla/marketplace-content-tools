@@ -6,33 +6,40 @@ describe('addonReviewReducer', () => {
   it('handles fetch queue', () => {
     const newState = addonReviewReducer(
       {
-        addons: {},
+        pages: {
+          1: {
+            addons: []
+          }
+        },
       },
       {
         type: reviewActions.FETCH_OK,
-        payload: [
-          {slug: 'slugly', name: 'Slugly'}
-        ]
+        payload: {
+          addons: [{slug: 'slugly', name: 'Slugly'}],
+          page: 1
+        }
       }
     );
-    assert.equal(newState.addons.slugly.name, 'Slugly');
+    assert.equal(newState.pages[1].addons[0].name, 'Slugly');
   });
 
   it('handles fetch queue, invalidating old queue', () => {
     const newState = addonReviewReducer(
       {
-        addons: {
-          slugly: {name: 'Slugly'}
+        pages: {
+          1: {
+            addons: [{name: 'Slugly'}],
+          }
         },
       },
       {
         type: reviewActions.FETCH_OK,
-        payload: [
-          {slug: 'slugiful', name: 'Slugiful'}
-        ]
+        payload: {
+          addons: [{slug: 'slugiful', name: 'Slugiful'}],
+          page: 1
+        }
       }
     );
-    assert.equal(newState.addons.slugiful.name, 'Slugiful');
-    assert.notOk(newState.addons.slugly);
+    assert.equal(newState.pages[1].addons[0].name, 'Slugiful');
   });
 });

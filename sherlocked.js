@@ -33,17 +33,17 @@ require('sherlocked')
 })
 
 .investigate('Firefox OS Add-on Reviewer Tools', function(client) {
-  return desktop(client, 'addon/review/')
+  return desktop(client, 'addon/review/pending/')
     .waitForExist('main', 60000);
 })
 
 .investigate('Firefox OS Add-on Review Detail', function(client) {
-  return desktop(client, 'addon/review/test-addon')
+  return desktop(client, 'addon/review/addon/test-addon')
     .waitForExist('main', 60000);
 })
 
 .investigate('Firefox OS Add-on Review Detail on Mobile', function(client) {
-  return mobile(client, 'addon/review/test-addon')
+  return mobile(client, 'addon/review/addon/test-addon')
     .waitForExist('main', 60000);
 })
 

@@ -1,18 +1,23 @@
-import {AddonReview} from '../review';
+import {AddonReviewContainer} from '../review';
 
 
-describe('AddonReview', () => {
+describe('AddonReviewContainer', () => {
   jsdom();
 
   const props = {
-    addons: [addonFactory()],
+    addonSearch: {
+      results: []
+    },
+    fetch: () => {},
+    queue: {
+      addons: [addonFactory()],
+    },
     user: {},
   };
 
   it('renders', () => {
     const component = ReactDOMHelper.render(
-      <StubRouterProvider Component={AddonReview}
-                          {...props}/>
+      <StubRouterProvider Component={AddonReviewContainer} {...props}/>
     );
     assert.equal(
       ReactDOMHelper.queryClassAll(component,

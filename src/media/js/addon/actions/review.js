@@ -5,9 +5,13 @@ import Url from 'urlgray';
 import urlJoin from 'url-join';
 
 import * as addonActions from './addon';
+import generateFetchAction from './addonListing';
 import * as commActions from './comm';
 import * as notificationActions from '../../site/actions/notification';
 
+
+export const FETCH_BEGIN = 'ADDON_REVIEW__FETCH_BEGIN';
+const fetchBegin = createAction(FETCH_BEGIN);
 
 export const FETCH_OK = 'ADDON_REVIEW__FETCH_OK';
 const fetchOk = createAction(FETCH_OK);
@@ -31,32 +35,8 @@ export const REJECT_ERROR = 'ADDON_REVIEW__REJECT_ERROR';
 const rejectError = createAction(REJECT_ERROR);
 
 
-export function fetch() {
-  /* Fetch add-ons in the review queue. */
-  return (dispatch, getState) => {
-    const apiArgs = getState().apiArgs || {};
-    const queueUrl = Url(
-      urlJoin(process.env.MKT_API_ROOT, 'extensions/queue/')
-    ).q(apiArgs);
-
-    if (process.env.MOCK_DATA) {
-      // Mock data.
-      const addonFactory = (
-        require('../../__tests__/factory.test').addonFactory
-      );
-      return dispatch(fetchOk([
-        addonFactory(),
-        addonFactory({slug: 'test-addon-2'})
-      ]));
-    }
-
-    req
-      .get(queueUrl)
-      .then((res, err) => {
-        dispatch(fetchOk(res.body.objects));
-      });
-  };
-}
+export const fetch = generateFetchAction(
+  fetchBegin, fetchOk, urlJoin(process.env.MKT_API_ROOT, 'extensions/queue/'));
 
 
 export function publish(addonSlug, versionId, message) {

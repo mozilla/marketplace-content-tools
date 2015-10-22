@@ -2,13 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {fetch} from '../actions/review';
+import {fetch} from '../actions/reviewUpdates';
 import {reviewerSearch} from '../actions/search';
 import AddonReview from '../components/review';
 import {addonPageSelector} from '../selectors/addon';
 
 
-export class AddonReviewContainer extends React.Component {
+export class AddonReviewUpdatesContainer extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetch(this.props.queue.page);
@@ -23,21 +23,20 @@ export class AddonReviewContainer extends React.Component {
   render() {
     return (
       <AddonReview {...this.props} {...this.props.queue}
-                   pageLinkTo='addon-review-page'
-                   title='Pending Queue'/>
+                   pageLinkTo='addon-review-updates-page'
+                   title='Updates Queue'/>
     );
   }
 }
 
-
 export default connect(
   state => ({
     addonSearch: state.addonSearch,
-    queue: addonPageSelector(state.addonReview, state.router),
-    user: state.user,
+    queue: addonPageSelector(state.addonReviewUpdates, state.router),
+    user: state.user
   }),
   dispatch => bindActionCreators({
     fetch,
     search: reviewerSearch
   }, dispatch)
-)(AddonReviewContainer);
+)(AddonReviewUpdatesContainer);

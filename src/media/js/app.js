@@ -17,10 +17,12 @@ import AddonDashboard from './addon/containers/dashboard';
 import AddonDashboardDetail from './addon/containers/dashboardDetail';
 import AddonReview from './addon/containers/review';
 import AddonReviewDetail from './addon/containers/reviewDetail';
+import AddonReviewUpdates from './addon/containers/reviewUpdates';
 import AddonSubmit from './addon/containers/submit';
 import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
+import addonReviewUpdates from './addon/reducers/reviewUpdates';
 import addonSearch from './addon/reducers/search';
 import {addonSubmitReducer as
         addonSubmit,
@@ -46,6 +48,7 @@ const reducer = combineReducers({
   addon,
   addonDashboard,
   addonReview,
+  addonReviewUpdates,
   addonSearch,
   addonSubmit,
   addonSubmitVersion,
@@ -59,10 +62,13 @@ const reducer = combineReducers({
 });
 
 
+// Bump to invalidate localStorage.
+const REDUX_LOCALSTORAGE_VERSION = 1;
+
 let storeEnhancers = [
   persistState(null, {
     // redux-localstorage
-    slicer: persistSlicer()
+    slicer: persistSlicer(REDUX_LOCALSTORAGE_VERSION)
   }),
   applyMiddleware(
     thunkMiddleware,
@@ -122,9 +128,18 @@ function renderRoutes() {
               <Route name="addon-dashboard-detail" path="/dashboard/:slug"
                      component={loginRequired(AddonDashboardDetail,
                                               ADDON_SUBMIT)}/>
-              <Route name="addon-review" path="/review/"
+              <Route name="addon-review" path="/review/pending/"
                      component={loginRequired(AddonReview, ADDON_REVIEW)}/>
-              <Route name="addon-review-detail" path="/review/:slug"
+              <Route name="addon-review-page" path="/review/pending/page/:page"
+                     component={loginRequired(AddonReview, ADDON_SUBMIT)}/>
+              <Route name="addon-review-updates" path="/review/updates/"
+                     component={loginRequired(AddonReviewUpdates,
+                                              ADDON_REVIEW)}/>
+              <Route name="addon-review-updates-page"
+                     path="/review/updates/page/:page"
+                     component={loginRequired(AddonReviewUpdates,
+                                              ADDON_REVIEW)}/>
+              <Route name="addon-review-detail" path="/review/addon/:slug"
                      component={loginRequired(AddonReviewDetail,
                                               ADDON_REVIEW)}/>
               <Route name="addon-submit" path="/submit/"
