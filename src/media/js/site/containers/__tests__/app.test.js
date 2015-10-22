@@ -6,6 +6,7 @@ describe('App', () => {
   jsdom();
 
   const props = {
+    checkSession: () => {},
     children: {},
     fxaLoginBegin: () => {},
     login: () => {},

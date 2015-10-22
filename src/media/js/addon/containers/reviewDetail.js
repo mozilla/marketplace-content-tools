@@ -15,6 +15,8 @@ import {getInstalled as getInstalledAddons,
 import {AddonForReviewDetail} from '../components/addon';
 import AddonInstall from '../components/install';
 import AddonSubnav from '../components/subnav';
+import {fxaLoginBegin, login} from '../../site/actions/login';
+import {LoginButton} from '../../site/components/login';
 import {Page, PageSection} from '../../site/components/page';
 
 
@@ -26,9 +28,14 @@ export class AddonReviewDetail extends React.Component {
 
   static propTypes = {
     addon: React.PropTypes.object,
+    checkSession: React.PropTypes.func.isRequired,
     fetchAddon: React.PropTypes.func.isRequired,
+    fxaLoginBegin: React.PropTypes.func,
     getInstalledAddons: React.PropTypes.func.isRequired,
+    hasSession: React.PropTypes.bool,
     installAddon: React.PropTypes.func.isRequired,
+    login: React.PropTypes.func,
+    siteConfig: React.PropTypes.object,
     slug: React.PropTypes.string.isRequired,
     user: React.PropTypes.object,
   };
@@ -40,11 +47,17 @@ export class AddonReviewDetail extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Add-on was reviewed, redirect back to reviewer queue.
     if (prevProps.addon.status !== this.props.addon.status) {
+      // Add-on was reviewed, redirect back to reviewer queue.
       const path = reverse(this.context.router.routes, 'addon-review');
       this.context.router.transitionTo(path);
     }
+  }
+
+  loginHandler = authCode => {
+    // Call login, passing in some extra stuff from siteConfig.
+    this.props.login(authCode, this.props.siteConfig.authState,
+                     this.props.siteConfig.clientId);
   }
 
   render() {
@@ -62,6 +75,21 @@ export class AddonReviewDetail extends React.Component {
             className="addon-review-detail"
             title={`Reviewing Firefox OS Add-on: ${addon.name}`}
             subnav={<AddonSubnav user={this.props.user}/>}>
+        {!this.props.hasSession &&
+          <PageSection title="Log in Again">
+            <p className="form-msg--error">
+              Your cookie-based login session with the server has expired.
+            </p>
+            <p>
+              You will need to log in again in order to download or install
+              add-ons as a reviewer.
+            </p>
+            <LoginButton authUrl={this.props.siteConfig.authUrl}
+                         loginBeginHandler={this.props.fxaLoginBegin}
+                         loginHandler={this.loginHandler}/>
+          </PageSection>
+        }
+
         <AddonForReviewDetail {...addon}/>
 
         {addon.latest_version &&
@@ -88,11 +116,15 @@ export class AddonReviewDetail extends React.Component {
 export default connect(
   state => ({
     addon: state.addon.addons[state.router.params.slug],
-    slug: state.router.params.slug
+    hasSession: state.user.hasSession,
+    siteConfig: state.siteConfig,
+    slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({
     fetchAddon,
+    fxaLoginBegin,
     getInstalledAddons,
     installAddon,
+    login,
   }, dispatch)
 )(AddonReviewDetail);

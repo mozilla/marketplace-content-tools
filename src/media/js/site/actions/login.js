@@ -22,6 +22,9 @@ const logoutBegin = createAction(LOGOUT_BEGIN);
 export const LOGOUT_OK = 'LOGIN__LOGOUT_OK';
 const logoutOk = createAction(LOGOUT_OK);
 
+export const CHECK_SESSION_OK = 'LOGIN__CHECK_SESSION_OK';
+const checkSessionOk = createAction(CHECK_SESSION_OK);
+
 
 export function login(authResponse, authState, clientId) {
   // Asynchronous login action creator.
@@ -62,6 +65,28 @@ export function logout() {
 
     // Post logout data to server to clear session.
     dispatch(logoutOk());
-    req.del(logoutUrl);
+    req
+      .del(logoutUrl);
+  };
+}
+
+
+/**
+ * Check if user has Zamboni session.
+ * Not CORSed so may require stubbing locally.
+ */
+export function checkSession() {
+  return (dispatch, getState) => {
+    const sessionUrl = urlJoin(process.env.MKT_ROOT, 'users/session/');
+
+    if (process.env.NODE_ENV !== 'production') {
+      return dispatch(checkSessionOk(true));
+    }
+
+    return req
+      .get(sessionUrl)
+      .then(res => {
+        dispatch(checkSessionOk(res.body.has_session));
+      });
   };
 }
