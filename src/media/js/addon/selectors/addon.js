@@ -1,4 +1,4 @@
-export function addonPageSelector(substate, router, reverse=false) {
+export function addonPageSelector(substate, router) {
   const pageNum = parseInt(router.params.page, 10) || 1;
   const page = substate.pages[pageNum] || {
     addons: [],
@@ -9,7 +9,7 @@ export function addonPageSelector(substate, router, reverse=false) {
   };
 
   return {
-    addons: reverse ? page.addons.reverse() : page.addons,
+    addons: page.addons,
     hasNextPage: page.hasNextPage,
     hasPrevPage: page.hasPrevPage,
     isFetching: page.isFetching,
