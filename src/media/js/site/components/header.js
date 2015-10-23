@@ -39,9 +39,7 @@ export default class Header extends React.Component {
                   Review Criteria
                 </a>
               </li>
-              {userOk &&
-                <HeaderLogoutMobile {...this.props}/>
-              }
+              <HeaderLogoutMobile {...this.props}/>
             </ul>
           </nav>
         }
@@ -140,7 +138,7 @@ class HeaderLogoutMobile extends HeaderUser {
     return (
       <li className="header-logout--mobile"
           onClick={this.handleLogoutClick.bind(this)}>
-        <a>Logout from {this.props.email}</a>
+        <a href="#">Logout from {this.props.email}</a>
       </li>
     );
   }
