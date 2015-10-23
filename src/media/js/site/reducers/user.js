@@ -4,6 +4,7 @@ import * as tosActions from '../actions/tos';
 
 export const initialState = {
   __persist: true,
+  hasSession: false,
   settings: {},
   token: process.env.MOCK_DATA ? 'mocktoken' : null,
   tos: {
@@ -33,7 +34,7 @@ export default function userReducer(state=initialState, action) {
       localStorage.setItem('0::user_apps',
                            JSON.stringify(action.payload.apps));
 
-      return Object.assign({}, state, action.payload);
+      return Object.assign({}, state, action.payload, {hasSession: true});
     }
 
     case loginActions.LOGOUT_OK: {
@@ -41,6 +42,15 @@ export default function userReducer(state=initialState, action) {
       localStorage.removeItem('0::user');
 
       return initialState;
+    }
+
+    case loginActions.CHECK_SESSION_OK: {
+      /*
+        payload (boolean) - whether user has active cookie-based session.
+      */
+      let newState = Object.assign({}, state);
+      newState.hasSession = action.payload;
+      return newState;
     }
 
     case tosActions.TOS_GET_OK: {

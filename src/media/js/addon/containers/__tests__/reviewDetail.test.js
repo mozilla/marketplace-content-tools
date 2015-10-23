@@ -10,7 +10,9 @@ describe('AddonReviewDetail', () => {
     fetchThreads: () => {},
     fetchVersions: () => {},
     getInstalledAddons: () => {},
+    hasSession: true,
     installAddon: () => {},
+    logout: () => {},
     user: {},
   };
 

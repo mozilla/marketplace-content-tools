@@ -1,8 +1,10 @@
+import _ from 'lodash';
 import {bindActionCreators} from 'redux';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {fxaLoginBegin, login, loginOk, logout} from '../actions/login';
+import {checkSession, fxaLoginBegin, login, loginOk,
+        logout} from '../actions/login';
 import {fetch as siteConfigFetch} from '../actions/siteConfig';
 import Footer from '../components/footer';
 import Notification from '../components/notification';
@@ -13,6 +15,7 @@ import {initialState as userInitialState} from '../reducers/user';
 
 export class App extends React.Component {
   static propTypes = {
+    checkSession: React.PropTypes.func.isRequired,
     children: React.PropTypes.object.isRequired,
     fxaLoginBegin: React.PropTypes.func.isRequired,
     login: React.PropTypes.func.isRequired,
@@ -35,9 +38,13 @@ export class App extends React.Component {
     // Initial app data fetching.
     this.props.siteConfigFetch();
 
+    this.props.checkSession();
+
     // Check if the user is already logged in.
     if (this.props.user.token) {
-      this.props.loginOk(this.props.user);
+      let user = _.cloneDeep(this.props.user);
+      delete user.hasSession;
+      this.props.loginOk(user);
     }
   }
 
@@ -79,6 +86,7 @@ export default connect(
     user: state.user,
   }),
   dispatch => bindActionCreators({
+    checkSession,
     fxaLoginBegin,
     login,
     loginOk,
