@@ -18,6 +18,7 @@ export class Addon extends React.Component {
     latest_public_version: React.PropTypes.object,
     latest_version: React.PropTypes.object.isRequired,
     linkTo: React.PropTypes.string,
+    icons: React.PropTypes.object,
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string,
@@ -211,22 +212,25 @@ export class AddonForDashboard extends Addon {
     const marketplaceUrl = this.getMarketplaceUrl();
     return (
       <li className="addon-for-listing addon-for-dashboard">
-        <h2>
-          <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
-            {this.props.name}
-          </ReverseLink>
-        </h2>
-        <dl className="addon-for-listing-meta">
-          <di className={`addon--status-${this.props.status}`}>
-            <dt>Status</dt>
-            <dd>
-              {constants.humanizeAddonStatus(this.props.status,
-                                             this.props.disabled)}
-            </dd>
-          </di>
-          {this.renderLastUpdated()}
-        </dl>
-        <nav className="addon-for-listing-links">
+        <AddonIcon icons={this.props.icons}/>
+        <div>
+          <h2>
+            <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
+              {this.props.name}
+            </ReverseLink>
+          </h2>
+          <dl className="addon-for-listing-meta">
+            <di className={`addon--status-${this.props.status}`}>
+              <dt>Status</dt>
+              <dd>
+                {constants.humanizeAddonStatus(this.props.status,
+                                               this.props.disabled)}
+              </dd>
+            </di>
+            {this.renderLastUpdated()}
+          </dl>
+        </div>
+        <div className="addon-for-listing-links">
           <ul>
             <li>
               <ReverseLink to={this.props.linkTo}
@@ -242,7 +246,7 @@ export class AddonForDashboard extends Addon {
               </li>
             }
           </ul>
-        </nav>
+        </div>
       </li>
     );
   }
@@ -272,22 +276,25 @@ export class AddonForReview extends Addon {
     const marketplaceUrl = this.getMarketplaceUrl();
     return (
       <li className="addon-for-listing">
-        <h2>
-          <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
-            {this.props.name}
-          </ReverseLink>
-        </h2>
-        <dl className="addon-for-listing-meta">
-          <di className={`addon--status-${this.props.status}`}>
-            <dt>Status</dt>
-            <dd>
-              {constants.humanizeAddonStatus(this.props.status,
-                                             this.props.disabled)}
-            </dd>
-          </di>
-          {this.renderWaitingTime()}
-        </dl>
-        <nav className="addon-for-listing-links">
+        <AddonIcon icons={this.props.icons}/>
+        <div>
+          <h2>
+            <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
+              {this.props.name}
+            </ReverseLink>
+          </h2>
+          <dl className="addon-for-listing-meta">
+            <di className={`addon--status-${this.props.status}`}>
+              <dt>Status</dt>
+              <dd>
+                {constants.humanizeAddonStatus(this.props.status,
+                                               this.props.disabled)}
+              </dd>
+            </di>
+            {this.renderWaitingTime()}
+          </dl>
+        </div>
+        <div className="addon-for-listing-links">
           <ul>
             <li>
               <ReverseLink to={this.props.linkTo}
@@ -303,7 +310,7 @@ export class AddonForReview extends Addon {
               </li>
             }
           </ul>
-        </nav>
+        </div>
       </li>
     );
   }
@@ -352,5 +359,20 @@ export class AddonForReviewDetail extends Addon {
         </div>
       </PageSection>
     );
+  }
+}
+
+
+class AddonIcon extends React.Component {
+  static propTypes = {
+    icons: React.PropTypes.object
+  };
+
+  render() {
+    if (this.props.icons) {
+      return <img className="addon-icon" src={this.props.icons[64]}/>
+    } else {
+      return <span/>
+    };
   }
 }
