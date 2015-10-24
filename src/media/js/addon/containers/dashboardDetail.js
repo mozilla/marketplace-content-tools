@@ -10,7 +10,7 @@ import AddonVersionListingContainer from './versionListing';
 import {fetch as fetchAddon} from '../actions/addon';
 import {del as deleteAddon} from '../actions/dashboard';
 import {messageChange, submitVersion} from '../actions/submitVersion';
-import {Addon, AddonForDashboardDetail} from '../components/addon';
+import {Addon, AddonIcon, AddonForDashboardDetail} from '../components/addon';
 import AddonSubnav from '../components/subnav';
 import AddonUpload from '../components/upload';
 import ConfirmButton from '../../site/components/confirmButton';
@@ -63,12 +63,19 @@ export class AddonDashboardDetail extends React.Component {
       );
     }
 
+    const title = (
+      <div className="addon-page-title">
+        <AddonIcon icons={this.props.addon.icons}/>
+        {this.props.addon.name}
+      </div>
+    );
+
     return (
       <Page breadcrumbText="My Add-ons"
             breadcrumbTo="addon-dashboard"
             className="addon-dashboard-detail"
             subnav={<AddonSubnav user={this.props.user}/>}
-            title={this.props.addon.name}>
+            title={title}>
 
         {this.props.addon.deleted && this.renderDeleted()}
 

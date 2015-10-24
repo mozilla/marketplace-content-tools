@@ -363,7 +363,7 @@ export class AddonForReviewDetail extends Addon {
 }
 
 
-class AddonIcon extends React.Component {
+export class AddonIcon extends React.Component {
   static propTypes = {
     icons: React.PropTypes.object
   };

@@ -12,7 +12,7 @@ import AddonVersionListingContainer from './versionListing';
 import {fetch as fetchAddon} from '../actions/addon';
 import {getInstalled as getInstalledAddons,
         install as installAddon} from '../actions/mozApps';
-import {AddonForReviewDetail} from '../components/addon';
+import {AddonForReviewDetail, AddonIcon} from '../components/addon';
 import AddonInstall from '../components/install';
 import AddonSubnav from '../components/subnav';
 import {fxaLoginBegin, login} from '../../site/actions/login';
@@ -69,11 +69,19 @@ export class AddonReviewDetail extends React.Component {
               title="Loading Firefox OS Add-on..."/>
       );
     }
+
+    const title = (
+      <div className="addon-page-title">
+        <AddonIcon icons={addon.icons}/>
+        {`Reviewing Firefox OS Addon: ${addon.name}`}
+      </div>
+    );
+
     return (
       <Page breadcrumbText="Review Add-ons"
             breadcrumbTo="addon-review"
             className="addon-review-detail"
-            title={`Reviewing Firefox OS Add-on: ${addon.name}`}
+            title={title}
             subnav={<AddonSubnav user={this.props.user}/>}>
         {!this.props.hasSession &&
           <PageSection title="Log in Again">
