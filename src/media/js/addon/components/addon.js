@@ -22,6 +22,7 @@ export class Addon extends React.Component {
     name: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
     status: React.PropTypes.string,
+    uuid: React.PropTypes.string,
   };
 
   getMarketplaceUrl() {
@@ -340,6 +341,11 @@ export class AddonForReviewDetail extends Addon {
 
             <dt>Description</dt>
             <dd>{this.props.description}</dd>
+
+            <di>
+              <dt>UUID</dt>
+              <dd>{this.props.uuid}</dd>
+            </di>
 
             {marketplaceUrl && this.props.status === constants.STATUS_PUBLIC &&
               <di>
