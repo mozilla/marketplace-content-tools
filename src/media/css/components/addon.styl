@@ -5,8 +5,13 @@
   align-items flex-start
   border-bottom 1px solid $color--border
   display flex
+  flex-wrap wrap
   margin 0
-  padding $layout--list-padding 0
+  padding $layout--list-padding--mobile 0
+
+  +media--desktop()
+    flex-wrap nowrap
+    padding $layout--list-padding 0
 
   &:first-child
     padding-top 0
@@ -27,12 +32,14 @@
     font-weight 300
     margin-top 3px
 
-  > div
-    flex 1
 
+.addon-for-listing-metadata
+  flex 1 1 100%
+  margin-top 15px
 
-.addon-for-listing-meta
-  width 70%
+  +media--desktop()
+    flex 1 1 0%
+    margin 0
 
   di
     display flex
@@ -61,4 +68,13 @@
 
 .addon-for-listing-links
   text-align right
-  width 25%
+  width 100%
+
+  +media--desktop()
+    width 25%
+
+  li
+    margin 2px 0
+
+  a
+    padding 10px 0

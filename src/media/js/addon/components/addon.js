@@ -214,13 +214,13 @@ export class AddonForDashboard extends Addon {
     return (
       <li className="addon-for-listing addon-for-dashboard">
         <AddonIcon icons={this.props.icons}/>
-        <div>
+        <div className="addon-for-listing-metadata">
           <h2>
             <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
               {this.props.name}
             </ReverseLink>
           </h2>
-          <dl className="addon-for-listing-meta">
+          <dl>
             <di className={`addon--status-${this.props.status}`}>
               <dt>Status</dt>
               <dd>
@@ -278,7 +278,7 @@ export class AddonForReview extends Addon {
     return (
       <li className="addon-for-listing">
         <AddonIcon icons={this.props.icons}/>
-        <div>
+        <div className="addon-for-listing-metadata">
           <h2>
             <ReverseLink to={this.props.linkTo} params={{slug: this.props.slug}}>
               {this.props.name}
