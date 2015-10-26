@@ -73,7 +73,7 @@ export class AddonReviewDetail extends React.Component {
     const title = (
       <div className="addon-page-title">
         <AddonIcon icons={addon.icons}/>
-        {`Reviewing Firefox OS Addon: ${addon.name}`}
+        {`Reviewing Firefox OS Add-on: ${addon.name}`}
       </div>
     );
 
