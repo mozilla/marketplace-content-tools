@@ -9,13 +9,16 @@ import {reverse, ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import AddonVersionListingContainer from './versionListing';
-import {fetch as fetchAddon} from '../actions/addon';
+import {block as blockAddon, fetch as fetchAddon,
+        unblock as unblockAddon} from '../actions/addon';
 import {getInstalled as getInstalledAddons,
         install as installAddon} from '../actions/mozApps';
 import {AddonForReviewDetail, AddonIcon} from '../components/addon';
+import * as constants from '../constants';
 import AddonInstall from '../components/install';
 import AddonSubnav from '../components/subnav';
 import {fxaLoginBegin, login} from '../../site/actions/login';
+import ConfirmButton from '../../site/components/confirmButton';
 import {LoginButton} from '../../site/components/login';
 import {Page, PageSection} from '../../site/components/page';
 
@@ -28,6 +31,7 @@ export class AddonReviewDetail extends React.Component {
 
   static propTypes = {
     addon: React.PropTypes.object,
+    blockAddon: React.PropTypes.func,
     checkSession: React.PropTypes.func.isRequired,
     fetchAddon: React.PropTypes.func.isRequired,
     fxaLoginBegin: React.PropTypes.func,
@@ -37,6 +41,7 @@ export class AddonReviewDetail extends React.Component {
     login: React.PropTypes.func,
     siteConfig: React.PropTypes.object,
     slug: React.PropTypes.string.isRequired,
+    unblockAddon: React.PropTypes.func,
     user: React.PropTypes.object,
   };
 
@@ -47,17 +52,28 @@ export class AddonReviewDetail extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.addon.status !== this.props.addon.status) {
-      // Add-on was reviewed, redirect back to reviewer queue.
+    // Add-on was reviewed, redirect back to reviewer queue.
+    // Don't redirect when blocking or unblocking.
+    if (prevProps.addon.status !== this.props.addon.status &&
+        prevProps.addon.status !== constants.STATUS_BLOCKED &&
+        this.props.addon.status !== constants.STATUS_BLOCKED) {
       const path = reverse(this.context.router.routes, 'addon-review');
       this.context.router.transitionTo(path);
     }
+  }
+
+  blockAddon = () => {
+    this.props.blockAddon(this.props.addon.slug);
   }
 
   loginHandler = authCode => {
     // Call login, passing in some extra stuff from siteConfig.
     this.props.login(authCode, this.props.siteConfig.authState,
                      this.props.siteConfig.clientId);
+  }
+
+  unblockAddon = () => {
+    this.props.unblockAddon(this.props.addon.slug);
   }
 
   render() {
@@ -76,6 +92,8 @@ export class AddonReviewDetail extends React.Component {
         {`Reviewing Firefox OS Add-on: ${addon.name}`}
       </div>
     );
+
+    const isBlocked = addon.status === constants.STATUS_BLOCKED;
 
     return (
       <Page breadcrumbText="Review Add-ons"
@@ -115,6 +133,28 @@ export class AddonReviewDetail extends React.Component {
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer showReviewActions={true}/>}
         </Provider>
+
+        <PageSection title={isBlocked ? 'Unblock Add-on' : 'Block Add-on'}>
+          {isBlocked ?
+            <p>
+              This will unblock the add-on. Unblocking will make the add-on
+              public to users and modifiable to the developer.
+            </p> :
+            <p>
+              This block the add-on. Blocking will make the add-on non-public
+              to users and unmodifiable to the developer.
+            </p>
+          }
+          <ConfirmButton
+            className="button--assertive"
+            initialText={isBlocked ? 'Unblock add-on' : 'Block add-on'}
+            isProcessing={addon.isChangingBlockStatus}
+            onClick={isBlocked ? this.unblockAddon :
+                                 this.blockAddon}
+            processingText={isBlocked ? 'Unblocking add-on...' :
+                                        'Blocking add-on...'}
+          />
+        </PageSection>
       </Page>
     );
   }
@@ -129,10 +169,12 @@ export default connect(
     slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({
+    blockAddon,
     fetchAddon,
     fxaLoginBegin,
     getInstalledAddons,
     installAddon,
     login,
+    unblockAddon,
   }, dispatch)
 )(AddonReviewDetail);

@@ -1,4 +1,4 @@
-*.sw[ponl]
+*.sw[ponlm]
 build/
 bundle.css
 bundle.js

@@ -51,6 +51,7 @@ export const NOTE_TYPES = {
 };
 
 
+export const STATUS_BLOCKED = 'blocked';
 export const STATUS_INCOMPLETE = 'incomplete';
 export const STATUS_OBSOLETE = 'obsolete';
 export const STATUS_PENDING = 'pending';
@@ -60,6 +61,7 @@ export const STATUS_REJECTED = 'rejected';
 
 export const ADDON_STATUS = {
   'disabled': gettext('Disabled'),
+  [STATUS_BLOCKED]: gettext('Banned'),
   [STATUS_INCOMPLETE]: gettext('Incomplete'),
   [STATUS_OBSOLETE]: gettext('Obsolete'),
   [STATUS_PENDING]: gettext('Pending'),

@@ -22,6 +22,28 @@ const initialState = {
 
 export default function addonReducer(state=initialState, action) {
   switch (action.type) {
+    case addonActions.BLOCK_STATUS_CHANGE_BEGIN: {
+      /*
+        Blocking or unblocking add-on begin.
+
+        payload (string) - add-on slug.
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isChangingBlockStatus = true;
+      return newState;
+    }
+
+    case addonActions.BLOCK_STATUS_CHANGE_OK: {
+      /*
+        Blocking or unblocking add-on finish.
+
+        payload (string) - add-on slug.
+      */
+      const newState = _.cloneDeep(state);
+      newState.addons[action.payload].isChangingBlockStatus = false;
+      return newState;
+    }
+
     case addonActions.FETCH_OK: {
       /*
         Store single add-on.

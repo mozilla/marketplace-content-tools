@@ -6,6 +6,7 @@ describe('AddonReviewDetail', () => {
 
   const props = {
     addon: addonFactory(),
+    blockAddon: () => {},
     fetchAddon: () => {},
     fetchThreads: () => {},
     fetchVersions: () => {},
@@ -13,6 +14,7 @@ describe('AddonReviewDetail', () => {
     hasSession: true,
     installAddon: () => {},
     logout: () => {},
+    unblockAddon: () => {},
     user: {},
   };
 

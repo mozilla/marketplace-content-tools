@@ -35,22 +35,15 @@ export class Addon extends React.Component {
   renderAddonStatusForDashboard() {
     return (
       <div className="addon-dashboard-detail--addon-status">
-        {this.props.status === constants.STATUS_PUBLIC &&
-          <p>
-            Your add-on
-            is <span className="version--status-public">published</span> and is
-            currently available on Marketplace.
-          </p>
-        }
-        {this.props.status === constants.STATUS_PENDING &&
+        {this.props.status === constants.STATUS_BLOCKED &&
           <div>
             <p>
-              Your add-on is currently <span className="version--status-pending">
-              pending approval</span>.
+              This add-on is currently
+              <span className="version--status-blocked"> banned</span>.
             </p>
             <p>
-              It is not currently available in Marketplace. You will receive an
-              email when it has been reviewed.
+              This means a reviewer has blocked your add-on. It is not public
+              to users, and you will not be able to modify your add-on.
             </p>
           </div>
         }
@@ -65,6 +58,25 @@ export class Addon extends React.Component {
               available in Marketplace. Please submit a new version for review.
             </p>
           </div>
+        }
+        {this.props.status === constants.STATUS_PENDING &&
+          <div>
+            <p>
+              Your add-on is currently <span className="version--status-pending">
+              pending approval</span>.
+            </p>
+            <p>
+              It is not currently available in Marketplace. You will receive an
+              email when it has been reviewed.
+            </p>
+          </div>
+        }
+        {this.props.status === constants.STATUS_PUBLIC &&
+          <p>
+            Your add-on
+            is <span className="version--status-public">published</span> and is
+            currently available on Marketplace.
+          </p>
         }
         {this.props.status === constants.STATUS_REJECTED &&
           <div>
@@ -85,18 +97,11 @@ export class Addon extends React.Component {
   renderAddonStatusForReview() {
     return (
       <div className="addon-dashboard-detail--addon-status">
-        {this.props.status === constants.STATUS_PUBLIC &&
-          <p>
-            This add-on
-            is <span className="version--status-public">published</span> and is
-            currently available on Marketplace.
-          </p>
-        }
-        {this.props.status === constants.STATUS_PENDING &&
+        {this.props.status === constants.STATUS_BLOCKED &&
           <div>
             <p>
-              This add-on is currently <span className="version--status-pending">
-              pending approval</span>.
+              This add-on is currently
+              <span className="version--status-blocked"> banned</span>.
             </p>
           </div>
         }
@@ -108,6 +113,22 @@ export class Addon extends React.Component {
             </p>
           </div>
         }
+        {this.props.status === constants.STATUS_PENDING &&
+          <div>
+            <p>
+              This add-on is currently <span className="version--status-pending">
+              pending approval</span>.
+            </p>
+          </div>
+        }
+        {this.props.status === constants.STATUS_PUBLIC &&
+          <p>
+            This add-on
+            is <span className="version--status-public">published</span> and is
+            currently available on Marketplace.
+          </p>
+        }
+
         {this.props.status === constants.STATUS_REJECTED &&
           <div>
             <p>
