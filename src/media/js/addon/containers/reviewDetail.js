@@ -141,8 +141,8 @@ export class AddonReviewDetail extends React.Component {
               public to users and modifiable to the developer.
             </p> :
             <p>
-              This block the add-on. Blocking will make the add-on non-public
-              to users and unmodifiable to the developer.
+              This will block the add-on. Blocking will make the add-on
+              non-public to users and unmodifiable to the developer.
             </p>
           }
           <ConfirmButton
