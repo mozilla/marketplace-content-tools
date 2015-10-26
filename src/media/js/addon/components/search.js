@@ -35,7 +35,7 @@ export default class Search extends React.Component {
           </div>
         }
 
-        {this.props.results.length &&
+        {this.props.results.length && this.state.q &&
           <ul className="search-results">
             {this.props.results.map(result =>
               <li className="search-result">
