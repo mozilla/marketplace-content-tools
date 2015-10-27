@@ -33,8 +33,12 @@ export default class AddonReview extends React.Component {
           </PageSection>
 
           <div className="addon-review-queue-nav">
-            <ReverseLink to="addon-review">Pending Queue</ReverseLink>
-            <ReverseLink to="addon-review-updates">Updates Queue</ReverseLink>
+            <ReverseLink to="addon-review" activeClassName="active">
+              Pending Queue
+            </ReverseLink>
+            <ReverseLink to="addon-review-updates" activeClassName="active">
+              Updates Queue
+            </ReverseLink>
           </div>
 
           <PageSection title={this.props.title}>

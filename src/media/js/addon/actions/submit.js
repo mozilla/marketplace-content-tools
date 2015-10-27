@@ -7,7 +7,9 @@
      add-on and finish the submission process.
 */
 'use strict';
+import {reverse} from 'react-router-reverse';
 import {createAction} from 'redux-actions';
+import {pushState} from 'redux-router';
 import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
@@ -142,6 +144,8 @@ export function create() {
         dispatch(notificationActions.queue(
           'Your Firefox OS Add-on has been successfully submitted!',
           'success'));
+        dispatch(
+          pushState({}, reverse(getState().router.routes, 'addon-dashboard')));
       }, err => {
         dispatch(validationFail(JSON.parse(err.response.text).detail));
         _validationErrorNotification(dispatch);

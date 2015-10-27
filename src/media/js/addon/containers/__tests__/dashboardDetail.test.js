@@ -58,11 +58,10 @@ describe('AddonDashboardDetail', () => {
                     deleteAddon={deleteAddon}
       />
     );
-    const deleteDiv = ReactDOMHelper.queryClass(component,
-                                                'addon-dashboard-detail--actions');
-    const deleteBtn = ReactDOMHelper.queryTag(deleteDiv, 'button');
+    const deleteBtn = ReactDOM.findDOMNode(component).querySelector(
+      '.addon-dashboard-detail--actions button');
 
-    ReactDOMHelper.click(deleteBtn.getDOMNode());
-    ReactDOMHelper.click(deleteBtn.getDOMNode());
+    ReactDOMHelper.click(deleteBtn);
+    ReactDOMHelper.click(deleteBtn);
   });
 });

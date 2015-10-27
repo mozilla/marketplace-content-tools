@@ -22,6 +22,7 @@ export class App extends React.Component {
     loginOk: React.PropTypes.func.isRequired,
     logout: React.PropTypes.func.isRequired,
     notification: React.PropTypes.any,
+    routes: React.PropTypes.object,
     siteConfig: React.PropTypes.object.isRequired,
     siteConfigFetch: React.PropTypes.func.isRequired,
     user: React.PropTypes.object.isRequired,
@@ -31,6 +32,16 @@ export class App extends React.Component {
     siteConfig: siteConfigInitialState,
     user: userInitialState,
   };
+
+  static childContextTypes = {
+    routes: React.PropTypes.any
+  };
+
+  getChildContext() {
+    return {
+      routes: this.props.routes
+    };
+  }
 
   constructor(props, context) {
     super(props, context);

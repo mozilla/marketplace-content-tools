@@ -10,12 +10,13 @@ const _jsdom = require('jsdom');
 global.document = _jsdom.jsdom('<html><body></body></html>');
 global.window = document.parentWindow;
 global.navigator = window.navigator;
-global.React = require('react/addons');
+global.React = require('react');
+global.ReactDOM = require('react-dom');
 
 global.assert = require('chai').assert;
 global.jsdom = require('mocha-jsdom').bind(this, {skipWindowCheck: true});
 global.sinon = require('sinon');
-global.TestUtils = React.addons.TestUtils;
+global.TestUtils = require('react-addons-test-utils');
 
 global.getReqMock = (res, err) => {
   return {
@@ -71,30 +72,16 @@ global.ReactDOMHelper = {
   submit: TestUtils.Simulate.submit,
 };
 
-global.StubRouter = {
-  goBack: () => {},
-  getCurrentPath: () => {},
-  getCurrentRoutes: () => {},
-  getCurrentPathname: () => {},
-  getCurrentParams: () => {},
-  getCurrentQuery: () => {},
-  isActive: () => {},
-  makeHref: () => {},
-  makePath: () => {},
-  replaceWith: () => {},
-  routes: {},
-  transitionTo: () => {},
-};
 
 function getStubProvider(state={}) {
   return class StubRouterProvider extends React.Component {
     static childContextTypes = {
-      router: React.PropTypes.object,
+      routes: React.PropTypes.array,
       store: React.PropTypes.object,
     };
     getChildContext() {
       return {
-        router: StubRouter,
+        routes: [],
         store: {
           dispatch: () => {},
           getState: () => state,

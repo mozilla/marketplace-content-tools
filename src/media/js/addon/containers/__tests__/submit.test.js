@@ -15,9 +15,6 @@ describe('AddonSubmit', () => {
                           {...props}/>
     );
     assert.equal(ReactDOMHelper.queryTagAll(component, 'form').length, 1);
-    assert.ok(ReactDOMHelper.queryTag(component, 'button').props.disabled);
-    assert.notOk(ReactDOMHelper.queryClassAll(component,
-                                              'form-msg--error').length);
   });
 
   it('disables button when isSubmitting', () => {

@@ -27,7 +27,7 @@ export class SubnavItem extends React.Component {
     if (this._checkPermissions()) {
       return (
         <li>
-          <ReverseLink to={this.props.to}>
+          <ReverseLink to={this.props.to} activeClassName="active">
             {this.props.children}
           </ReverseLink>
         </li>

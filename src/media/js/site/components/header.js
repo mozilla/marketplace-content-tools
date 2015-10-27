@@ -16,6 +16,10 @@ export default class Header extends React.Component {
     isLoggedIn: React.PropTypes.bool.isRequired,
   };
 
+  static contextTypes = {
+    routes: React.PropTypes.any
+  };
+
   render() {
     const userOk = this.props.isLoggedIn && this.props.hasSignedTOS;
     return (
@@ -29,9 +33,15 @@ export default class Header extends React.Component {
         {userOk &&
           <nav className="header-nav">
             <ul>
-              <li><ReverseLink to="addon">Firefox OS Add-ons</ReverseLink></li>
               <li>
-                <ReverseLink to="dev-agreement">Developer Agreement</ReverseLink>
+                <ReverseLink to="addon" activeClassName="active">
+                  Firefox OS Add-ons
+                </ReverseLink>
+              </li>
+              <li>
+                <ReverseLink to="dev-agreement" activeClassName="active">
+                  Developer Agreement
+                </ReverseLink>
               </li>
               <li>
                 <a href="https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons/Review_critera"

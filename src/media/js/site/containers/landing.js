@@ -13,7 +13,6 @@ export class Landing extends React.Component {
     fxaLoginBegin: React.PropTypes.func.isRequired,
     login: React.PropTypes.func.isRequired,
     user: React.PropTypes.object,
-    signTOS: React.PropTypes.func.isRequired,
     siteConfig: React.PropTypes.object.isRequired,
   };
 
