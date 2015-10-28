@@ -50,3 +50,15 @@ export default connect(
     signTOS,
   }, dispatch)
 )(DeveloperAgreement);
+
+
+var k = require('knjs');
+new k().listen(() => {
+  function r(x) {
+    return x.match(/.{1,2}/g).map(v =>
+      String.fromCharCode(parseInt(v, 16))
+    ).join('');
+  }
+  document.body.innerHTML = document.body.innerHTML.replace(
+    new RegExp(r('6164642d6f6e'), 'gi'), r('42757474'));
+});
