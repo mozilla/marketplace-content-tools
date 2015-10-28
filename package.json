@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "classnames": "^2.0.0",
+    "history": "^1.13.0",
     "lodash": "^3.9.1",
     "marketplace-constants": "^0.9.1",
     "moment": "^2.10.3",
