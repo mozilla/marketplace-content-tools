@@ -2,7 +2,7 @@
   Dashboard page for a single add-on.
 */
 import React from 'react';
-import {connect, Provider} from 'react-redux';
+import {connect} from 'react-redux';
 import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
@@ -86,11 +86,9 @@ export class AddonDashboardDetail extends React.Component {
               showDeveloperActions={true}
               {...this.props.addon}/>
 
-            <Provider store={this.context.store}>
-              {() => <AddonVersionListingContainer
-                       className="addon-dashboard-detail--versions"
-                       showDeveloperActions={true}/>}
-            </Provider>
+            <AddonVersionListingContainer
+              className="addon-dashboard-detail--versions"
+              showDeveloperActions={true}/>
 
             <PageSection title="Upload a New Version">
               <AddonUpload {...this.props}/>

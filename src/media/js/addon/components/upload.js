@@ -15,10 +15,6 @@ export default class AddonUpload extends React.Component {
   /*
     slug (string) -- only used in new version submissions.
   */
-  static contextTypes = {
-    router: React.PropTypes.object
-  };
-
   static propTypes = {
     isSubmitting: React.PropTypes.bool,
     messageChange: React.PropTypes.func.isRequired,
@@ -120,6 +116,7 @@ export default class AddonUpload extends React.Component {
               </a>.
             </p>
             {this.props.validationError &&
+             Object.keys(this.props.validationError).length &&
               <ValidationError error={this.props.validationError}/>
             }
           </div>
@@ -141,9 +138,9 @@ export default class AddonUpload extends React.Component {
               {this.props.isSubmitting ? 'Uploading...' : 'Submit'}
             </button>
             {showProgressBar &&
-                <ProgressBar loadedSize={this.props.uploadLoaded / divisor}
-                             totalSize={this.props.uploadTotal / divisor}
-                             unit={unit}/>
+              <ProgressBar loadedSize={this.props.uploadLoaded / divisor}
+                           totalSize={this.props.uploadTotal / divisor}
+                           unit={unit}/>
             }
           </div>
         </form>

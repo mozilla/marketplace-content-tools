@@ -4,7 +4,7 @@
   Lists the add-on's versions, each with their own approve and reject buttons.
 */
 import React from 'react';
-import {connect, Provider} from 'react-redux';
+import {connect} from 'react-redux';
 import {reverse, ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
@@ -49,17 +49,6 @@ export class AddonReviewDetail extends React.Component {
     super(props);
     this.props.fetchAddon(this.props.slug);
     this.props.getInstalledAddons();
-  }
-
-  componentDidUpdate(prevProps) {
-    // Add-on was reviewed, redirect back to reviewer queue.
-    // Don't redirect when blocking or unblocking.
-    if (prevProps.addon.status !== this.props.addon.status &&
-        prevProps.addon.status !== constants.STATUS_BLOCKED &&
-        this.props.addon.status !== constants.STATUS_BLOCKED) {
-      const path = reverse(this.context.router.routes, 'addon-review');
-      this.context.router.transitionTo(path);
-    }
   }
 
   blockAddon = () => {
@@ -130,9 +119,7 @@ export class AddonReviewDetail extends React.Component {
           </PageSection>
         }
 
-        <Provider store={this.context.store}>
-          {() => <AddonVersionListingContainer showReviewActions={true}/>}
-        </Provider>
+        <AddonVersionListingContainer showReviewActions={true}/>
 
         <PageSection title={isBlocked ? 'Unblock Add-on' : 'Block Add-on'}>
           {isBlocked ?

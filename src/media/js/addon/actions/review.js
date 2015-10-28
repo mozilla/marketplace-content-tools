@@ -1,5 +1,7 @@
 'use strict';
+import {reverse} from 'react-router-reverse';
 import {createAction} from 'redux-actions';
+import {pushState} from 'redux-router';
 import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
@@ -66,11 +68,8 @@ export function publish(addonSlug, versionId, message) {
         }));
         dispatch(notificationActions.queue(
           `${addonSlug} has been successfully approved.`, 'success'));
-
-        // Update.
-        dispatch(addonActions.fetch(addonSlug));
-        dispatch(addonActions.fetchVersions(addonSlug));
-        dispatch(commActions.fetchThreads(addonSlug));
+        dispatch(
+          pushState(null, reverse(getState().router.routes, 'addon-review')));
       }, err => {
         // Error publishing.
         dispatch(publishError({
@@ -111,11 +110,8 @@ export function reject(addonSlug, versionId, message) {
         }));
         dispatch(notificationActions.queue(
           `${addonSlug} has been successfully rejected.`));
-
-        // Update.
-        dispatch(addonActions.fetch(addonSlug));
-        dispatch(addonActions.fetchVersions(addonSlug));
-        dispatch(commActions.fetchThreads(addonSlug));
+        dispatch(
+          pushState(null, reverse(getState().router.routes, 'addon-review')));
       }, err => {
         // Error rejecting.
         dispatch(rejectError({

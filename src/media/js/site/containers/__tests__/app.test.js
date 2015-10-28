@@ -7,13 +7,14 @@ describe('App', () => {
 
   const props = {
     checkSession: () => {},
-    children: {},
+    children: <div/>,
     fxaLoginBegin: () => {},
     login: () => {},
     loginBeginHandler: () => {},
     loginOk: () => {},
     logout: () => {},
     logoutHandler: () => {},
+    routes: [],
     siteConfigFetch: () => {},
   };
 

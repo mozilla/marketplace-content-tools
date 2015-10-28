@@ -68,10 +68,12 @@ export class AddonDashboard extends React.Component {
             Looking for your <a href={devhubLink} target="_blank">
             webapp submissions</a>?
           </p>
-          <Paginator hasNextPage={this.props.hasNextPage}
-                     hasPrevPage={this.props.hasPrevPage}
-                     page={this.props.page}
-                     to="addon-dashboard-page"/>
+          {(this.props.hasNextPage || this.props.hasPrevPage) &&
+            <Paginator hasNextPage={this.props.hasNextPage}
+                       hasPrevPage={this.props.hasPrevPage}
+                       page={this.props.page}
+                       to="addon-dashboard-page"/>
+          }
         </div>
 
         <AddonListingForDashboard addons={this.props.addons}
@@ -81,8 +83,7 @@ export class AddonDashboard extends React.Component {
   }
 
   render() {
-    if (this.props.addons && this.props.addons.length ||
-        this.props.isFetching) {
+    if (this.props.addons && this.props.addons.length) {
       return this.renderFull();
     } else {
       return this.renderEmpty();

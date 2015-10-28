@@ -22,6 +22,19 @@ export default class Search extends React.Component {
     this.props.search(q);
   }
 
+  renderResult(result) {
+    if (result.slug) {
+      return (
+        <ReverseLink to="addon-review-detail"
+                     params={{slug: result.slug}}>
+          {`${result.name} (${result.slug})`}
+        </ReverseLink>
+      );
+    } else {
+      return `[deleted] ${result.name}`;
+    }
+  }
+
   render() {
     return (
       <div className="search">
@@ -37,12 +50,9 @@ export default class Search extends React.Component {
 
         {this.props.results.length && this.state.q &&
           <ul className="search-results">
-            {this.props.results.map(result =>
-              <li className="search-result">
-                <ReverseLink to="addon-review-detail"
-                             params={{slug: result.slug}}>
-                  {result.name} ({result.slug})
-                </ReverseLink>
+            {this.props.results.map((result, i) =>
+              <li className="search-result" key={i}>
+                {this.renderResult(result)}
               </li>
             )}
           </ul>
