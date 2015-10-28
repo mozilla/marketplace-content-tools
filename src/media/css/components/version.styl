@@ -4,14 +4,15 @@ $version--col-width = 19%
 
 
 .version
-  background background alpha($color--grey-light, 0.3)
+  background background $color--grey-light
+  padding 10px
 
 
 .version--collapsed
   background transparent
 
   &:hover
-    background alpha($color--grey-light, 0.3)
+    background alpha($color--grey-light, .3)
     transition background-color 0.05s linear
 
   .version--body
@@ -96,3 +97,7 @@ $version--col-width = 19%
 
 .version--status-public
   color $color--status-public
+
+
+.version-listing-helptext
+  padding 25px 25px 0

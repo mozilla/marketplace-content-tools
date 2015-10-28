@@ -119,7 +119,8 @@ export class AddonReviewDetail extends React.Component {
           </PageSection>
         }
 
-        <AddonVersionListingContainer showReviewActions={true}/>
+        <AddonVersionListingContainer className="addon-review-detail-versions"
+                                      showReviewActions={true}/>
 
         <PageSection title={isBlocked ? 'Unblock Add-on' : 'Block Add-on'}>
           {isBlocked ?

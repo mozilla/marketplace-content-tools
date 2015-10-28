@@ -5,3 +5,17 @@
 .addon-review-detail h1
 .addon-review-detail .page--breadcrumb
   max-width $layout--page-medium
+
+
+.addon-review-detail-versions .page-section--main
+  padding 0
+
+  .version
+    padding 0 $layout--island-padding
+
+  > ul > li
+    &:first-child .version
+      padding-top ($layout--island-padding / 3)
+
+    &:last-child .version
+      padding-bottom ($layout--island-padding / 3)

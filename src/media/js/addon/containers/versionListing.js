@@ -53,6 +53,9 @@ export class AddonVersionListing extends React.Component {
     return (
       <PageSection className={this.props.className} title="Versions"
                    style={pageStyle}>
+        <p className="version-listing-helptext">
+          Click on a version below to see its details or to send a message.
+        </p>
         <ul>{this.props.versions.map(this.renderVersion)}</ul>
       </PageSection>
     );
