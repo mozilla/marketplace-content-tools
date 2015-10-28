@@ -4,8 +4,7 @@ Tools for submitting content to the Firefox Marketplace.
 
 Built with React + Redux + Webpack.
 
-<img width="1440" alt="screen shot 2015-10-01 at 11 03 31 am"
-     src="https://cloud.githubusercontent.com/assets/674727/10229280/27f52696-682c-11e5-9c8b-702f1994bcd0.png">
+<img width="1434" src="https://cloud.githubusercontent.com/assets/674727/10799459/2be541f2-7d6a-11e5-953c-75c6b630091b.png">
 
 ## Installation
 
