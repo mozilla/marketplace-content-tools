@@ -22,6 +22,32 @@ export default class AddonReview extends React.Component {
     user: React.PropTypes.object,
   };
 
+  renderEmpty() {
+    return (
+      <PageSection title={this.props.title}>
+        <h3>No add-ons in queue.</h3>
+      </PageSection>
+    );
+  }
+
+  renderDefault() {
+    return (
+      <PageSection title={this.props.title}>
+        {(this.props.hasNextPage || this.props.hasPrevPage) &&
+          <div className="addon-review-header">
+            <Paginator hasNextPage={this.props.hasNextPage}
+                       hasPrevPage={this.props.hasPrevPage}
+                       page={this.props.page}
+                       to={this.props.pageLinkTo}/>
+          </div>
+        }
+        <AddonListingForReview addons={this.props.addons}
+                               showWaitingTime={true}
+                               linkTo="addon-review-detail"/>
+      </PageSection>
+    );
+  }
+
   render() {
     return (
       <Page className="addon-review"
@@ -41,18 +67,8 @@ export default class AddonReview extends React.Component {
             </ReverseLink>
           </div>
 
-          <PageSection title={this.props.title}>
-            <div className="addon-review-header">
-              <Paginator hasNextPage={this.props.hasNextPage}
-                         hasPrevPage={this.props.hasPrevPage}
-                         page={this.props.page}
-                         to={this.props.pageLinkTo}/>
-            </div>
-
-            <AddonListingForReview addons={this.props.addons}
-                                   showWaitingTime={true}
-                                   linkTo="addon-review-detail"/>
-          </PageSection>
+          {this.props.addons.length ? this.renderDefault() :
+                                      this.renderEmpty()}
         </div>
       </Page>
     );
