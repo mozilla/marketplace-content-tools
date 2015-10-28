@@ -27,8 +27,7 @@ export class Landing extends React.Component {
     return (
       <Page className="landing">
         <div className="landing--header">
-          <h1>New for Firefox OS&hellip; Add-ons.</h1>
-          <h2>Just like for the browser. Only for mobile.</h2>
+          <h2>Personalize your Firefox OS experience with powerful add-ons</h2>
           <p>
             <a href="https://developer.mozilla.org/docs/Mozilla/Firefox_OS/Add-ons/Getting_started"
                target="_blank">
