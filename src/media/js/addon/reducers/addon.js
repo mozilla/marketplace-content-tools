@@ -44,6 +44,53 @@ export default function addonReducer(state=initialState, action) {
       return newState;
     }
 
+    case addonActions.CHANGE_SLUG_BEGIN: {
+      /*
+        Change slug begin.
+
+        payload (string) - add-on slug.
+      */
+      const slug = action.payload;
+      const newState = _.cloneDeep(state);
+      newState.addons[slug].isChangingSlug = true;
+      return newState;
+    }
+
+    case addonActions.CHANGE_SLUG_OK: {
+      /*
+        Change slug successful.
+
+        payload (object) --
+          oldSlug (string)
+          newSlug (string)
+      */
+      const {oldSlug, newSlug} = action.payload;
+      const newState = _.cloneDeep(state);
+      const addons = newState.addons;
+
+      addons[newSlug] = _.cloneDeep(addons[oldSlug]);
+      delete addons[oldSlug];
+      addons[newSlug].isChangingSlug = false;
+      return newState;
+    }
+
+    case addonActions.CHANGE_SLUG_ERROR: {
+      /*
+        Change slug error.
+
+        payload (object) --
+          slug (string)
+          error (string)
+      */
+      const {error, slug} = action.payload;
+      const newState = _.cloneDeep(state);
+      const addons = newState.addons;
+
+      addons[slug].isChangingSlug = false;
+      addons[slug].changeSlugError = error;
+      return newState;
+    }
+
     case addonActions.FETCH_OK: {
       /*
         Store single add-on.

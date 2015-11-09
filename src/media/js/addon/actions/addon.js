@@ -1,15 +1,13 @@
 'use strict';
 import {createAction} from 'redux-actions';
+import {reverse} from 'react-router-reverse';
+import {pushState} from 'redux-router';
 import req from 'request';
 import Url from 'urlgray';
 import urlJoin from 'url-join';
 
+import * as notificationActions from '../../site/actions/notification';
 
-export const FETCH_OK = 'ADDON_ADDON__FETCH_OK';
-const fetchOk = createAction(FETCH_OK);
-
-export const FETCH_VERSIONS_OK = 'ADDON_ADDON__FETCH_VERSIONS_OK';
-const fetchVersionsOk = createAction(FETCH_VERSIONS_OK);
 
 export const BLOCK_STATUS_CHANGE_BEGIN =
   'ADDON_ADDON__BLOCK_STATUS_CHANGE_BEGIN';
@@ -18,6 +16,21 @@ const blockStatusChangeBegin = createAction(BLOCK_STATUS_CHANGE_BEGIN);
 export const BLOCK_STATUS_CHANGE_OK =
   'ADDON_ADDON__BLOCK_STATUS_CHANGE_OK';
 const blockStatusChangeOk = createAction(BLOCK_STATUS_CHANGE_OK);
+
+export const CHANGE_SLUG_BEGIN = 'ADDON_ADDON__CHANGE_SLUG_BEGIN';
+const changeSlugBegin = createAction(CHANGE_SLUG_BEGIN);
+
+export const CHANGE_SLUG_ERROR = 'ADDON_ADDON__CHANGE_SLUG_ERROR';
+const changeSlugError = createAction(CHANGE_SLUG_ERROR);
+
+export const CHANGE_SLUG_OK = 'ADDON_ADDON__CHANGE_SLUG_OK';
+const changeSlugOk = createAction(CHANGE_SLUG_OK);
+
+export const FETCH_OK = 'ADDON_ADDON__FETCH_OK';
+const fetchOk = createAction(FETCH_OK);
+
+export const FETCH_VERSIONS_OK = 'ADDON_ADDON__FETCH_VERSIONS_OK';
+const fetchVersionsOk = createAction(FETCH_VERSIONS_OK);
 
 
 export function fetch(addonSlug) {
@@ -127,6 +140,49 @@ export function unblock(addonSlug) {
         dispatch(fetch(addonSlug));
       }, err => {
         dispatch(blockStatusChangeOk(addonSlug));
+      });
+  };
+}
+
+
+/**
+ * Change add-on slug.
+ *
+ * @param {number} addonId
+ * @param {string} oldSlug
+ * @param {string} newSlug
+ */
+export function changeSlug(addonId, oldSlug, newSlug) {
+  return (dispatch, getState) => {
+    dispatch(changeSlugBegin(oldSlug));
+
+    const changeSlugUrl = Url(
+      urlJoin(process.env.MKT_API_ROOT, 'extensions/extension', addonId, '/')
+    ).q(getState().apiArgs || {});
+
+    req
+      .patch(changeSlugUrl)
+      .send({slug: newSlug})
+      .then(res => {
+        dispatch(changeSlugOk({
+          oldSlug,
+          newSlug
+        }));
+        dispatch(
+          pushState(null, reverse(getState().router.routes,
+                                  'addon-dashboard-detail', {slug: newSlug}))
+        );
+        dispatch(notificationActions.queue(
+          `You have successfully changed your Firefox OS add-on's slug from
+           '${oldSlug}' to '${newSlug}'.`, 'success'));
+      }, err => {
+        dispatch(changeSlugError({
+          error: JSON.parse(err.response.text).detail,
+          slug: oldSlug
+        }))
+        dispatch(notificationActions.queue(
+          `Sorry, there was an error changing your Firefox OS addon's slug.`,
+          'error'));
       });
   };
 }
