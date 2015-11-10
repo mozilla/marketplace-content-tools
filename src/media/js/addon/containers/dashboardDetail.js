@@ -7,10 +7,11 @@ import {ReverseLink} from 'react-router-reverse';
 import {bindActionCreators} from 'redux';
 
 import AddonVersionListingContainer from './versionListing';
-import {fetch as fetchAddon} from '../actions/addon';
+import {changeSlug, fetch as fetchAddon} from '../actions/addon';
 import {del as deleteAddon} from '../actions/dashboard';
 import {messageChange, submitVersion} from '../actions/submitVersion';
 import {Addon, AddonIcon, AddonForDashboardDetail} from '../components/addon';
+import SlugChange from '../components/slugChange';
 import AddonSubnav from '../components/subnav';
 import AddonUpload from '../components/upload';
 import ConfirmButton from '../../site/components/confirmButton';
@@ -99,6 +100,14 @@ export class AddonDashboardDetail extends React.Component {
               <p>You can perform the following actions on this add-on:</p>
               <ul>
                 <li>
+                  <SlugChange
+                    addonId={this.props.addon.id}
+                    changeSlug={this.props.changeSlug}
+                    error={this.props.addon.changeSlugError}
+                    isProcessing={this.props.addon.isChangingSlug}
+                    slug={this.props.addon.slug}/>
+                </li>
+                <li>
                   <ConfirmButton className="button--delete"
                                  initialText="Delete add-on"
                                  onClick={this.handleDelete}
@@ -125,6 +134,7 @@ export default connect(
     slug: state.router.params.slug,
   }),
   dispatch => bindActionCreators({
+    changeSlug,
     fetchAddon,
     deleteAddon,
     messageChange,

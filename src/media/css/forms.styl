@@ -4,6 +4,7 @@ $field--label-width = 125px;
 $field--label-margin = 15px;
 
 
+input:not([type]),
 input[type="text"],
 input[type="search"],
 textarea
@@ -11,9 +12,12 @@ textarea
   border-radius 5px
   font-family $font--primary
   font-size 14px
-  height 200px
   padding 10px
   width 450px
+
+
+textarea
+  height 200px
 
 
 .form-block

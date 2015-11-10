@@ -7,6 +7,7 @@ describe('AddonDashboardDetail', () => {
   const props = {
     addon: addonFactory(),
     slug: 'test-addon',
+    changeSlug: () => {},
     fetchAddon: () => {},
     deleteAddon: () => {},
     validationError: {},
@@ -59,7 +60,7 @@ describe('AddonDashboardDetail', () => {
       />
     );
     const deleteBtn = ReactDOM.findDOMNode(component).querySelector(
-      '.addon-dashboard-detail--actions button');
+      '.button--delete');
 
     ReactDOMHelper.click(deleteBtn);
     ReactDOMHelper.click(deleteBtn);
