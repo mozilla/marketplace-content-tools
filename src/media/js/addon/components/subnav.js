@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Subnav} from '../../site/components/subnav';
 import {SubnavItem} from '../../site/components/subnavItem';
-import {ADDON_REVIEW, ADDON_SUBMIT} from '../../site/constants/login';
+import {ADDON_REVIEW} from '../../site/constants/login';
 
 
 export default class AddonSubnav extends React.Component {
@@ -13,13 +13,11 @@ export default class AddonSubnav extends React.Component {
   render() {
     return (
       <Subnav>
-        <SubnavItem permissions={ADDON_SUBMIT}
-                    to="addon-dashboard"
+        <SubnavItem to="addon-dashboard"
                     user={this.props.user}>
           My Add-ons
         </SubnavItem>
-        <SubnavItem permissions={ADDON_SUBMIT}
-                    to="addon-submit"
+        <SubnavItem to="addon-submit"
                     user={this.props.user}>
           Submit an Add-on
         </SubnavItem>

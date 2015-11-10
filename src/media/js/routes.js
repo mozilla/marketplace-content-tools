@@ -8,7 +8,7 @@ import AddonReviewDetail from './addon/containers/reviewDetail';
 import AddonReviewUpdates from './addon/containers/reviewUpdates';
 import AddonSubmit from './addon/containers/submit';
 
-import {ADDON_REVIEW, ADDON_SUBMIT} from './site/constants/login';
+import {ADDON_REVIEW} from './site/constants/login';
 import App from './site/containers/app';
 import DeveloperAgreement from './site/containers/devAgreement';
 import Landing from './site/containers/landing';
@@ -40,16 +40,15 @@ export default (
 
       <Route name="addon" path="addon">
         <Route name="addon-dashboard" path="dashboard/"
-               component={loginRequired(AddonDashboard, ADDON_SUBMIT)}/>
+               component={loginRequired(AddonDashboard)}/>
         <Route name="addon-dashboard-page" path="dashboard/page/:page"
-               component={loginRequired(AddonDashboard, ADDON_SUBMIT)}/>
+               component={loginRequired(AddonDashboard)}/>
         <Route name="addon-dashboard-detail" path="dashboard/:slug"
-               component={loginRequired(AddonDashboardDetail,
-                                        ADDON_SUBMIT)}/>
+               component={loginRequired(AddonDashboardDetail)}/>
         <Route name="addon-review" path="review/pending/"
                component={loginRequired(AddonReview, ADDON_REVIEW)}/>
         <Route name="addon-review-page" path="review/pending/page/:page"
-               component={loginRequired(AddonReview, ADDON_SUBMIT)}/>
+               component={loginRequired(AddonReview, ADDON_REVIEW)}/>
         <Route name="addon-review-updates" path="review/updates/"
                component={loginRequired(AddonReviewUpdates,
                                         ADDON_REVIEW)}/>
@@ -61,7 +60,7 @@ export default (
                component={loginRequired(AddonReviewDetail,
                                         ADDON_REVIEW)}/>
         <Route name="addon-submit" path="submit/"
-               component={loginRequired(AddonSubmit, ADDON_SUBMIT)}/>
+               component={loginRequired(AddonSubmit)}/>
       </Route>
     </Route>
   </Route>
