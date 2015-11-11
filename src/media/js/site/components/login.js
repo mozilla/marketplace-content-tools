@@ -29,8 +29,8 @@ export class LoginButton extends React.Component {
     window.addEventListener('message', this.handlePostMessage);
 
     const authUrl = this.props.isSignup ?
-                    Url(this.props.authUrl).q({signup: true}) :
-                    this.props.authUrl;
+                    Url(this.props.authUrl).q({action: 'signup'}) :
+                    Url(this.props.authUrl).q({action: 'signin'});
 
     const w = 320;
     const h = 600;
