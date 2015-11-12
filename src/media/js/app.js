@@ -16,6 +16,7 @@ import * as mozAppsActions from './addon/actions/mozApps';
 import addon from './addon/reducers/addon';
 import addonDashboard from './addon/reducers/dashboard';
 import addonReview from './addon/reducers/review';
+import addonReviewLog from './addon/reducers/reviewLog';
 import addonReviewUpdates from './addon/reducers/reviewUpdates';
 import addonSearch from './addon/reducers/search';
 import {addonSubmitReducer as
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   addon,
   addonDashboard,
   addonReview,
+  addonReviewLog,
   addonReviewUpdates,
   addonSearch,
   addonSubmit,
