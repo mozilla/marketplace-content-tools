@@ -17,6 +17,7 @@ import {AddonForReviewDetail, AddonIcon} from '../components/addon';
 import * as constants from '../constants';
 import AddonInstall from '../components/install';
 import AddonSubnav from '../components/subnav';
+import {checkPermissions} from '../../site/login';
 import {fxaLoginBegin, login} from '../../site/actions/login';
 import ConfirmButton from '../../site/components/confirmButton';
 import {LoginButton} from '../../site/components/login';
@@ -24,11 +25,6 @@ import {Page, PageSection} from '../../site/components/page';
 
 
 export class AddonReviewDetail extends React.Component {
-  static contextTypes = {
-    store: React.PropTypes.object,
-    router: React.PropTypes.object
-  };
-
   static propTypes = {
     addon: React.PropTypes.object,
     blockAddon: React.PropTypes.func,
@@ -122,27 +118,29 @@ export class AddonReviewDetail extends React.Component {
         <AddonVersionListingContainer className="addon-review-detail-versions"
                                       showReviewActions={true}/>
 
-        <PageSection title={isBlocked ? 'Unblock Add-on' : 'Block Add-on'}>
-          {isBlocked ?
-            <p>
-              This will unblock the add-on. Unblocking will make the add-on
-              public to users and modifiable to the developer.
-            </p> :
-            <p>
-              This will block the add-on. Blocking will make the add-on
-              non-public to users and unmodifiable to the developer.
-            </p>
-          }
-          <ConfirmButton
-            className="button--assertive"
-            initialText={isBlocked ? 'Unblock add-on' : 'Block add-on'}
-            isProcessing={addon.isChangingBlockStatus}
-            onClick={isBlocked ? this.unblockAddon :
-                                 this.blockAddon}
-            processingText={isBlocked ? 'Unblocking add-on...' :
-                                        'Blocking add-on...'}
-          />
-        </PageSection>
+        {checkPermissions(this.props.user, 'admin') &&
+          <PageSection title={isBlocked ? 'Unblock Add-on' : 'Block Add-on'}>
+            {isBlocked ?
+              <p>
+                This will unblock the add-on. Unblocking will make the add-on
+                public to users and modifiable to the developer.
+              </p> :
+              <p>
+                This will block the add-on. Blocking will make the add-on
+                non-public to users and unmodifiable to the developer.
+              </p>
+            }
+            <ConfirmButton
+              className="button--assertive"
+              initialText={isBlocked ? 'Unblock add-on' : 'Block add-on'}
+              isProcessing={addon.isChangingBlockStatus}
+              onClick={isBlocked ? this.unblockAddon :
+                                   this.blockAddon}
+              processingText={isBlocked ? 'Unblocking add-on...' :
+                                          'Blocking add-on...'}
+            />
+          </PageSection>
+        }
       </Page>
     );
   }
@@ -155,6 +153,7 @@ export default connect(
     hasSession: state.user.hasSession,
     siteConfig: state.siteConfig,
     slug: state.router.params.slug,
+    user: state.user,
   }),
   dispatch => bindActionCreators({
     blockAddon,
