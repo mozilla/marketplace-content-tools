@@ -3,6 +3,7 @@
 */
 import moment from 'moment';
 import React from 'react';
+import {ReverseLink} from 'react-router-reverse';
 
 import {NOTE_TYPES,
         NOTE_TYPE__DEVELOPER_MESSAGE,
@@ -13,29 +14,43 @@ import {NOTE_TYPES,
 export class Note extends React.Component {
   static propTypes = {
     author: React.PropTypes.string.isRequired,
-    created: React.PropTypes.string.isRequired,
+    author_meta: React.PropTypes.object,
     body: React.PropTypes.bool.isRequired,
+    created: React.PropTypes.string.isRequired,
     note_type: React.PropTypes.number.isRequired,
+    obj_meta: React.PropTypes.object
   };
 
   render() {
     const noteType = NOTE_TYPES[this.props.note_type];
+    const author = this.props.author_meta ? this.props.author_meta.name :
+                                            this.props.author;
     return (
       <li className="comm-note">
-        <div className="comm-note--metadata">
-          <span className={`comm-note-type ${noteType.className}`}>
-            {noteType.msg}
-          </span>
-          <span> by {this.props.author}</span>
-          <span className="comm-note--date">
-            {moment(this.props.created).format('MMM Do YYYY, h:mm a')}
-          </span>
-        </div>
-        {this.props.body &&
-          <div className="comm-note-body">
-            <p>{this.props.body}</p>
+        {this.props.obj_meta && <img src={this.props.obj_meta.icon}/>}
+        <div>
+          {this.props.obj_meta && this.props.obj_meta.slug &&
+            <h3 className="comm-note-obj-meta">
+              <ReverseLink to="addon-review-detail" params={{slug: this.props.obj_meta.slug}}>
+                {this.props.obj_meta.name}
+              </ReverseLink>
+            </h3>
+          }
+          <div className="comm-note--metadata">
+            <span className={`comm-note-type ${noteType.className}`}>
+              {noteType.msg}
+            </span>
+            <span> by {author}</span>
+            <span className="comm-note--date">
+              {moment(this.props.created).format('MMM Do YYYY, h:mm a')}
+            </span>
           </div>
-        }
+          {this.props.body &&
+            <div className="comm-note-body">
+              <p>{this.props.body}</p>
+            </div>
+          }
+        </div>
       </li>
     );
   }

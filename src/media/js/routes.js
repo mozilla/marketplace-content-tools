@@ -5,6 +5,7 @@ import AddonDashboard from './addon/containers/dashboard';
 import AddonDashboardDetail from './addon/containers/dashboardDetail';
 import AddonReview from './addon/containers/review';
 import AddonReviewDetail from './addon/containers/reviewDetail';
+import AddonReviewLog from './addon/containers/reviewLog';
 import AddonReviewUpdates from './addon/containers/reviewUpdates';
 import AddonSubmit from './addon/containers/submit';
 
@@ -45,6 +46,7 @@ export default (
                component={loginRequired(AddonDashboard)}/>
         <Route name="addon-dashboard-detail" path="dashboard/:slug"
                component={loginRequired(AddonDashboardDetail)}/>
+
         <Route name="addon-review" path="review/pending/"
                component={loginRequired(AddonReview, ADDON_REVIEW)}/>
         <Route name="addon-review-page" path="review/pending/page/:page"
@@ -56,9 +58,14 @@ export default (
                path="review/updates/page/:page"
                component={loginRequired(AddonReviewUpdates,
                                         ADDON_REVIEW)}/>
+        <Route name="addon-review-log" path="review/log/"
+               component={loginRequired(AddonReviewLog, ADDON_REVIEW)}/>
+        <Route name="addon-review-log-page" path="review/log/page/:page"
+               component={loginRequired(AddonReviewLog, ADDON_REVIEW)}/>
         <Route name="addon-review-detail" path="review/addon/:slug"
                component={loginRequired(AddonReviewDetail,
                                         ADDON_REVIEW)}/>
+
         <Route name="addon-submit" path="submit/"
                component={loginRequired(AddonSubmit)}/>
       </Route>

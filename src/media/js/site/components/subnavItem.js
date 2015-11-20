@@ -16,8 +16,7 @@ export class SubnavItem extends React.Component {
   _checkPermissions() {
     if (!this.props.permissions) {
       return true;
-    }
-    else if (this.props.user) {
+    } else if (this.props.user) {
       return checkPermissions(this.props.user, this.props.permissions);
     }
     return false;

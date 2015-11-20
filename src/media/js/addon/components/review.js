@@ -65,6 +65,9 @@ export default class AddonReview extends React.Component {
             <ReverseLink to="addon-review-updates" activeClassName="active">
               Updates Queue
             </ReverseLink>
+            <ReverseLink to="addon-review-log" activeClassName="active">
+              Logs
+            </ReverseLink>
           </div>
 
           {this.props.addons.length ? this.renderDefault() :
