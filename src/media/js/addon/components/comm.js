@@ -29,11 +29,17 @@ export class Note extends React.Component {
       <li className="comm-note">
         {this.props.obj_meta && <img src={this.props.obj_meta.icon}/>}
         <div>
-          {this.props.obj_meta && this.props.obj_meta.slug &&
+          {this.props.obj_meta &&
             <h3 className="comm-note-obj-meta">
-              <ReverseLink to="addon-review-detail" params={{slug: this.props.obj_meta.slug}}>
-                {this.props.obj_meta.name}
-              </ReverseLink>
+              {this.props.obj_meta.slug &&
+                <ReverseLink to="addon-review-detail"
+                             params={{slug: this.props.obj_meta.slug}}>
+                  {this.props.obj_meta.name}
+                </ReverseLink>
+              }
+              {!this.props.obj_meta.slug && this.props.obj_meta.name &&
+                this.props.obj_meta.name
+              }
             </h3>
           }
           <div className="comm-note--metadata">
