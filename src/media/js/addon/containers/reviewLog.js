@@ -37,12 +37,12 @@ export class AddonReviewLogContainer extends React.Component {
     this.setState({
       q: e.target.value
     });
-    this.setSearchQuery(e.target.value);
   }
 
-  setSearchQuery = _.debounce(val => {
-    this.props.setSearchQuery(val);
-  }, 200)
+  handleSearchSubmit = e => {
+    e.preventDefault();
+    this.props.setSearchQuery(this.state.q);
+  }
 
   render() {
     const onFirstPage = this.props.log.page === 1;
@@ -52,11 +52,13 @@ export class AddonReviewLogContainer extends React.Component {
             title="Firefox OS Add-on Reviewer Log">
         <PageSection>
           <div className="addon-review-header">
-            <input className="search-input" name="q"
-                   placeholder="Search for message bodies, emails, or usernames..."
-                   type="search" onChange={this.handleSearchChange}
-                   style={{visibility: onFirstPage ? 'visible' : 'hidden'}}
-                   value={this.state.q || this.props.searchQuery}/>
+            <form className="addon-review-log-search" onSubmit={this.handleSearchSubmit}
+                  style={{visibility: onFirstPage ? 'visible' : 'hidden'}}>
+              <input className="search-input" name="q" onChange={this.handleSearchChange}
+                     placeholder="Search for message bodies, emails, or usernames..."
+                     type="search" value={this.state.q}/>
+              <button type="search">Search</button>
+            </form>
             <Paginator {...this.props.log} to='addon-review-log-page'/>
           </div>
           {!this.props.log.isFetching && <AddonReviewLog {...this.props.log}/>}
