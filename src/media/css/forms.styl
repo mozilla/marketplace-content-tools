@@ -12,8 +12,9 @@ textarea
   border-radius 5px
   font-family $font--primary
   font-size 14px
+  min-width 195px
   padding 10px
-  width 450px
+  width 100%
 
 
 textarea
@@ -141,3 +142,11 @@ textarea
 .form-msg--error a:hover
   color $color--error
   font-weight 400
+
+
+@media screen and (min-width: $layout--page-landing) 
+     input:not([type]),
+     input[type="text"],
+     input[type="search"],
+     textarea
+        width 450px
