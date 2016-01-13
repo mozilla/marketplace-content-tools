@@ -122,7 +122,7 @@ export default class AddonUpload extends React.Component {
           </div>
 
           <div className="field">
-            <label htmlFor="note">Reviewer note:</label>
+            <label htmlFor="note">Note for reviewers:</label>
             <textarea onChange={this.handleMessageChange} id="note">
               {this.state.message}
             </textarea>
