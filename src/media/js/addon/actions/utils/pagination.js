@@ -40,6 +40,8 @@ export default function generateFetchAction(fetchBegin, fetchOk, endpoint, key,
         }));
       }
 
+      const offset = page * 15;
+
       req
         .get(fetchUrl.url)
         .then(res => {
@@ -47,6 +49,7 @@ export default function generateFetchAction(fetchBegin, fetchOk, endpoint, key,
             [key]: res.body.objects,
             hasPrevPage: !!res.body.meta.previous,
             hasNextPage: !!res.body.meta.next,
+            offset,
             page
           }));
         });
