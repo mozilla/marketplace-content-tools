@@ -57,7 +57,7 @@ export default class ConfirmButton extends React.Component {
   render() {
     return (
       <button className={this.props.className}
-              disabled={this.props.isProcessing || this.state.isProcessing}
+              disabled={this.props.isProcessing || this.state.isProcessing || this.props.isBlocked}
               onClick={this.handleClick}>
         {this.getButtonText()}
       </button>

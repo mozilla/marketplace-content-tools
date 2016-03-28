@@ -56,6 +56,21 @@ export class AddonDashboardDetail extends React.Component {
     );
   }
 
+  renderCannotDelete() {
+    return (
+        <p>This add-on has been blocked and thus cannot be deleted.</p>
+    );
+  }
+
+  renderDeleteMessage() {
+    return (
+      <p>
+        Deleting your add-on will permanently delete it from
+        Marketplace. There is no going back.
+      </p>
+    );
+  }
+
   render() {
     if (!this.props.addon || !this.props.addon.slug) {
       return (
@@ -110,12 +125,10 @@ export class AddonDashboardDetail extends React.Component {
                 <li>
                   <ConfirmButton className="button--delete"
                                  initialText="Delete add-on"
+                                 isBlocked={this.props.addon.status === 'blocked'}
                                  onClick={this.handleDelete}
                                  processingText="Deleting add-on&hellip;"/>
-                  <p>
-                    Deleting your add-on will permanently delete it from
-                    Marketplace. There is no going back.
-                  </p>
+                  {this.props.addon.status === 'blocked' ? this.renderCannotDelete() : this.renderDeleteMessage()}
                 </li>
               </ul>
             </PageSection>
