@@ -38,7 +38,7 @@ export default class AddonInstall extends React.Component {
   render() {
     return (
       <div>
-        <button disabled={this.props.isInstalled || this.props.isInstalling}
+        <button disabled={this.props.isInstalled}
                 onClick={this.install}>
           {this.getButtonText()}
         </button>
