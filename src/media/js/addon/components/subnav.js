@@ -17,10 +17,6 @@ export default class AddonSubnav extends React.Component {
                     user={this.props.user}>
           My Add-ons
         </SubnavItem>
-        <SubnavItem to="addon-submit"
-                    user={this.props.user}>
-          Submit an Add-on
-        </SubnavItem>
         <SubnavItem permissions={ADDON_REVIEW}
                     to="addon-review"
                     user={this.props.user}>
