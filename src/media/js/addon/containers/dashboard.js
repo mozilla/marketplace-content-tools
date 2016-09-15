@@ -46,13 +46,7 @@ export class AddonDashboard extends React.Component {
       <Page className="addon-dashboard addon-dashboard--empty"
             subnav={<AddonSubnav {...this.props}/>}
             title="My Firefox OS Add-ons">
-          <p>You have not submitted any add-ons yet.</p>
-          <a href={mdnLink} className="button" target="_blank">
-            Get started now!
-          </a>
-          <ReverseLink className="button" to="addon-submit">
-            Submit an Add-on
-          </ReverseLink>
+          <p>You have not submitted any add-ons.</p>
       </Page>
     );
   }

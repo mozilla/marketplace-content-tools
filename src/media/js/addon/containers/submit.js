@@ -24,7 +24,11 @@ export class AddonSubmit extends React.Component {
       <Page className="addon-submit"
             subnav={<AddonSubnav user={this.props.user}/>}
             title="Submit a Firefox OS Add-on">
-        <AddonUpload {...this.props}/>
+        <div>
+          <p>
+            Firefox OS Add-ons submission is now closed. Thank you for your support.
+          </p>
+        </div>
       </Page>
     );
   }
